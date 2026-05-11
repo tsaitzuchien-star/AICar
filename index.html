@@ -7,6 +7,9 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         /* 基礎設定與深色科技風主題 */
+        * {
+            box-sizing: border-box; /* 確保 padding 不會撐破容器寬度 */
+        }
         :root {
             --bg-color: #0f172a;
             --panel-bg: #1e293b;
@@ -35,15 +38,37 @@
             display: flex;
             flex-direction: column;
             gap: 15px;
-            overflow-y: auto;
+            z-index: 10;
         }
         .sidebar h2 {
             color: var(--accent-glow);
             text-shadow: 0 0 10px rgba(0, 246, 255, 0.5);
             font-size: 1.5rem;
-            margin-bottom: 20px;
+            margin: 0 0 5px 0;
             text-align: center;
         }
+        
+        /* 動態時間顯示區塊樣式 */
+        .time-display {
+            color: var(--accent-green);
+            text-align: center;
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+            padding: 10px;
+            background: rgba(16, 185, 129, 0.1);
+            border-radius: 8px;
+            border: 1px solid var(--accent-green);
+            line-height: 1.5;
+        }
+
+        /* 導覽按鈕容器 */
+        .sidebar-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            overflow-y: auto;
+        }
+
         .nav-btn {
             background: transparent;
             color: var(--text-muted);
@@ -103,27 +128,18 @@
             font-size: 1.1rem;
             line-height: 1.8;
         }
-        h1 { color: var(--accent-glow); border-bottom: 2px solid #334155; padding-bottom: 10px; line-height: 1.4;}
+        h1 { color: var(--accent-glow); border-bottom: 2px solid #334155; padding-bottom: 10px; line-height: 1.4; font-size: 2rem;}
         h3 { color: #e2e8f0; }
         
         /* ✨ 照片預覽樣式：鎖定在 10 公分左右 */
         .photo-preview {
-            max-height: 10cm; /* 鎖定最大高度為 10 公分 */
-            max-width: 100%;  /* 寬度自動縮放，不超過螢幕 */
+            max-height: 10cm; 
+            max-width: 100%;  
             border-radius: 10px;
             margin-top: 15px;
             border: 2px solid #475569;
             box-shadow: 0 4px 10px rgba(0,0,0,0.5);
-            display: block;   /* 讓照片獨立一行 */
-        }
-
-        pre {
-            background-color: #000;
-            color: #00ff00;
-            padding: 15px;
-            border-radius: 8px;
-            overflow-x: auto;
-            border: 1px solid #333;
+            display: block;   
         }
 
         @keyframes fadeIn {
@@ -138,17 +154,65 @@
             padding: 20px;
             border-radius: 12px;
         }
+
+        /* 📱 RWD 手機與平板響應式設計 (螢幕寬度 < 768px) */
+        @media (max-width: 768px) {
+            body {
+                flex-direction: column; /* 改為上下排列 */
+            }
+            .sidebar {
+                width: 100%;
+                padding: 15px 15px 5px 15px;
+                box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+                gap: 10px;
+            }
+            .sidebar h2 {
+                font-size: 1.3rem;
+            }
+            .time-display {
+                font-size: 0.8rem;
+                padding: 8px;
+            }
+            .sidebar-buttons {
+                flex-direction: row; /* 選單改為橫向滑動 */
+                overflow-x: auto;
+                padding-bottom: 10px; /* 留一點空間給橫向捲軸 */
+            }
+            .nav-btn {
+                white-space: nowrap; /* 避免按鈕文字換行 */
+                flex-shrink: 0;      /* 避免按鈕被壓縮 */
+                font-size: 1rem;
+                padding: 8px 12px;
+            }
+            .main-content {
+                padding: 20px 15px; /* 縮小手機版的畫面邊距 */
+            }
+            h1 {
+                font-size: 1.5rem; /* 縮小標題字體 */
+            }
+            h1 span {
+                font-size: 1.2rem !important;
+            }
+            .card {
+                padding: 15px;
+            }
+        }
     </style>
 </head>
 <body>
 
     <div class="sidebar">
         <h2>🏎️ 秉澔的AI獨立研究</h2>
-        <button class="nav-btn active" onclick="switchPage('home')">🏠 專案首頁與動機</button>
-        <button class="nav-btn" onclick="switchPage('plan')">📝 實驗計畫大綱</button>
-        <button class="nav-btn" onclick="switchPage('devlog')">🛠️ 開發與實作日誌</button>
-        <button class="nav-btn" onclick="switchPage('games')">🎮 創意遊戲大廳</button>
-        <button class="nav-btn" onclick="switchPage('dashboard')">📊 數據儀表板</button>
+        
+        <div id="clock" class="time-display">讀取時間中...</div>
+
+        <div class="sidebar-buttons">
+            <button class="nav-btn active" onclick="switchPage('home', this)">🏠 專案首頁與動機</button>
+            <button class="nav-btn" onclick="switchPage('plan', this)">📝 實驗計畫大綱</button>
+            <button class="nav-btn" onclick="switchPage('devlog', this)">🛠️ 開發與實作日誌</button>
+            <button class="nav-btn" onclick="switchPage('games', this)">🎮 創意遊戲大廳</button>
+            <button class="nav-btn" onclick="switchPage('dashboard', this)">📊 數據儀表板</button>
+        </div>
     </div>
 
     <div class="main-content">
@@ -159,7 +223,7 @@
             <div class="highlight-box">
                 <strong>👨‍🏫 指導老師：</strong>洪瑞成 老師<br>
                 <strong>👨‍🔬 研究學生：</strong>南投縣光華國小五年級 蔡秉澔<br>
-                <strong>🔥 最新進度：</strong>我本週已完成瓦楞板實驗場地、Micro:bit 影音同步程式，以及近 10 款原創小遊戲！
+                <strong>🔥 最新進度：</strong>我本週已完成瓦楞板實驗場地、Micro:bit 影音同步程式，以及近 5 款原創小遊戲！
             </div>
             
             <div class="card">
@@ -199,13 +263,13 @@
             <div class="card">
                 <h3>✅ 任務一：瓦楞板實驗場地搭建-5/9完成</h3>
                 <p>這是我和弟弟協力製作的實驗車道。</p>
-                <img src="photo1.jpg" alt="[請確保 photo1.jpg 放在資料夾中]" class="photo-preview">
+                <img src="photo1.jpg" alt="[請確保 photo1.jpg 放在同一資料夾中]" class="photo-preview">
             </div>
 
             <div class="card">
                 <h3>✅ 任務二：Micro:bit 核心邏輯訓練-5/10完成</h3>
                 <p>我自己設計可以自動跑馬燈A~Z及發音的測試過程照片：</p>
-                <img src="photo2.jpg" alt="[請確保 photo2.jpg 放在資料夾中]" class="photo-preview">
+                <img src="photo2.jpg" alt="[請確保 photo2.jpg 放在同一資料夾中]" class="photo-preview">
             </div>
         </div>
 
@@ -235,11 +299,26 @@
     </div>
 
     <script>
-        function switchPage(pageId) {
+        // 抓取網路或電腦本身的時間並即時更新
+        function updateTime() {
+            const now = new Date();
+            document.getElementById('clock').innerText = "報告系統時間：\n" + now.toLocaleString('zh-TW');
+        }
+        setInterval(updateTime, 1000);
+        updateTime();
+
+        // 頁面切換邏輯
+        function switchPage(pageId, btnElement) {
             document.querySelectorAll('.page-section').forEach(page => page.classList.remove('active'));
             document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
             document.getElementById(pageId).classList.add('active');
-            event.currentTarget.classList.add('active');
+            if (btnElement) {
+                btnElement.classList.add('active');
+            }
+            // 如果在手機版點擊按鈕後，自動將畫面捲動回上方
+            if(window.innerWidth <= 768) {
+                document.querySelector('.main-content').scrollTop = 0;
+            }
         }
 
         const ctx = document.getElementById('brakingChart').getContext('2d');
@@ -252,6 +331,7 @@
                     label: '煞車停止距離 (cm)',
                     data: [25, 50, 90], 
                     borderColor: '#00f6ff',
+                    backgroundColor: 'rgba(0, 246, 255, 0.2)',
                     fill: true,
                     tension: 0.3 
                 }]
