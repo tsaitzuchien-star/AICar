@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>秉澔的 AI 獨立研究教室</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        /* 基礎設定與深色科技風主題 */
+        :root {
+            --bg-color: #0f172a;
+            --panel-bg: #1e293b;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent-glow: #00f6ff;
+            --accent-green: #10b981;
+            --accent-orange: #f59e0b;
+        }
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+        
+        /* 左側導覽列 */
+        .sidebar {
+            width: 250px;
+            background-color: var(--panel-bg);
+            padding: 20px;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.5);
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            overflow-y: auto;
+        }
+        .sidebar h2 {
+            color: var(--accent-glow);
+            text-shadow: 0 0 10px rgba(0, 246, 255, 0.5);
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .nav-btn {
+            background: transparent;
+            color: var(--text-muted);
+            border: 1px solid transparent;
+            padding: 12px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            text-align: left;
+            transition: all 0.3s ease;
+        }
+        .nav-btn:hover {
+            color: var(--text-main);
+            background-color: rgba(255,255,255,0.05);
+        }
+        .nav-btn.active {
+            color: var(--bg-color);
+            background-color: var(--accent-glow);
+            box-shadow: 0 0 15px rgba(0, 246, 255, 0.6);
+            font-weight: bold;
+        }
+
+        /* 右側主要內容區 */
+        .main-content {
+            flex: 1;
+            padding: 40px;
+            overflow-y: auto;
+        }
+        .page-section {
+            display: none;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        .page-section.active {
+            display: block;
+        }
+        
+        /* 卡片設計 */
+        .card {
+            background-color: var(--panel-bg);
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 20px;
+            border-left: 5px solid var(--accent-glow);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+            line-height: 1.6;
+        }
+        .card.orange-border {
+            border-left: 5px solid var(--accent-orange);
+        }
+        .highlight-box {
+            background-color: rgba(16, 185, 129, 0.1);
+            border: 1px solid var(--accent-green);
+            color: var(--accent-green);
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+        h1 { color: var(--accent-glow); border-bottom: 2px solid #334155; padding-bottom: 10px; line-height: 1.4;}
+        h3 { color: #e2e8f0; }
+        
+        /* ✨ 照片預覽樣式：鎖定在 10 公分左右 */
+        .photo-preview {
+            max-height: 10cm; /* 鎖定最大高度為 10 公分 */
+            max-width: 100%;  /* 寬度自動縮放，不超過螢幕 */
+            border-radius: 10px;
+            margin-top: 15px;
+            border: 2px solid #475569;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+            display: block;   /* 讓照片獨立一行 */
+        }
+
+        pre {
+            background-color: #000;
+            color: #00ff00;
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            border: 1px solid #333;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .chart-container {
+            width: 100%;
+            max-width: 800px;
+            background: var(--panel-bg);
+            padding: 20px;
+            border-radius: 12px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="sidebar">
+        <h2>🏎️ 秉澔的AI獨立研究</h2>
+        <button class="nav-btn active" onclick="switchPage('home')">🏠 專案首頁與動機</button>
+        <button class="nav-btn" onclick="switchPage('plan')">📝 實驗計畫大綱</button>
+        <button class="nav-btn" onclick="switchPage('devlog')">🛠️ 開發與實作日誌</button>
+        <button class="nav-btn" onclick="switchPage('games')">🎮 創意遊戲大廳</button>
+        <button class="nav-btn" onclick="switchPage('dashboard')">📊 數據儀表板</button>
+    </div>
+
+    <div class="main-content">
+        
+        <div id="home" class="page-section active">
+            <h1>研究題目：護虎使者<br><span style="font-size: 1.5rem; color: var(--text-main);">單點光學雷達應用於夜間石虎路殺預警與動態避障路徑之探究</span></h1>
+            
+            <div class="highlight-box">
+                <strong>👨‍🏫 指導老師：</strong>洪瑞成 老師<br>
+                <strong>👨‍🔬 研究學生：</strong>南投縣光華國小五年級 蔡秉澔<br>
+                <strong>🔥 最新進度：</strong>我本週已完成瓦楞板實驗場地、Micro:bit 影音同步程式，以及近 10 款原創小遊戲！
+            </div>
+            
+            <div class="card">
+                <h3>💡 我的研究動機</h3>
+                <p>老師您好！我是秉澔，在<strong>洪瑞成老師</strong>的指導下，我展開了這項獨立研究。我們居住的中部地區（南投、苗栗一帶）是台灣特有種「石虎」的重要棲地，但夜間「路殺」事件頻傳。</p>
+                <p>我希望透過研究「光學雷達（LiDAR）」與「動態路徑規劃」，探討如何不受夜間黑暗影響，在偵測到動物後精準計算出最短的安全閃避路徑，守護石虎的安全。</p>
+            </div>
+        </div>
+
+        <div id="plan" class="page-section">
+            <h1>📝 我的實驗計畫與設計</h1>
+            <div class="card orange-border">
+                <h3>🔍 實驗一：夜盲症測試（光線變因）</h3>
+                <p>測試光學雷達在「正常日光燈」、「手電筒強光」與「全黑」環境下的測距精準度。</p>
+            </div>
+            <div class="card orange-border">
+                <h3>🔍 實驗二：保護色與材質陷阱（材質變因）</h3>
+                <p>對比「白色紙板」與「黑色絨毛玩偶」，觀察深色材質是否會吸收雷射光導致數值誤差。</p>
+            </div>
+            <div class="card orange-border">
+                <h3>🔍 實驗三：最佳視角測試（高度變因）</h3>
+                <p>調整雷達安裝高度，找出最適合偵測小型野生動物的角度。</p>
+            </div>
+            <div class="card orange-border">
+                <h3>🔍 實驗四：生死一瞬間（速度與煞車距離變因）</h3>
+                <p>測試車輛在不同速度下完全停止所需的物理距離，作為避障系統的門檻。</p>
+            </div>
+            <div class="card orange-border">
+                <h3>🔍 實驗五：生命轉彎處（多情境路徑規劃測試）</h3>
+                <p>實作「受限車道」與「開放空地」模式，規劃最短且安全的避障行駛軌跡。</p>
+            </div>
+        </div>
+
+        <div id="devlog" class="page-section">
+            <h1>🛠️ 實作紀錄：我的手作與開發日誌</h1>
+            
+            <div class="card">
+                <h3>✅ 任務一：瓦楞板實驗場地搭建-5/9完成</h3>
+                <p>這是我和弟弟協力製作的實驗車道。</p>
+                <img src="photo1.jpg" alt="[請確保 photo1.jpg 放在資料夾中]" class="photo-preview">
+            </div>
+
+            <div class="card">
+                <h3>✅ 任務二：Micro:bit 核心邏輯訓練-5/10完成</h3>
+                <p>我自己設計可以自動跑馬燈A~Z及發音的測試過程照片：</p>
+                <img src="photo2.jpg" alt="[請確保 photo2.jpg 放在資料夾中]" class="photo-preview">
+            </div>
+        </div>
+
+        <div id="games" class="page-section">
+            <h1>🎮 Micro:bit 創意遊戲大廳</h1>
+            <div class="card">
+                <h3>🧱 遊戲 01：打磚塊 (Breakout)</h3>
+                <p>學習座標偵測與反彈邏輯。</p>
+            </div>
+            <div class="card">
+                <h3>⚾ 遊戲 02：全壘打大賽</h3>
+                <p>練習精準計時與按鍵觸發判斷。</p>
+            </div>
+            <div class="card">
+                <h3>🤠 遊戲 03：神槍手對決</h3>
+                <p>掌握隨機數與影音同步功能。</p>
+            </div>
+        </div>
+
+        <div id="dashboard" class="page-section">
+            <h1>📊 數據儀表板</h1>
+            <div class="chart-container">
+                <canvas id="brakingChart"></canvas>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        function switchPage(pageId) {
+            document.querySelectorAll('.page-section').forEach(page => page.classList.remove('active'));
+            document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById(pageId).classList.add('active');
+            event.currentTarget.classList.add('active');
+        }
+
+        const ctx = document.getElementById('brakingChart').getContext('2d');
+        Chart.defaults.color = '#e2e8f0';
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['20cm/s', '40cm/s', '60cm/s'],
+                datasets: [{
+                    label: '煞車停止距離 (cm)',
+                    data: [25, 50, 90], 
+                    borderColor: '#00f6ff',
+                    fill: true,
+                    tension: 0.3 
+                }]
+            }
+        });
+    </script>
+</body>
+</html>
