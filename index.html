@@ -7,9 +7,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         /* 基礎設定與深色科技風主題 */
-        * {
-            box-sizing: border-box; /* 確保 padding 不會撐破容器寬度 */
-        }
+        * { box-sizing: border-box; }
         :root {
             --bg-color: #0f172a;
             --panel-bg: #1e293b;
@@ -155,54 +153,25 @@
             border-radius: 12px;
         }
 
-        /* 📱 RWD 手機與平板響應式設計 (螢幕寬度 < 768px) */
+        /* 📱 RWD 手機與平板響應式設計 */
         @media (max-width: 768px) {
-            body {
-                flex-direction: column; /* 改為上下排列 */
-            }
-            .sidebar {
-                width: 100%;
-                padding: 15px 15px 5px 15px;
-                box-shadow: 0 2px 10px rgba(0,0,0,0.5);
-                gap: 10px;
-            }
-            .sidebar h2 {
-                font-size: 1.3rem;
-            }
-            .time-display {
-                font-size: 0.8rem;
-                padding: 8px;
-            }
-            .sidebar-buttons {
-                flex-direction: row; /* 選單改為橫向滑動 */
-                overflow-x: auto;
-                padding-bottom: 10px; /* 留一點空間給橫向捲軸 */
-            }
-            .nav-btn {
-                white-space: nowrap; /* 避免按鈕文字換行 */
-                flex-shrink: 0;      /* 避免按鈕被壓縮 */
-                font-size: 1rem;
-                padding: 8px 12px;
-            }
-            .main-content {
-                padding: 20px 15px; /* 縮小手機版的畫面邊距 */
-            }
-            h1 {
-                font-size: 1.5rem; /* 縮小標題字體 */
-            }
-            h1 span {
-                font-size: 1.2rem !important;
-            }
-            .card {
-                padding: 15px;
-            }
+            body { flex-direction: column; }
+            .sidebar { width: 100%; padding: 15px 15px 5px 15px; box-shadow: 0 2px 10px rgba(0,0,0,0.5); gap: 10px; }
+            .sidebar h2 { font-size: 1.3rem; }
+            .time-display { font-size: 0.8rem; padding: 8px; }
+            .sidebar-buttons { flex-direction: row; overflow-x: auto; padding-bottom: 10px; }
+            .nav-btn { white-space: nowrap; flex-shrink: 0; font-size: 1rem; padding: 8px 12px; }
+            .main-content { padding: 20px 15px; }
+            h1 { font-size: 1.5rem; }
+            h1 span { font-size: 1.2rem !important; }
+            .card { padding: 15px; }
         }
     </style>
 </head>
 <body>
 
     <div class="sidebar">
-        <h2>🏎️ 秉澔AI獨立研究</h2>
+        <h2>🏎️ 秉澔的AI獨立研究</h2>
         
         <div id="clock" class="time-display">讀取時間中...</div>
 
@@ -223,7 +192,7 @@
             <div class="highlight-box">
                 <strong>👨‍🏫 指導老師：</strong>洪瑞成 老師<br>
                 <strong>👨‍🔬 研究學生：</strong>南投縣光華國小五年級 蔡秉澔<br>
-                <strong>🔥 最新進度：</strong>5/10-我本週已完成瓦楞板實驗場地、Micro:bit 影音同步程式，以及近5款原創小遊戲！
+                <strong>🔥 最新進度：</strong>我本週已完成瓦楞板實驗場地、Micro:bit 影音同步程式，以及近 5 款原創小遊戲！
             </div>
             
             <div class="card">
@@ -291,6 +260,10 @@
 
         <div id="dashboard" class="page-section">
             <h1>📊 數據儀表板</h1>
+            <div class="card">
+                <h3>🚀 實驗四：生死一瞬間 (煞車距離測試)</h3>
+                <p>這個圖表會即時抓取 Google 試算表中的「平均煞車距離」數據喔！</p>
+            </div>
             <div class="chart-container">
                 <canvas id="brakingChart"></canvas>
             </div>
@@ -302,7 +275,7 @@
         // 抓取網路或電腦本身的時間並即時更新
         function updateTime() {
             const now = new Date();
-            document.getElementById('clock').innerText = "現在時間：\n" + now.toLocaleString('zh-TW');
+            document.getElementById('clock').innerText = "報告系統時間：\n" + now.toLocaleString('zh-TW');
         }
         setInterval(updateTime, 1000);
         updateTime();
@@ -315,21 +288,27 @@
             if (btnElement) {
                 btnElement.classList.add('active');
             }
-            // 如果在手機版點擊按鈕後，自動將畫面捲動回上方
             if(window.innerWidth <= 768) {
                 document.querySelector('.main-content').scrollTop = 0;
             }
         }
 
+        // ======= 儀表板圖表自動連線程式碼 =======
+        
+        // 這裡已經替換成專屬的 CSV 網址了
+        const csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSHWKj5ttt6e65-3-07o0NlAmz5kbbcj9nW2KEYcO0SBvlRDi2jSVw0G_B7YPdaYkj0Zlcgx_wlFQ2R/pub?gid=1383785752&single=true&output=csv';
+
         const ctx = document.getElementById('brakingChart').getContext('2d');
         Chart.defaults.color = '#e2e8f0';
-        new Chart(ctx, {
+        
+        // 先建立一個空的圖表
+        let myBrakingChart = new Chart(ctx, {
             type: 'line',
             data: {
-                labels: ['20cm/s', '40cm/s', '60cm/s'],
+                labels: [], 
                 datasets: [{
-                    label: '煞車停止距離 (cm)',
-                    data: [25, 50, 90], 
+                    label: '平均煞車停止距離 (cm)',
+                    data: [], 
                     borderColor: '#00f6ff',
                     backgroundColor: 'rgba(0, 246, 255, 0.2)',
                     fill: true,
@@ -337,6 +316,42 @@
                 }]
             }
         });
+
+        // 建立自動抓取資料的函數
+        async function fetchDataAndUpdateChart() {
+            try {
+                // 去試算表把資料抓回來
+                const response = await fetch(csvUrl);
+                const data = await response.text();
+                
+                // 拆解 CSV 內容 (加上 trim() 避免隱藏的換行或空白導致錯誤)
+                const rows = data.trim().split('\n');
+                let speeds = [];
+                let distances = [];
+
+                // 從第二行開始讀（跳過第一行的標題）
+                for (let i = 1; i < rows.length; i++) {
+                    let cols = rows[i].split(',');
+                    
+                    // 確保這一行有資料
+                    if (cols.length >= 5 && cols[0].trim() !== '') {
+                        speeds.push(cols[0].trim() + " cm/s"); // 讀取 A 欄並加上單位
+                        distances.push(Number(cols[4].trim())); // 讀取 E 欄 (平均煞車距離)
+                    }
+                }
+
+                // 把抓到的真實資料放進圖表並更新
+                myBrakingChart.data.labels = speeds;
+                myBrakingChart.data.datasets[0].data = distances;
+                myBrakingChart.update();
+                
+            } catch (error) {
+                console.error('抓取資料失敗:', error);
+            }
+        }
+
+        // 執行函數，啟動魔法！
+        fetchDataAndUpdateChart();
     </script>
 </body>
 </html>
