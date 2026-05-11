@@ -302,7 +302,7 @@
         // 抓取網路或電腦本身的時間並即時更新
         function updateTime() {
             const now = new Date();
-            document.getElementById('clock').innerText = "報告系統時間：\n" + now.toLocaleString('zh-TW');
+            document.getElementById('clock').innerText = "現在時間：\n" + now.toLocaleString('zh-TW');
         }
         setInterval(updateTime, 1000);
         updateTime();
