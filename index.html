@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>秉澔的 AI 獨立研究教室 - 護虎使者最終版</title>
+    <title>秉澔AI獨立研究教室</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         /* 基礎設定與深色科技風主題 */
@@ -16,7 +16,6 @@
             --accent-glow: #00f6ff;
             --accent-green: #10b981;
             --accent-orange: #f59e0b;
-            --accent-yellow: #eab308;
         }
         body {
             margin: 0;
@@ -47,6 +46,7 @@
             text-align: center;
         }
         
+        /* 動態時間顯示區塊樣式 */
         .time-display {
             color: var(--accent-green);
             text-align: center;
@@ -59,6 +59,7 @@
             line-height: 1.5;
         }
 
+        /* 導覽按鈕容器 */
         .sidebar-buttons {
             display: flex;
             flex-direction: column;
@@ -77,7 +78,10 @@
             text-align: left;
             transition: all 0.3s ease;
         }
-        .nav-btn:hover { color: var(--text-main); background-color: rgba(255,255,255,0.05); }
+        .nav-btn:hover {
+            color: var(--text-main);
+            background-color: rgba(255,255,255,0.05);
+        }
         .nav-btn.active {
             color: var(--bg-color);
             background-color: var(--accent-glow);
@@ -85,11 +89,21 @@
             font-weight: bold;
         }
 
-        /* 主要內容區 */
-        .main-content { flex: 1; padding: 40px; overflow-y: auto; }
-        .page-section { display: none; animation: fadeIn 0.5s ease-in-out; }
-        .page-section.active { display: block; }
+        /* 右側主要內容區 */
+        .main-content {
+            flex: 1;
+            padding: 40px;
+            overflow-y: auto;
+        }
+        .page-section {
+            display: none;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        .page-section.active {
+            display: block;
+        }
         
+        /* 卡片設計 */
         .card {
             background-color: var(--panel-bg);
             border-radius: 12px;
@@ -99,72 +113,23 @@
             box-shadow: 0 4px 6px rgba(0,0,0,0.3);
             line-height: 1.6;
         }
-
-        /* Q&A 區塊樣式 */
-        .qa-form-card {
-            background-color: #2d3748;
-            border-radius: 12px;
-            padding: 20px;
-            margin-bottom: 30px;
-            border: 1px solid #4a5568;
+        .card.orange-border {
+            border-left: 5px solid var(--accent-orange);
         }
-        .form-group { margin-bottom: 15px; }
-        label { display: block; margin-bottom: 5px; color: var(--accent-glow); }
-        input, textarea {
-            width: 100%;
-            padding: 10px;
-            border-radius: 6px;
-            border: 1px solid #4a5568;
-            background: #1a202c;
-            color: white;
-            font-size: 1rem;
-        }
-        textarea { height: 80px; resize: vertical; }
-        .submit-btn {
-            background: var(--accent-green);
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: bold;
-            width: 100%;
-        }
-        .submit-btn:hover { opacity: 0.9; }
-
-        .qa-item {
-            border-bottom: 1px solid #334155;
-            padding: 20px 0;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-        .qa-date { color: var(--accent-orange); font-weight: bold; font-size: 0.9rem; }
-        .qa-question { color: var(--accent-glow); font-size: 1.1rem; }
-        .qa-answer { 
-            background: rgba(255,255,255,0.05); 
-            padding: 15px; 
-            border-radius: 8px; 
-            color: var(--text-main); 
-            border: 1px solid rgba(0, 246, 255, 0.1); 
-        }
-        /* 待補答樣式 */
-        .qa-answer.pending {
-            color: var(--accent-yellow);
-            border: 1px dashed var(--accent-yellow);
-            font-style: italic;
-        }
-
         .highlight-box {
             background-color: rgba(16, 185, 129, 0.1);
             border: 1px solid var(--accent-green);
             color: var(--accent-green);
-            padding: 20px; border-radius: 12px; margin-bottom: 25px;
-            font-size: 1.1rem; line-height: 1.8;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            font-size: 1.1rem;
+            line-height: 1.8;
         }
         h1 { color: var(--accent-glow); border-bottom: 2px solid #334155; padding-bottom: 10px; line-height: 1.4; font-size: 2rem;}
-        h3 { color: #e2e8f0; margin: 0 0 15px 0; }
+        h3 { color: #e2e8f0; }
         
+        /* ✨ 照片預覽樣式：鎖定在 10 公分左右 */
         .photo-preview {
             max-height: 10cm; 
             max-width: 100%;  
@@ -180,211 +145,213 @@
             to { opacity: 1; transform: translateY(0); }
         }
         
-        .chart-container { width: 100%; max-width: 800px; background: var(--panel-bg); padding: 20px; border-radius: 12px; }
+        .chart-container {
+            width: 100%;
+            max-width: 800px;
+            background: var(--panel-bg);
+            padding: 20px;
+            border-radius: 12px;
+        }
 
+        /* 📱 RWD 手機與平板響應式設計 */
         @media (max-width: 768px) {
             body { flex-direction: column; }
-            .sidebar { width: 100%; padding: 15px 15px 5px 15px; gap: 10px; }
+            .sidebar { width: 100%; padding: 15px 15px 5px 15px; box-shadow: 0 2px 10px rgba(0,0,0,0.5); gap: 10px; }
+            .sidebar h2 { font-size: 1.3rem; }
+            .time-display { font-size: 0.8rem; padding: 8px; }
             .sidebar-buttons { flex-direction: row; overflow-x: auto; padding-bottom: 10px; }
             .nav-btn { white-space: nowrap; flex-shrink: 0; font-size: 1rem; padding: 8px 12px; }
             .main-content { padding: 20px 15px; }
             h1 { font-size: 1.5rem; }
+            h1 span { font-size: 1.2rem !important; }
+            .card { padding: 15px; }
         }
     </style>
 </head>
 <body>
 
     <div class="sidebar">
-        <h2>🏎️ 秉澔的AI獨立研究</h2>
+        <h2>🏎️ 秉澔AI獨立研究</h2>
+        
         <div id="clock" class="time-display">讀取時間中...</div>
+
         <div class="sidebar-buttons">
             <button class="nav-btn active" onclick="switchPage('home', this)">🏠 專案首頁與動機</button>
             <button class="nav-btn" onclick="switchPage('plan', this)">📝 實驗計畫大綱</button>
             <button class="nav-btn" onclick="switchPage('devlog', this)">🛠️ 開發與實作日誌</button>
             <button class="nav-btn" onclick="switchPage('games', this)">🎮 創意遊戲大廳</button>
             <button class="nav-btn" onclick="switchPage('dashboard', this)">📊 數據儀表板</button>
-            <button class="nav-btn" onclick="switchPage('qa', this)">🙋 獨立研究 Q&A</button>
         </div>
     </div>
 
     <div class="main-content">
+        
         <div id="home" class="page-section active">
             <h1>研究題目：護虎使者<br><span style="font-size: 1.5rem; color: var(--text-main);">單點光學雷達應用於夜間石虎路殺預警與動態避障路徑之探究</span></h1>
+            
             <div class="highlight-box">
                 <strong>👨‍🏫 指導老師：</strong>洪瑞成 老師<br>
                 <strong>👨‍🔬 研究學生：</strong>南投縣光華國小五年級 蔡秉澔<br>
-                <strong>📍 實驗地點：</strong>南投縣光華國小 / 瓦楞板模擬車道
+                <strong>🔥 最新進度：</strong>我本週已完成瓦楞板實驗場地、Micro:bit 影音同步程式，以及近 5 款原創小遊戲！
             </div>
+            
             <div class="card">
                 <h3>💡 我的研究動機</h3>
-                <p>我們居住的南投、苗栗一帶是石虎的重要棲地。我希望透過光學雷達不受光線影響的特性，開發出能自動偵測動物並規劃安全閃避路徑的智慧預警系統。</p>
+                <p>大家好！我是秉澔，在<strong>洪瑞成老師</strong>的指導下，我展開了這項獨立研究。我們居住的中部地區（南投、苗栗一帶）是台灣特有種「石虎」的重要棲地，但夜間「路殺」事件頻傳。</p>
+                <p>我希望透過研究「光學雷達（LiDAR）」與「動態路徑規劃」，探討如何不受夜間黑暗影響，在偵測到動物後精準計算出最短的安全閃避路徑，守護石虎的安全。</p>
             </div>
         </div>
 
         <div id="plan" class="page-section">
             <h1>📝 我的實驗計畫與設計</h1>
-            <div class="card"><h3>🔍 實驗一：夜盲症測試（光線變因）</h3><p>驗證 LiDAR 在不同光線強度下的穩定性。</p></div>
-            <div class="card"><h3>🔍 實驗二：保護色與材質陷阱（材質變因）</h3><p>探討黑色或粗糙材質對測距精準度的影響。</p></div>
-            <div class="card"><h3>🔍 實驗三：最佳視角測試（高度變因）</h3><p>找出最適合偵測小型野生動物的雷達安裝高度。</p></div>
-            <div class="card"><h3>🔍 實驗四：生死一瞬間（煞車距離變因）</h3><p>測算不同車速下的物理煞停距離。</p></div>
-            <div class="card"><h3>🔍 實驗五：生命轉彎處（多情境避障測試）</h3><p>實作動態閃避邏輯，守護石虎安全。</p></div>
+            <div class="card orange-border">
+                <h3>🔍 實驗一：夜盲症測試（光線變因）</h3>
+                <p>測試光學雷達在「正常日光燈」、「手電筒強光」與「全黑」環境下的測距精準度。</p>
+            </div>
+            <div class="card orange-border">
+                <h3>🔍 實驗二：保護色與材質陷阱（材質變因）</h3>
+                <p>對比「白色紙板」與「黑色絨毛玩偶」，觀察深色材質是否會吸收雷射光導致數值誤差。</p>
+            </div>
+            <div class="card orange-border">
+                <h3>🔍 實驗三：最佳視角測試（高度變因）</h3>
+                <p>調整雷達安裝高度，找出最適合偵測小型野生動物的角度。</p>
+            </div>
+            <div class="card orange-border">
+                <h3>🔍 實驗四：生死一瞬間（速度與煞車距離變因）</h3>
+                <p>測試車輛在不同速度下完全停止所需的物理距離，作為避障系統的門檻。</p>
+            </div>
+            <div class="card orange-border">
+                <h3>🔍 實驗五：生命轉彎處（多情境路徑規劃測試）</h3>
+                <p>實作「受限車道」與「開放空地」模式，規劃最短且安全的避障行駛軌跡。</p>
+            </div>
         </div>
 
         <div id="devlog" class="page-section">
             <h1>🛠️ 實作紀錄：我的手作與開發日誌</h1>
+            
             <div class="card">
-                <h3>✅ 任務一：瓦楞板實驗場地搭建</h3>
-                <p>與弟弟協力製作的模擬實驗車道。</p>
-                <img src="photo1.jpg" alt="[photo1.jpg]" class="photo-preview">
+                <h3>✅ 任務一：瓦楞板實驗場地搭建-5/9完成</h3>
+                <p>這是我和弟弟協力製作的實驗車道。</p>
+                <img src="photo1.jpg" alt="[請確保 photo1.jpg 放在同一資料夾中]" class="photo-preview">
+            </div>
+
+            <div class="card">
+                <h3>✅ 任務二：Micro:bit 核心邏輯訓練-5/10完成</h3>
+                <p>我自己設計可以自動跑馬燈A~Z及發音的測試過程照片：</p>
+                <img src="photo2.jpg" alt="[請確保 photo2.jpg 放在同一資料夾中]" class="photo-preview">
             </div>
         </div>
 
         <div id="games" class="page-section">
             <h1>🎮 Micro:bit 創意遊戲大廳</h1>
-            <div class="card"><h3>🧱 遊戲 01：打磚塊</h3></div>
-            <div class="card"><h3>⚾ 遊戲 02：全壘打大賽</h3></div>
+            <div class="card">
+                <h3>🧱 遊戲 01：打磚塊 (Breakout)</h3>
+                <p>學習座標偵測與反彈邏輯。</p>
+            </div>
+            <div class="card">
+                <h3>⚾ 遊戲 02：全壘打大賽</h3>
+                <p>練習精準計時與按鍵觸發判斷。</p>
+            </div>
+            <div class="card">
+                <h3>🤠 遊戲 03：神槍手對決</h3>
+                <p>掌握隨機數與影音同步功能。</p>
+            </div>
         </div>
 
         <div id="dashboard" class="page-section">
             <h1>📊 數據儀表板</h1>
             <div class="card">
-                <h3>🚀 實驗四：煞車距離趨勢分析</h3>
-                <p>數據來源：Google 試算表（實驗四分頁）</p>
+                <h3>🚀 實驗四：生死一瞬間 (煞車距離測試)</h3>
+                <p>這個圖表會即時抓取 Google 試算表中的「平均煞車距離」數據喔！</p>
             </div>
-            <div class="chart-container"><canvas id="brakingChart"></canvas></div>
+            <div class="chart-container">
+                <canvas id="brakingChart"></canvas>
+            </div>
         </div>
 
-        <div id="qa" class="page-section">
-            <h1>🙋 獨立研究 Q&A</h1>
-            
-            <div class="qa-form-card">
-                <h3>✍️ 新增討論紀錄</h3>
-                <div class="form-group">
-                    <label>討論日期：</label>
-                    <input type="date" id="qa-date">
-                </div>
-                <div class="form-group">
-                    <label>老師提問：</label>
-                    <textarea id="qa-question" placeholder="請輸入老師問的問題..."></textarea>
-                </div>
-                <div class="form-group">
-                    <label>秉澔回答與心得 (可先空白，回家討論後再到試算表補充)：</label>
-                    <textarea id="qa-answer" placeholder="回家跟爸爸討論後再補填也可以喔..."></textarea>
-                </div>
-                <button class="submit-btn" onclick="submitQA()">🚀 傳送並存檔</button>
-            </div>
-
-            <div class="highlight-box">歷次研究互動精華紀錄：</div>
-            <div id="qa-list">讀取資料中...</div>
-        </div>
     </div>
 
     <script>
-        // --- 1. 時間更新 ---
+        // 抓取網路或電腦本身的時間並即時更新
         function updateTime() {
             const now = new Date();
-            document.getElementById('clock').innerText = "系統目前時間：\n" + now.toLocaleString('zh-TW');
+            document.getElementById('clock').innerText = "目前時間：\n" + now.toLocaleString('zh-TW');
         }
-        setInterval(updateTime, 1000); updateTime();
+        setInterval(updateTime, 1000);
+        updateTime();
 
-        // --- 2. 頁面切換 ---
+        // 頁面切換邏輯
         function switchPage(pageId, btnElement) {
             document.querySelectorAll('.page-section').forEach(page => page.classList.remove('active'));
             document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
             document.getElementById(pageId).classList.add('active');
-            if (btnElement) btnElement.classList.add('active');
-            if(pageId === 'qa') { fetchQAData(); }
-            if(window.innerWidth <= 768) document.querySelector('.main-content').scrollTop = 0;
-        }
-
-        // --- 3. 網址設定 (已根據秉澔提供的連結更新) ---
-        const csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSHWKj5ttt6e65-3-07o0NlAmz5kbbcj9nW2KEYcO0SBvlRDi2jSVw0G_B7YPdaYkj0Zlcgx_wlFQ2R/pub?gid=1383785752&single=true&output=csv';
-        const gasAppUrl = 'https://script.google.com/macros/s/AKfycbz1E-EzMVsvcW6Uf2f-351kj2aBKEFiviIbz39ZzRO-WLYBRT7zTUmoOFeak1QRgjOs2g/exec';
-        const qaCsvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSHWKj5ttt6e65-3-07o0NlAmz5kbbcj9nW2KEYcO0SBvlRDi2jSVw0G_B7YPdaYkj0Zlcgx_wlFQ2R/pub?gid=1501050832&single=true&output=csv';
-
-        // --- 4. Q&A 傳送與抓取邏輯 ---
-        async function submitQA() {
-            const date = document.getElementById('qa-date').value;
-            const question = document.getElementById('qa-question').value;
-            const answer = document.getElementById('qa-answer').value;
-
-            if(!date || !question) { alert("請記得選日期跟填寫老師的問題喔！"); return; }
-
-            const btn = document.querySelector('.submit-btn');
-            btn.innerText = "連線傳送中..."; btn.disabled = true;
-
-            try {
-                await fetch(gasAppUrl, {
-                    method: 'POST',
-                    body: JSON.stringify({ date, question, answer }),
-                    mode: 'no-cors'
-                });
-                alert("送出成功！回家討論後可以再到試算表補上內容。");
-                document.getElementById('qa-question').value = "";
-                document.getElementById('qa-answer').value = "";
-                setTimeout(fetchQAData, 2000); 
-            } catch (e) {
-                alert("傳送失敗，請確認網路是否連線。");
-            } finally {
-                btn.innerText = "🚀 傳送並存檔"; btn.disabled = false;
+            if (btnElement) {
+                btnElement.classList.add('active');
+            }
+            if(window.innerWidth <= 768) {
+                document.querySelector('.main-content').scrollTop = 0;
             }
         }
 
-        async function fetchQAData() {
-            try {
-                const response = await fetch(qaCsvUrl);
-                const text = await response.text();
-                // 支援多種換行符號切割
-                const rows = text.trim().split(/\r?\n/).slice(1);
-                let html = "";
-                rows.reverse().forEach(row => { 
-                    const cols = row.split(',');
-                    if(cols.length >= 2 && cols[0].trim() !== '') {
-                        let answerContent = (cols.length >= 3 && cols[2].trim() !== '') 
-                                            ? `💡 秉澔回答：${cols[2]}` 
-                                            : `<span class="pending">⏳ 待秉澔查詢資料與討論後補充...</span>`;
-                        
-                        html += `
-                            <div class="qa-item">
-                                <div class="qa-date">🗓️ 討論日期：${cols[0]}</div>
-                                <div class="qa-question">👨‍🏫 老師提問：${cols[1]}</div>
-                                <div class="qa-answer ${cols.length < 3 || cols[2].trim() === '' ? 'pending' : ''}">
-                                    ${answerContent}
-                                </div>
-                            </div>
-                        `;
-                    }
-                });
-                document.getElementById('qa-list').innerHTML = html || "<p>目前尚無紀錄。</p>";
-            } catch (e) { document.getElementById('qa-list').innerHTML = "<p>資料連線失敗。</p>"; }
-        }
+        // ======= 儀表板圖表自動連線程式碼 =======
+        
+        // 這裡已經替換成專屬的 CSV 網址了
+        const csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSHWKj5ttt6e65-3-07o0NlAmz5kbbcj9nW2KEYcO0SBvlRDi2jSVw0G_B7YPdaYkj0Zlcgx_wlFQ2R/pub?gid=1383785752&single=true&output=csv';
 
-        // --- 5. 數據儀表板圖表邏輯 ---
         const ctx = document.getElementById('brakingChart').getContext('2d');
+        Chart.defaults.color = '#e2e8f0';
+        
+        // 先建立一個空的圖表
         let myBrakingChart = new Chart(ctx, {
             type: 'line',
-            data: { labels: [], datasets: [{ label: '平均煞車距離 (cm)', data: [], borderColor: '#00f6ff', backgroundColor: 'rgba(0, 246, 255, 0.2)', fill: true, tension: 0.3 }] }
+            data: {
+                labels: [], 
+                datasets: [{
+                    label: '平均煞車停止距離 (cm)',
+                    data: [], 
+                    borderColor: '#00f6ff',
+                    backgroundColor: 'rgba(0, 246, 255, 0.2)',
+                    fill: true,
+                    tension: 0.3 
+                }]
+            }
         });
 
-        async function updateDashboard() {
+        // 建立自動抓取資料的函數
+        async function fetchDataAndUpdateChart() {
             try {
+                // 去試算表把資料抓回來
                 const response = await fetch(csvUrl);
                 const data = await response.text();
-                const rows = data.trim().split(/\r?\n/).slice(1);
-                let speeds = []; let distances = [];
-                rows.forEach(row => {
-                    const cols = row.split(',');
+                
+                // 拆解 CSV 內容 (加上 trim() 避免隱藏的換行或空白導致錯誤)
+                const rows = data.trim().split('\n');
+                let speeds = [];
+                let distances = [];
+
+                // 從第二行開始讀（跳過第一行的標題）
+                for (let i = 1; i < rows.length; i++) {
+                    let cols = rows[i].split(',');
+                    
+                    // 確保這一行有資料
                     if (cols.length >= 5 && cols[0].trim() !== '') {
-                        speeds.push(cols[0].trim() + " cm/s");
-                        distances.push(Number(cols[4].trim()));
+                        speeds.push(cols[0].trim() + " cm/s"); // 讀取 A 欄並加上單位
+                        distances.push(Number(cols[4].trim())); // 讀取 E 欄 (平均煞車距離)
                     }
-                });
+                }
+
+                // 把抓到的真實資料放進圖表並更新
                 myBrakingChart.data.labels = speeds;
                 myBrakingChart.data.datasets[0].data = distances;
                 myBrakingChart.update();
-            } catch (e) {}
+                
+            } catch (error) {
+                console.error('抓取資料失敗:', error);
+            }
         }
-        updateDashboard();
+
+        // 執行函數，啟動魔法！
+        fetchDataAndUpdateChart();
     </script>
 </body>
 </html>
