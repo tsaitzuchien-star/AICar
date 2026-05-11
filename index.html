@@ -316,8 +316,20 @@
 
         <div id="dashboard" class="page-section">
             <h1>📊 數據儀表板</h1>
+            
+            <div class="highlight-box" style="padding: 15px; margin-bottom: 20px; display: flex; align-items: center; gap: 15px; flex-wrap: wrap;">
+                <label for="exp-selector" style="margin: 0; font-size: 1.2rem; font-weight: bold;">請選擇要查看的實驗：</label>
+                <select id="exp-selector" onchange="updateDashboard()" style="padding: 8px 15px; font-size: 1.1rem; border-radius: 8px; background: var(--bg-color); color: var(--accent-glow); border: 1px solid var(--accent-glow); cursor: pointer; outline: none;">
+                    <option value="exp1">實驗一：夜盲症測試</option>
+                    <option value="exp2">實驗二：保護色與材質陷阱</option>
+                    <option value="exp3">實驗三：最佳視角測試</option>
+                    <option value="exp4">實驗四：生死一瞬間</option>
+                    <option value="exp5">實驗五：生命轉彎處</option>
+                </select>
+            </div>
+
             <div class="chart-container">
-                <canvas id="brakingChart"></canvas>
+                <canvas id="experimentChart"></canvas>
             </div>
         </div>
 
@@ -376,11 +388,12 @@
         }
 
         // ======= 核心設定：資料連結 =======
+        // Q&A 系統保持原有的設定不變
         const csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSHWKj5ttt6e65-3-07o0NlAmz5kbbcj9nW2KEYcO0SBvlRDi2jSVw0G_B7YPdaYkj0Zlcgx_wlFQ2R/pub?gid=1383785752&single=true&output=csv';
         const gasAppUrl = 'https://script.google.com/macros/s/AKfycbz1E-EzMVsvcW6Uf2f-351kj2aBKEFiviIbz39ZzRO-WLYBRT7zTUmoOFeak1QRgjOs2g/exec';
         const qaCsvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSHWKj5ttt6e65-3-07o0NlAmz5kbbcj9nW2KEYcO0SBvlRDi2jSVw0G_B7YPdaYkj0Zlcgx_wlFQ2R/pub?gid=1501050832&single=true&output=csv';
 
-        // 送出 Q&A 紀錄 (允許先只寫問題)
+        // 送出 Q&A 紀錄
         async function submitQA() {
             const date = document.getElementById('qa-date').value;
             const question = document.getElementById('qa-question').value;
@@ -437,40 +450,85 @@
             } catch (e) { document.getElementById('qa-list').innerHTML = "<p>資料讀取失敗。</p>"; }
         }
 
-        // ======= 儀表板圖表 =======
-        const ctx = document.getElementById('brakingChart').getContext('2d');
-        let myBrakingChart = new Chart(ctx, {
+        // ======= 🌟 更新：儀表板圖表 (支援五個實驗切換) =======
+        
+        // 專屬實驗下載網址核心
+        const baseCsvUrl = 'https://docs.google.com/spreadsheets/d/13gkJgF3i0j1yPZTgs6Z5I28JxsanNAGIRpXyR6V_tt8/export?format=csv&gid=';
+
+        // 5 個實驗的 gid
+        const expGids = {
+            'exp1': '0', 
+            'exp2': '568094100', 
+            'exp3': '2010902355', 
+            'exp4': '1383785752',       
+            'exp5': '87308914'  
+        };
+
+        const ctx = document.getElementById('experimentChart').getContext('2d');
+        let myChart = new Chart(ctx, {
             type: 'line',
-            data: {
+            data: { 
                 labels: [], 
-                datasets: [{
-                    label: '平均煞車停止距離 (cm)',
+                datasets: [{ 
+                    label: '讀取中...', 
                     data: [], 
-                    borderColor: '#00f6ff',
-                    backgroundColor: 'rgba(0, 246, 255, 0.2)',
-                    fill: true,
-                    tension: 0.3 
-                }]
+                    borderColor: '#00f6ff', 
+                    backgroundColor: 'rgba(0, 246, 255, 0.2)', 
+                    fill: true, 
+                    tension: 0.3,
+                    pointBackgroundColor: '#f59e0b',
+                    pointRadius: 5
+                }] 
+            },
+            options: { 
+                responsive: true, 
+                scales: { y: { beginAtZero: true } },
+                plugins: { legend: { labels: { color: '#f8fafc', font: { size: 14 } } } }
             }
         });
 
         async function updateDashboard() {
+            const selectedExp = document.getElementById('exp-selector').value;
+            const targetGid = expGids[selectedExp];
+            
+            if (!targetGid) return;
+
+            const fetchUrl = baseCsvUrl + targetGid;
+
             try {
-                const response = await fetch(csvUrl);
+                // 去 Google 表格抓資料
+                const response = await fetch(fetchUrl);
                 const data = await response.text();
-                const rows = data.trim().split(/\r?\n/).slice(1);
-                let speeds = []; let distances = [];
-                rows.forEach(row => {
-                    const cols = row.split(',');
-                    if (cols.length >= 5 && cols[0].trim() !== '') {
-                        speeds.push(cols[0].trim() + " cm/s");
-                        distances.push(Number(cols[4].trim()));
+
+                // 解析資料
+                const rows = data.trim().split(/\r?\n/);
+                const headers = rows[0].split(','); 
+
+                // 自動尋找名稱有「平均」的欄位當作 Y 軸，沒有就抓最後一欄
+                let yIndex = headers.findIndex(h => h.includes('平均'));
+                if(yIndex === -1) yIndex = headers.length - 1; 
+
+                let xLabels = [];
+                let yValues = [];
+
+                // 將資料倒入圖表 (跳過第一行標題)
+                for(let i = 1; i < rows.length; i++) {
+                    const cols = rows[i].split(',');
+                    if (cols.length > 1 && cols[0].trim() !== '') {
+                        xLabels.push(cols[0].trim());       
+                        yValues.push(Number(cols[yIndex])); 
                     }
-                });
-                myBrakingChart.data.labels = speeds;
-                myBrakingChart.data.datasets[0].data = distances;
-                myBrakingChart.update();
-            } catch (e) {}
+                }
+
+                // 更新圖表畫面
+                myChart.data.labels = xLabels;
+                myChart.data.datasets[0].label = headers[yIndex] || '實驗數據';
+                myChart.data.datasets[0].data = yValues;
+                myChart.update();
+
+            } catch (e) {
+                console.log("資料讀取失敗，請檢查網址或網路狀態。", e);
+            }
         }
     </script>
 </body>
