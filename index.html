@@ -411,8 +411,9 @@
                     <option value="exp1">實驗一：（光線變因）夜盲症測試</option>
                     <option value="exp2">實驗二：（材質變因）保護色與材質陷阱</option>
                     <option value="exp3">實驗三：（高度變因）最佳視角測試</option>
-                    <option value="exp4">實驗四：（速度與煞車距離變因）生死一瞬間</option>
-                    <option value="exp5">實驗五：（多情境路徑規劃測試）生命轉彎處</option>
+                    <option value="exp4">實驗四：（速度與煞車距離）生死一瞬間</option>
+                    <option value="exp5">實驗五-A：（模擬山路）受限車道避障測試</option>
+                    <option value="exp6">實驗五-B：（模擬廣場）24宮格路徑規劃</option>
                 </select>
             </div>
 
@@ -476,8 +477,6 @@
         }
 
         // ======= 核心設定：資料連結 =======
-        // Q&A 系統保持原有的設定不變
-        const csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSHWKj5ttt6e65-3-07o0NlAmz5kbbcj9nW2KEYcO0SBvlRDi2jSVw0G_B7YPdaYkj0Zlcgx_wlFQ2R/pub?gid=1383785752&single=true&output=csv';
         const gasAppUrl = 'https://script.google.com/macros/s/AKfycbz1E-EzMVsvcW6Uf2f-351kj2aBKEFiviIbz39ZzRO-WLYBRT7zTUmoOFeak1QRgjOs2g/exec';
         const qaCsvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSHWKj5ttt6e65-3-07o0NlAmz5kbbcj9nW2KEYcO0SBvlRDi2jSVw0G_B7YPdaYkj0Zlcgx_wlFQ2R/pub?gid=1501050832&single=true&output=csv';
 
@@ -538,18 +537,19 @@
             } catch (e) { document.getElementById('qa-list').innerHTML = "<p>資料讀取失敗。</p>"; }
         }
 
-        // ======= 🌟 更新：儀表板圖表 (支援五個實驗切換) =======
+        // ======= 🌟 更新：儀表板圖表 (支援六個實驗切換) =======
         
         // 專屬實驗下載網址核心
         const baseCsvUrl = 'https://docs.google.com/spreadsheets/d/13gkJgF3i0j1yPZTgs6Z5I28JxsanNAGIRpXyR6V_tt8/export?format=csv&gid=';
 
-        // 5 個實驗的 gid
+        // 加入 exp6 的 gid
         const expGids = {
             'exp1': '0', 
             'exp2': '568094100', 
             'exp3': '2010902355', 
             'exp4': '1383785752',       
-            'exp5': '87308914'  
+            'exp5': '87308914',
+            'exp6': '191668304' // 實驗五-B的專屬代碼
         };
 
         const ctx = document.getElementById('experimentChart').getContext('2d');
@@ -584,22 +584,19 @@
             const fetchUrl = baseCsvUrl + targetGid;
 
             try {
-                // 去 Google 表格抓資料
                 const response = await fetch(fetchUrl);
                 const data = await response.text();
 
-                // 解析資料
                 const rows = data.trim().split(/\r?\n/);
                 const headers = rows[0].split(','); 
 
-                // 自動尋找名稱有「平均」的欄位當作 Y 軸，沒有就抓最後一欄
-                let yIndex = headers.findIndex(h => h.includes('平均'));
+                // 智慧選欄位：自動尋找名稱有「平均」、「時間」、「耗時」或「格數」的欄位當作 Y 軸
+                let yIndex = headers.findIndex(h => h.includes('平均') || h.includes('時間') || h.includes('耗時') || h.includes('格數'));
                 if(yIndex === -1) yIndex = headers.length - 1; 
 
                 let xLabels = [];
                 let yValues = [];
 
-                // 將資料倒入圖表 (跳過第一行標題)
                 for(let i = 1; i < rows.length; i++) {
                     const cols = rows[i].split(',');
                     if (cols.length > 1 && cols[0].trim() !== '') {
@@ -608,7 +605,6 @@
                     }
                 }
 
-                // 更新圖表畫面
                 myChart.data.labels = xLabels;
                 myChart.data.datasets[0].label = headers[yIndex] || '實驗數據';
                 myChart.data.datasets[0].data = yValues;
