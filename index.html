@@ -230,6 +230,40 @@
             border: 1px solid #334155;
         }
 
+        /* 📊 實驗數據表格樣式 (新增) */
+        .data-table-wrapper {
+            margin-top: 25px;
+            overflow-x: auto;
+            background: var(--panel-bg);
+            border-radius: 12px;
+            border: 1px solid #334155;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+        }
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            color: var(--text-main);
+            font-size: 0.95rem;
+        }
+        .data-table th, .data-table td {
+            border: 1px solid #334155;
+            padding: 12px;
+            text-align: center;
+            white-space: nowrap;
+        }
+        .data-table th {
+            background-color: #0f172a;
+            color: var(--accent-glow);
+            font-weight: bold;
+        }
+        .data-table tr:nth-child(even) {
+            background-color: rgba(255, 255, 255, 0.02);
+        }
+        .data-table tr:hover {
+            background-color: rgba(16, 185, 129, 0.15);
+        }
+
         .card ul { padding-left: 20px; margin-top: 10px; }
         .card li { margin-bottom: 8px; }
 
@@ -444,7 +478,7 @@
                 <div class="kpi-card">
                     <div class="kpi-title" id="kpi-title-1">總測試趟數</div>
                     <div class="kpi-value" id="kpi-val-1">--</div>
-                    <div class="kpi-unit">趟</div>
+                    <div class="kpi-unit" id="kpi-unit-1">趟</div>
                 </div>
                 <div class="kpi-card" style="border-color: var(--accent-orange);">
                     <div class="kpi-title" id="kpi-title-2">最佳/最低 紀錄</div>
@@ -461,6 +495,8 @@
             <div class="chart-container" style="position: relative; height:400px;">
                 <canvas id="experimentChart"></canvas>
             </div>
+            
+            <div id="data-table-container"></div>
         </div>
 
         <div id="qa" class="page-section">
@@ -543,6 +579,27 @@
 
         let myChartInstance = null; // 儲存圖表實體，方便摧毀重建
 
+        // 幫資料表格加上 HTML 轉換函數
+        function generateTableHTML(rows) {
+            let html = '<div class="data-table-wrapper"><h3 style="margin-top:0; color: var(--accent-glow);">📝 實驗詳細數據表</h3><table class="data-table">';
+            rows.forEach((row, index) => {
+                if (row.trim() === '') return;
+                let cols = row.split(',');
+                html += '<tr>';
+                cols.forEach(col => {
+                    let text = col.replace(/"/g, '').trim();
+                    if (index === 0) {
+                        html += `<th>${text}</th>`;
+                    } else {
+                        html += `<td>${text}</td>`;
+                    }
+                });
+                html += '</tr>';
+            });
+            html += '</table></div>';
+            return html;
+        }
+
         async function updateDashboard() {
             const selectedExp = document.getElementById('exp-selector').value;
             const targetGid = expGids[selectedExp];
@@ -555,46 +612,97 @@
                 const headers = rows[0].split(','); 
 
                 let xLabels = [];
-                let yData1 = []; // 主要數據 (如耗時、距離)
-                let yData2 = []; // 次要數據 (用於雙軸圖，如格數)
+                let yData1 = []; // 主要數據
+                let yData2 = []; // 次要數據
+                let actualData = []; // 實際距離 (精準度測試用)
+                let errorData = [];  // 誤差值
+                let errorRates = []; // 誤差率
                 
                 // 智慧找欄位
-                let mainIndex = headers.findIndex(h => h.includes('平均') || h.includes('耗時') || h.includes('時間'));
+                let actualIndex = headers.findIndex(h => h.includes('實際距離'));
+                let measuredIndex = headers.findIndex(h => h.includes('平均測量值') || h.includes('平均'));
+                let errorIndex = headers.findIndex(h => h.includes('誤差值'));
                 let subIndex = headers.findIndex(h => h.includes('格數'));
-                if(mainIndex === -1) mainIndex = headers.length - 1; 
+                
+                // 判斷是否為「精準度測試」(有實際距離和測量值)
+                let isAccuracyTest = (actualIndex !== -1 && measuredIndex !== -1);
+                
+                // 如果找不到平均，就抓最後一欄
+                let mainIndex = measuredIndex !== -1 ? measuredIndex : (headers.findIndex(h => h.includes('耗時') || h.includes('時間')) !== -1 ? headers.findIndex(h => h.includes('耗時') || h.includes('時間')) : headers.length - 1);
 
-                // 資料清洗
+                // 資料清洗與計算
                 for(let i = 1; i < rows.length; i++) {
                     const cols = rows[i].split(',');
                     if (cols.length > 1 && cols[0].trim() !== '') {
-                        xLabels.push(cols[0].trim().replace(/"/g, '')); // 移除討厭的雙引號
+                        xLabels.push(cols[0].trim().replace(/"/g, ''));
+                        
                         let val1 = Number(cols[mainIndex]) || 0;
                         yData1.push(val1);
+                        
                         if(subIndex !== -1) yData2.push(Number(cols[subIndex]) || 0);
+                        
+                        if (isAccuracyTest) {
+                            let act = Number(cols[actualIndex]) || 0;
+                            let meas = Number(cols[measuredIndex]) || 0;
+                            // 如果試算表已經有算好的誤差值就直接用，沒有就程式算
+                            let err = errorIndex !== -1 ? Math.abs(Number(cols[errorIndex]) || 0) : Math.abs(meas - act);
+                            
+                            actualData.push(act);
+                            errorData.push(err);
+                            if (act > 0) errorRates.push((err / act) * 100);
+                        }
                     }
                 }
 
                 // --- 📊 KPI 卡片數據計算 ---
-                let validData = yData1.filter(v => v > 0); // 排除還沒測量的 0
-                let avg = validData.length > 0 ? (validData.reduce((a, b) => a + b, 0) / validData.length).toFixed(2) : 0;
-                let min = validData.length > 0 ? Math.min(...validData) : 0;
+                if (isAccuracyTest && errorData.length > 0) {
+                    // 如果是精準度測試，切換為超專業指標！
+                    let avgErr = errorData.reduce((a, b) => a + b, 0) / errorData.length;
+                    let maxErr = Math.max(...errorData);
+                    let avgRate = errorRates.length > 0 ? (errorRates.reduce((a, b) => a + b, 0) / errorRates.length) : 0;
+                    let accuracy = 100 - avgRate;
 
-                document.getElementById('kpi-val-1').innerText = xLabels.length; // 測試次數
-                document.getElementById('kpi-val-2').innerText = min; // 最佳(最低)數值
-                document.getElementById('kpi-val-3').innerText = avg; // 平均數值
-                
-                let unitName = headers[mainIndex] ? headers[mainIndex].replace(/[^a-zA-Z%]/g, '') || "單位" : "單位";
-                if(headers[mainIndex] && headers[mainIndex].includes('秒')) unitName = '秒';
-                if(headers[mainIndex] && headers[mainIndex].includes('cm')) unitName = 'cm';
-                document.getElementById('kpi-unit-2').innerText = unitName;
-                document.getElementById('kpi-unit-3').innerText = unitName;
+                    document.getElementById('kpi-title-1').innerText = "整體平均誤差";
+                    document.getElementById('kpi-val-1').innerText = avgErr.toFixed(2);
+                    document.getElementById('kpi-unit-1').innerText = "cm";
+
+                    document.getElementById('kpi-title-2').innerText = "最大極端誤差";
+                    document.getElementById('kpi-val-2').innerText = maxErr.toFixed(2);
+                    document.getElementById('kpi-unit-2').innerText = "cm";
+
+                    document.getElementById('kpi-title-3').innerText = "雷達平均準確率";
+                    document.getElementById('kpi-val-3').innerText = accuracy.toFixed(2);
+                    document.getElementById('kpi-unit-3').innerText = "%";
+                    
+                } else {
+                    // 如果是效能測試 (實驗四五六)，維持原本的指標
+                    let validData = yData1.filter(v => v > 0);
+                    let avg = validData.length > 0 ? (validData.reduce((a, b) => a + b, 0) / validData.length).toFixed(2) : 0;
+                    let min = validData.length > 0 ? Math.min(...validData) : 0;
+
+                    document.getElementById('kpi-title-1').innerText = "總測試趟數";
+                    document.getElementById('kpi-val-1').innerText = xLabels.length;
+                    document.getElementById('kpi-unit-1').innerText = "趟";
+
+                    document.getElementById('kpi-title-2').innerText = "最佳/最低 紀錄";
+                    document.getElementById('kpi-val-2').innerText = min;
+                    
+                    document.getElementById('kpi-title-3').innerText = "平均表現";
+                    document.getElementById('kpi-val-3').innerText = avg;
+                    
+                    let unitName = headers[mainIndex] ? headers[mainIndex].replace(/[^a-zA-Z%]/g, '') || "單位" : "單位";
+                    if(headers[mainIndex] && headers[mainIndex].includes('秒')) unitName = '秒';
+                    if(headers[mainIndex] && headers[mainIndex].includes('cm')) unitName = 'cm';
+                    document.getElementById('kpi-unit-2').innerText = unitName;
+                    document.getElementById('kpi-unit-3').innerText = unitName;
+                }
 
                 // --- 🎨 動態繪製圖表 ---
                 if(myChartInstance) myChartInstance.destroy(); // 砍掉舊圖表
                 const ctx = document.getElementById('experimentChart').getContext('2d');
                 
                 let chartConfig = {
-                    type: 'bar', // 預設為長條圖，看起來更專業
+                    type: 'bar',
                     data: { labels: xLabels, datasets: [] },
                     options: { 
                         responsive: true, maintainAspectRatio: false,
@@ -606,48 +714,51 @@
                     }
                 };
 
-                // 針對實驗五-B 的「雙軸複合圖」特製邏輯
-                if (selectedExp === 'exp6' && subIndex !== -1) {
+                if (isAccuracyTest) {
+                    // 精準度測試：顯示實際距離 vs 測量距離的雙柱狀圖！
                     chartConfig.data.datasets.push({
-                        type: 'bar',
-                        label: headers[mainIndex] || '耗時',
-                        data: yData1,
-                        backgroundColor: 'rgba(139, 92, 246, 0.6)', // 紫色科技感
-                        borderColor: '#8b5cf6',
-                        borderWidth: 1,
-                        yAxisID: 'y'
+                        label: '實際距離 (cm)',
+                        data: actualData,
+                        backgroundColor: 'rgba(54, 162, 235, 0.7)', // 專業藍
+                        borderColor: '#36A2EB',
+                        borderWidth: 1
                     });
                     chartConfig.data.datasets.push({
-                        type: 'line',
-                        label: headers[subIndex] || '行經格數',
-                        data: yData2,
-                        borderColor: '#f59e0b', // 橘色亮線
-                        backgroundColor: '#f59e0b',
-                        borderWidth: 3,
-                        pointRadius: 6,
-                        yAxisID: 'y1' // 第二 Y 軸
+                        label: '平均測量值 (cm)',
+                        data: yData1,
+                        backgroundColor: 'rgba(16, 185, 129, 0.7)', // 科技綠
+                        borderColor: '#10b981',
+                        borderWidth: 1
+                    });
+                } else if (selectedExp === 'exp6' && subIndex !== -1) {
+                    // 雙軸複合圖
+                    chartConfig.data.datasets.push({
+                        type: 'bar', label: headers[mainIndex] || '耗時',
+                        data: yData1, backgroundColor: 'rgba(139, 92, 246, 0.6)', borderColor: '#8b5cf6', borderWidth: 1, yAxisID: 'y'
+                    });
+                    chartConfig.data.datasets.push({
+                        type: 'line', label: headers[subIndex] || '行經格數',
+                        data: yData2, borderColor: '#f59e0b', backgroundColor: '#f59e0b', borderWidth: 3, pointRadius: 6, yAxisID: 'y1'
                     });
                     chartConfig.options.scales.y1 = {
                         type: 'linear', display: true, position: 'right',
-                        grid: { drawOnChartArea: false }, // 不畫重複的網格線
-                        ticks: { color: '#f59e0b' }
+                        grid: { drawOnChartArea: false }, ticks: { color: '#f59e0b' }
                     };
                 } else {
-                    // 其他實驗使用單一圖表，加上漸層發光感
-                    let isLineChart = (selectedExp === 'exp4'); // 實驗四適合用折線看趨勢
+                    // 單一圖表
+                    let isLineChart = (selectedExp === 'exp4');
                     chartConfig.type = isLineChart ? 'line' : 'bar';
                     chartConfig.data.datasets.push({
-                        label: headers[mainIndex] || '實驗數據',
-                        data: yData1,
+                        label: headers[mainIndex] || '實驗數據', data: yData1,
                         backgroundColor: isLineChart ? 'rgba(0, 246, 255, 0.2)' : 'rgba(16, 185, 129, 0.6)',
-                        borderColor: isLineChart ? '#00f6ff' : '#10b981',
-                        borderWidth: 2,
-                        fill: isLineChart,
-                        tension: 0.3
+                        borderColor: isLineChart ? '#00f6ff' : '#10b981', borderWidth: 2, fill: isLineChart, tension: 0.3
                     });
                 }
 
-                myChartInstance = new Chart(ctx, chartConfig); // 渲染新圖表
+                myChartInstance = new Chart(ctx, chartConfig);
+
+                // --- 📝 渲染完整的數據表格 ---
+                document.getElementById('data-table-container').innerHTML = generateTableHTML(rows);
 
             } catch (e) {
                 console.log("資料讀取失敗，請檢查網址或網路狀態。", e);
