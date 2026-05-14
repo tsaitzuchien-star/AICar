@@ -136,9 +136,10 @@
             max-width: 100%;  
             border-radius: 10px;
             margin-top: 15px;
+            margin-right: 10px;
             border: 2px solid #475569;
             box-shadow: 0 4px 10px rgba(0,0,0,0.5);
-            display: block;   
+            display: inline-block; /* 改為 inline-block 讓兩張照片可以並排 */
         }
 
         /* Q&A 填寫區樣式 */
@@ -379,15 +380,26 @@
 
         <div id="devlog" class="page-section">
             <h1>🛠️ 實作紀錄：我的手作與開發日誌</h1>
+            
             <div class="card">
                 <h3>✅ 任務一：瓦楞板實驗場地搭建-5/9完成</h3>
                 <p>這是我和弟弟協力製作的實驗車道。</p>
                 <img src="photo1.jpg" alt="[請確保 photo1.jpg 放在同一資料夾中]" class="photo-preview">
             </div>
+            
             <div class="card">
                 <h3>✅ 任務二：Micro:bit 核心邏輯訓練-5/10完成</h3>
                 <p>我自己設計可以自動跑馬燈A~Z及發音的測試過程照片：</p>
                 <img src="photo2.jpg" alt="[請確保 photo2.jpg 放在同一資料夾中]" class="photo-preview">
+            </div>
+
+            <div class="card">
+                <h3>✅ 任務三：麥昆 Plus V3 智能擴充小車組裝-5/13完成</h3>
+                <p>今天我自己動手完成了麥昆 Plus V3 智能擴充小車的硬體組裝！這台小車將會是我們接下來進行光學雷達避障測試的核心載具。</p>
+                <div>
+                    <img src="photo3.jpg" alt="[請確保 photo3.jpg 放在同一資料夾中]" class="photo-preview">
+                    <img src="photo4.jpg" alt="[請確保 photo4.jpg 放在同一資料夾中]" class="photo-preview">
+                </div>
             </div>
         </div>
 
