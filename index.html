@@ -130,7 +130,7 @@
         h1 { color: var(--accent-glow); border-bottom: 2px solid #334155; padding-bottom: 10px; line-height: 1.4; font-size: 2rem;}
         h3 { color: #e2e8f0; }
         
-        /* 照片預覽樣式 */
+        /* 照片與影片預覽樣式 */
         .photo-preview {
             max-height: 10cm; 
             max-width: 100%;  
@@ -139,7 +139,7 @@
             margin-right: 10px;
             border: 2px solid #475569;
             box-shadow: 0 4px 10px rgba(0,0,0,0.5);
-            display: inline-block; /* 改為 inline-block 讓兩張照片可以並排 */
+            display: inline-block;
         }
 
         /* Q&A 填寫區樣式 */
@@ -294,7 +294,7 @@
                 <p>本研究旨在探討單點光學雷達（LiDAR）應用於夜間野生動物防路殺系統的可行性，並結合微控制器實作動態避障邏輯，具體研究目的如下：</p>
                 <ul>
                     <li><strong>驗證環境光源對測距的影響：</strong> 測試光學雷達在極端光源（如全黑、手電筒強光）下的測距穩定性，藉此突破傳統視覺影像辨識在夜間無照明山區的應用限制。</li>
-                    <li><strong>探討保護色與材質的偵測極限：</strong> 測試光學雷達對不同顏色與材質（模擬石虎保護色毛皮）的反射訊號干擾程度，釐清實體感測的極限與盲區。</li>
+                    <li><strong>探討保護色與材質的偵測極限：</strong> 測試光學雷達對不同顏色與材質（模擬石虎保護色毛皮）的反射訊號干擾程度，釐理實體感測的極限與盲區。</li>
                     <li><strong>優化感測模組的最佳視角：</strong> 透過改變雷達的安裝高度，找出最適合精準偵測低矮、小型野生動物的硬體感測配置。</li>
                     <li><strong>建立安全預警與煞車門檻：</strong> 測量實驗車輛在不同行駛速度下完全煞停所需的物理距離，據此建立主動避障系統的安全啟動門檻數據。</li>
                     <li><strong>實作多情境動態避障演算法：</strong> 針對「受限車道（模擬山路）」與「開放空地（模擬廣場）」兩種情境，實作並比較系統在偵測到障礙物時，如何即時規劃出最短且安全的閃避軌跡。</li>
@@ -384,21 +384,36 @@
             <div class="card">
                 <h3>✅ 任務一：瓦楞板實驗場地搭建-5/9完成</h3>
                 <p>這是我和弟弟協力製作的實驗車道。</p>
-                <img src="photo1.jpg" alt="[請確保 photo1.jpg 放在同一資料夾中]" class="photo-preview">
+                <img src="photo1.jpg" alt="[photo1.jpg]" class="photo-preview">
             </div>
             
             <div class="card">
                 <h3>✅ 任務二：Micro:bit 核心邏輯訓練-5/10完成</h3>
                 <p>我自己設計可以自動跑馬燈A~Z及發音的測試過程照片：</p>
-                <img src="photo2.jpg" alt="[請確保 photo2.jpg 放在同一資料夾中]" class="photo-preview">
+                <img src="photo2.jpg" alt="[photo2.jpg]" class="photo-preview">
             </div>
 
             <div class="card">
                 <h3>✅ 任務三：麥昆 Plus V3 智能擴充小車組裝-5/13完成</h3>
                 <p>今天我自己動手完成了麥昆 Plus V3 智能擴充小車的硬體組裝！這台小車將會是我們接下來進行光學雷達避障測試的核心載具。</p>
                 <div>
-                    <img src="photo3.jpg" alt="[請確保 photo3.jpg 放在同一資料夾中]" class="photo-preview">
-                    <img src="photo4.jpg" alt="[請確保 photo4.jpg 放在同一資料夾中]" class="photo-preview">
+                    <img src="photo3.jpg" alt="[photo3.jpg]" class="photo-preview">
+                    <img src="photo4.jpg" alt="[photo4.jpg]" class="photo-preview">
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>✅ 任務四：循線行駛與速度極限測試-5/13完成</h3>
+                <p>昨天我和弟弟秉晨合力進行了麥昆小車的第一個實驗：讓小車沿著黑線繞圈圈。在過程中，我們不斷修改與調整直線及轉彎的速度參數。這項實驗的目的是要找出小車在維持穩定循線的前提下，所能達到的速度極限。這不僅測試了硬體的馬力，更考驗了我們對感測器反應與動力平衡的控制能力！</p>
+                <div>
+                    <img src="photo5.jpg" alt="[photo5.jpg]" class="photo-preview">
+                    <img src="photo6.jpg" alt="[photo6.jpg]" class="photo-preview">
+                </div>
+                <div style="margin-top: 15px;">
+                    <video controls class="photo-preview" style="width: 100%; max-width: 600px;">
+                        <source src="video1.mp4" type="video/mp4">
+                        您的瀏覽器不支援影片播放。
+                    </video>
                 </div>
             </div>
         </div>
