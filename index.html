@@ -568,14 +568,72 @@
             <div id="appendix-exp1" class="card purple-border" style="margin-top: 40px; background-color: rgba(139, 92, 246, 0.05); display: none;">
                 <h3 style="color: var(--accent-purple);">📂 實驗一附錄：核心程式碼與原始數據佐證</h3>
                 <p>為確保研究的真實性與科學嚴謹度，我們將實驗過程中感測器回傳的原始數據（Raw Data），以及 MakeCode 序列埠真實跳動的畫面截圖紀錄於此。這證明了我們的數據是透過程式一筆一筆真實測量而來！</p>
+                
+                <h4 style="color: var(--accent-glow); margin-top: 20px;">1. 原始數據截圖 (Raw Data)</h4>
                 <div style="background-color: rgba(0,0,0,0.2); padding: 15px; border-radius: 8px; border: 1px dashed #475569;">
                     <p style="color: var(--accent-orange); margin-top: 0; font-size: 0.9rem;">💡 提示：點擊下方圖片，可用滑鼠滾輪放大觀看精確數據，並可按住圖片拖曳平移！</p>
                     <img src="raw_data_1.jpg" alt="正常日光燈原始數據" class="photo-preview clickable-img" onclick="openLightbox(this.src)">
                     <img src="raw_data_2.jpg" alt="手電筒強光原始數據" class="photo-preview clickable-img" onclick="openLightbox(this.src)">
                     <img src="raw_data_3.jpg" alt="關燈全黑原始數據" class="photo-preview clickable-img" onclick="openLightbox(this.src)">
                 </div>
+
+                <h4 style="color: var(--accent-glow); margin-top: 30px;">2. 小車端（發射端）最終優化版程式碼</h4>
+                <p>這是我們使用 MicroPython 撰寫的核心大腦！裡面包含了 LiDAR 讀取、毫米換算公分、計算平均值，以及為了解決通訊碰撞而加入的 <code>200ms</code> 無線電排隊廣播機制。</p>
+                
+                <div style="background-color: #1e1e1e; padding: 15px; border-radius: 8px; overflow-x: auto; border: 1px solid #334155; box-shadow: inset 0 0 10px rgba(0,0,0,0.5);">
+<pre style="margin: 0; color: #d4d4d4; font-family: Consolas, 'Courier New', monospace; font-size: 0.95rem; line-height: 1.5;"><code><span style="color: #569cd6;">def</span> <span style="color: #dcdcaa;">on_button_pressed_a</span>():
+    <span style="color: #569cd6;">global</span> total_distance, average, avg_msg
+    <span style="color: #6a9955;"># 每次測量前歸零，確保平均值正確</span>
+    total_distance = <span style="color: #b5cea8;">0</span>
+    basic.show_icon(IconNames.TARGET)
+    
+    <span style="color: #6a9955;"># 傳送開始訊號</span>
+    radio.send_string(<span style="color: #ce9178;">"--- START ---"</span>)
+    basic.pause(<span style="color: #b5cea8;">200</span>)  <span style="color: #6a9955;"># 【優化】加長等待時間，確保通訊不塞車</span>
+    
+    <span style="color: #569cd6;">for</span> index <span style="color: #569cd6;">in</span> range(<span style="color: #b5cea8;">5</span>):
+        <span style="color: #6a9955;"># 讀取雷達數據並換算為公分</span>
+        dist = matrixLidarDistance.matrix_point_output(matrixLidarDistance.Addr.ADDR4, <span style="color: #b5cea8;">3</span>, <span style="color: #b5cea8;">3</span>) / <span style="color: #b5cea8;">10</span>
+        
+        <span style="color: #6a9955;"># 組合訊息字串</span>
+        msg = <span style="color: #ce9178;">"Count "</span> + str(index + <span style="color: #b5cea8;">1</span>) + <span style="color: #ce9178;">": "</span> + str(dist) + <span style="color: #ce9178;">" cm"</span>
+        
+        <span style="color: #6a9955;"># 廣播每一次的測量結果</span>
+        radio.send_string(msg)
+        basic.pause(<span style="color: #b5cea8;">200</span>)  <span style="color: #6a9955;"># 【優化】加長排隊時間，避免封包碰撞缺字</span>
+        
+        <span style="color: #6a9955;"># 累加距離</span>
+        total_distance += dist
+        basic.pause(<span style="color: #b5cea8;">500</span>)
+        
+    <span style="color: #6a9955;"># --- 迴圈結束後，計算平均值並廣播 ---</span>
+    average = total_distance / <span style="color: #b5cea8;">5</span>
+    avg_msg = <span style="color: #ce9178;">"AVG: "</span> + str(average) + <span style="color: #ce9178;">" cm"</span>
+    
+    <span style="color: #6a9955;"># 傳送平均值</span>
+    radio.send_string(avg_msg)
+    basic.pause(<span style="color: #b5cea8;">200</span>)
+    radio.send_string(<span style="color: #ce9178;">"-------------------"</span>)
+    basic.pause(<span style="color: #b5cea8;">200</span>)
+    
+    basic.show_number(average)
+    basic.show_icon(IconNames.YES)
+
+input.on_button_pressed(Button.A, on_button_pressed_a)
+
+<span style="color: #6a9955;"># --- 開機啟動設定 ---</span>
+avg_msg = <span style="color: #ce9178;">""</span>
+average = <span style="color: #b5cea8;">0</span>
+total_distance = <span style="color: #b5cea8;">0</span>
+<span style="color: #6a9955;"># 雷達開機初始化 (讓雷達睜開眼睛)</span>
+matrixLidarDistance.initialize(matrixLidarDistance.Addr.ADDR4, matrixLidarDistance.Matrix.MAT)
+<span style="color: #6a9955;"># 設定廣播群組（對講機頻道為 99）</span>
+radio.set_group(<span style="color: #b5cea8;">99</span>)
+basic.show_icon(IconNames.YES)
+</code></pre>
+                </div>
             </div>
-        </div>
+            </div>
 
         <div id="qa" class="page-section">
             <h1>🙋 獨立研究 Q&A</h1>
