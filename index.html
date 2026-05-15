@@ -7,7 +7,10 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         /* 基礎設定與深色科技風主題 */
-        * { box-sizing: border-box; }
+        * { 
+            box-sizing: border-box; 
+        }
+        
         :root {
             --bg-color: #0f172a;
             --panel-bg: #1e293b;
@@ -20,6 +23,7 @@
             --accent-purple: #8b5cf6;
             --accent-red: #ef4444;
         }
+        
         body {
             margin: 0;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -41,6 +45,7 @@
             gap: 15px;
             z-index: 10;
         }
+        
         .sidebar h2 {
             color: var(--accent-glow);
             text-shadow: 0 0 10px rgba(0, 246, 255, 0.5);
@@ -81,10 +86,12 @@
             text-align: left;
             transition: all 0.3s ease;
         }
+        
         .nav-btn:hover {
             color: var(--text-main);
             background-color: rgba(255,255,255,0.05);
         }
+        
         .nav-btn.active {
             color: var(--bg-color);
             background-color: var(--accent-glow);
@@ -98,10 +105,12 @@
             padding: 40px;
             overflow-y: auto;
         }
+        
         .page-section {
             display: none;
             animation: fadeIn 0.5s ease-in-out;
         }
+        
         .page-section.active {
             display: block;
         }
@@ -116,6 +125,7 @@
             box-shadow: 0 4px 6px rgba(0,0,0,0.3);
             line-height: 1.6;
         }
+        
         .card.orange-border { border-left: 5px solid var(--accent-orange); }
         .card.purple-border { border-left: 5px solid var(--accent-purple); }
         .card.red-border { border-left: 5px solid var(--accent-red); }
@@ -130,8 +140,18 @@
             font-size: 1.1rem;
             line-height: 1.8;
         }
-        h1 { color: var(--accent-glow); border-bottom: 2px solid #334155; padding-bottom: 10px; line-height: 1.4; font-size: 2rem;}
-        h3 { color: #e2e8f0; }
+        
+        h1 { 
+            color: var(--accent-glow); 
+            border-bottom: 2px solid #334155; 
+            padding-bottom: 10px; 
+            line-height: 1.4; 
+            font-size: 2rem;
+        }
+        
+        h3 { 
+            color: #e2e8f0; 
+        }
         
         /* 照片預覽與點擊放大樣式 */
         .photo-preview {
@@ -150,6 +170,7 @@
             cursor: zoom-in;
             transition: transform 0.2s, box-shadow 0.2s;
         }
+        
         .clickable-img:hover {
             transform: translateY(-3px) scale(1.02);
             box-shadow: 0 8px 15px rgba(0, 246, 255, 0.4);
@@ -161,13 +182,14 @@
             display: none; 
             position: fixed; 
             z-index: 9999; 
-            left: 0;
-            top: 0;
+            left: 0; 
+            top: 0; 
             width: 100%; 
             height: 100%; 
             background-color: rgba(15, 23, 42, 0.95);
             overflow: hidden; 
         }
+        
         .lightbox-content {
             display: block;
             max-width: 90vw;
@@ -179,10 +201,12 @@
             transform-origin: center center;
             user-select: none; 
         }
+        
         .lightbox-content:active {
             cursor: grabbing; 
             transition: none; 
         }
+        
         .lightbox-close {
             position: absolute;
             top: 20px;
@@ -194,10 +218,12 @@
             cursor: pointer;
             z-index: 10000;
         }
+        
         .lightbox-close:hover {
             color: var(--accent-orange);
             transform: scale(1.1);
         }
+        
         .lightbox-hint {
             position: absolute;
             bottom: 30px;
@@ -222,8 +248,17 @@
             margin-bottom: 30px;
             border: 1px solid #4a5568;
         }
-        .form-group { margin-bottom: 15px; }
-        label { display: block; margin-bottom: 5px; color: var(--accent-glow); }
+        
+        .form-group { 
+            margin-bottom: 15px; 
+        }
+        
+        label { 
+            display: block; 
+            margin-bottom: 5px; 
+            color: var(--accent-glow); 
+        }
+        
         input, textarea {
             width: 100%;
             padding: 10px;
@@ -233,7 +268,12 @@
             color: white;
             font-size: 1rem;
         }
-        textarea { height: 80px; resize: vertical; }
+        
+        textarea { 
+            height: 80px; 
+            resize: vertical; 
+        }
+        
         .submit-btn {
             background: var(--accent-green);
             color: white;
@@ -244,7 +284,10 @@
             font-weight: bold;
             width: 100%;
         }
-        .submit-btn:hover { opacity: 0.9; }
+        
+        .submit-btn:hover { 
+            opacity: 0.9; 
+        }
 
         .qa-item {
             border-bottom: 1px solid #334155;
@@ -253,16 +296,27 @@
             flex-direction: column;
             gap: 10px;
         }
-        .qa-date { color: var(--accent-orange); font-weight: bold; font-size: 0.9rem; }
-        .qa-question { color: var(--accent-glow); font-size: 1.1rem; }
+        
+        .qa-date { 
+            color: var(--accent-orange); 
+            font-weight: bold; 
+            font-size: 0.9rem; 
+        }
+        
+        .qa-question { 
+            color: var(--accent-glow); 
+            font-size: 1.1rem; 
+        }
+        
         .qa-answer { 
             background: rgba(255,255,255,0.05); 
             padding: 15px; 
             border-radius: 8px; 
             color: var(--text-main); 
             border: 1px solid rgba(0, 246, 255, 0.1); 
-            line-height: 1.6;
+            line-height: 1.6; 
         }
+        
         .qa-answer.pending {
             color: var(--accent-yellow);
             border: 1px dashed var(--accent-yellow);
@@ -280,6 +334,7 @@
             gap: 15px;
             margin-bottom: 20px;
         }
+        
         .kpi-card {
             flex: 1;
             background: linear-gradient(145deg, #1e293b, #0f172a);
@@ -290,10 +345,29 @@
             box-shadow: 0 4px 6px rgba(0,0,0,0.2);
             transition: transform 0.3s ease;
         }
-        .kpi-card:hover { transform: translateY(-5px); border-color: var(--accent-glow); }
-        .kpi-title { font-size: 0.9rem; color: var(--text-muted); margin-bottom: 5px; }
-        .kpi-value { font-size: 1.8rem; font-weight: bold; color: var(--accent-glow); text-shadow: 0 0 10px rgba(0, 246, 255, 0.4); }
-        .kpi-unit { font-size: 0.9rem; color: var(--text-muted); }
+        
+        .kpi-card:hover { 
+            transform: translateY(-5px); 
+            border-color: var(--accent-glow); 
+        }
+        
+        .kpi-title { 
+            font-size: 0.9rem; 
+            color: var(--text-muted); 
+            margin-bottom: 5px; 
+        }
+        
+        .kpi-value { 
+            font-size: 1.8rem; 
+            font-weight: bold; 
+            color: var(--accent-glow); 
+            text-shadow: 0 0 10px rgba(0, 246, 255, 0.4); 
+        }
+        
+        .kpi-unit { 
+            font-size: 0.9rem; 
+            color: var(--text-muted); 
+        }
 
         .chart-container {
             width: 100%;
@@ -314,43 +388,81 @@
             padding: 20px;
             box-shadow: 0 4px 6px rgba(0,0,0,0.3);
         }
+        
         .data-table {
             width: 100%;
             border-collapse: collapse;
             color: var(--text-main);
             font-size: 0.95rem;
         }
+        
         .data-table th, .data-table td {
             border: 1px solid #334155;
             padding: 12px;
             text-align: center;
             white-space: nowrap;
         }
+        
         .data-table th {
             background-color: #0f172a;
             color: var(--accent-glow);
             font-weight: bold;
         }
+        
         .data-table tr:nth-child(even) {
             background-color: rgba(255, 255, 255, 0.02);
         }
+        
         .data-table tr:hover {
             background-color: rgba(16, 185, 129, 0.15);
         }
 
-        .card ul { padding-left: 20px; margin-top: 10px; }
-        .card li { margin-bottom: 8px; }
+        .card ul {
+            padding-left: 20px;
+            margin-top: 10px;
+        }
+        
+        .card li {
+            margin-bottom: 8px;
+        }
 
         @media (max-width: 768px) {
-            body { flex-direction: column; }
-            .sidebar { width: 100%; padding: 15px 15px 5px 15px; gap: 10px; }
-            .sidebar h2 { font-size: 1.3rem; }
-            .time-display { font-size: 0.8rem; padding: 8px; }
-            .sidebar-buttons { flex-direction: row; overflow-x: auto; padding-bottom: 10px; }
-            .nav-btn { white-space: nowrap; flex-shrink: 0; font-size: 1rem; padding: 8px 12px; }
-            .main-content { padding: 20px 15px; }
-            h1 { font-size: 1.5rem; }
-            .kpi-panel { flex-direction: column; gap: 10px; }
+            body { 
+                flex-direction: column; 
+            }
+            .sidebar { 
+                width: 100%; 
+                padding: 15px 15px 5px 15px; 
+                gap: 10px; 
+            }
+            .sidebar h2 { 
+                font-size: 1.3rem; 
+            }
+            .time-display { 
+                font-size: 0.8rem; 
+                padding: 8px; 
+            }
+            .sidebar-buttons { 
+                flex-direction: row; 
+                overflow-x: auto; 
+                padding-bottom: 10px; 
+            }
+            .nav-btn { 
+                white-space: nowrap; 
+                flex-shrink: 0; 
+                font-size: 1rem; 
+                padding: 8px 12px; 
+            }
+            .main-content { 
+                padding: 20px 15px; 
+            }
+            h1 { 
+                font-size: 1.5rem; 
+            }
+            .kpi-panel { 
+                flex-direction: column; 
+                gap: 10px; 
+            }
         }
     </style>
 </head>
@@ -381,13 +493,14 @@
                 <strong>👨‍🏫 指導老師：</strong>洪瑞成 老師<br>
                 <strong>👨‍🔬 研究學生：</strong>南投縣光華國小五年級 蔡秉澔<br>
                 <strong>🧪 研究科別：</strong>生活應用科學類<br>
-                <strong>🔥 最新進度：</strong>引入超音波對照組！透過科學數據對決，印證光學雷達之絕對優勢！
+                <strong>🔥 最新進度：</strong>蒐集相關Q&A！了解原理，認真思考研究的目的與價值! (並引入超音波對照組，透過科學數據對決印證光學雷達之絕對優勢！)
             </div>
             <div class="card">
                 <h3>💡 研究動機與背景</h3>
                 <p>南投縣（如集集、中寮、草屯等鄉鎮）是台灣特有種「石虎」最核心的棲地。然而，山區道路與棲地高度重疊，導致夜間「路殺」（Roadkill）事件頻繁發生。石虎屬於夜行性動物，其身上的斑紋在柏油路上具有極佳的保護色，在缺乏照明的山區道路，駕駛者往往受限於視覺死角，在發現目標時已避讓不及。這不僅造成珍貴物種的消逝，更嚴重威脅行車安全。</p>
                 <p>透過資料搜集，我了解到現行車輛的主動避障技術多依賴「超音波」或「影像辨識」。然而，超音波在高速行駛下的精準度受限，而影像辨識在極端全黑、強光或保護色干擾下容易產生誤判。為了解決這個痛點，我對「單點光學雷達（ToF 測距模組）」產生了濃厚興趣。光學雷達具備不受環境光干擾、反應速度快且測距精準的優勢。</p>
                 <p>本研究結合 MicroPython 程式撰寫，試圖在縮小比例的實驗環境中，模擬石虎在夜間出沒的情境。我參考了「送餐機器人」規劃路徑的原理，導入「網格座標路徑規劃」演算法，希望探討系統如何在「及時煞車」與「動態避障」之間找到最佳平衡點。</p>
+                <p>本研究不僅是科技的探究，更是一項具備在地情懷的實驗，期許能提出一套低成本且高效能的技術方案，為南投縣的生態保育與山區行車安全貢獻一份心力，讓石虎的生命不再因科技的侷限而在黑夜中凋零。</p>
             </div>
             
             <div class="card red-border">
@@ -415,13 +528,13 @@
             <h1>📝 我的實驗計畫與設計</h1>
             <div class="card">
                 <h3>🎯 研究目的</h3>
-                <p>本研究旨在探討單點光學雷達（LiDAR）應用於夜間野生動物防路殺系統的可行性，具體研究目的如下：</p>
+                <p>本研究旨在探討單點光學雷達（LiDAR）應用於夜間野生動物防路殺系統的可行性，並結合微控制器實作動態避障邏輯，具體研究目的如下：</p>
                 <ul>
-                    <li><strong>驗證環境光源對測距的影響：</strong> 測試光學雷達在極端光源下的穩定性。</li>
-                    <li><strong>探討保護色與材質的極限（對照測試）：</strong> 對比光學雷達與超音波在面對「深色絨毛（模擬石虎）」時的效能差異。</li>
-                    <li><strong>優化感測模組的最佳視角：</strong> 找出最適合精準偵測低矮動物的雷達高度。</li>
-                    <li><strong>建立安全預警與煞車門檻：</strong> 利用雷達自動測量小車在不同速度下的極限煞車滑行距離。</li>
-                    <li><strong>多情境動態避障與誤判分析（對照測試）：</strong> 實作路徑規劃，並驗證超音波在「狹窄山路」中易受兩側環境干擾而誤判的致命缺陷。</li>
+                    <li><strong>驗證環境光源對測距的影響：</strong> 測試光學雷達在極端光源（如全黑、手電筒強光）下的測距穩定性，藉此突破傳統視覺影像辨識在夜間無照明山區的應用限制。</li>
+                    <li><strong>探討保護色與材質的偵測極限（對照測試）：</strong> 測試光學雷達對不同顏色與材質（模擬石虎保護色毛皮）的反射訊號干擾程度，並對比超音波感測器，釐理實體感測的極限與盲區。</li>
+                    <li><strong>優化感測模組的最佳視角：</strong> 透過改變雷達的安裝高度，找出最適合精準偵測低矮、小型野生動物的硬體感測配置。</li>
+                    <li><strong>建立安全預警與煞車門檻：</strong> 測量實驗車輛在不同行駛速度下完全煞停所需的物理距離，據此建立主動避障系統的安全啟動門檻數據。</li>
+                    <li><strong>實作多情境動態避障演算法（對照測試）：</strong> 針對「受限車道（模擬山路）」與「開放空地（模擬廣場）」兩種情境，實作並比較系統在偵測到障礙物時，如何即時規劃出最短且安全的閃避軌跡，同時驗證超音波易受干擾的缺陷。</li>
                 </ul>
             </div>
             
@@ -442,9 +555,19 @@
                     <li><strong>核心大腦：</strong> micro:bit V2.2 微控制器。</li>
                     <li><strong>實驗載具：</strong> 麥昆 Plus V3 智能擴充小車。</li>
                     <li><strong>測距主角：</strong> VL53L0X 單點光學雷達模組（ToF 感測器）。</li>
-                    <li><strong>對照組感測器：</strong> HC-SR04P 超音波感測器模組（用於凸顯光學雷達優勢）。</li>
+                    <li><strong>對照組感測器：</strong> HC-SR04P 超音波感測器模組。</li>
                     <li><strong>程式語言：</strong> MicroPython。</li>
-                    <li><strong>模擬道具：</strong> 白/棕紙板、深色絨毛玩偶、捲尺、碼表、網格地墊、路徑標示膠帶。</li>
+                    <li><strong>模擬道具：</strong> 不同顏色的紙板、深色絨毛玩偶（模擬石虎）、捲尺、碼表、網格地墊、路徑標示膠帶。</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h3>⚖️ 實驗變因控制</h3>
+                <p>為確保實驗具備高度的科學嚴謹性與結果的再現性，本研究於執行各項測試前，明確定義相關變因如下：</p>
+                <ul>
+                    <li><strong>控制變因：</strong> 相同的測試車道材質、同一台麥昆小車、同一顆 VL53LOX 光學雷達模組。</li>
+                    <li><strong>操縱變因：</strong> 環境光源亮度、目標物材質與顏色、雷達安裝高度、小車行駛馬力（速度）、車道情境限制。</li>
+                    <li><strong>應變變因：</strong> 雷達回傳之距離數值（cm）、測距誤差率（%）、車輛完全煞停距離（cm）、避障軌跡總長度與成功率。</li>
                 </ul>
             </div>
 
@@ -525,7 +648,7 @@
                 <p>我自己設計可以自動跑馬燈A~Z及發音的測試過程照片：</p>
                 <img src="photo2.jpg" alt="[photo2.jpg]" class="photo-preview clickable-img" onclick="openLightbox(this.src)">
             </div>
-
+            
             <div class="card">
                 <h3>✅ 任務三：麥昆 Plus V3 智能擴充小車組裝-5/13完成</h3>
                 <p>今天我和弟弟協力完成了麥昆 Plus V3 智能擴充小車的硬體組裝！這台小車將會是我們接下來進行光學雷達避障測試的核心載具。</p>
@@ -534,7 +657,7 @@
                     <img src="photo4.jpg" alt="[photo4.jpg]" class="photo-preview clickable-img" onclick="openLightbox(this.src)">
                 </div>
             </div>
-
+            
             <div class="card">
                 <h3>✅ 任務四：循線行駛與速度極限測試-5/13完成</h3>
                 <p>我和弟弟秉宸合力進行了麥昆小車的第一個實驗：讓小車沿著黑線繞圈圈。在過程中，我們不斷修改與調整直線及轉彎的速度參數。這項實驗的目的是要找出小車在維持穩定循線的前提下，所能達到的速度極限。這不僅測試了硬體的馬力，更考驗了我們對感測器反應與動力平衡的控制能力！</p>
@@ -549,7 +672,7 @@
                     </video>
                 </div>
             </div>
-
+            
             <div class="card">
                 <h3>✅ 任務五：完成實驗一（夜盲症測試）數據蒐集-5/14完成</h3>
                 <p>我和弟弟秉宸合力完成了實驗一！透過三種不同的光線情境（正常日光燈、手電筒強光、關燈全黑）反覆進行實驗，並調整不同的測量距離。在這過程中，我們不僅順利排除了程式的 Bug，還發現了幾個很棒的科學結果，這證明了我們的「石虎救星」真的不怕黑！</p>
@@ -690,6 +813,7 @@ basic.show_icon(IconNames.YES)
     </div>
 
     <script>
+        // 設定今日日期
         window.onload = function() {
             const today = new Date().toISOString().split('T')[0];
             document.getElementById('qa-date').value = today;
@@ -700,15 +824,26 @@ basic.show_icon(IconNames.YES)
             const now = new Date();
             document.getElementById('clock').innerText = "系統時間：\n" + now.toLocaleString('zh-TW');
         }
-        setInterval(updateTime, 1000); updateTime();
+        setInterval(updateTime, 1000); 
+        updateTime();
 
         function switchPage(pageId, btnElement) {
-            document.querySelectorAll('.page-section').forEach(page => page.classList.remove('active'));
-            document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.page-section').forEach(page => {
+                page.classList.remove('active');
+            });
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
             document.getElementById(pageId).classList.add('active');
-            if (btnElement) btnElement.classList.add('active');
-            if(pageId === 'qa') { fetchQAData(); }
-            if(window.innerWidth <= 768) document.querySelector('.main-content').scrollTop = 0;
+            if (btnElement) {
+                btnElement.classList.add('active');
+            }
+            if(pageId === 'qa') { 
+                fetchQAData(); 
+            }
+            if(window.innerWidth <= 768) {
+                document.querySelector('.main-content').scrollTop = 0;
+            }
         }
 
         const gasAppUrl = 'https://script.google.com/macros/s/AKfycbz1E-EzMVsvcW6Uf2f-351kj2aBKEFiviIbz39ZzRO-WLYBRT7zTUmoOFeak1QRgjOs2g/exec';
@@ -718,24 +853,45 @@ basic.show_icon(IconNames.YES)
             const date = document.getElementById('qa-date').value;
             const question = document.getElementById('qa-question').value;
             const answer = document.getElementById('qa-answer').value;
-            if(!date || !question) { alert("請記得選日期跟填寫老師的問題喔！"); return; }
+            if(!date || !question) { 
+                alert("請記得選日期跟填寫老師的問題喔！"); 
+                return; 
+            }
             const btn = document.querySelector('.submit-btn');
-            btn.innerText = "傳送中..."; btn.disabled = true;
+            btn.innerText = "傳送中..."; 
+            btn.disabled = true;
             try {
-                await fetch(gasAppUrl, { method: 'POST', body: JSON.stringify({ date, question, answer }), mode: 'no-cors' });
+                await fetch(gasAppUrl, { 
+                    method: 'POST', 
+                    body: JSON.stringify({ date, question, answer }), 
+                    mode: 'no-cors' 
+                });
                 alert("送出成功！資料同步約需一分鐘。");
-                document.getElementById('qa-question').value = ""; document.getElementById('qa-answer').value = "";
+                document.getElementById('qa-question').value = ""; 
+                document.getElementById('qa-answer').value = "";
                 setTimeout(fetchQAData, 2000); 
-            } catch (e) { alert("連線失敗。"); } finally { btn.innerText = "🚀 送出問題紀錄"; btn.disabled = false; }
+            } catch (e) { 
+                alert("連線失敗。"); 
+            } finally { 
+                btn.innerText = "🚀 送出問題紀錄"; 
+                btn.disabled = false; 
+            }
         }
 
         function parseCSVLine(line) {
-            let result = [], current = "", inQuotes = false;
+            let result = [];
+            let current = "";
+            let inQuotes = false;
             for (let i = 0; i < line.length; i++) {
                 let char = line[i];
-                if (char === '"') inQuotes = !inQuotes;
-                else if (char === ',' && !inQuotes) { result.push(current.trim()); current = ""; }
-                else current += char;
+                if (char === '"') {
+                    inQuotes = !inQuotes;
+                } else if (char === ',' && !inQuotes) { 
+                    result.push(current.trim()); 
+                    current = ""; 
+                } else {
+                    current += char;
+                }
             }
             result.push(current.trim());
             return result;
@@ -746,17 +902,31 @@ basic.show_icon(IconNames.YES)
                 const response = await fetch(qaCsvUrl);
                 const text = await response.text();
                 
-                let rows = []; let rowStr = ""; let inQuotes = false;
+                let rows = []; 
+                let rowStr = ""; 
+                let inQuotes = false;
+                
                 for (let i = 0; i < text.length; i++) {
                     let char = text[i];
-                    if (char === '"') inQuotes = !inQuotes;
+                    if (char === '"') {
+                        inQuotes = !inQuotes;
+                    }
                     if ((char === '\n' || char === '\r') && !inQuotes) {
-                        if (char === '\r' && text[i+1] === '\n') i++; 
-                        if (rowStr.trim() !== '') rows.push(rowStr);
+                        if (char === '\r' && text[i+1] === '\n') {
+                            i++; 
+                        }
+                        if (rowStr.trim() !== '') {
+                            rows.push(rowStr);
+                        }
                         rowStr = "";
-                    } else { rowStr += char; }
+                    } else { 
+                        rowStr += char; 
+                    }
                 }
-                if (rowStr.trim() !== '') rows.push(rowStr);
+                
+                if (rowStr.trim() !== '') {
+                    rows.push(rowStr);
+                }
                 rows = rows.slice(1);
 
                 let html = "";
@@ -765,34 +935,90 @@ basic.show_icon(IconNames.YES)
                         let ct = c.replace(/^"|"$/g, '').replace(/""/g, '"');
                         return ct.replace(/\n/g, '<br>'); 
                     });
+                    
                     if(cols.length >= 2 && cols[0].trim() !== '') {
                         let answerContent = (cols.length >= 3 && cols[2].trim() !== '') ? `💡 秉澔回答：<br>${cols[2]}` : `<span class="pending">⏳ 待秉澔補上答案...</span>`;
                         html += `<div class="qa-item"><div class="qa-date">🗓️ 討論日期：${cols[0]}</div><div class="qa-question">👨‍🏫 老師提問：${cols[1]}</div><div class="qa-answer ${cols.length < 3 || cols[2].trim() === '' ? 'pending' : ''}">${answerContent}</div></div>`;
                     }
                 });
+                
                 document.getElementById('qa-list').innerHTML = html || "<p>目前尚無紀錄。</p>";
-            } catch (e) { document.getElementById('qa-list').innerHTML = "<p>資料讀取失敗。</p>"; }
+                
+            } catch (e) { 
+                document.getElementById('qa-list').innerHTML = "<p>資料讀取失敗。</p>"; 
+            }
         }
 
-        let zoomScale = 1, isPanning = false, startX = 0, startY = 0, translateX = 0, translateY = 0;
-        const lightboxModal = document.getElementById("image-lightbox"), lightboxImg = document.getElementById("lightbox-img");
+        let zoomScale = 1;
+        let isPanning = false;
+        let startX = 0;
+        let startY = 0;
+        let translateX = 0;
+        let translateY = 0;
+        
+        const lightboxModal = document.getElementById("image-lightbox");
+        const lightboxImg = document.getElementById("lightbox-img");
+        
         function openLightbox(imgSrc) {
-            lightboxModal.style.display = "flex"; lightboxModal.style.alignItems = "center"; lightboxModal.style.justifyContent = "center";
-            lightboxImg.src = imgSrc; zoomScale = 1; translateX = 0; translateY = 0; updateTransform();
+            lightboxModal.style.display = "flex"; 
+            lightboxModal.style.alignItems = "center"; 
+            lightboxModal.style.justifyContent = "center";
+            lightboxImg.src = imgSrc; 
+            zoomScale = 1; 
+            translateX = 0; 
+            translateY = 0; 
+            updateTransform();
         }
-        function closeLightbox(event) { if(event.target.id === "lightbox-img") return; lightboxModal.style.display = "none"; }
-        function updateTransform() { lightboxImg.style.transform = `translate(${translateX}px, ${translateY}px) scale(${zoomScale})`; }
+        
+        function closeLightbox(event) { 
+            if(event.target.id === "lightbox-img") return; 
+            lightboxModal.style.display = "none"; 
+        }
+        
+        function updateTransform() { 
+            lightboxImg.style.transform = `translate(${translateX}px, ${translateY}px) scale(${zoomScale})`; 
+        }
+        
         lightboxModal.addEventListener('wheel', e => {
-            if (lightboxModal.style.display !== "flex") return; e.preventDefault(); 
-            const zoomSpeed = 0.1; if (e.deltaY < 0) zoomScale += zoomSpeed; else zoomScale -= zoomSpeed; 
-            zoomScale = Math.max(0.5, Math.min(zoomScale, 5)); updateTransform();
+            if (lightboxModal.style.display !== "flex") return; 
+            e.preventDefault(); 
+            const zoomSpeed = 0.1; 
+            if (e.deltaY < 0) {
+                zoomScale += zoomSpeed; 
+            } else {
+                zoomScale -= zoomSpeed; 
+            }
+            zoomScale = Math.max(0.5, Math.min(zoomScale, 5)); 
+            updateTransform();
         }, { passive: false });
-        lightboxImg.addEventListener('mousedown', e => { e.preventDefault(); isPanning = true; startX = e.clientX - translateX; startY = e.clientY - translateY; });
-        window.addEventListener('mouseup', () => isPanning = false);
-        window.addEventListener('mousemove', e => { if (!isPanning) return; translateX = e.clientX - startX; translateY = e.clientY - startY; updateTransform(); });
+        
+        lightboxImg.addEventListener('mousedown', e => { 
+            e.preventDefault(); 
+            isPanning = true; 
+            startX = e.clientX - translateX; 
+            startY = e.clientY - translateY; 
+        });
+        
+        window.addEventListener('mouseup', () => {
+            isPanning = false;
+        });
+        
+        window.addEventListener('mousemove', e => { 
+            if (!isPanning) return; 
+            translateX = e.clientX - startX; 
+            translateY = e.clientY - startY; 
+            updateTransform(); 
+        });
 
         const baseCsvUrl = 'https://docs.google.com/spreadsheets/d/13gkJgF3i0j1yPZTgs6Z5I28JxsanNAGIRpXyR6V_tt8/export?format=csv&gid=';
-        const expGids = { 'exp1': '0', 'exp2': '568094100', 'exp3': '2010902355', 'exp4': '1383785752', 'exp5': '87308914', 'exp6': '191668304' };
+        const expGids = { 
+            'exp1': '0', 
+            'exp2': '568094100', 
+            'exp3': '2010902355', 
+            'exp4': '1383785752', 
+            'exp5': '87308914', 
+            'exp6': '191668304' 
+        };
         let myChartInstance = null; 
 
         function generateTableHTML(rows) {
@@ -801,7 +1027,13 @@ basic.show_icon(IconNames.YES)
                 if (rowStr.trim() === '') return;
                 let cols = parseCSVLine(rowStr);
                 html += '<tr>';
-                cols.forEach(text => { if (index === 0) html += `<th>${text}</th>`; else html += `<td>${text}</td>`; });
+                cols.forEach(text => { 
+                    if (index === 0) {
+                        html += `<th>${text}</th>`; 
+                    } else {
+                        html += `<td>${text}</td>`; 
+                    }
+                });
                 html += '</tr>';
             });
             html += '</table></div>';
@@ -812,75 +1044,208 @@ basic.show_icon(IconNames.YES)
             const selectedExp = document.getElementById('exp-selector').value;
             const targetGid = expGids[selectedExp];
             if (!targetGid) return;
+            
             const chartWrapper = document.getElementById('chart-wrapper');
             chartWrapper.style.display = (selectedExp === 'exp5') ? 'none' : 'block';
 
             try {
                 const response = await fetch(baseCsvUrl + targetGid);
                 const data = await response.text();
-                const rows = data.trim().split(/\r?\n/); if (rows.length === 0) return;
+                const rows = data.trim().split(/\r?\n/); 
+                
+                if (rows.length === 0) return;
+                
                 const headers = parseCSVLine(rows[0]); 
-                let xLabels = [], yDataRadar = [], yDataUltra = [], yDataSub = [], actualData = [], errorDataRadar = []; 
-                let actualIndex = headers.findIndex(h => h.includes('距離')), radarMeasIdx = headers.findIndex(h => h.includes('雷達平均') || h.includes('平均測量值') || (h.includes('平均') && !h.includes('超音波')));
-                let ultraMeasIdx = headers.findIndex(h => h.includes('超音波平均')), errorIdxRadar = headers.findIndex(h => h.includes('誤差') && !h.includes('超音波')), subIndex = headers.findIndex(h => h.includes('格數'));
-                let isAccuracyTest = (actualIndex !== -1 && radarMeasIdx !== -1), isDualSensor = (ultraMeasIdx !== -1);
+                let xLabels = [];
+                let yDataRadar = [];
+                let yDataUltra = [];
+                let yDataSub = [];
+                let actualData = [];
+                let errorDataRadar = []; 
+                
+                let actualIndex = headers.findIndex(h => h.includes('距離'));
+                let radarMeasIdx = headers.findIndex(h => h.includes('雷達平均') || h.includes('平均測量值') || (h.includes('平均') && !h.includes('超音波')));
+                let ultraMeasIdx = headers.findIndex(h => h.includes('超音波平均'));
+                let errorIdxRadar = headers.findIndex(h => h.includes('誤差') && !h.includes('超音波'));
+                let subIndex = headers.findIndex(h => h.includes('格數'));
+                
+                let isAccuracyTest = (actualIndex !== -1 && radarMeasIdx !== -1);
+                let isDualSensor = (ultraMeasIdx !== -1);
                 let mainIndex = radarMeasIdx !== -1 ? radarMeasIdx : (headers.findIndex(h => h.includes('耗時') || h.includes('時間')) !== -1 ? headers.findIndex(h => h.includes('耗時') || h.includes('時間')) : headers.length - 1);
 
                 for(let i = 1; i < rows.length; i++) {
                     const cols = parseCSVLine(rows[i]); 
                     if (cols.length > 1 && cols[0] !== '') {
-                        xLabels.push(cols[0]); yDataRadar.push(Number(cols[mainIndex]) || 0);
-                        if(isDualSensor) yDataUltra.push(Number(cols[ultraMeasIdx]) || 0);
-                        if(subIndex !== -1) yDataSub.push(Number(cols[subIndex]) || 0);
+                        xLabels.push(cols[0]); 
+                        yDataRadar.push(Number(cols[mainIndex]) || 0);
+                        
+                        if(isDualSensor) {
+                            yDataUltra.push(Number(cols[ultraMeasIdx]) || 0);
+                        }
+                        
+                        if(subIndex !== -1) {
+                            yDataSub.push(Number(cols[subIndex]) || 0);
+                        }
+                        
                         if (isAccuracyTest) {
-                            let act = Number(cols[actualIndex]) || 0, measR = Number(cols[radarMeasIdx]) || 0;
-                            actualData.push(act); errorDataRadar.push(errorIdxRadar !== -1 ? Math.abs(Number(cols[errorIdxRadar]) || 0) : Math.abs(measR - act));
+                            let act = Number(cols[actualIndex]) || 0;
+                            let measR = Number(cols[radarMeasIdx]) || 0;
+                            actualData.push(act); 
+                            errorDataRadar.push(errorIdxRadar !== -1 ? Math.abs(Number(cols[errorIdxRadar]) || 0) : Math.abs(measR - act));
                         }
                     }
                 }
 
                 if (isAccuracyTest && errorDataRadar.length > 0) {
                     let avgErrR = errorDataRadar.reduce((a, b) => a + b, 0) / errorDataRadar.length;
-                    document.getElementById('kpi-title-1').innerText = "雷達平均誤差"; document.getElementById('kpi-val-1').innerText = avgErrR.toFixed(2); document.getElementById('kpi-unit-1').innerText = "cm";
-                    document.getElementById('kpi-title-2').innerText = "雷達最大誤差"; document.getElementById('kpi-val-2').innerText = Math.max(...errorDataRadar).toFixed(2); document.getElementById('kpi-unit-2').innerText = "cm";
-                    document.getElementById('kpi-title-3').innerText = "雷達整體表現"; document.getElementById('kpi-val-3').innerText = "極優"; document.getElementById('kpi-unit-3').innerText = "";
+                    
+                    document.getElementById('kpi-title-1').innerText = "雷達平均誤差"; 
+                    document.getElementById('kpi-val-1').innerText = avgErrR.toFixed(2); 
+                    document.getElementById('kpi-unit-1').innerText = "cm";
+                    
+                    document.getElementById('kpi-title-2').innerText = "雷達最大誤差"; 
+                    document.getElementById('kpi-val-2').innerText = Math.max(...errorDataRadar).toFixed(2); 
+                    document.getElementById('kpi-unit-2').innerText = "cm";
+                    
+                    document.getElementById('kpi-title-3').innerText = "雷達整體表現"; 
+                    document.getElementById('kpi-val-3').innerText = "極優"; 
+                    document.getElementById('kpi-unit-3').innerText = "";
                 } else {
-                    let validData = yDataRadar.filter(v => v > 0), avg = validData.length > 0 ? (validData.reduce((a, b) => a + b, 0) / validData.length).toFixed(2) : 0;
-                    document.getElementById('kpi-title-1').innerText = "總測試趟數"; document.getElementById('kpi-val-1').innerText = xLabels.length; document.getElementById('kpi-unit-1').innerText = "趟";
-                    document.getElementById('kpi-title-2').innerText = "最佳紀錄"; document.getElementById('kpi-val-2').innerText = validData.length > 0 ? Math.min(...validData) : 0;
-                    document.getElementById('kpi-title-3').innerText = "平均表現"; document.getElementById('kpi-val-3').innerText = avg; document.getElementById('kpi-unit-3').innerText = "單位";
+                    let validData = yDataRadar.filter(v => v > 0);
+                    let avg = validData.length > 0 ? (validData.reduce((a, b) => a + b, 0) / validData.length).toFixed(2) : 0;
+                    
+                    document.getElementById('kpi-title-1').innerText = "總測試趟數"; 
+                    document.getElementById('kpi-val-1').innerText = xLabels.length; 
+                    document.getElementById('kpi-unit-1').innerText = "趟";
+                    
+                    document.getElementById('kpi-title-2').innerText = "最佳紀錄"; 
+                    document.getElementById('kpi-val-2').innerText = validData.length > 0 ? Math.min(...validData) : 0;
+                    
+                    document.getElementById('kpi-title-3').innerText = "平均表現"; 
+                    document.getElementById('kpi-val-3').innerText = avg; 
+                    document.getElementById('kpi-unit-3').innerText = "單位";
                 }
 
-                if(myChartInstance) myChartInstance.destroy(); 
+                if(myChartInstance) {
+                    myChartInstance.destroy(); 
+                }
+                
                 if (selectedExp !== 'exp5') {
                     const ctx = document.getElementById('experimentChart').getContext('2d');
                     let chartConfig = {
-                        type: 'bar', data: { labels: xLabels, datasets: [] },
+                        type: 'bar', 
+                        data: { 
+                            labels: xLabels, 
+                            datasets: [] 
+                        },
                         options: { 
-                            responsive: true, maintainAspectRatio: false, plugins: { legend: { labels: { color: '#f8fafc' } } },
-                            scales: { y: { beginAtZero: true, grid: { color: '#334155' }, ticks: { color: '#94a3b8' } }, x: { grid: { color: '#334155' }, ticks: { color: '#94a3b8' } } }
+                            responsive: true, 
+                            maintainAspectRatio: false, 
+                            plugins: { 
+                                legend: { 
+                                    labels: { color: '#f8fafc' } 
+                                } 
+                            },
+                            scales: { 
+                                y: { 
+                                    beginAtZero: true, 
+                                    grid: { color: '#334155' }, 
+                                    ticks: { color: '#94a3b8' } 
+                                }, 
+                                x: { 
+                                    grid: { color: '#334155' }, 
+                                    ticks: { color: '#94a3b8' } 
+                                } 
+                            }
                         }
                     };
+                    
                     if (isDualSensor && isAccuracyTest) {
-                        chartConfig.data.datasets.push({ label: '設定距離 (cm)', data: actualData, backgroundColor: 'rgba(54, 162, 235, 0.7)', borderColor: '#36A2EB', borderWidth: 1 });
-                        chartConfig.data.datasets.push({ label: '雷達測量值 (cm)', data: yDataRadar, backgroundColor: 'rgba(16, 185, 129, 0.8)', borderColor: '#10b981', borderWidth: 1 });
-                        chartConfig.data.datasets.push({ label: '超音波測量值 (cm)', data: yDataUltra, backgroundColor: 'rgba(239, 68, 68, 0.8)', borderColor: '#ef4444', borderWidth: 1 });
+                        chartConfig.data.datasets.push({ 
+                            label: '設定距離 (cm)', 
+                            data: actualData, 
+                            backgroundColor: 'rgba(54, 162, 235, 0.7)', 
+                            borderColor: '#36A2EB', 
+                            borderWidth: 1 
+                        });
+                        chartConfig.data.datasets.push({ 
+                            label: '雷達測量值 (cm)', 
+                            data: yDataRadar, 
+                            backgroundColor: 'rgba(16, 185, 129, 0.8)', 
+                            borderColor: '#10b981', 
+                            borderWidth: 1 
+                        });
+                        chartConfig.data.datasets.push({ 
+                            label: '超音波測量值 (cm)', 
+                            data: yDataUltra, 
+                            backgroundColor: 'rgba(239, 68, 68, 0.8)', 
+                            borderColor: '#ef4444', 
+                            borderWidth: 1 
+                        });
                     } else if (isAccuracyTest) {
-                        chartConfig.data.datasets.push({ label: '實際距離 (cm)', data: actualData, backgroundColor: 'rgba(54, 162, 235, 0.7)', borderColor: '#36A2EB', borderWidth: 1 });
-                        chartConfig.data.datasets.push({ label: '雷達測量值 (cm)', data: yDataRadar, backgroundColor: 'rgba(16, 185, 129, 0.7)', borderColor: '#10b981', borderWidth: 1 });
+                        chartConfig.data.datasets.push({ 
+                            label: '實際距離 (cm)', 
+                            data: actualData, 
+                            backgroundColor: 'rgba(54, 162, 235, 0.7)', 
+                            borderColor: '#36A2EB', 
+                            borderWidth: 1 
+                        });
+                        chartConfig.data.datasets.push({ 
+                            label: '雷達測量值 (cm)', 
+                            data: yDataRadar, 
+                            backgroundColor: 'rgba(16, 185, 129, 0.7)', 
+                            borderColor: '#10b981', 
+                            borderWidth: 1 
+                        });
                     } else if (selectedExp === 'exp6' && subIndex !== -1) {
-                        chartConfig.data.datasets.push({ type: 'bar', label: '耗時', data: yDataRadar, backgroundColor: 'rgba(139, 92, 246, 0.6)', borderColor: '#8b5cf6', borderWidth: 1, yAxisID: 'y' });
-                        chartConfig.data.datasets.push({ type: 'line', label: '行經格數', data: yDataSub, borderColor: '#f59e0b', backgroundColor: '#f59e0b', borderWidth: 3, pointRadius: 6, yAxisID: 'y1' });
-                        chartConfig.options.scales.y1 = { type: 'linear', display: true, position: 'right', grid: { drawOnChartArea: false }, ticks: { color: '#f59e0b' } };
+                        chartConfig.data.datasets.push({ 
+                            type: 'bar', 
+                            label: '耗時', 
+                            data: yDataRadar, 
+                            backgroundColor: 'rgba(139, 92, 246, 0.6)', 
+                            borderColor: '#8b5cf6', 
+                            borderWidth: 1, 
+                            yAxisID: 'y' 
+                        });
+                        chartConfig.data.datasets.push({ 
+                            type: 'line', 
+                            label: '行經格數', 
+                            data: yDataSub, 
+                            borderColor: '#f59e0b', 
+                            backgroundColor: '#f59e0b', 
+                            borderWidth: 3, 
+                            pointRadius: 6, 
+                            yAxisID: 'y1' 
+                        });
+                        chartConfig.options.scales.y1 = { 
+                            type: 'linear', 
+                            display: true, 
+                            position: 'right', 
+                            grid: { drawOnChartArea: false }, 
+                            ticks: { color: '#f59e0b' } 
+                        };
                     } else {
-                        let isLineChart = (selectedExp === 'exp4'); chartConfig.type = isLineChart ? 'line' : 'bar';
-                        chartConfig.data.datasets.push({ label: '數據', data: yDataRadar, backgroundColor: isLineChart ? 'rgba(0, 246, 255, 0.2)' : 'rgba(16, 185, 129, 0.6)', borderColor: isLineChart ? '#00f6ff' : '#10b981', borderWidth: 2, fill: isLineChart, tension: 0.3 });
+                        let isLineChart = (selectedExp === 'exp4'); 
+                        chartConfig.type = isLineChart ? 'line' : 'bar';
+                        chartConfig.data.datasets.push({ 
+                            label: '數據', 
+                            data: yDataRadar, 
+                            backgroundColor: isLineChart ? 'rgba(0, 246, 255, 0.2)' : 'rgba(16, 185, 129, 0.6)', 
+                            borderColor: isLineChart ? '#00f6ff' : '#10b981', 
+                            borderWidth: 2, 
+                            fill: isLineChart, 
+                            tension: 0.3 
+                        });
                     }
                     myChartInstance = new Chart(ctx, chartConfig);
                 }
+                
                 document.getElementById('data-table-container').innerHTML = generateTableHTML(rows);
                 document.getElementById('appendix-exp1').style.display = (selectedExp === 'exp1') ? 'block' : 'none';
-            } catch (e) { console.log(e); }
+                
+            } catch (e) { 
+                console.log(e); 
+            }
         }
     </script>
 </body>
