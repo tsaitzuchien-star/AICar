@@ -131,7 +131,7 @@
         h1 { color: var(--accent-glow); border-bottom: 2px solid #334155; padding-bottom: 10px; line-height: 1.4; font-size: 2rem;}
         h3 { color: #e2e8f0; }
         
-        /* 照片與影片預覽樣式 */
+        /* 照片預覽與點擊放大樣式 */
         .photo-preview {
             max-height: 10cm; 
             max-width: 100%;  
@@ -141,6 +141,60 @@
             border: 2px solid #475569;
             box-shadow: 0 4px 10px rgba(0,0,0,0.5);
             display: inline-block;
+        }
+        
+        /* 讓圖片有可點擊的提示 */
+        .clickable-img {
+            cursor: zoom-in;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .clickable-img:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 8px 15px rgba(0, 246, 255, 0.4);
+            border-color: var(--accent-glow);
+        }
+
+        /* Lightbox (放大圖片視窗) CSS */
+        .lightbox-modal {
+            display: none; 
+            position: fixed; 
+            z-index: 9999; 
+            padding-top: 60px; 
+            left: 0;
+            top: 0;
+            width: 100%; 
+            height: 100%; 
+            overflow: auto; 
+            background-color: rgba(0,0,0,0.9); 
+        }
+        .lightbox-content {
+            margin: auto;
+            display: block;
+            max-width: 90%;
+            max-height: 85vh;
+            border-radius: 8px;
+            box-shadow: 0 0 25px rgba(0, 246, 255, 0.5);
+            animation: zoomIn 0.3s ease;
+        }
+        @keyframes zoomIn {
+            from {transform: scale(0.8); opacity: 0;}
+            to {transform: scale(1); opacity: 1;}
+        }
+        .lightbox-close {
+            position: absolute;
+            top: 20px;
+            right: 40px;
+            color: #f1f1f1;
+            font-size: 40px;
+            font-weight: bold;
+            transition: 0.3s;
+            cursor: pointer;
+        }
+        .lightbox-close:hover,
+        .lightbox-close:focus {
+            color: var(--accent-orange);
+            text-decoration: none;
+            cursor: pointer;
         }
 
         /* Q&A 填寫區樣式 */
@@ -283,6 +337,11 @@
 </head>
 <body>
 
+    <div id="image-lightbox" class="lightbox-modal" onclick="closeLightbox(event)">
+        <span class="lightbox-close" onclick="closeLightbox(event)">&times;</span>
+        <img class="lightbox-content" id="lightbox-img">
+    </div>
+
     <div class="sidebar">
         <h2>🏎️ 秉澔AI獨立研究</h2>
         <div id="clock" class="time-display">讀取時間中...</div>
@@ -308,7 +367,7 @@
             <div class="card">
                 <h3>💡 研究動機與背景</h3>
                 <p>南投縣（如集集、中寮、草屯等鄉鎮）是台灣特有種「石虎」最核心的棲地。然而，山區道路與棲地高度重疊，導致夜間「路殺」（Roadkill）事件頻繁發生。石虎屬於夜行性動物，其身上的斑紋在柏油路上具有極佳的保護色，在缺乏照明的山區道路，駕駛者往往受限於視覺死角，在發現目標時已避讓不及。這不僅造成珍貴物種的消逝，更嚴重威脅行車安全。</p>
-                <p>透過資料搜集，我了解到現行車輛的主動避障技術多依賴「超音波」或「影像辨識」。然而，超音波在高速行駛下的精準度受限，而影像辨識在極端全黑、強光或保護色干擾下容易產生誤判。為了解決這個痛點，我對「單點光學雷達（ToF 測距模組）」產生了濃厚興趣。光學雷達具備不受環境光干擾、反應速度快且測距精準的優勢。</p>
+                <p>透過資料搜集，我了解到現行車輛的主初動避障技術多依賴「超音波」或「影像辨識」。然而，超音波在高速行駛下的精準度受限，而影像辨識在極端全黑、強光或保護色干擾下容易產生誤判。為了解決這個痛點，我對「單點光學雷達（ToF 測距模組）」產生了濃厚興趣。光學雷達具備不受環境光干擾、反應速度快且測距精準的優勢。</p>
                 <p>本研究結合 MicroPython 程式撰寫，試圖在縮小比例的實驗環境中，模擬石虎在夜間出沒的情境。我參考了「送餐機器人」規劃路徑的原理，導入「網格座標路徑規劃」演算法，希望探討系統如何在「及時煞車」與「動態避障」之間找到最佳平衡點。</p>
                 <p>本研究不僅是科技的探究，更是一項具備在地情懷的實驗，期許能提出一套低成本且高效能的技術方案，為南投縣的生態保育與山區行車安全貢獻一份心力，讓石虎的生命不再因科技的侷限而在黑夜中凋零。</p>
             </div>
@@ -430,21 +489,21 @@
             <div class="card">
                 <h3>✅ 任務一：瓦楞板實驗場地搭建-5/9完成</h3>
                 <p>這是我和弟弟協力製作的實驗車道。</p>
-                <img src="photo1.jpg" alt="[photo1.jpg]" class="photo-preview">
+                <img src="photo1.jpg" alt="[photo1.jpg]" class="photo-preview clickable-img" onclick="openLightbox(this.src)" title="點擊放大圖片">
             </div>
             
             <div class="card">
                 <h3>✅ 任務二：Micro:bit 核心邏輯訓練-5/10完成</h3>
                 <p>我自己設計可以自動跑馬燈A~Z及發音的測試過程照片：</p>
-                <img src="photo2.jpg" alt="[photo2.jpg]" class="photo-preview">
+                <img src="photo2.jpg" alt="[photo2.jpg]" class="photo-preview clickable-img" onclick="openLightbox(this.src)" title="點擊放大圖片">
             </div>
 
             <div class="card">
                 <h3>✅ 任務三：麥昆 Plus V3 智能擴充小車組裝-5/13完成</h3>
                 <p>今天我和弟弟協力完成了麥昆 Plus V3 智能擴充小車的硬體組裝！這台小車將會是我們接下來進行光學雷達避障測試的核心載具。</p>
                 <div>
-                    <img src="photo3.jpg" alt="[photo3.jpg]" class="photo-preview">
-                    <img src="photo4.jpg" alt="[photo4.jpg]" class="photo-preview">
+                    <img src="photo3.jpg" alt="[photo3.jpg]" class="photo-preview clickable-img" onclick="openLightbox(this.src)" title="點擊放大圖片">
+                    <img src="photo4.jpg" alt="[photo4.jpg]" class="photo-preview clickable-img" onclick="openLightbox(this.src)" title="點擊放大圖片">
                 </div>
             </div>
 
@@ -452,8 +511,8 @@
                 <h3>✅ 任務四：循線行駛與速度極限測試-5/13完成</h3>
                 <p>我和弟弟秉宸合力進行了麥昆小車的第一個實驗：讓小車沿著黑線繞圈圈。在過程中，我們不斷修改與調整直線及轉彎的速度參數。這項實驗的目的是要找出小車在維持穩定循線的前提下，所能達到的速度極限。這不僅測試了硬體的馬力，更考驗了我們對感測器反應與動力平衡的控制能力！</p>
                 <div>
-                    <img src="photo5.jpg" alt="[photo5.jpg]" class="photo-preview">
-                    <img src="photo6.jpg" alt="[photo6.jpg]" class="photo-preview">
+                    <img src="photo5.jpg" alt="[photo5.jpg]" class="photo-preview clickable-img" onclick="openLightbox(this.src)" title="點擊放大圖片">
+                    <img src="photo6.jpg" alt="[photo6.jpg]" class="photo-preview clickable-img" onclick="openLightbox(this.src)" title="點擊放大圖片">
                 </div>
                 <div style="margin-top: 15px;">
                     <video controls class="photo-preview" style="width: 100%; max-width: 600px;">
@@ -467,10 +526,10 @@
                 <h3>✅ 任務五：完成實驗一（夜盲症測試）數據蒐集-5/14完成</h3>
                 <p>我和弟弟秉宸合力完成了實驗一！透過三種不同的光線情境（正常日光燈、手電筒強光、關燈全黑）反覆進行實驗，並調整不同的測量距離。在這過程中，我們不僅順利排除了程式的 Bug，還發現了幾個很棒的科學結果，這證明了我們的「石虎救星」真的不怕黑！</p>
                 <div>
-                    <img src="photo7.jpg" alt="[photo7.jpg]" class="photo-preview">
-                    <img src="photo8.jpg" alt="[photo8.jpg]" class="photo-preview">
-                    <img src="photo9.jpg" alt="[photo9.jpg]" class="photo-preview">
-                    <img src="photo10.jpg" alt="[photo10.jpg]" class="photo-preview">
+                    <img src="photo7.jpg" alt="[photo7.jpg]" class="photo-preview clickable-img" onclick="openLightbox(this.src)" title="點擊放大圖片">
+                    <img src="photo8.jpg" alt="[photo8.jpg]" class="photo-preview clickable-img" onclick="openLightbox(this.src)" title="點擊放大圖片">
+                    <img src="photo9.jpg" alt="[photo9.jpg]" class="photo-preview clickable-img" onclick="openLightbox(this.src)" title="點擊放大圖片">
+                    <img src="photo10.jpg" alt="[photo10.jpg]" class="photo-preview clickable-img" onclick="openLightbox(this.src)" title="點擊放大圖片">
                 </div>
             </div>
 
@@ -480,10 +539,11 @@
                 
                 <h4 style="color: var(--accent-glow); margin-top: 20px;">1. 原始數據截圖 (Raw Data)</h4>
                 <p>我們在一開始遇到了「封包碰撞」導致數據亂碼的問題（接收端出現字元重疊），後來透過在程式碼中加入「排隊暫停機制 (pause)」，成功讓數據變得乾淨整齊，精準回傳了各距離的平均值。以下為三種光線情境下的真實接收數據：</p>
-                <div>
-                    <img src="raw_data_1.jpg" alt="正常日光燈原始數據" class="photo-preview" title="正常日光燈原始數據">
-                    <img src="raw_data_2.jpg" alt="手電筒強光原始數據" class="photo-preview" title="手電筒強光原始數據">
-                    <img src="raw_data_3.jpg" alt="關燈全黑原始數據" class="photo-preview" title="關燈全黑原始數據">
+                <div style="background-color: rgba(0,0,0,0.2); padding: 15px; border-radius: 8px; border: 1px dashed #475569;">
+                    <p style="color: var(--accent-orange); margin-top: 0; font-size: 0.9rem;">💡 提示：點擊下方圖片即可放大檢視詳細的測量數值！</p>
+                    <img src="raw_data_1.jpg" alt="正常日光燈原始數據" class="photo-preview clickable-img" onclick="openLightbox(this.src)" title="點擊放大：正常日光燈原始數據">
+                    <img src="raw_data_2.jpg" alt="手電筒強光原始數據" class="photo-preview clickable-img" onclick="openLightbox(this.src)" title="點擊放大：手電筒強光原始數據">
+                    <img src="raw_data_3.jpg" alt="關燈全黑原始數據" class="photo-preview clickable-img" onclick="openLightbox(this.src)" title="點擊放大：關燈全黑原始數據">
                 </div>
 
                 <h4 style="color: var(--accent-glow); margin-top: 30px;">2. 小車端（發射端）最終優化版程式碼</h4>
@@ -664,6 +724,21 @@ basic.show_icon(IconNames.YES)
                 document.getElementById('qa-list').innerHTML = html || "<p>目前尚無紀錄。</p>";
             } catch (e) { document.getElementById('qa-list').innerHTML = "<p>資料讀取失敗。</p>"; }
         }
+
+        // ======= 🚀 圖片點擊放大 (Lightbox) 邏輯 =======
+        function openLightbox(imgSrc) {
+            const modal = document.getElementById("image-lightbox");
+            const modalImg = document.getElementById("lightbox-img");
+            modal.style.display = "block";
+            modalImg.src = imgSrc;
+        }
+
+        function closeLightbox(event) {
+            // 如果點擊的是圖片本身，不關閉（點擊外面黑色背景或X才關閉）
+            if(event.target.id === "lightbox-img") return;
+            document.getElementById("image-lightbox").style.display = "none";
+        }
+
 
         // ======= 🚀 V2.0 智慧戰情室核心引擎 =======
         const baseCsvUrl = 'https://docs.google.com/spreadsheets/d/13gkJgF3i0j1yPZTgs6Z5I28JxsanNAGIRpXyR6V_tt8/export?format=csv&gid=';
