@@ -260,6 +260,7 @@
             border-radius: 8px; 
             color: var(--text-main); 
             border: 1px solid rgba(0, 246, 255, 0.1); 
+            line-height: 1.6;
         }
         .qa-answer.pending {
             color: var(--accent-yellow);
@@ -658,7 +659,7 @@ basic.show_icon(IconNames.YES)
 </code></pre>
                 </div>
             </div>
-            </div>
+        </div>
 
         <div id="qa" class="page-section">
             <h1>🙋 獨立研究 Q&A</h1>
@@ -717,16 +718,66 @@ basic.show_icon(IconNames.YES)
             } catch (e) { alert("連線失敗，請檢查網路。"); } finally { btn.innerText = "🚀 送出問題紀錄"; btn.disabled = false; }
         }
 
+        // ======= 🚀 🌟 終極版 CSV 解析器 (解決括號逗號與儲存格內真實換行) 🌟 =======
+        function parseCSV(text) {
+            let result = [];
+            let row = [];
+            let current = "";
+            let inQuotes = false;
+            
+            for (let i = 0; i < text.length; i++) {
+                let char = text[i];
+                if (char === '"') {
+                    // 遇到雙引號，切換狀態 (不管裡面的逗號或換行)
+                    inQuotes = !inQuotes;
+                } else if (char === ',' && !inQuotes) {
+                    row.push(current);
+                    current = "";
+                } else if ((char === '\n' || char === '\r') && !inQuotes) {
+                    if (char === '\r' && text[i+1] === '\n') i++; // 略過 Windows 的 \r\n
+                    row.push(current);
+                    if (row.some(cell => cell.trim() !== '')) { // 避免推入全空的列
+                        result.push(row);
+                    }
+                    row = [];
+                    current = "";
+                } else {
+                    current += char;
+                }
+            }
+            // 推入最後一個格子與列
+            row.push(current);
+            if (row.some(cell => cell.trim() !== '')) {
+                result.push(row);
+            }
+            
+            // 將所有內容前後的引號去除，並把儲存格內的換行轉成 <br> 以利網頁顯示
+            return result.map(r => r.map(c => {
+                let cleanText = c.trim();
+                // 如果頭尾有被系統加上的雙引號，把它脫掉
+                if (cleanText.startsWith('"') && cleanText.endsWith('"')) {
+                    cleanText = cleanText.substring(1, cleanText.length - 1);
+                }
+                // 把試算表裡面連在一起的兩個雙引號("")還原成一個
+                cleanText = cleanText.replace(/""/g, '"');
+                // ✨ 關鍵魔法：把真的換行符號變成網頁認識的換行標籤 <br>
+                return cleanText.replace(/\n/g, '<br>'); 
+            }));
+        }
+
         async function fetchQAData() {
             try {
                 const response = await fetch(qaCsvUrl);
                 const text = await response.text();
-                const rows = text.trim().split(/\r?\n/).slice(1);
+                
+                // 這裡使用全新的 parseCSV 解析器處理整個文字，不會切斷「儲存格內的換行」
+                const rows = parseCSV(text).slice(1); 
+                
                 let html = "";
-                rows.reverse().forEach(row => { 
-                    const cols = parseCSVLine(row); // 套用智慧解析器
+                rows.reverse().forEach(cols => { 
                     if(cols.length >= 2 && cols[0].trim() !== '') {
-                        let answerContent = (cols.length >= 3 && cols[2].trim() !== '') ? `💡 秉澔回答：${cols[2]}` : `<span class="pending">⏳ 待秉澔補上答案...</span>`;
+                        // 因為 cols[2] 裡面的 \n 已經被轉成 <br> 了，所以網頁可以直接漂亮顯示多行！
+                        let answerContent = (cols.length >= 3 && cols[2].trim() !== '') ? `💡 秉澔回答：<br>${cols[2]}` : `<span class="pending">⏳ 待秉澔補上答案...</span>`;
                         html += `<div class="qa-item"><div class="qa-date">🗓️ 討論日期：${cols[0]}</div><div class="qa-question">👨‍🏫 老師提問：${cols[1]}</div><div class="qa-answer ${cols.length < 3 || cols[2].trim() === '' ? 'pending' : ''}">${answerContent}</div></div>`;
                     }
                 });
@@ -812,35 +863,10 @@ basic.show_icon(IconNames.YES)
 
         let myChartInstance = null; // 儲存圖表實體，方便摧毀重建
 
-        // 🌟 智慧型 CSV 解析器 (解決括號內逗號問題) 🌟
-        function parseCSVLine(line) {
-            let result = [];
-            let current = "";
-            let inQuotes = false;
-            for (let i = 0; i < line.length; i++) {
-                let char = line[i];
-                if (char === '"') {
-                    inQuotes = !inQuotes;
-                } else if (char === ',' && !inQuotes) {
-                    result.push(current.trim());
-                    current = "";
-                } else {
-                    current += char;
-                }
-            }
-            result.push(current.trim());
-            return result;
-        }
-
         // 幫資料表格加上 HTML 轉換函數
-        function generateTableHTML(rows) {
+        function generateTableHTML(parsedRows) {
             let html = '<div class="data-table-wrapper"><h3 style="margin-top:0; color: var(--accent-glow);">📝 實驗詳細數據表</h3><table class="data-table">';
-            rows.forEach((row, index) => {
-                if (row.trim() === '') return;
-                
-                // 使用新的智慧型解析器
-                let cols = parseCSVLine(row);
-                
+            parsedRows.forEach((cols, index) => {
                 html += '<tr>';
                 cols.forEach(text => {
                     if (index === 0) {
@@ -863,10 +889,12 @@ basic.show_icon(IconNames.YES)
             try {
                 const response = await fetch(baseCsvUrl + targetGid);
                 const data = await response.text();
-                const rows = data.trim().split(/\r?\n/);
                 
-                // 使用新的智慧型解析器讀取標題
-                const headers = parseCSVLine(rows[0]); 
+                // 使用全新的 CSV 解析器讀取整份文件
+                const rows = parseCSV(data);
+                if (rows.length === 0) return;
+                
+                const headers = rows[0]; 
 
                 let xLabels = [];
                 let yData1 = []; // 主要數據
@@ -889,7 +917,7 @@ basic.show_icon(IconNames.YES)
 
                 // 資料清洗與計算
                 for(let i = 1; i < rows.length; i++) {
-                    const cols = parseCSVLine(rows[i]); // 使用新的智慧型解析器讀取資料列
+                    const cols = rows[i]; 
                     if (cols.length > 1 && cols[0] !== '') {
                         xLabels.push(cols[0]);
                         
