@@ -154,47 +154,63 @@
             border-color: var(--accent-glow);
         }
 
-        /* Lightbox (放大圖片視窗) CSS */
+        /* 🌟 升級版 Lightbox (放大圖片檢視器) CSS 🌟 */
         .lightbox-modal {
             display: none; 
             position: fixed; 
             z-index: 9999; 
-            padding-top: 60px; 
             left: 0;
             top: 0;
             width: 100%; 
             height: 100%; 
-            overflow: auto; 
-            background-color: rgba(0,0,0,0.9); 
+            background-color: rgba(15, 23, 42, 0.95); /* 深色磨砂背景 */
+            overflow: hidden; /* 隱藏滾動條，用拖曳的 */
         }
         .lightbox-content {
-            margin: auto;
             display: block;
-            max-width: 90%;
+            max-width: 90vw;
             max-height: 85vh;
             border-radius: 8px;
-            box-shadow: 0 0 25px rgba(0, 246, 255, 0.5);
-            animation: zoomIn 0.3s ease;
+            box-shadow: 0 0 30px rgba(0, 246, 255, 0.3);
+            cursor: grab; /* 提示可拖曳 */
+            /* 讓縮放和平移有滑順感 */
+            transition: transform 0.1s ease-out; 
+            transform-origin: center center;
+            user-select: none; /* 防止拖曳時反白圖片 */
         }
-        @keyframes zoomIn {
-            from {transform: scale(0.8); opacity: 0;}
-            to {transform: scale(1); opacity: 1;}
+        .lightbox-content:active {
+            cursor: grabbing; /* 拖曳中的游標 */
+            transition: none; /* 拖曳時取消動畫，讓手感即時 */
         }
         .lightbox-close {
             position: absolute;
             top: 20px;
             right: 40px;
-            color: #f1f1f1;
-            font-size: 40px;
+            color: #94a3b8;
+            font-size: 45px;
             font-weight: bold;
             transition: 0.3s;
             cursor: pointer;
+            z-index: 10000;
         }
-        .lightbox-close:hover,
-        .lightbox-close:focus {
+        .lightbox-close:hover {
             color: var(--accent-orange);
-            text-decoration: none;
-            cursor: pointer;
+            transform: scale(1.1);
+        }
+        .lightbox-hint {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: var(--accent-glow);
+            background: rgba(0,0,0,0.7);
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 1rem;
+            pointer-events: none; /* 讓滑鼠可以穿透點擊圖片 */
+            border: 1px solid rgba(0, 246, 255, 0.3);
+            text-shadow: 0 0 5px rgba(0, 246, 255, 0.5);
+            z-index: 10000;
         }
 
         /* Q&A 填寫區樣式 */
@@ -285,7 +301,7 @@
             border: 1px solid #334155;
         }
 
-        /* 📊 實驗數據表格樣式 (新增) */
+        /* 📊 實驗數據表格樣式 */
         .data-table-wrapper {
             margin-top: 25px;
             overflow-x: auto;
@@ -337,9 +353,10 @@
 </head>
 <body>
 
-    <div id="image-lightbox" class="lightbox-modal" onclick="closeLightbox(event)">
+    <div id="image-lightbox" class="lightbox-modal">
         <span class="lightbox-close" onclick="closeLightbox(event)">&times;</span>
-        <img class="lightbox-content" id="lightbox-img">
+        <img class="lightbox-content" id="lightbox-img" draggable="false">
+        <div class="lightbox-hint">💡 提示：使用滑鼠滾輪可縮放圖片，按住可拖曳平移。點擊黑色背景關閉。</div>
     </div>
 
     <div class="sidebar">
@@ -532,8 +549,7 @@
                     <img src="photo10.jpg" alt="[photo10.jpg]" class="photo-preview clickable-img" onclick="openLightbox(this.src)" title="點擊放大圖片">
                 </div>
             </div>
-            
-            </div>
+        </div>
 
         <div id="games" class="page-section">
             <h1>🎮 Micro:bit 創意遊戲大廳</h1>
@@ -588,7 +604,7 @@
                 <h4 style="color: var(--accent-glow); margin-top: 20px;">1. 原始數據截圖 (Raw Data)</h4>
                 <p>我們在一開始遇到了「封包碰撞」導致數據亂碼的問題（接收端出現字元重疊），後來透過在程式碼中加入「排隊暫停機制 (pause)」，成功讓數據變得乾淨整齊，精準回傳了各距離的平均值。以下為三種光線情境下的真實接收數據：</p>
                 <div style="background-color: rgba(0,0,0,0.2); padding: 15px; border-radius: 8px; border: 1px dashed #475569;">
-                    <p style="color: var(--accent-orange); margin-top: 0; font-size: 0.9rem;">💡 提示：點擊下方圖片即可放大檢視詳細的測量數值！</p>
+                    <p style="color: var(--accent-orange); margin-top: 0; font-size: 0.9rem;">💡 提示：點擊下方圖片，可用滑鼠滾輪放大觀看精確數據，並可按住圖片拖曳平移！</p>
                     <img src="raw_data_1.jpg" alt="正常日光燈原始數據" class="photo-preview clickable-img" onclick="openLightbox(this.src)" title="點擊放大：正常日光燈原始數據">
                     <img src="raw_data_2.jpg" alt="手電筒強光原始數據" class="photo-preview clickable-img" onclick="openLightbox(this.src)" title="點擊放大：手電筒強光原始數據">
                     <img src="raw_data_3.jpg" alt="關燈全黑原始數據" class="photo-preview clickable-img" onclick="openLightbox(this.src)" title="點擊放大：關燈全黑原始數據">
@@ -726,19 +742,76 @@ basic.show_icon(IconNames.YES)
             } catch (e) { document.getElementById('qa-list').innerHTML = "<p>資料讀取失敗。</p>"; }
         }
 
-        // ======= 🚀 圖片點擊放大 (Lightbox) 邏輯 =======
+        // ======= 🚀 專業版互動式影像檢視器 (Zoom & Pan) =======
+        let zoomScale = 1;
+        let isPanning = false;
+        let startX = 0, startY = 0, translateX = 0, translateY = 0;
+        const lightboxModal = document.getElementById("image-lightbox");
+        const lightboxImg = document.getElementById("lightbox-img");
+
         function openLightbox(imgSrc) {
-            const modal = document.getElementById("image-lightbox");
-            const modalImg = document.getElementById("lightbox-img");
-            modal.style.display = "block";
-            modalImg.src = imgSrc;
+            // 使用 flex 來讓圖片初始置中
+            lightboxModal.style.display = "flex";
+            lightboxModal.style.alignItems = "center";
+            lightboxModal.style.justifyContent = "center";
+            lightboxImg.src = imgSrc;
+            
+            // 每次打開重置縮放與平移狀態
+            zoomScale = 1;
+            translateX = 0;
+            translateY = 0;
+            updateTransform();
         }
 
         function closeLightbox(event) {
-            // 如果點擊的是圖片本身，不關閉（點擊外面黑色背景或X才關閉）
+            // 如果點擊的是圖片本身，不關閉視窗（允許拖曳）
             if(event.target.id === "lightbox-img") return;
-            document.getElementById("image-lightbox").style.display = "none";
+            lightboxModal.style.display = "none";
         }
+
+        function updateTransform() {
+            lightboxImg.style.transform = `translate(${translateX}px, ${translateY}px) scale(${zoomScale})`;
+        }
+
+        // 滾輪縮放監聽
+        lightboxModal.addEventListener('wheel', function(e) {
+            if (lightboxModal.style.display !== "flex") return; // 沒打開時不觸發
+            e.preventDefault(); // 防止網頁跟著捲動
+            
+            const zoomSpeed = 0.1;
+            if (e.deltaY < 0) {
+                zoomScale += zoomSpeed; // 向上滾放大
+            } else {
+                zoomScale -= zoomSpeed; // 向下滾縮小
+            }
+            
+            // 限制縮放比例 (0.5倍 到 5倍)
+            zoomScale = Math.max(0.5, Math.min(zoomScale, 5));
+            updateTransform();
+        }, { passive: false });
+
+        // 拖曳平移監聽 (按下滑鼠)
+        lightboxImg.addEventListener('mousedown', function(e) {
+            e.preventDefault();
+            isPanning = true;
+            // 紀錄按下的起始點，扣除已經平移的距離
+            startX = e.clientX - translateX;
+            startY = e.clientY - translateY;
+        });
+
+        // 放開滑鼠
+        window.addEventListener('mouseup', function() {
+            isPanning = false;
+        });
+
+        // 移動滑鼠
+        window.addEventListener('mousemove', function(e) {
+            if (!isPanning) return;
+            // 計算新平移距離
+            translateX = e.clientX - startX;
+            translateY = e.clientY - startY;
+            updateTransform();
+        });
 
 
         // ======= 🚀 V2.0 智慧戰情室核心引擎 =======
