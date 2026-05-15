@@ -367,7 +367,7 @@
             <div class="card">
                 <h3>💡 研究動機與背景</h3>
                 <p>南投縣（如集集、中寮、草屯等鄉鎮）是台灣特有種「石虎」最核心的棲地。然而，山區道路與棲地高度重疊，導致夜間「路殺」（Roadkill）事件頻繁發生。石虎屬於夜行性動物，其身上的斑紋在柏油路上具有極佳的保護色，在缺乏照明的山區道路，駕駛者往往受限於視覺死角，在發現目標時已避讓不及。這不僅造成珍貴物種的消逝，更嚴重威脅行車安全。</p>
-                <p>透過資料搜集，我了解到現行車輛的主初動避障技術多依賴「超音波」或「影像辨識」。然而，超音波在高速行駛下的精準度受限，而影像辨識在極端全黑、強光或保護色干擾下容易產生誤判。為了解決這個痛點，我對「單點光學雷達（ToF 測距模組）」產生了濃厚興趣。光學雷達具備不受環境光干擾、反應速度快且測距精準的優勢。</p>
+                <p>透過資料搜集，我了解到現行車輛的主動避障技術多依賴「超音波」或「影像辨識」。然而，超音波在高速行駛下的精準度受限，而影像辨識在極端全黑、強光或保護色干擾下容易產生誤判。為了解決這個痛點，我對「單點光學雷達（ToF 測距模組）」產生了濃厚興趣。光學雷達具備不受環境光干擾、反應速度快且測距精準的優勢。</p>
                 <p>本研究結合 MicroPython 程式撰寫，試圖在縮小比例的實驗環境中，模擬石虎在夜間出沒的情境。我參考了「送餐機器人」規劃路徑的原理，導入「網格座標路徑規劃」演算法，希望探討系統如何在「及時煞車」與「動態避障」之間找到最佳平衡點。</p>
                 <p>本研究不僅是科技的探究，更是一項具備在地情懷的實驗，期許能提出一套低成本且高效能的技術方案，為南投縣的生態保育與山區行車安全貢獻一份心力，讓石虎的生命不再因科技的侷限而在黑夜中凋零。</p>
             </div>
@@ -532,9 +532,57 @@
                     <img src="photo10.jpg" alt="[photo10.jpg]" class="photo-preview clickable-img" onclick="openLightbox(this.src)" title="點擊放大圖片">
                 </div>
             </div>
+            
+            </div>
 
-            <div class="card purple-border" style="margin-top: 40px; background-color: rgba(139, 92, 246, 0.05);">
-                <h3 style="color: var(--accent-purple);">📂 附錄：核心程式碼與原始數據佐證</h3>
+        <div id="games" class="page-section">
+            <h1>🎮 Micro:bit 創意遊戲大廳</h1>
+            <div class="card"><h3>🧱 遊戲 01：打磚塊 (Breakout)</h3><p>學習座標偵測與反彈邏輯。</p></div>
+            <div class="card"><h3>⚾ 遊戲 02：全壘打大賽</h3><p>練習精準計時與按鍵觸發判斷。</p></div>
+            <div class="card"><h3>🤠 遊戲 03：神槍手對決</h3><p>掌握隨機數與影音同步功能。</p></div>
+        </div>
+
+        <div id="dashboard" class="page-section">
+            <h1>📊 秉澔實驗數據中心</h1>
+            
+            <div class="highlight-box" style="padding: 15px; margin-bottom: 20px; display: flex; align-items: center; gap: 15px; flex-wrap: wrap;">
+                <label for="exp-selector" style="margin: 0; font-size: 1.2rem; font-weight: bold;">請選擇實驗項目：</label>
+                <select id="exp-selector" onchange="updateDashboard()" style="padding: 8px 15px; font-size: 1.1rem; border-radius: 8px; background: var(--bg-color); color: var(--accent-glow); border: 1px solid var(--accent-glow); cursor: pointer; outline: none;">
+                    <option value="exp1">實驗一：（光線變因）夜盲症測試</option>
+                    <option value="exp2">實驗二：（材質變因）保護色與材質陷阱</option>
+                    <option value="exp3">實驗三：（高度變因）最佳視角測試</option>
+                    <option value="exp4">實驗四：（速度與煞車距離）生死一瞬間</option>
+                    <option value="exp5">實驗五-A：（模擬山路）受限車道避障測試</option>
+                    <option value="exp6">實驗五-B：（模擬廣場）24宮格複合路徑分析</option>
+                </select>
+            </div>
+
+            <div class="kpi-panel">
+                <div class="kpi-card">
+                    <div class="kpi-title" id="kpi-title-1">總測試趟數</div>
+                    <div class="kpi-value" id="kpi-val-1">--</div>
+                    <div class="kpi-unit" id="kpi-unit-1">趟</div>
+                </div>
+                <div class="kpi-card" style="border-color: var(--accent-orange);">
+                    <div class="kpi-title" id="kpi-title-2">最佳/最低 紀錄</div>
+                    <div class="kpi-value" id="kpi-val-2" style="color: var(--accent-orange);">--</div>
+                    <div class="kpi-unit" id="kpi-unit-2">單位</div>
+                </div>
+                <div class="kpi-card" style="border-color: var(--accent-green);">
+                    <div class="kpi-title" id="kpi-title-3">平均表現</div>
+                    <div class="kpi-value" id="kpi-val-3" style="color: var(--accent-green);">--</div>
+                    <div class="kpi-unit" id="kpi-unit-3">單位</div>
+                </div>
+            </div>
+
+            <div class="chart-container" style="position: relative; height:400px;">
+                <canvas id="experimentChart"></canvas>
+            </div>
+            
+            <div id="data-table-container"></div>
+
+            <div id="appendix-exp1" class="card purple-border" style="margin-top: 40px; background-color: rgba(139, 92, 246, 0.05); display: none;">
+                <h3 style="color: var(--accent-purple);">📂 實驗一附錄：核心程式碼與原始數據佐證</h3>
                 <p>為確保研究的真實性與科學嚴謹度，我們將實驗過程中感測器回傳的原始數據（Raw Data），以及 MakeCode 序列埠真實跳動的畫面截圖紀錄於此。這證明了我們的數據是透過程式一筆一筆真實測量而來！</p>
                 
                 <h4 style="color: var(--accent-glow); margin-top: 20px;">1. 原始數據截圖 (Raw Data)</h4>
@@ -603,53 +651,6 @@ basic.show_icon(IconNames.YES)
                 </div>
             </div>
             </div>
-
-        <div id="games" class="page-section">
-            <h1>🎮 Micro:bit 創意遊戲大廳</h1>
-            <div class="card"><h3>🧱 遊戲 01：打磚塊 (Breakout)</h3><p>學習座標偵測與反彈邏輯。</p></div>
-            <div class="card"><h3>⚾ 遊戲 02：全壘打大賽</h3><p>練習精準計時與按鍵觸發判斷。</p></div>
-            <div class="card"><h3>🤠 遊戲 03：神槍手對決</h3><p>掌握隨機數與影音同步功能。</p></div>
-        </div>
-
-        <div id="dashboard" class="page-section">
-            <h1>📊 秉澔實驗數據中心</h1>
-            
-            <div class="highlight-box" style="padding: 15px; margin-bottom: 20px; display: flex; align-items: center; gap: 15px; flex-wrap: wrap;">
-                <label for="exp-selector" style="margin: 0; font-size: 1.2rem; font-weight: bold;">請選擇實驗項目：</label>
-                <select id="exp-selector" onchange="updateDashboard()" style="padding: 8px 15px; font-size: 1.1rem; border-radius: 8px; background: var(--bg-color); color: var(--accent-glow); border: 1px solid var(--accent-glow); cursor: pointer; outline: none;">
-                    <option value="exp1">實驗一：（光線變因）夜盲症測試</option>
-                    <option value="exp2">實驗二：（材質變因）保護色與材質陷阱</option>
-                    <option value="exp3">實驗三：（高度變因）最佳視角測試</option>
-                    <option value="exp4">實驗四：（速度與煞車距離）生死一瞬間</option>
-                    <option value="exp5">實驗五-A：（模擬山路）受限車道避障測試</option>
-                    <option value="exp6">實驗五-B：（模擬廣場）24宮格複合路徑分析</option>
-                </select>
-            </div>
-
-            <div class="kpi-panel">
-                <div class="kpi-card">
-                    <div class="kpi-title" id="kpi-title-1">總測試趟數</div>
-                    <div class="kpi-value" id="kpi-val-1">--</div>
-                    <div class="kpi-unit" id="kpi-unit-1">趟</div>
-                </div>
-                <div class="kpi-card" style="border-color: var(--accent-orange);">
-                    <div class="kpi-title" id="kpi-title-2">最佳/最低 紀錄</div>
-                    <div class="kpi-value" id="kpi-val-2" style="color: var(--accent-orange);">--</div>
-                    <div class="kpi-unit" id="kpi-unit-2">單位</div>
-                </div>
-                <div class="kpi-card" style="border-color: var(--accent-green);">
-                    <div class="kpi-title" id="kpi-title-3">平均表現</div>
-                    <div class="kpi-value" id="kpi-val-3" style="color: var(--accent-green);">--</div>
-                    <div class="kpi-unit" id="kpi-unit-3">單位</div>
-                </div>
-            </div>
-
-            <div class="chart-container" style="position: relative; height:400px;">
-                <canvas id="experimentChart"></canvas>
-            </div>
-            
-            <div id="data-table-container"></div>
-        </div>
 
         <div id="qa" class="page-section">
             <h1>🙋 獨立研究 Q&A</h1>
@@ -926,6 +927,13 @@ basic.show_icon(IconNames.YES)
 
                 // --- 📝 渲染完整的數據表格 ---
                 document.getElementById('data-table-container').innerHTML = generateTableHTML(rows);
+
+                // --- 📂 動態控制附錄顯示 (AI 智慧隱藏) ---
+                const appendixExp1 = document.getElementById('appendix-exp1');
+                if (appendixExp1) {
+                    // 只有當下拉選單選擇「實驗一 (exp1)」時，才顯示附錄
+                    appendixExp1.style.display = (selectedExp === 'exp1') ? 'block' : 'none';
+                }
 
             } catch (e) {
                 console.log("資料讀取失敗，請檢查網址或網路狀態。", e);
