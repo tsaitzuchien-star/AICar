@@ -385,7 +385,7 @@
                 <h3>💡 研究動機與背景</h3>
                 <p>南投縣（如集集、中寮、草屯等鄉鎮）是台灣特有種「石虎」最核心的棲地。然而，山區道路與棲地高度重疊，導致夜間「路殺」（Roadkill）事件頻繁發生。石虎屬於夜行性動物，其身上的斑紋在柏油路上具有極佳的保護色，在缺乏照明的山區道路，駕駛者往往受限於視覺死角，在發現目標時已避讓不及。這不僅造成珍貴物種的消逝，更嚴重威脅行車安全。</p>
                 <p>透過資料搜集，我了解到現行車輛的主動避障技術多依賴「超音波」或「影像辨識」。然而，超音波在高速行駛下的精準度受限，而影像辨識在極端全黑、強光或保護色干擾下容易產生誤判。為了解決這個痛點，我對「單點光學雷達（ToF 測距模組）」產生了濃厚興趣。光學雷達具備不受環境光干擾、反應速度快且測距精準的優勢。</p>
-                <p>本研究結合 程式積木 + MicroPython 程式撰寫，試圖在縮小比例的實驗環境中，模擬石虎在夜間出沒的情境。我參考了「送餐機器人」規劃路徑的原理，導入「網格座標路徑規劃」演算法，希望探討系統如何在「及時煞車」與「動態避障」之間找到最佳平衡點。</p>
+                <p>本研究結合 MicroPython 程式撰寫，試圖在縮小比例的實驗環境中，模擬石虎在夜間出沒的情境。我參考了「送餐機器人」規劃路徑的原理，導入「網格座標路徑規劃」演算法，希望探討系統如何在「及時煞車」與「動態避障」之間找到最佳平衡點。</p>
                 <p>本研究不僅是科技的探究，更是一項具備在地情懷的實驗，期許能提出一套低成本且高效能的技術方案，為南投縣的生態保育與山區行車安全貢獻一份心力，讓石虎的生命不再因科技的侷限而在黑夜中凋零。</p>
             </div>
             <div class="card">
@@ -417,7 +417,7 @@
                     <li><strong>核心大腦：</strong> micro:bit V2.2 微控制器。</li>
                     <li><strong>實驗載具：</strong> 麥昆 Plus V3 智能擴充小車。</li>
                     <li><strong>測距核心：</strong> VL53L0X 單點光學雷達模組（ToF 感測器）。</li>
-                    <li><strong>程式語言：</strong> MicroPython + 程式積木。</li>
+                    <li><strong>程式語言：</strong> MicroPython。</li>
                     <li><strong>模擬道具：</strong> 不同顏色的紙板、深色絨毛玩偶（模擬石虎）、捲尺、碼表、網格地墊、路徑標示膠帶。</li>
                 </ul>
             </div>
@@ -611,7 +611,7 @@
                 </div>
 
                 <h4 style="color: var(--accent-glow); margin-top: 30px;">2. 小車端（發射端）最終優化版程式碼</h4>
-                <p>這是我們使用 MicroPython + 程式積木 撰寫的核心大腦！裡面包含了 LiDAR 讀取、毫米換算公分、計算平均值，以及為了解決通訊碰撞而加入的 <code>200ms</code> 無線電排隊廣播機制。</p>
+                <p>這是我們使用 MicroPython 撰寫的核心大腦！裡面包含了 LiDAR 讀取、毫米換算公分、計算平均值，以及為了解決通訊碰撞而加入的 <code>200ms</code> 無線電排隊廣播機制。</p>
                 
                 <div style="background-color: #1e1e1e; padding: 15px; border-radius: 8px; overflow-x: auto; border: 1px solid #334155; box-shadow: inset 0 0 10px rgba(0,0,0,0.5);">
 <pre style="margin: 0; color: #d4d4d4; font-family: Consolas, 'Courier New', monospace; font-size: 0.95rem; line-height: 1.5;"><code><span style="color: #569cd6;">def</span> <span style="color: #dcdcaa;">on_button_pressed_a</span>():
@@ -732,7 +732,7 @@ basic.show_icon(IconNames.YES)
                 const rows = text.trim().split(/\r?\n/).slice(1);
                 let html = "";
                 rows.reverse().forEach(row => { 
-                    const cols = row.split(',');
+                    const cols = parseCSVLine(row); // 套用智慧解析器
                     if(cols.length >= 2 && cols[0].trim() !== '') {
                         let answerContent = (cols.length >= 3 && cols[2].trim() !== '') ? `💡 秉澔回答：${cols[2]}` : `<span class="pending">⏳ 待秉澔補上答案...</span>`;
                         html += `<div class="qa-item"><div class="qa-date">🗓️ 討論日期：${cols[0]}</div><div class="qa-question">👨‍🏫 老師提問：${cols[1]}</div><div class="qa-answer ${cols.length < 3 || cols[2].trim() === '' ? 'pending' : ''}">${answerContent}</div></div>`;
@@ -820,15 +820,37 @@ basic.show_icon(IconNames.YES)
 
         let myChartInstance = null; // 儲存圖表實體，方便摧毀重建
 
+        // 🌟 智慧型 CSV 解析器 (解決括號內逗號問題) 🌟
+        function parseCSVLine(line) {
+            let result = [];
+            let current = "";
+            let inQuotes = false;
+            for (let i = 0; i < line.length; i++) {
+                let char = line[i];
+                if (char === '"') {
+                    inQuotes = !inQuotes;
+                } else if (char === ',' && !inQuotes) {
+                    result.push(current.trim());
+                    current = "";
+                } else {
+                    current += char;
+                }
+            }
+            result.push(current.trim());
+            return result;
+        }
+
         // 幫資料表格加上 HTML 轉換函數
         function generateTableHTML(rows) {
             let html = '<div class="data-table-wrapper"><h3 style="margin-top:0; color: var(--accent-glow);">📝 實驗詳細數據表</h3><table class="data-table">';
             rows.forEach((row, index) => {
                 if (row.trim() === '') return;
-                let cols = row.split(',');
+                
+                // 使用新的智慧型解析器
+                let cols = parseCSVLine(row);
+                
                 html += '<tr>';
-                cols.forEach(col => {
-                    let text = col.replace(/"/g, '').trim();
+                cols.forEach(text => {
                     if (index === 0) {
                         html += `<th>${text}</th>`;
                     } else {
@@ -850,7 +872,9 @@ basic.show_icon(IconNames.YES)
                 const response = await fetch(baseCsvUrl + targetGid);
                 const data = await response.text();
                 const rows = data.trim().split(/\r?\n/);
-                const headers = rows[0].split(','); 
+                
+                // 使用新的智慧型解析器讀取標題
+                const headers = parseCSVLine(rows[0]); 
 
                 let xLabels = [];
                 let yData1 = []; // 主要數據
@@ -873,9 +897,9 @@ basic.show_icon(IconNames.YES)
 
                 // 資料清洗與計算
                 for(let i = 1; i < rows.length; i++) {
-                    const cols = rows[i].split(',');
-                    if (cols.length > 1 && cols[0].trim() !== '') {
-                        xLabels.push(cols[0].trim().replace(/"/g, ''));
+                    const cols = parseCSVLine(rows[i]); // 使用新的智慧型解析器讀取資料列
+                    if (cols.length > 1 && cols[0] !== '') {
+                        xLabels.push(cols[0]);
                         
                         let val1 = Number(cols[mainIndex]) || 0;
                         yData1.push(val1);
