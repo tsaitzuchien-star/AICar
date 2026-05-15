@@ -366,7 +366,6 @@
             <button class="nav-btn active" onclick="switchPage('home', this)">🏠 專案首頁與動機</button>
             <button class="nav-btn" onclick="switchPage('plan', this)">📝 實驗計畫大綱</button>
             <button class="nav-btn" onclick="switchPage('devlog', this)">🛠️ 開發與實作日誌</button>
-            <button class="nav-btn" onclick="switchPage('games', this)">🎮 創意遊戲大廳</button>
             <button class="nav-btn" onclick="switchPage('dashboard', this)">📊 數據儀表板</button>
             <button class="nav-btn" onclick="switchPage('qa', this)">🙋 獨立研究 Q&A</button>
         </div>
@@ -551,13 +550,6 @@
             </div>
         </div>
 
-        <div id="games" class="page-section">
-            <h1>🎮 Micro:bit 創意遊戲大廳</h1>
-            <div class="card"><h3>🧱 遊戲 01：打磚塊 (Breakout)</h3><p>學習座標偵測與反彈邏輯。</p></div>
-            <div class="card"><h3>⚾ 遊戲 02：全壘打大賽</h3><p>練習精準計時與按鍵觸發判斷。</p></div>
-            <div class="card"><h3>🤠 遊戲 03：神槍手對決</h3><p>掌握隨機數與影音同步功能。</p></div>
-        </div>
-
         <div id="dashboard" class="page-section">
             <h1>📊 秉澔實驗數據中心</h1>
             
@@ -611,7 +603,7 @@
                 </div>
 
                 <h4 style="color: var(--accent-glow); margin-top: 30px;">2. 小車端（發射端）最終優化版程式碼</h4>
-                <p>這是我們使用 MicroPython + 程式方塊 撰寫的核心大腦！裡面包含了 LiDAR 讀取、毫米換算公分、計算平均值，以及為了解決通訊碰撞而加入的 <code>200ms</code> 無線電排隊廣播機制。</p>
+                <p>這是我們使用 MicroPython 撰寫的核心大腦！裡面包含了 LiDAR 讀取、毫米換算公分、計算平均值，以及為了解決通訊碰撞而加入的 <code>200ms</code> 無線電排隊廣播機制。</p>
                 
                 <div style="background-color: #1e1e1e; padding: 15px; border-radius: 8px; overflow-x: auto; border: 1px solid #334155; box-shadow: inset 0 0 10px rgba(0,0,0,0.5);">
 <pre style="margin: 0; color: #d4d4d4; font-family: Consolas, 'Courier New', monospace; font-size: 0.95rem; line-height: 1.5;"><code><span style="color: #569cd6;">def</span> <span style="color: #dcdcaa;">on_button_pressed_a</span>():
