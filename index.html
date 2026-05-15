@@ -18,7 +18,7 @@
             --accent-orange: #f59e0b;
             --accent-yellow: #eab308;
             --accent-purple: #8b5cf6;
-            --accent-red: #ef4444; /* 新增超音波專用紅色 */
+            --accent-red: #ef4444;
         }
         body {
             margin: 0;
@@ -399,9 +399,15 @@
                 <h3>🌟 預期成果與貢獻</h3>
                 <p>本研究預期能證實光學雷達在夜間完全黑暗環境下，測距精度優於傳統紅外線或超音波感測器。透過「路殺預警系統」的雛型開發，結合自動緊急煞車（AEB）與動態繞道邏輯，為未來智慧交通提供一個平衡「生物保育」與「行駛效率」的技術藍圖。</p>
             </div>
+            
             <div class="card">
-                <h3>🚀 未來進一步研究方向</h3>
-                <p>考量戶外山區電力匱乏，未來本系統需搭配**獨立太陽能綠電系統（含電池儲能與發電度數 kWh 監控）**。此外，計畫導入 <strong>AI 影像辨識鏡頭（如 HuskyLens）</strong>，透過「雷達測距」與「影像辨識」的感測器融合（Sensor Fusion），實現更高層級的精準守護。</p>
+                <h3>🚀 未來進一步研究方向與系統落地計畫</h3>
+                <p>在本次模擬實驗中，我們將雷達裝在小車上來驗證「光學雷達演算法」的精準度（概念雛型 Proof of Concept）。但未來若要將這套系統建置在南投深山中，我們建議從「智慧車輛」轉換為<strong>「智慧道路（路側預警防護網）」</strong>的架構：</p>
+                <ul>
+                    <li><strong>電線桿雷達與遠端 LED 警示：</strong> 將光學雷達安裝於石虎熱區的電線桿上。當偵測到石虎出沒，系統會立刻透過無線電，觸發前方 100~200 公尺遠的「LED 警告看板」閃爍，提早警告駕駛減速。</li>
+                    <li><strong>獨立太陽能與電池儲能系統：</strong> 深山中缺乏電網，為確保系統在夜間（石虎最活躍且最危險的時段）能 24 小時持續運作，導入結合電池儲能的太陽能發電系統是這項科技能真正落地的最後一塊拼圖。</li>
+                    <li><strong>AI 感測器融合（Sensor Fusion）：</strong> 計畫導入 AI 影像辨識鏡頭（如 HuskyLens），結合雷達測距與影像特徵辨識，精準過濾落葉或非生物干擾，實現最高層級的生態守護。</li>
+                </ul>
             </div>
         </div>
 
@@ -570,6 +576,9 @@
                 <p>為確保研究的真實性與科學嚴謹度，我們將實驗過程中感測器回傳的原始數據（Raw Data），以及 MakeCode 序列埠真實跳動的畫面截圖紀錄於此。這證明了我們的數據是透過程式一筆一筆真實測量而來！</p>
                 
                 <h4 style="color: var(--accent-glow); margin-top: 20px;">1. 原始數據截圖 (Raw Data)</h4>
+                
+                <p style="line-height: 1.6;">我們在一開始遇到了<strong style="color: var(--accent-orange);">「封包碰撞」</strong>導致數據亂碼的問題（接收端出現字元重疊），後來透過在程式碼中加入<strong style="color: var(--accent-green);">「排隊暫停機制 (pause)」</strong>，成功讓數據變得乾淨整齊，精準回傳了各距離的平均值。以下為三種光線情境下的真實接收數據：</p>
+                
                 <div style="background-color: rgba(0,0,0,0.2); padding: 15px; border-radius: 8px; border: 1px dashed #475569;">
                     <p style="color: var(--accent-orange); margin-top: 0; font-size: 0.9rem;">💡 提示：點擊下方圖片，可用滑鼠滾輪放大觀看精確數據，並可按住圖片拖曳平移！</p>
                     <img src="raw_data_1.jpg" alt="正常日光燈原始數據" class="photo-preview clickable-img" onclick="openLightbox(this.src)">
