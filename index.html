@@ -449,7 +449,7 @@
             </div>
 
             <div class="card orange-border">
-                <h3>🔍 實驗一：夜盲症測試（光線變因）</h3>
+                <h3>1.🔍 實驗一：夜盲症測試（光線變因）</h3>
                 <ul>
                     <li><strong>步驟：</strong> 在筆直軌道上，分別設定 30、60、90、120 與 150 公分五種不同距離，並將模擬石虎的障礙物固定於對應位置。</li>
                     <li><strong>測試：</strong> 分別在「正常日光燈」、「手電筒強光」與「關燈全黑」三種環境下進行測量。每個距離皆反覆測試 5 次以計算「平均測量值」與「誤差率(%)」，藉此驗證光學雷達抗環境光干擾之能力與實際有效偵測範圍。</li>
@@ -468,7 +468,7 @@
             </div>
             
             <div class="card orange-border">
-                <h3>🔍 實驗二：保護色與材質陷阱（材質變因）<span style="color: var(--accent-red);">＋【超音波對決】</span></h3>
+                <h3>2.🔍 實驗二：保護色與材質陷阱（材質變因）<span style="color: var(--accent-red);">＋【超音波對決】</span></h3>
                 <ul>
                     <li><strong>步驟：</strong> 統一光源，並於筆直軌道上分別設定 30、60、90、120 與 150 公分五種距離。</li>
                     <li><strong>測試：</strong> 對比「白色紙板（淺色平滑）」與「黑色絨毛玩偶（模擬石虎深色長毛特性）」，每個距離皆反覆測試 5 次，觀察深色與絨毛材質是否會導致雷射訊號衰減、數值亂跳或產生極大誤差。</li>
@@ -477,7 +477,7 @@
             </div>
             
             <div class="card orange-border">
-                <h3>🔍 實驗三：最佳視角測試（高度變因）</h3>
+                <h3>3.🔍 實驗三：最佳視角測試（高度變因）</h3>
                 <ul>
                     <li><strong>步驟：</strong> 將光學雷達安裝於小車上的三種不同高度：低位 (5 cm)、中位 (10 cm)、高位 (15 cm)，並設定 30 至 150 公分五種距離。</li>
                     <li><strong>測試：</strong> 每個高度與距離組合皆反覆測量 5 次，記錄成功測得精準距離的次數，藉此找出最能穩定偵測低矮型野生動物的最佳視角，避免光束由動物上方越過或掃瞄到地面產生雜訊盲區。</li>
@@ -485,7 +485,7 @@
             </div>
             
             <div class="card orange-border">
-                <h3>🔍 實驗四：生死一瞬間（速度與煞車距離變因）</h3>
+                <h3>4.🔍 實驗四：生死一瞬間（速度與煞車距離變因）</h3>
                 <ul>
                     <li><strong>步驟：</strong> 設定小車以三種不同的行駛速度（20、40、60 cm/s）前進。</li>
                     <li><strong>測試：</strong> 透過程式設定，利用光學雷達在預定距離自動下達緊急煞車指令，反覆測量 5 次車輛因物理慣性至完全停止所需的「實際滑行距離」。此實驗所建立的安全煞車距離，將作為後續計算「極限避障觸發門檻」的關鍵數據。</li>
@@ -493,7 +493,7 @@
             </div>
             
             <div class="card orange-border">
-                <h3>🔍 實驗五：生命轉彎處（多情境動態路徑規劃）<span style="color: var(--accent-red);">＋【超音波對決】</span></h3>
+                <h3>5.🔍 實驗五：生命轉彎處（多情境動態路徑規劃）<span style="color: var(--accent-red);">＋【超音波對決】</span></h3>
                 <ul>
                     <li><strong>情境 A：受限車道（模擬狹窄山路）</strong>
                         <ul>
@@ -509,39 +509,35 @@
                     <li><strong>比較分析：</strong> 以上情境各組合皆反覆實測 5 趟，記錄「避障成功率」、「行經總距離」與「耗時」，綜合評估兩種演算法之效能差異與應用場景。</li>
                 </ul>
             </div>
-
-            <div class="card">
-                <h3>⚠️ 研究限制</h3>
-                <ul>
-                    <li><strong>硬體精度：</strong> VL53LOX 屬低價位教育版單點雷達，有效距離上限約 2 公尺，且無法進行 360 度環景掃描。</li>
-                    <li><strong>模擬比例：</strong> 實驗採用縮小比例的麥昆小車，與真實重型車輛的慣性與煞車阻力不同，結果僅作為演算法邏輯參考。</li>
-                </ul>
-            </div>
         </div>
 
         <div id="devlog" class="page-section">
             <h1>🛠️ 實作紀錄：我的手作與開發日誌</h1>
+            
             <div class="card">
                 <h3>✅ 任務一：瓦楞板實驗場地搭建-5/9完成</h3>
                 <p>這是我和弟弟協力製作的實驗車道。</p>
                 <img src="photo1.jpg" alt="[photo1.jpg]" class="photo-preview clickable-img" onclick="openLightbox(this.src)">
             </div>
+            
             <div class="card">
                 <h3>✅ 任務二：Micro:bit 核心邏輯訓練-5/10完成</h3>
                 <p>我自己設計可以自動跑馬燈A~Z及發音的測試過程照片：</p>
                 <img src="photo2.jpg" alt="[photo2.jpg]" class="photo-preview clickable-img" onclick="openLightbox(this.src)">
             </div>
+
             <div class="card">
                 <h3>✅ 任務三：麥昆 Plus V3 智能擴充小車組裝-5/13完成</h3>
-                <p>今天我和弟弟協力完成了麥昆小車硬體組裝！這台小車將會是我們避障測試的核心載具。</p>
+                <p>今天我和弟弟協力完成了麥昆 Plus V3 智能擴充小車的硬體組裝！這台小車將會是我們接下來進行光學雷達避障測試的核心載具。</p>
                 <div>
                     <img src="photo3.jpg" alt="[photo3.jpg]" class="photo-preview clickable-img" onclick="openLightbox(this.src)">
                     <img src="photo4.jpg" alt="[photo4.jpg]" class="photo-preview clickable-img" onclick="openLightbox(this.src)">
                 </div>
             </div>
+
             <div class="card">
                 <h3>✅ 任務四：循線行駛與速度極限測試-5/13完成</h3>
-                <p>我們合力進行了讓小車沿著黑線繞圈圈的實驗，測試硬體馬力與感測器反應控制極限！</p>
+                <p>我和弟弟秉宸合力進行了麥昆小車的第一個實驗：讓小車沿著黑線繞圈圈。在過程中，我們不斷修改與調整直線及轉彎的速度參數。這項實驗的目的是要找出小車在維持穩定循線的前提下，所能達到的速度極限。這不僅測試了硬體的馬力，更考驗了我們對感測器反應與動力平衡的控制能力！</p>
                 <div>
                     <img src="photo5.jpg" alt="[photo5.jpg]" class="photo-preview clickable-img" onclick="openLightbox(this.src)">
                     <img src="photo6.jpg" alt="[photo6.jpg]" class="photo-preview clickable-img" onclick="openLightbox(this.src)">
@@ -553,9 +549,10 @@
                     </video>
                 </div>
             </div>
+
             <div class="card">
                 <h3>✅ 任務五：完成實驗一（夜盲症測試）數據蒐集-5/14完成</h3>
-                <p>透過三種光線情境實測，我們證明了「石虎救星」真的不怕黑，也不怕對向遠光燈攻擊！</p>
+                <p>我和弟弟秉宸合力完成了實驗一！透過三種不同的光線情境（正常日光燈、手電筒強光、關燈全黑）反覆進行實驗，並調整不同的測量距離。在這過程中，我們不僅順利排除了程式的 Bug，還發現了幾個很棒的科學結果，這證明了我們的「石虎救星」真的不怕黑！</p>
                 <div>
                     <img src="photo7.jpg" alt="[photo7.jpg]" class="photo-preview clickable-img" onclick="openLightbox(this.src)">
                     <img src="photo8.jpg" alt="[photo8.jpg]" class="photo-preview clickable-img" onclick="openLightbox(this.src)">
@@ -749,7 +746,6 @@ basic.show_icon(IconNames.YES)
                 const response = await fetch(qaCsvUrl);
                 const text = await response.text();
                 
-                // --- Q&A 智慧換行處理器 (保留雙引號內的換行) ---
                 let rows = []; let rowStr = ""; let inQuotes = false;
                 for (let i = 0; i < text.length; i++) {
                     let char = text[i];
@@ -761,7 +757,7 @@ basic.show_icon(IconNames.YES)
                     } else { rowStr += char; }
                 }
                 if (rowStr.trim() !== '') rows.push(rowStr);
-                rows = rows.slice(1); // 去掉標題列
+                rows = rows.slice(1);
 
                 let html = "";
                 rows.reverse().forEach(row => { 
