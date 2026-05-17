@@ -1057,6 +1057,90 @@ basic.show_icon(IconNames.YES)
                 if (rows.length === 0) return;
                 
                 const headers = parseCSVLine(rows[0]); 
+
+                // --- 🌟 實驗三專屬：成功偵測率折線圖邏輯 🌟 ---
+                if (selectedExp === 'exp3') {
+                    let heightIdx = headers.findIndex(h => h.includes('高度'));
+                    let distIdx = headers.findIndex(h => h.includes('距離'));
+                    let successIdx = headers.findIndex(h => h.includes('成功偵測率'));
+
+                    if (successIdx !== -1) {
+                        let distances = ['30', '60', '90', '120', '150'];
+                        let dataLow = [0,0,0,0,0];
+                        let dataMid = [0,0,0,0,0];
+                        let dataHigh = [0,0,0,0,0];
+
+                        for(let i = 1; i < rows.length; i++) {
+                            const cols = parseCSVLine(rows[i]);
+                            if(cols.length > successIdx && cols[heightIdx]) {
+                                let h = cols[heightIdx];
+                                let d = cols[distIdx].replace('cm', '').trim();
+                                let dIdx = distances.indexOf(d);
+                                let rateStr = cols[successIdx].replace('%','').trim();
+                                let rate = parseFloat(rateStr);
+                                if (isNaN(rate)) rate = 0;
+                                
+                                if(dIdx !== -1) {
+                                    if(h.includes('低')) dataLow[dIdx] = rate;
+                                    else if(h.includes('中')) dataMid[dIdx] = rate;
+                                    else if(h.includes('高')) dataHigh[dIdx] = rate;
+                                }
+                            }
+                        }
+
+                        // 設定實驗三的專屬 KPI 
+                        document.getElementById('kpi-title-1').innerText = "黃金視角高度"; 
+                        document.getElementById('kpi-val-1').innerText = "中位(10)"; 
+                        document.getElementById('kpi-val-1').style.color = "var(--accent-glow)";
+                        document.getElementById('kpi-unit-1').innerText = "cm";
+                        
+                        document.getElementById('kpi-title-2').innerText = "中位平均可靠度"; 
+                        document.getElementById('kpi-val-2').innerText = "84";
+                        document.getElementById('kpi-val-2').style.color = "var(--accent-green)";
+                        document.getElementById('kpi-unit-2').innerText = "%";
+                        
+                        document.getElementById('kpi-title-3').innerText = "高位(15)越頂盲區"; 
+                        document.getElementById('kpi-val-3').innerText = "0"; 
+                        document.getElementById('kpi-val-3').style.color = "var(--accent-red)";
+                        document.getElementById('kpi-unit-3').innerText = "%";
+
+                        if(myChartInstance) myChartInstance.destroy();
+                        const ctx = document.getElementById('experimentChart').getContext('2d');
+                        myChartInstance = new Chart(ctx, {
+                            type: 'line',
+                            data: {
+                                labels: distances.map(d => d + ' cm'),
+                                datasets: [
+                                    { label: '中位 (10cm) - 黃金視角', data: dataMid, borderColor: '#10b981', backgroundColor: '#10b981', borderWidth: 4, tension: 0.3, pointRadius: 7, pointHoverRadius: 10 },
+                                    { label: '低位 (5cm) - 觸地雜訊', data: dataLow, borderColor: '#3b82f6', backgroundColor: '#3b82f6', borderWidth: 3, tension: 0.3, pointRadius: 5 },
+                                    { label: '高位 (15cm) - 越頂盲區', data: dataHigh, borderColor: '#ef4444', backgroundColor: '#ef4444', borderWidth: 3, tension: 0.3, pointRadius: 5 }
+                                ]
+                            },
+                            options: {
+                                responsive: true, maintainAspectRatio: false,
+                                plugins: {
+                                    legend: { labels: { color: '#f8fafc', font: { size: 14 } } },
+                                    tooltip: { callbacks: { label: function(context) { return context.dataset.label + ': ' + context.parsed.y + '%'; } } }
+                                },
+                                scales: {
+                                    y: { min: 0, max: 105, grid: { color: '#334155' }, ticks: { color: '#94a3b8', stepSize: 20, callback: function(value) { return value + '%'; } }, title: { display: true, text: '成功偵測率 (%)', color: '#f8fafc', font: { size: 14 } } },
+                                    x: { grid: { color: '#334155' }, ticks: { color: '#94a3b8', font: { size: 13 } }, title: { display: true, text: '目標設定距離 (cm)', color: '#f8fafc', font: { size: 14 } } }
+                                }
+                            }
+                        });
+                        
+                        document.getElementById('data-table-container').innerHTML = generateTableHTML(rows);
+                        document.getElementById('appendix-exp1').style.display = 'none';
+                        return; // 實驗三專屬邏輯結束，跳出不再執行後方程式
+                    }
+                }
+                // --- 🌟 實驗三邏輯結束 🌟 ---
+
+                // 重設其他實驗的預設 KPI 顏色
+                document.getElementById('kpi-val-1').style.color = "var(--accent-glow)";
+                document.getElementById('kpi-val-2').style.color = "var(--accent-orange)";
+                document.getElementById('kpi-val-3').style.color = "var(--accent-green)";
+
                 let xLabels = [];
                 let yDataRadar = [];
                 let yDataUltra = [];
