@@ -606,6 +606,16 @@
                     <li><strong>步驟：</strong> 將光學雷達安裝於小車上的三種不同高度：低位 (5 cm)、中位 (10 cm)、高位 (15 cm)，並設定 30 至 150 公分五種距離。</li>
                     <li><strong>測試：</strong> 每個高度與距離組合皆反覆測量 5 次，記錄成功測得精準距離的次數，藉此找出最能穩定偵測低矮型野生動物的最佳視角，避免光束由動物上方越過或掃瞄到地面產生雜訊盲區。</li>
                 </ul>
+
+                <div style="background-color: rgba(16, 185, 129, 0.1); border-left: 4px solid var(--accent-green); padding: 18px; margin-top: 20px; border-radius: 0 8px 8px 0;">
+                    <h4 style="color: var(--accent-green); margin-top: 0; margin-bottom: 12px; font-size: 1.1rem;">💡 秉澔的實驗後心得（已完成實測！）</h4>
+                    <p style="margin-top: 0; margin-bottom: 10px; color: var(--accent-glow);">「真實的數據推翻了我們原本天真的推測！」</p>
+                    <ul style="margin-bottom: 0; padding-left: 20px; line-height: 1.8; list-style-type: none;">
+                        <li>🔦 <strong>手電筒效應的破滅：</strong> 原本我們以為光學雷達的光束會像手電筒一樣呈現大範圍的「圓錐狀擴散」，只要照得遠，邊緣的光也能掃到較矮的動物。但實測發現，光束邊緣的能量其實太弱了，加上石虎的深色絨毛吸光，導致安裝在 15cm 高度時，光束直接從 11cm 的石虎頭頂「完美越過」，完全測不到！</li>
+                        <li>⚠️ <strong>太低的致命傷：</strong> 當我們把雷達降到極低的 5cm 時，雖然近距離測得到，但只要距離拉長到 90cm，光束的下半部就會提早打到粗糙的瓦楞紙板地面，產生嚴重的「漫反射雜訊（Ground Noise）」，導致系統提早瞎掉吐出 400cm 錯誤碼。</li>
+                        <li>🏆 <strong>發現黃金視角：</strong> 經過這次實測，我深刻體會到，防撞雷達的安裝高度絕對不能心存僥倖，必須「精準對齊」目標物（石虎）的平均肩高！10cm 的中位才是能避開「越頂盲區」和「觸地雜訊」的完美黃金視角！</li>
+                    </ul>
+                </div>
             </div>
             
             <div class="card orange-border">
@@ -682,6 +692,32 @@
                     <img src="photo8.jpg" alt="[photo8.jpg]" class="photo-preview clickable-img" onclick="openLightbox(this.src)">
                     <img src="photo9.jpg" alt="[photo9.jpg]" class="photo-preview clickable-img" onclick="openLightbox(this.src)">
                     <img src="photo10.jpg" alt="[photo10.jpg]" class="photo-preview clickable-img" onclick="openLightbox(this.src)">
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>⏳ 任務六：實驗二（材質極限）部分完成-5/16紀錄</h3>
+                <p>5月16號，我已經使用光學雷達完成了不同材質（白紙板與黑色絨毛玩偶）的極限測試。但因為超音波感測器還沒有收到，所以實驗二最精彩的「雙感測器對決」部分暫時保留，我們先將重點轉移，等硬體送達後再行補測。</p>
+            </div>
+
+            <div class="card">
+                <h3>✅ 任務七：完成實驗三（最佳視角測試）數據蒐集-5/17完成</h3>
+                <p>5月17號，我和弟弟秉宸再次合力完成了實驗三的數據收集！這次我們測試了光學雷達在不同高度下的偵測極限，過程充滿了物理現象的驚喜！</p>
+                <ul>
+                    <li><strong>photo11、12、13：</strong> 我們精準使用直尺比對，設定小車光學感測雷達的位置分別在 5cm (低位)、10cm (中位) 和 15cm (高位)。</li>
+                    <li><strong>photo14：</strong> 我正在為實驗三進行 MicroPython 核心程式碼的撰寫與修改（加入專屬實驗三的廣播標籤）。</li>
+                    <li><strong>photo15：</strong> 實驗進行中的實況紀錄，我們小心翼翼地測量模擬石虎在不同距離的反應。</li>
+                    <li><strong>photo16：</strong> 我和秉宸一起緊盯著筆電接收到的序列埠數據，並把相關數據截圖放入 Word 檔案中妥善保存。</li>
+                    <li><strong>photo17：</strong> 最後，我將所有實驗三的數據一筆一筆準確地填入 Excel 試算表中，準備繪製出最酷的成功率折線圖！</li>
+                </ul>
+                <div>
+                    <img src="photo11.jpg" alt="[photo11.jpg]" class="photo-preview clickable-img" onclick="openLightbox(this.src)">
+                    <img src="photo12.jpg" alt="[photo12.jpg]" class="photo-preview clickable-img" onclick="openLightbox(this.src)">
+                    <img src="photo13.jpg" alt="[photo13.jpg]" class="photo-preview clickable-img" onclick="openLightbox(this.src)">
+                    <img src="photo14.jpg" alt="[photo14.jpg]" class="photo-preview clickable-img" onclick="openLightbox(this.src)">
+                    <img src="photo15.jpg" alt="[photo15.jpg]" class="photo-preview clickable-img" onclick="openLightbox(this.src)">
+                    <img src="photo16.jpg" alt="[photo16.jpg]" class="photo-preview clickable-img" onclick="openLightbox(this.src)">
+                    <img src="photo17.jpg" alt="[photo17.jpg]" class="photo-preview clickable-img" onclick="openLightbox(this.src)">
                 </div>
             </div>
         </div>
@@ -791,6 +827,82 @@ total_distance = <span style="color: #b5cea8;">0</span>
 <span style="color: #6a9955;"># 雷達開機初始化 (讓雷達睜開眼睛)</span>
 matrixLidarDistance.initialize(matrixLidarDistance.Addr.ADDR4, matrixLidarDistance.Matrix.MAT)
 <span style="color: #6a9955;"># 設定廣播群組（對講機頻道為 99）</span>
+radio.set_group(<span style="color: #b5cea8;">99</span>)
+basic.show_icon(IconNames.YES)
+</code></pre>
+                </div>
+            </div>
+
+            <div id="appendix-exp3" class="card purple-border" style="margin-top: 40px; background-color: rgba(139, 92, 246, 0.05); display: none;">
+                <h3 style="color: var(--accent-purple);">📂 實驗三附錄：核心程式碼與原始數據佐證</h3>
+                <p>實驗三（最佳視角測試）不僅考驗硬體，更帶來了物理現象的震撼教育。我們透過程式清楚記錄下了光學雷達在不同高度時的盲區與失誤。</p>
+                
+                <h4 style="color: var(--accent-glow); margin-top: 20px;">1. 原始數據截圖 (Raw Data)</h4>
+                
+                <p style="line-height: 1.6;">當感測器遇到盲區時，底層程式會吐出 <strong style="color: var(--accent-red);">400 cm</strong> 的錯誤極限碼。我們把接收端的數據完整記錄下來，這真實呈現了光束「越頂」或「觸地」時系統瞎掉的瞬間！</p>
+                
+                <div style="background-color: rgba(0,0,0,0.2); padding: 15px; border-radius: 8px; border: 1px dashed #475569;">
+                    <p style="color: var(--accent-orange); margin-top: 0; font-size: 0.9rem;">💡 提示：點擊下方圖片，可用滑鼠滾輪放大觀看精確數據，並可按住圖片拖曳平移！</p>
+                    <img src="raw_data_4.jpg" alt="[raw_data_4.jpg]" class="photo-preview clickable-img" onclick="openLightbox(this.src)">
+                    <img src="raw_data_5.jpg" alt="[raw_data_5.jpg]" class="photo-preview clickable-img" onclick="openLightbox(this.src)">
+                    <img src="raw_data_6.jpg" alt="[raw_data_6.jpg]" class="photo-preview clickable-img" onclick="openLightbox(this.src)">
+                </div>
+
+                <h4 style="color: var(--accent-glow); margin-top: 30px;">2. 小車端（發射端）最終優化版程式碼與實驗解析</h4>
+                <p>為了讓數據中心更容易辨識，我們特別將廣播的標籤升級為 <code>L3_Count</code> 與 <code>--- EXP 3 START ---</code>。這套程式讓我們發現了最驚人的事實：<strong style="color: var(--accent-orange);">「手電筒效應破滅！」</strong></p>
+                <p>原本我們預測光束會像手電筒一樣呈現大圓盤狀擴散，就算裝在 15cm 高，邊緣的餘光應該也能掃到 11cm 的石虎。但實測數據狠狠地推翻了這個想像——邊緣的能量太弱了，加上石虎深色絨毛的吸光特性，導致高位 (15cm) 完完全全測不到（Overshoot 越頂盲區）！</p>
+                
+                <div style="background-color: #1e1e1e; padding: 15px; border-radius: 8px; overflow-x: auto; border: 1px solid #334155; box-shadow: inset 0 0 10px rgba(0,0,0,0.5);">
+<pre style="margin: 0; color: #d4d4d4; font-family: Consolas, 'Courier New', monospace; font-size: 0.95rem; line-height: 1.5;"><code><span style="color: #569cd6;">def</span> <span style="color: #dcdcaa;">on_received_string</span>(receivedString):
+    <span style="color: #6a9955;"># 遠端遙控接收：如果收到基地台喊 "GO"，就執行實驗三測量！</span>
+    <span style="color: #569cd6;">if</span> receivedString == <span style="color: #ce9178;">"GO"</span>:
+        start_scanning_exp3()
+radio.on_received_string(on_received_string)
+
+<span style="color: #569cd6;">def</span> <span style="color: #dcdcaa;">start_scanning_exp3</span>():
+    <span style="color: #569cd6;">global</span> total_L3, dist_L3, average_L3, avg_msg_L3
+    <span style="color: #6a9955;"># 每次測量前歸零，確保平均值正確</span>
+    total_L3 = <span style="color: #b5cea8;">0</span>
+    basic.show_icon(IconNames.TARGET)
+    
+    <span style="color: #6a9955;"># 傳送實驗三開始訊號，方便數據中心識別</span>
+    radio.send_string(<span style="color: #ce9178;">"--- EXP 3 START ---"</span>)
+    basic.pause(<span style="color: #b5cea8;">200</span>)
+    
+    <span style="color: #569cd6;">for</span> index <span style="color: #569cd6;">in</span> range(<span style="color: #b5cea8;">5</span>):
+        <span style="color: #6a9955;"># 讀取光學雷達數據並換算為公分</span>
+        dist_L3 = matrixLidarDistance.matrix_point_output(matrixLidarDistance.Addr.ADDR4, <span style="color: #b5cea8;">3</span>, <span style="color: #b5cea8;">3</span>) / <span style="color: #b5cea8;">10</span>
+        
+        <span style="color: #6a9955;"># 組合訊息字串 (加上 L3_ 標籤代表實驗三)</span>
+        msg = <span style="color: #ce9178;">"L3_Count "</span> + str(index + <span style="color: #b5cea8;">1</span>) + <span style="color: #ce9178;">": "</span> + str(dist_L3) + <span style="color: #ce9178;">" cm"</span>
+        
+        <span style="color: #6a9955;"># 廣播每一次的雷達測量結果</span>
+        radio.send_string(msg)
+        basic.pause(<span style="color: #b5cea8;">200</span>)
+        
+        total_L3 += dist_L3
+        basic.pause(<span style="color: #b5cea8;">500</span>)
+        
+    <span style="color: #6a9955;"># --- 迴圈結束後，計算平均值並廣播 ---</span>
+    average_L3 = total_L3 / <span style="color: #b5cea8;">5</span>
+    avg_msg_L3 = <span style="color: #ce9178;">"L3_AVG: "</span> + str(average_L3) + <span style="color: #ce9178;">" cm"</span>
+    
+    radio.send_string(avg_msg_L3)
+    basic.pause(<span style="color: #b5cea8;">200</span>)
+    radio.send_string(<span style="color: #ce9178;">"-------------------"</span>)
+    basic.pause(<span style="color: #b5cea8;">200</span>)
+    
+    basic.show_number(average_L3)
+    basic.show_icon(IconNames.YES)
+
+<span style="color: #6a9955;"># --- 開機啟動設定 ---</span>
+avg_msg_L3 = <span style="color: #ce9178;">""</span>
+average_L3 = <span style="color: #b5cea8;">0</span>
+dist_L3 = <span style="color: #b5cea8;">0</span>
+total_L3 = <span style="color: #b5cea8;">0</span>
+
+input.on_button_pressed(Button.A, start_scanning_exp3)
+matrixLidarDistance.initialize(matrixLidarDistance.Addr.ADDR4, matrixLidarDistance.Matrix.MAT)
 radio.set_group(<span style="color: #b5cea8;">99</span>)
 basic.show_icon(IconNames.YES)
 </code></pre>
@@ -1131,6 +1243,7 @@ basic.show_icon(IconNames.YES)
                         
                         document.getElementById('data-table-container').innerHTML = generateTableHTML(rows);
                         document.getElementById('appendix-exp1').style.display = 'none';
+                        document.getElementById('appendix-exp3').style.display = 'block';
                         return; // 實驗三專屬邏輯結束，跳出不再執行後方程式
                     }
                 }
@@ -1326,7 +1439,10 @@ basic.show_icon(IconNames.YES)
                 }
                 
                 document.getElementById('data-table-container').innerHTML = generateTableHTML(rows);
+                
+                // 動態顯示對應的附錄區塊
                 document.getElementById('appendix-exp1').style.display = (selectedExp === 'exp1') ? 'block' : 'none';
+                document.getElementById('appendix-exp3').style.display = (selectedExp === 'exp3') ? 'block' : 'none';
                 
             } catch (e) { 
                 console.log(e); 
