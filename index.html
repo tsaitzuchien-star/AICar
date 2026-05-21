@@ -562,28 +562,6 @@
                 </ul>
             </div>
 
-            <div class="card">
-                <h3>🧰 研究設備與器材</h3>
-                <ul>
-                    <li><strong>核心大腦：</strong> micro:bit V2.2 微控制器。</li>
-                    <li><strong>實驗載具：</strong> 麥昆 Plus V3 智能擴充小車。</li>
-                    <li><strong>測距主角：</strong> VL53L0X 單點光學雷達模組（ToF 感測器）。</li>
-                    <li><strong>對照組感測器：</strong> HC-SR04P 超音波感測器模組。</li>
-                    <li><strong>程式語言：</strong> MicroPython。</li>
-                    <li><strong>模擬道具：</strong> 不同顏色的紙板、深色絨毛玩偶（模擬石虎）、捲尺、碼表、網格地墊、路徑標示膠帶。</li>
-                </ul>
-            </div>
-
-            <div class="card">
-              <h3>⚖️ 實驗變因控制</h3>
-                <p>為確保實驗具備高度的科學嚴謹性與結果的再現性，本研究於執行各項測試前，明確定義相關變因如下：</p>
-                <ul>
-                    <li><strong>控制變因：</strong> 相同的測試車道材質、同一台麥昆小車、同一顆 VL53LOX 光學雷達模組<strong>與同一顆 HC-SR04P 超音波模組</strong>。</li>
-                    <li><strong>操縱變因：</strong> <strong>感測器種類（光學雷達 vs 超音波）</strong>、環境光源亮度、目標物材質與顏色、雷達安裝高度、小車行駛馬力（速度）、車道情境限制。</li>
-                    <li><strong>應變變因：</strong> <strong>感測器</strong>回傳之距離數值（cm）、測距誤差率（%）、車輛完全煞停距離（cm）、避障軌跡總長度與成功率。</li>
-                </ul>
-            </div>
-
             <div class="card orange-border">
                 <h3>1.🔍 實驗一：夜盲症測試（光線變因）</h3>
                 <ul>
@@ -610,6 +588,16 @@
                     <li><strong>測試：</strong> 對比「白色紙板（淺色平滑）」與「黑色絨毛玩偶（模擬石虎深色長毛特性）」，每個距離皆反覆測試 5 次，觀察深色與絨毛材質是否會導致雷射訊號衰減、數值亂跳或產生極大誤差。</li>
                     <li><strong style="color: var(--accent-red);">🔥 雙感測器對照亮點：</strong> 同步使用 HC-SR04P 超音波感測器進行相同測試，比較光學雷達（怕吸光）與超音波（怕吸音）在面對石虎「深色絨毛」特性時，何者會先產生偵測盲區。</li>
                 </ul>
+
+                <div style="background-color: rgba(16, 185, 129, 0.1); border-left: 4px solid var(--accent-green); padding: 18px; margin-top: 20px; border-radius: 0 8px 8px 0;">
+                    <h4 style="color: var(--accent-green); margin-top: 0; margin-bottom: 12px; font-size: 1.1rem;">💡 秉澔的實驗後心得（已完成實測！）</h4>
+                    <p style="margin-top: 0; margin-bottom: 10px; color: var(--accent-glow);">「真實的數據給了我們震撼教育！原來『顏色』和『材質』對感測器的影響這麼大！」</p>
+                    <ul style="margin-bottom: 0; padding-left: 20px; line-height: 1.8; list-style-type: none;">
+                        <li>🎯 <strong>超音波的致命傷 (預測 vs 實際)：</strong> 原本我們預測超音波是靠聲音反射，應該不會受「顏色」影響。結果實測發現，面對「黑色絨毛玩偶」時，超音波竟然在 30cm 就徹底瞎掉（讀出 300cm 的錯誤數據）！這證明了絨毛材質會嚴重「吸收音波」，讓超音波完全收不到回音，直接讓保護石虎的系統失效。</li>
+                        <li>🔦 <strong>雷達的完美救援與物理極限：</strong> 光學雷達在 30~60cm 的關鍵煞車距離內，精準穿透了黑色絨毛，完勝超音波！但我們也誠實記錄到，當距離拉遠到 90cm 以上時，雷射光因為「黑色吸光」特性，能量衰減導致數值開始劇烈跳動（出現 400 盲值）。</li>
+                        <li>🏆 <strong>最終結論：</strong> 這次的雙感測器對決由光學雷達壓倒性獲勝！同時我們也確立了，未來避障系統的「安全預警距離」必須設定在雷達最穩定的 60cm 以內，才能發揮最好的防路殺效果。</li>
+                    </ul>
+                </div>
             </div>
             
             <div class="card orange-border">
@@ -708,8 +696,21 @@
             </div>
 
             <div class="card">
-                <h3>⏳ 任務六：實驗二（材質極限）部分完成-5/16紀錄</h3>
-                <p>5月16號，我已經使用光學雷達完成了不同材質（白紙板與黑色絨毛玩偶）的極限測試。但因為超音波感測器還沒有收到，所以實驗二最精彩的「雙感測器對決」部分暫時保留，我們先將重點轉移，等硬體送達後再行補測。</p>
+                <h3>✅ 任務六：完成實驗二（材質極限與超音波對決）數據蒐集-5/20完成</h3>
+                <p>5月20日，超音波感測器終於到貨！我和弟弟秉宸合力完成了這場最精彩的「感測器生死鬥」。我們透過嚴謹的變因控制，親眼見證了材質與顏色對感測器的巨大影響！</p>
+                <ul>
+                    <li><strong>📦 測試材質準備 (photo18)：</strong> 我們準備了白色紙板（高反光）、棕色紙板（漫反射）以及最關鍵的黑色絨毛玩偶（極度吸光與吸音）作為測試目標。</li>
+                    <li><strong>🛠️ 雙感測器戰車 (photo19)：</strong> 將光學雷達與超音波感測器同時安裝在麥昆小車上，確保兩者在完全相同的位置與高度進行公平對決。</li>
+                    <li><strong>🚗 實驗進行中 (photo20, 21)：</strong> 小車在賽道上對準不同材質的目標物，我們分工合作，反覆測試 30 到 150 公分的距離，並耐心等待兩種感測器輪流回傳數據。</li>
+                    <li><strong>💻 數據記錄與分析 (photo22)：</strong> 我和秉宸一起緊盯筆電接收到的戰情室數據，把序列埠的真實數據截圖存入 Word 檔案，深怕漏掉任何一個能證明「絨毛吸音」的關鍵數字！</li>
+                </ul>
+                <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 15px;">
+                    <img src="photo18.jpg" alt="[photo18.jpg]" class="photo-preview clickable-img" onclick="openLightbox(this.src)">
+                    <img src="photo19.jpg" alt="[photo19.jpg]" class="photo-preview clickable-img" onclick="openLightbox(this.src)">
+                    <img src="photo20.jpg" alt="[photo20.jpg]" class="photo-preview clickable-img" onclick="openLightbox(this.src)">
+                    <img src="photo21.jpg" alt="[photo21.jpg]" class="photo-preview clickable-img" onclick="openLightbox(this.src)">
+                    <img src="photo22.jpg" alt="[photo22.jpg]" class="photo-preview clickable-img" onclick="openLightbox(this.src)">
+                </div>
             </div>
 
             <div class="card">
@@ -841,6 +842,77 @@ matrixLidarDistance.initialize(matrixLidarDistance.Addr.ADDR4, matrixLidarDistan
 <span style="color: #6a9955;"># 設定廣播群組（對講機頻道為 99）</span>
 radio.set_group(<span style="color: #b5cea8;">99</span>)
 basic.show_icon(IconNames.YES)
+</code></pre>
+                </div>
+            </div>
+
+            <div id="appendix-exp2" class="card purple-border" style="margin-top: 40px; background-color: rgba(139, 92, 246, 0.05); display: none;">
+                <h3 style="color: var(--accent-purple);">📂 實驗二附錄：核心程式碼與原始數據佐證</h3>
+                <p>這場「光學雷達 vs 超音波」的生死對決，產生了最震撼的數據！我們同時啟動了兩顆感測器，並誠實記錄下它們在面對「保護色與絨毛材質」時的極限反應。</p>
+                
+                <h4 style="color: var(--accent-glow); margin-top: 20px;">1. 原始數據截圖 (Raw Data)</h4>
+                
+                <p style="line-height: 1.6;">當感測器遇到無法測量的盲區時，光學雷達會吐出 <strong style="color: var(--accent-red);">400 cm</strong> 的代碼，而超音波則會卡死在 <strong style="color: var(--accent-orange);">300 cm</strong> 附近。透過這些截圖，你可以清楚看到在面對「黑色絨毛玩偶」時，超音波是如何徹底失靈的！</p>
+                
+                <div style="background-color: rgba(0,0,0,0.2); padding: 15px; border-radius: 8px; border: 1px dashed #475569;">
+                    <p style="color: var(--accent-orange); margin-top: 0; font-size: 0.9rem;">💡 提示：點擊下方圖片，可用滑鼠滾輪放大觀看精確數據，並可按住圖片拖曳平移！</p>
+                    <img src="raw_data_7.jpg" alt="[raw_data_7.jpg]" class="photo-preview clickable-img" onclick="openLightbox(this.src)">
+                    <img src="raw_data_8.jpg" alt="[raw_data_8.jpg]" class="photo-preview clickable-img" onclick="openLightbox(this.src)">
+                    <img src="raw_data_9.jpg" alt="[raw_data_9.jpg]" class="photo-preview clickable-img" onclick="openLightbox(this.src)">
+                    <img src="raw_data_10.jpg" alt="[raw_data_10.jpg]" class="photo-preview clickable-img" onclick="openLightbox(this.src)">
+                    <img src="raw_data_11.jpg" alt="[raw_data_11.jpg]" class="photo-preview clickable-img" onclick="openLightbox(this.src)">
+                </div>
+
+                <h4 style="color: var(--accent-glow); margin-top: 30px;">2. 小車端（發射端）最終優化版程式碼與物理解析</h4>
+                <p>為了同時讀取兩種感測器，我們在程式中加入了 <strong style="color: var(--accent-green);">交替排隊廣播機制</strong>。先讓雷達廣播 (L2_R_Count)，暫停 200ms 後，再讓超音波廣播 (L2_U_Count)，最後暫停 500ms 讓聲波散去，避免互相干擾。</p>
+                <p>這支程式完美揭露了物理真相：<strong style="color: var(--accent-orange);">超音波怕吸音、雷射光怕吸光！</strong> 面對深色且毛茸茸的石虎，超音波的聲音被完全吸收，而光學雷達則成功穿透了保護色，在 60 公分內給出了最精準的救援數據！</p>
+                
+                <div style="background-color: #1e1e1e; padding: 15px; border-radius: 8px; overflow-x: auto; border: 1px solid #334155; box-shadow: inset 0 0 10px rgba(0,0,0,0.5);">
+<pre style="margin: 0; color: #d4d4d4; font-family: Consolas, 'Courier New', monospace; font-size: 0.95rem; line-height: 1.5;"><code><span style="color: #6a9955;"># 將「實驗執行邏輯」獨立出來，A 鍵和遙控器都能呼叫</span>
+<span style="color: #569cd6;">def</span> <span style="color: #dcdcaa;">run_experiment_2</span>():
+    <span style="color: #569cd6;">global</span> total_radar, total_ultra
+    total_radar = <span style="color: #b5cea8;">0</span>
+    total_ultra = <span style="color: #b5cea8;">0</span>
+    basic.show_icon(IconNames.TARGET)
+    
+    <span style="color: #6a9955;"># 發送實驗二專屬標記</span>
+    radio.send_string(<span style="color: #ce9178;">"--- EXP 2 START ---"</span>)
+    basic.pause(<span style="color: #b5cea8;">200</span>)
+    
+    <span style="color: #569cd6;">for</span> index <span style="color: #569cd6;">in</span> range(<span style="color: #b5cea8;">5</span>):
+        <span style="color: #6a9955;"># 讀取【光學雷達】數據</span>
+        dist_radar = matrixLidarDistance.matrix_point_output(matrixLidarDistance.Addr.ADDR4, <span style="color: #b5cea8;">3</span>, <span style="color: #b5cea8;">3</span>) / <span style="color: #b5cea8;">10</span>
+        <span style="color: #6a9955;"># 讀取【超音波】數據</span>
+        dist_ultra = maqueenPlusV2.read_ultrasonic(DigitalPin.P13, DigitalPin.P14)
+        
+        <span style="color: #6a9955;"># 交替排隊廣播數據，避免封包碰撞</span>
+        radio.send_string(<span style="color: #ce9178;">"L2_R_Count "</span> + str(index + <span style="color: #b5cea8;">1</span>) + <span style="color: #ce9178;">": "</span> + str(dist_radar) + <span style="color: #ce9178;">" cm"</span>)
+        basic.pause(<span style="color: #b5cea8;">200</span>)
+        radio.send_string(<span style="color: #ce9178;">"L2_U_Count "</span> + str(index + <span style="color: #b5cea8;">1</span>) + <span style="color: #ce9178;">": "</span> + str(dist_ultra) + <span style="color: #ce9178;">" cm"</span>)
+        basic.pause(<span style="color: #b5cea8;">500</span>)
+        
+        total_radar += dist_radar
+        total_ultra += dist_ultra
+        
+    <span style="color: #6a9955;"># 結算平均值</span>
+    radio.send_string(<span style="color: #ce9178;">"L2_R_AVG: "</span> + str(total_radar / <span style="color: #b5cea8;">5</span>) + <span style="color: #ce9178;">" cm"</span>)
+    basic.pause(<span style="color: #b5cea8;">200</span>)
+    radio.send_string(<span style="color: #ce9178;">"L2_U_AVG: "</span> + str(total_ultra / <span style="color: #b5cea8;">5</span>) + <span style="color: #ce9178;">" cm"</span>)
+    basic.show_icon(IconNames.YES)
+
+<span style="color: #6a9955;"># 無線電遙控接收區</span>
+<span style="color: #569cd6;">def</span> <span style="color: #dcdcaa;">on_received_string</span>(receivedString):
+    <span style="color: #569cd6;">if</span> receivedString == <span style="color: #ce9178;">"GO"</span>:
+        run_experiment_2()
+radio.on_received_string(on_received_string)
+
+<span style="color: #6a9955;"># 開機初始化</span>
+total_ultra = <span style="color: #b5cea8;">0</span>
+total_radar = <span style="color: #b5cea8;">0</span>
+input.on_button_pressed(Button.A, run_experiment_2)
+matrixLidarDistance.initialize(matrixLidarDistance.Addr.ADDR4, matrixLidarDistance.Matrix.MAT)
+radio.set_group(<span style="color: #b5cea8;">99</span>)
+basic.show_icon(IconNames.HAPPY)
 </code></pre>
                 </div>
             </div>
@@ -1255,6 +1327,7 @@ basic.show_icon(IconNames.YES)
                         
                         document.getElementById('data-table-container').innerHTML = generateTableHTML(rows);
                         document.getElementById('appendix-exp1').style.display = 'none';
+                        document.getElementById('appendix-exp2').style.display = 'none';
                         document.getElementById('appendix-exp3').style.display = 'block';
                         return; // 實驗三專屬邏輯結束，跳出不再執行後方程式
                     }
@@ -1454,6 +1527,7 @@ basic.show_icon(IconNames.YES)
                 
                 // 動態顯示對應的附錄區塊
                 document.getElementById('appendix-exp1').style.display = (selectedExp === 'exp1') ? 'block' : 'none';
+                document.getElementById('appendix-exp2').style.display = (selectedExp === 'exp2') ? 'block' : 'none';
                 document.getElementById('appendix-exp3').style.display = (selectedExp === 'exp3') ? 'block' : 'none';
                 
             } catch (e) { 
@@ -1463,5 +1537,3 @@ basic.show_icon(IconNames.YES)
     </script>
 </body>
 </html>
-
-}
