@@ -805,9 +805,11 @@
                 <h3 style="color: var(--accent-glow); margin-top: 30px; border-bottom: 1px solid #334155; padding-bottom: 10px;">🗺️ AI 戰術大腦回放系統 (Tactical Replay)</h3>
                 <p style="color: var(--text-muted);">點擊下方戰役重播，觀察 AI 如何在 24 宮格中透過「記憶黑名單」與「曼哈頓距離」進行動態避障計算。</p>
                 
-                <div style="margin-bottom: 15px;">
-                    <button class="nav-btn active" style="font-size: 0.9rem; padding: 5px 10px;" onclick="loadScenario('trap', this)">🐾 戰役 1：記憶學習與果斷撤退 (U型陷阱)</button>
-                    <button class="nav-btn" style="font-size: 0.9rem; padding: 5px 10px;" onclick="loadScenario('perfect', this)">🎯 戰役 2：無偏見全域導航 (直達 0,0)</button>
+                <div style="margin-bottom: 15px; display: flex; flex-wrap: wrap; gap: 8px;">
+                    <button class="nav-btn active" style="font-size: 0.9rem; padding: 5px 10px;" onclick="loadScenario('trap', this)">🐾 戰役 1：記憶撤退 (U型陷阱)</button>
+                    <button class="nav-btn" style="font-size: 0.9rem; padding: 5px 10px;" onclick="loadScenario('perfect', this)">🎯 戰役 2：無偏見導航 (直達 0,0)</button>
+                    <button class="nav-btn" style="font-size: 0.9rem; padding: 5px 10px; background-color: rgba(239, 68, 68, 0.2); border: 1px solid #ef4444;" onclick="loadScenario('test1', this)">🛡️ 測試1：連續斜向閃避</button>
+                    <button class="nav-btn" style="font-size: 0.9rem; padding: 5px 10px; background-color: rgba(239, 68, 68, 0.2); border: 1px solid #ef4444;" onclick="loadScenario('test2', this)">🧠 測試2：死胡同逃脫</button>
                 </div>
 
                 <div class="tactical-board">
@@ -1118,11 +1120,10 @@ basic.show_icon(IconNames.YES)
     </div>
 
     <script>
-        // 設定今日日期與初始化
+        // 設定今日日期
         window.onload = function() {
             const today = new Date().toISOString().split('T')[0];
             document.getElementById('qa-date').value = today;
-            initGrid(); // 🌟 初始化地圖
             updateDashboard(); 
         };
 
@@ -1316,7 +1317,7 @@ basic.show_icon(IconNames.YES)
             updateTransform(); 
         });
 
-        // --- 🌟 V3.0 實驗五-B 戰術地圖邏輯 🌟 ---
+        // --- 🌟 V3.0 實驗五-B 戰術地圖邏輯 (包含真實測試資料) 🌟 ---
         const scenarios = {
             'trap': {
                 start: {x:3, y:3}, target: {x:0, y:5},
@@ -1350,6 +1351,45 @@ basic.show_icon(IconNames.YES)
                     {x:0,y:2, log:"前往 (0,2)", type:"normal"},
                     {x:0,y:1, log:"前往 (0,1)", type:"normal"},
                     {x:0,y:0, log:"🏁 完美導航，抵達終點 (0,0)！", type:"success"}
+                ]
+            },
+            'test1': {
+                start: {x:3, y:0}, target: {x:0, y:5},
+                obstacles: [{x:3, y:2}, {x:2, y:3}, {x:1, y:3}],
+                steps: [
+                    {x:3,y:0, log:"出發 (3,0)，目標 (0,5)", type:"normal"},
+                    {x:3,y:1, log:"前往 (3,1)", type:"normal"},
+                    {x:3,y:1, log:"⚠️ 偵測小狗! 寫入黑名單(3,2)", type:"warning"},
+                    {x:2,y:1, log:"向左轉向，繞道前往 (2,1)", type:"highlight"},
+                    {x:2,y:2, log:"前往 (2,2)", type:"normal"},
+                    {x:2,y:2, log:"⚠️ 偵測小狗! 寫入黑名單(2,3)", type:"warning"},
+                    {x:1,y:2, log:"向左轉向，繞道前往 (1,2)", type:"highlight"},
+                    {x:1,y:2, log:"⚠️ 偵測行人! 寫入黑名單(1,3)", type:"warning"},
+                    {x:0,y:2, log:"向左轉向，繞道前往 (0,2)", type:"highlight"},
+                    {x:0,y:3, log:"前往 (0,3)", type:"normal"},
+                    {x:0,y:4, log:"前往 (0,4)", type:"normal"},
+                    {x:0,y:5, log:"🏁 成功避開三重障礙，抵達終點 (0,5)！", type:"success"}
+                ]
+            },
+            'test2': {
+                start: {x:3, y:0}, target: {x:0, y:5},
+                obstacles: [{x:3, y:3}, {x:2, y:2}, {x:1, y:2}],
+                steps: [
+                    {x:3,y:0, log:"出發 (3,0)，目標 (0,5)", type:"normal"},
+                    {x:3,y:1, log:"前往 (3,1)", type:"normal"},
+                    {x:3,y:2, log:"前往 (3,2)", type:"normal"},
+                    {x:3,y:2, log:"⚠️ 偵測小狗! 寫入黑名單(3,3)", type:"warning"},
+                    {x:3,y:2, log:"⚠️ 轉向再偵測小狗! 寫入黑名單(2,2)", type:"warning"},
+                    {x:3,y:2, log:"死胡同！果斷放棄向北，開始撤退", type:"highlight"},
+                    {x:3,y:1, log:"退回 (3,1)", type:"normal"},
+                    {x:2,y:1, log:"繞道前往 (2,1)", type:"highlight"},
+                    {x:1,y:1, log:"前往 (1,1)", type:"normal"},
+                    {x:1,y:1, log:"⚠️ 偵測小狗! 寫入黑名單(1,2)", type:"warning"},
+                    {x:0,y:1, log:"繞道前往 (0,1)", type:"highlight"},
+                    {x:0,y:2, log:"前往 (0,2)", type:"normal"},
+                    {x:0,y:3, log:"前往 (0,3)", type:"normal"},
+                    {x:0,y:4, log:"前往 (0,4)", type:"normal"},
+                    {x:0,y:5, log:"🏁 成功逃脫死胡同，抵達終點 (0,5)！", type:"success"}
                 ]
             }
         };
