@@ -654,12 +654,21 @@
                     <li><strong>步驟：</strong> 設定小車以三種不同的行駛速度前進。</li>
                     <li><strong>測試：</strong> 透過程式設定自動緊急煞車，反覆測量車輛因物理慣性至完全停止所需的「實際滑行距離」。此實驗所建立的安全煞車距離，將確保小車在進入不可逆的視野死角前，擁有足夠的安全緩衝。</li>
                 </ul>
+                <div style="background-color: rgba(16, 185, 129, 0.1); border-left: 4px solid var(--accent-green); padding: 18px; margin-top: 20px; border-radius: 0 8px 8px 0;">
+                    <h4 style="color: var(--accent-green); margin-top: 0; margin-bottom: 12px; font-size: 1.1rem;">💡 秉澔的實驗後心得（已完成實測！）</h4>
+                    <p style="margin-top: 0; margin-bottom: 10px; color: var(--accent-glow);">「物理慣性是真的！車速越快，我們需要的『安全預警距離』就越長！」</p>
+                    <ul style="margin-bottom: 0; padding-left: 20px; line-height: 1.8; list-style-type: none;">
+                        <li>🏎️ <strong>速度與煞車距離的正比關係：</strong>我發現當速度從 20 cm/s 提升到 40 cm/s 時，煞車距離直接翻倍來到 7.06 cm！這證明了高速行駛下的物理慣性非常危險。</li>
+                        <li>🛡️ <strong>加上 10 公分「絕對防護罩」：</strong>為了讓全生命守護系統達到真正的「零死角」，我把『平均煞車滑行距離』再加上『10 公分的系統安全緩衝』，得出了最終的『系統建議預警距離』。</li>
+                        <li>🎯 <strong>確認最終參數：</strong>根據實驗四的結果，如果小車最高速設定在 40 cm/s，我們的感測器就必須至少在 17.06 cm 以外提早發現石虎並下達煞車指令！這為我們後續的 AI 避障打下了最穩固的安全邊際基礎。</li>
+                    </ul>
+                </div>
             </div>
             
             <div class="card orange-border">
                 <h3>5.🔍 實驗五：生命轉彎處（克服水平視野死角之動態避障）<span style="color: var(--accent-red);">＋【超音波對決】</span></h3>
                 <ul>
-                    <li><strong>情境 A：受限車道（模擬狹窄山路）</strong>
+                    <li><strong>情境 A：受限車道（模擬狹窄山路 - 尚未完成實測）</strong>
                         <ul>
                             <li><strong>限制與測試：</strong> 小車在兩條平行白線內移動，測試小車如何在不壓線的前提下執行極限閃避。</li>
                             <li><strong style="color: var(--accent-red);">🔥 雙感測器對照亮點：</strong> 換上超音波感測器跑同一賽道，驗證其「扇形音波」是否會掃到兩側牆壁而產生誤判煞車。</li>
@@ -671,6 +680,15 @@
                         </ul>
                     </li>
                 </ul>
+                <div style="background-color: rgba(16, 185, 129, 0.1); border-left: 4px solid var(--accent-green); padding: 18px; margin-top: 20px; border-radius: 0 8px 8px 0;">
+                    <h4 style="color: var(--accent-green); margin-top: 0; margin-bottom: 12px; font-size: 1.1rem;">💡 秉澔的實驗後心得（實驗五-B已完成實測！）</h4>
+                    <p style="margin-top: 0; margin-bottom: 10px; color: var(--accent-glow);">「AI 的偏見與記憶學習真的太神奇了！這台車真的像有靈魂一樣會思考！」</p>
+                    <ul style="margin-bottom: 0; padding-left: 20px; line-height: 1.8; list-style-type: none;">
+                        <li>🧠 <strong>網格記憶與果斷撤退：</strong>在遇到連續的「U型死胡同」時，一開始小車會打轉，但當『足跡懲罰分數』累積超過極限，它就會果斷放棄並向後撤退尋找新路線，完全不需要人為介入！它甚至知道轉彎後就不再查探死胡同，因為黑名單已經記住了！</li>
+                        <li>👁️ <strong>四眼防墜崖輔助：</strong>我把底部的 L2/R2 巡線感測器加入微秒級監視迴圈後，小車只要任何一個角落稍微壓到白線邊界，就會馬上煞車並「完美倒帶」退回原點。這簡直是特斯拉等級的安全系統！</li>
+                        <li>⚖️ <strong>破除 AI 偏見：</strong>我們一度因為設定「往南扣分」而讓小車不敢走向南邊的終點 (0,0)，寧願撞牆繞遠路。當我取消硬性偏見、完全信任曼哈頓距離後，它終於變成真正全域通用的 AI 大腦！這是我學到最寶貴的演算法邏輯課。</li>
+                    </ul>
+                </div>
             </div>
         </div>
 
@@ -731,7 +749,7 @@
                     <li><strong>📦 測試材質準備：</strong> 我們準備了白色紙板（高反光）、棕色紙板（漫反射）以及最關鍵的黑色絨毛玩偶（極度吸光與吸音）作為測試目標。</li>
                     <li><strong>🛠️ 雙感測器戰車：</strong> 將光學雷達與超音波感測器同時安裝在麥昆小車上，確保兩者在完全相同的位置與高度進行公平對決。</li>
                     <li><strong>🚗 實驗進行中：</strong> 小車在賽道上對準不同材質的目標物，我們分工合作，反覆測試 30 到 150 公分的距離，並耐心等待兩種感測器輪流回傳數據。</li>
-                    <li><strong>💻 數據記錄與分析：</strong> 我和秉宸一起緊盯筆電接收到的戰情室數據，把序列埠的真實數據截圖存入 Word 檔案，深怕漏掉任何一個能證明「絨毛吸音」的關鍵數字！</li>
+                    <li><strong>💻 數據記錄與分析：</strong> 我和秉宸一起緊盯筆電接收到的實驗數據，把序列埠的真實數據截圖存入 Word 檔案，深怕漏掉任何一個能證明「絨毛吸音」的關鍵數字！</li>
                 </ul>
                 <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 15px;">
                     <img src="photo18.jpg" alt="[photo18.jpg]" class="photo-preview clickable-img" onclick="openLightbox(this.src)">
@@ -749,7 +767,7 @@
                     <li><strong>📏 硬體改裝 (photo11~13)：</strong> 為了確保變因準確，我們拿著直尺小心翼翼地測量，將光學雷達精準安裝在 5cm (低位)、10cm (中位) 與 15cm (高位) 三種不同的測試高度。</li>
                     <li><strong>💻 大腦升級 (photo14)：</strong> 我正在修改 MicroPython 核心程式碼，為實驗三加入專屬的通訊標籤，並將最新程式燒錄到小車的大腦裡準備上陣！</li>
                     <li><strong>🚗 戰場實測 (photo15)：</strong> 實驗正式啟動！小車在賽道上精準對準目標，我們反覆測量「模擬目標」在不同距離下感測器的真實反應。</li>
-                    <li><strong>👀 戰情監控 (photo16)：</strong> 我和秉宸化身數據分析師，雙眼緊盯著基地台接收到的序列埠數據，深怕漏掉任何一次跳動，並將重要數據截圖存入 Word 檔案中妥善保存。</li>
+                    <li><strong>👀 數據監控 (photo16)：</strong> 我和秉宸化身數據分析師，雙眼緊盯著基地台接收到的序列埠數據，深怕漏掉任何一次跳動，並將重要數據截圖存入 Word 檔案中妥善保存。</li>
                     <li><strong>📊 數據彙整 (photo17)：</strong> 實驗結束後，我親自將一筆筆珍貴的原始數據輸入到 Excel 試算表中，準備用它們來畫出最專業的「成功率折線圖」！</li>
                 </ul>
                 <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 15px;">
@@ -769,7 +787,7 @@
                 <ul>
                     <li><strong>💻 大腦連線準備 (photo23)：</strong> 實驗開始前，我正專注地將緊急煞車的邏輯寫入 MicroPython，並準備燒錄到小車大腦中。</li>
                     <li><strong>🏎️ 起跑線待命 (photo24)：</strong> 麥昆小車在起跑線上蓄勢待發，準備以不同的速度（20, 30, 40 cm/s）衝刺，測試生死一瞬間的煞停極限！</li>
-                    <li><strong>👀 戰情監控與紀錄 (photo25)：</strong> 我一邊緊盯著小車衝刺與煞車的動態，一邊看著電腦螢幕接收到的戰情室訊號，把珍貴的滑行距離一筆筆記錄下來。</li>
+                    <li><strong>👀 數據監控與紀錄 (photo25)：</strong> 我一邊緊盯著小車衝刺與煞車的動態，一邊看著電腦螢幕接收到的數據室訊號，把珍貴的滑行距離一筆筆記錄下來。</li>
                 </ul>
                 <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 15px;">
                     <img src="photo23.jpg" alt="秉澔正在做實驗前的程式燒錄準備" class="photo-preview clickable-img" onclick="openLightbox(this.src)">
@@ -863,7 +881,7 @@
                     
                     <div class="log-container">
                         <div class="log-header">
-                            <span style="color: var(--accent-glow); font-weight: bold;">📡 戰情室即時通訊 (Log)</span>
+                            <span style="color: var(--accent-glow); font-weight: bold;">📡 數據室即時通訊 (Log)</span>
                             <button class="play-btn" onclick="playScenario()">▶️ 播放軌跡</button>
                         </div>
                         <div class="log-body" id="log-body">
@@ -1033,7 +1051,7 @@ basic.show_icon(IconNames.HAPPY)
                 </div>
 
                 <h4 style="color: var(--accent-glow); margin-top: 30px;">2. 小車端（發射端）最終優化版程式碼與物理解析</h4>
-                <p>為了讓戰情中心更容易辨識，我們特別將廣播的標籤升級為 <code>L3_Count</code> 與 <code>--- EXP 3 START ---</code>。這套程式讓我們發現了最驚人的事實：<strong style="color: var(--accent-orange);">「垂直視野死角真實存在！」</strong></p>
+                <p>為了讓數據中心更容易辨識，我們特別將廣播的標籤升級為 <code>L3_Count</code> 與 <code>--- EXP 3 START ---</code>。這套程式讓我們發現了最驚人的事實：<strong style="color: var(--accent-orange);">「垂直視野死角真實存在！」</strong></p>
                 <p>原本我們預測光束會像手電筒一樣呈現大圓盤狀擴散，就算裝在 15cm 高，邊緣的餘光應該也能掃到 11cm 的目標。但實測數據狠狠地推翻了這個想像——邊緣的能量太弱了，加上深色絨毛的吸光特性，導致高位 (15cm) 完完全全測不到（Overshoot 越頂盲區）！</p>
                 
                 <div style="background-color: #1e1e1e; padding: 15px; border-radius: 8px; overflow-x: auto; border: 1px solid #334155; box-shadow: inset 0 0 10px rgba(0,0,0,0.5);">
@@ -1049,7 +1067,7 @@ radio.on_received_string(on_received_string)
     total_L3 = <span style="color: #b5cea8;">0</span>
     basic.show_icon(IconNames.TARGET)
     
-    <span style="color: #6a9955;"># 傳送實驗三開始訊號，方便戰情中心識別</span>
+    <span style="color: #6a9955;"># 傳送實驗三開始訊號，方便數據中心識別</span>
     radio.send_string(<span style="color: #ce9178;">"--- EXP 3 START ---"</span>)
     basic.pause(<span style="color: #b5cea8;">200</span>)
     
@@ -1098,7 +1116,7 @@ basic.show_icon(IconNames.YES)
                 <p>這場「生死一瞬間」的速度與煞車極限測試，我們透過 MicroPython 精準捕捉了小車從收到煞車指令到完全靜止的滑行距離。</p>
                 
                 <h4 style="color: var(--accent-glow); margin-top: 20px;">1. 原始數據截圖 (Raw Data)</h4>
-                <p style="line-height: 1.6;">我們測試了不同的速度參數，並將五次測量的滑行距離精準回傳至戰情室。這些真實數據證明了物理慣性對自動駕駛安全的絕對影響！</p>
+                <p style="line-height: 1.6;">我們測試了不同的速度參數，並將五次測量的滑行距離精準回傳至數據中心。這些真實數據證明了物理慣性對自動駕駛安全的絕對影響！</p>
                 
                 <div style="background-color: rgba(0,0,0,0.2); padding: 15px; border-radius: 8px; border: 1px dashed #475569;">
                     <p style="color: var(--accent-orange); margin-top: 0; font-size: 0.9rem;">💡 提示：點擊下方圖片，可用滑鼠滾輪放大觀看精確數據，並可按住圖片拖曳平移！</p>
@@ -1144,6 +1162,173 @@ basic.show_icon(IconNames.YES)
             radio.send_string(<span style="color: #ce9178;">"Slide: "</span> + str(slide_dist) + <span style="color: #ce9178;">" cm"</span>)
             basic.show_icon(IconNames.NO)
             <span style="color: #569cd6;">break</span>
+</code></pre>
+                </div>
+            </div>
+
+            <div id="appendix-exp5" class="card purple-border" style="margin-top: 40px; background-color: rgba(139, 92, 246, 0.05); display: none;">
+                <h3 style="color: var(--accent-purple);">📂 實驗五-A附錄：(受限車道) 尚未完成實測</h3>
+                <p>此實驗區域將保留給未來狹窄山路與抗干擾極限對決的實測紀錄。</p>
+            </div>
+
+            <div id="appendix-exp6" class="card purple-border" style="margin-top: 40px; background-color: rgba(139, 92, 246, 0.05); display: none;">
+                <h3 style="color: var(--accent-purple);">📂 實驗五-B附錄：核心程式碼與原始數據佐證</h3>
+                <p>這是整個專案最令人驕傲的成果！我們透過 MicroPython 將小車升級成了具備「網格座標記憶」、「曼哈頓動態尋路」與「鷹眼四眼防墜崖」的無偏見 AI 大腦。</p>
+                
+                <h4 style="color: var(--accent-glow); margin-top: 30px;">小車端（發射端）V13 最終極大一統程式碼</h4>
+                <p>這 200 多行的程式碼凝聚了我們所有的除錯心血，成功彌補了實體感測器的視野死角，達成了「全生命守護」的最終目標！</p>
+                
+                <div style="background-color: #1e1e1e; padding: 15px; border-radius: 8px; overflow-x: auto; border: 1px solid #334155; box-shadow: inset 0 0 10px rgba(0,0,0,0.5);">
+<pre style="margin: 0; color: #d4d4d4; font-family: Consolas, 'Courier New', monospace; font-size: 0.95rem; line-height: 1.5;"><code><span style="color: #6a9955;"># --- 實驗五-B：終極 AI 全域導航 (V13 四眼防墜崖 + 無偏見完美版) ---</span>
+
+current_speed = <span style="color: #b5cea8;">80</span>
+time_one_grid = <span style="color: #b5cea8;">960</span>   
+time_turn_90 = <span style="color: #b5cea8;">945</span>    
+
+start_x = <span style="color: #b5cea8;">3</span>; start_y = <span style="color: #b5cea8;">3</span>         
+target_x = <span style="color: #b5cea8;">0</span>; target_y = <span style="color: #b5cea8;">0</span>        
+final_facing = <span style="color: #b5cea8;">0</span>    
+
+current_x = <span style="color: #b5cea8;">0</span>; current_y = <span style="color: #b5cea8;">0</span>; current_dir = <span style="color: #b5cea8;">0</span>; total_grids = <span style="color: #b5cea8;">0</span>
+sensor_mode = <span style="color: #b5cea8;">1</span>     
+
+bad_x = [-<span style="color: #b5cea8;">99</span>]; bad_y = [-<span style="color: #b5cea8;">99</span>]
+visited = [<span style="color: #b5cea8;">0</span>]*<span style="color: #b5cea8;">24</span>
+
+is_running = <span style="color: #569cd6;">False</span>
+command_inbox = <span style="color: #ce9178;">""</span>  
+
+<span style="color: #569cd6;">def</span> <span style="color: #dcdcaa;">is_safe_to_go</span>(test_x, test_y):
+    <span style="color: #569cd6;">for</span> i <span style="color: #569cd6;">in</span> range(len(bad_x)):
+        <span style="color: #569cd6;">if</span> bad_x[i] == test_x <span style="color: #569cd6;">and</span> bad_y[i] == test_y:
+            <span style="color: #569cd6;">return False</span>
+    <span style="color: #569cd6;">return True</span>
+
+<span style="color: #6a9955;"># 🌟 核心升級：四眼全開防壓線鷹眼系統 (0 是白線修正版)</span>
+<span style="color: #569cd6;">def</span> <span style="color: #dcdcaa;">move_one_grid</span>():
+    <span style="color: #569cd6;">global</span> current_x, current_y, total_grids, visited, bad_x, bad_y
+    nx = current_x; ny = current_y
+    <span style="color: #569cd6;">if</span> current_dir == <span style="color: #b5cea8;">0</span>: ny += <span style="color: #b5cea8;">1</span>
+    <span style="color: #569cd6;">elif</span> current_dir == <span style="color: #b5cea8;">1</span>: nx += <span style="color: #b5cea8;">1</span>
+    <span style="color: #569cd6;">elif</span> current_dir == <span style="color: #b5cea8;">2</span>: ny -= <span style="color: #b5cea8;">1</span>
+    <span style="color: #569cd6;">elif</span> current_dir == <span style="color: #b5cea8;">3</span>: nx -= <span style="color: #b5cea8;">1</span>
+
+    maqueenPlusV2.control_motor(maqueenPlusV2.MyEnumMotor.LEFT_MOTOR, maqueenPlusV2.MyEnumDir.FORWARD, current_speed)
+    maqueenPlusV2.control_motor(maqueenPlusV2.MyEnumMotor.RIGHT_MOTOR, maqueenPlusV2.MyEnumDir.FORWARD, current_speed)
+    
+    start_move = input.running_time()
+    hit_line = <span style="color: #569cd6;">False</span>
+    time_driven = <span style="color: #b5cea8;">0</span>
+    
+    <span style="color: #569cd6;">while</span> input.running_time() - start_move < time_one_grid:
+        line_L1 = maqueenPlusV2.read_line_sensor_state(maqueenPlusV2.MyEnumLineSensor.SENSOR_L1)
+        line_R1 = maqueenPlusV2.read_line_sensor_state(maqueenPlusV2.MyEnumLineSensor.SENSOR_R1)
+        line_L2 = maqueenPlusV2.read_line_sensor_state(maqueenPlusV2.MyEnumLineSensor.SENSOR_L2)
+        line_R2 = maqueenPlusV2.read_line_sensor_state(maqueenPlusV2.MyEnumLineSensor.SENSOR_R2)
+        
+        <span style="color: #6a9955;"># 只要有任何一顆眼睛讀到 0 (白線)，立刻觸發防護！</span>
+        <span style="color: #569cd6;">if</span> line_L1 == <span style="color: #b5cea8;">0</span> <span style="color: #569cd6;">or</span> line_R1 == <span style="color: #b5cea8;">0</span> <span style="color: #569cd6;">or</span> line_L2 == <span style="color: #b5cea8;">0</span> <span style="color: #569cd6;">or</span> line_R2 == <span style="color: #b5cea8;">0</span>:
+            hit_line = <span style="color: #569cd6;">True</span>
+            time_driven = input.running_time() - start_move
+            <span style="color: #569cd6;">break</span> 
+            
+    maqueenPlusV2.control_motor_stop(maqueenPlusV2.MyEnumMotor.LEFT_MOTOR)
+    maqueenPlusV2.control_motor_stop(maqueenPlusV2.MyEnumMotor.RIGHT_MOTOR)
+    
+    <span style="color: #569cd6;">if</span> hit_line:
+        radio.send_string(<span style="color: #ce9178;">"Dodge:Cliff"</span>)
+        basic.pause(<span style="color: #b5cea8;">150</span>)
+        bad_x.append(nx)
+        bad_y.append(ny)
+        
+        <span style="color: #6a9955;"># 時光倒流精準退回格子中心</span>
+        maqueenPlusV2.control_motor(maqueenPlusV2.MyEnumMotor.LEFT_MOTOR, maqueenPlusV2.MyEnumDir.BACKWARD, current_speed)
+        maqueenPlusV2.control_motor(maqueenPlusV2.MyEnumMotor.RIGHT_MOTOR, maqueenPlusV2.MyEnumDir.BACKWARD, current_speed)
+        basic.pause(time_driven)
+        maqueenPlusV2.control_motor_stop(maqueenPlusV2.MyEnumMotor.LEFT_MOTOR)
+        maqueenPlusV2.control_motor_stop(maqueenPlusV2.MyEnumMotor.RIGHT_MOTOR)
+        basic.pause(<span style="color: #b5cea8;">500</span>)
+        <span style="color: #569cd6;">return</span>
+    
+    current_x = nx
+    current_y = ny
+    visited[current_x + current_y * <span style="color: #b5cea8;">4</span>] += <span style="color: #b5cea8;">1</span>
+    total_grids += <span style="color: #b5cea8;">1</span>
+    radio.send_string(<span style="color: #ce9178;">"Pos: ("</span> + str(current_x) + <span style="color: #ce9178;">","</span> + str(current_y) + <span style="color: #ce9178;">")"</span>)
+    basic.pause(<span style="color: #b5cea8;">500</span>)
+
+<span style="color: #569cd6;">def</span> <span style="color: #dcdcaa;">run_ai_navigation</span>():
+    <span style="color: #569cd6;">global</span> current_x, current_y, current_dir, total_grids
+    <span style="color: #569cd6;">global</span> bad_x, bad_y, visited, is_running
+    
+    is_running = <span style="color: #569cd6;">True</span>
+    current_x = start_x; current_y = start_y
+    current_dir = <span style="color: #b5cea8;">0</span>; total_grids = <span style="color: #b5cea8;">0</span>
+    bad_x = [-<span style="color: #b5cea8;">99</span>]; bad_y = [-<span style="color: #b5cea8;">99</span>]
+    visited = [<span style="color: #b5cea8;">0</span>]*<span style="color: #b5cea8;">24</span>
+    visited[start_x + start_y * <span style="color: #b5cea8;">4</span>] = <span style="color: #b5cea8;">1</span>
+    
+    basic.show_icon(IconNames.TARGET)
+    radio.send_string(<span style="color: #ce9178;">"--- LiDAR NAV ---"</span>)
+    start_time = input.running_time()
+    
+    <span style="color: #569cd6;">while</span> current_x != target_x <span style="color: #569cd6;">or</span> current_y != target_y:
+        safe_dirs = []
+        <span style="color: #569cd6;">if</span> current_y < <span style="color: #b5cea8;">5</span> <span style="color: #569cd6;">and</span> is_safe_to_go(current_x, current_y + <span style="color: #b5cea8;">1</span>): safe_dirs.append(<span style="color: #b5cea8;">0</span>)
+        <span style="color: #569cd6;">if</span> current_x < <span style="color: #b5cea8;">3</span> <span style="color: #569cd6;">and</span> is_safe_to_go(current_x + <span style="color: #b5cea8;">1</span>, current_y): safe_dirs.append(<span style="color: #b5cea8;">1</span>)
+        <span style="color: #569cd6;">if</span> current_y > <span style="color: #b5cea8;">0</span> <span style="color: #569cd6;">and</span> is_safe_to_go(current_x, current_y - <span style="color: #b5cea8;">1</span>): safe_dirs.append(<span style="color: #b5cea8;">2</span>)
+        <span style="color: #569cd6;">if</span> current_x > <span style="color: #b5cea8;">0</span> <span style="color: #569cd6;">and</span> is_safe_to_go(current_x - <span style="color: #b5cea8;">1</span>, current_y): safe_dirs.append(<span style="color: #b5cea8;">3</span>)
+        
+        <span style="color: #569cd6;">if</span> len(safe_dirs) == <span style="color: #b5cea8;">0</span>:
+            radio.send_string(<span style="color: #ce9178;">"TRAPPED!"</span>)
+            basic.show_icon(IconNames.SAD)
+            <span style="color: #569cd6;">break</span>
+            
+        best_dir = -<span style="color: #b5cea8;">1</span>; min_score = <span style="color: #b5cea8;">9999</span>
+        
+        <span style="color: #569cd6;">for</span> d <span style="color: #569cd6;">in</span> safe_dirs:
+            nx = current_x; ny = current_y
+            <span style="color: #569cd6;">if</span> d == <span style="color: #b5cea8;">0</span>: ny += <span style="color: #b5cea8;">1</span>
+            <span style="color: #569cd6;">elif</span> d == <span style="color: #b5cea8;">1</span>: nx += <span style="color: #b5cea8;">1</span>
+            <span style="color: #569cd6;">elif</span> d == <span style="color: #b5cea8;">2</span>: ny -= <span style="color: #b5cea8;">1</span>
+            <span style="color: #569cd6;">elif</span> d == <span style="color: #b5cea8;">3</span>: nx -= <span style="color: #b5cea8;">1</span>
+            
+            v_count = visited[nx + ny * <span style="color: #b5cea8;">4</span>]
+            dist_x = abs(target_x - nx)
+            dist_y = abs(target_y - ny)
+            
+            <span style="color: #6a9955;"># 🌟 無偏見純淨計分法，完全信任曼哈頓距離</span>
+            dist_to_target = dist_x + dist_y
+            score = (v_count * <span style="color: #b5cea8;">20</span>) + dist_to_target 
+                
+            <span style="color: #569cd6;">if</span> score < min_score:
+                min_score = score
+                best_dir = d
+                
+        face_direction(best_dir)
+        
+        dist = matrixLidarDistance.matrix_point_output(matrixLidarDistance.Addr.ADDR4, <span style="color: #b5cea8;">3</span>, <span style="color: #b5cea8;">3</span>) / <span style="color: #b5cea8;">10</span>
+        
+        <span style="color: #569cd6;">if</span> dist > <span style="color: #b5cea8;">0</span> <span style="color: #569cd6;">and</span> dist <= <span style="color: #b5cea8;">9</span>:
+            ox = current_x; oy = current_y
+            <span style="color: #569cd6;">if</span> best_dir == <span style="color: #b5cea8;">0</span>: oy += <span style="color: #b5cea8;">1</span>
+            <span style="color: #569cd6;">elif</span> best_dir == <span style="color: #b5cea8;">1</span>: ox += <span style="color: #b5cea8;">1</span>
+            <span style="color: #569cd6;">elif</span> best_dir == <span style="color: #b5cea8;">2</span>: oy -= <span style="color: #b5cea8;">1</span>
+            <span style="color: #569cd6;">elif</span> best_dir == <span style="color: #b5cea8;">3</span>: ox -= <span style="color: #b5cea8;">1</span>
+            
+            radio.send_string(<span style="color: #ce9178;">"Dodge:Puppy"</span>)
+            basic.pause(<span style="color: #b5cea8;">150</span>)
+            bad_x.append(ox); bad_y.append(oy)
+        <span style="color: #569cd6;">else</span>:
+            move_one_grid()
+            
+    <span style="color: #569cd6;">if</span> current_x == target_x <span style="color: #569cd6;">and</span> current_y == target_y:
+        end_time = input.running_time()
+        radio.send_string(<span style="color: #ce9178;">"Time:"</span> + str((end_time - start_time) / <span style="color: #b5cea8;">1000</span>))
+        basic.pause(<span style="color: #b5cea8;">500</span>)
+        radio.send_string(<span style="color: #ce9178;">"Grids:"</span> + str(total_grids))
+        basic.pause(<span style="color: #b5cea8;">1000</span>)
+        maqueenPlusV2.control_motor_stop(maqueenPlusV2.MyEnumMotor.ALL_MOTOR)
 </code></pre>
                 </div>
             </div>
@@ -1662,7 +1847,9 @@ basic.show_icon(IconNames.YES)
                         document.getElementById('appendix-exp1').style.display = 'none';
                         document.getElementById('appendix-exp2').style.display = 'none';
                         document.getElementById('appendix-exp3').style.display = 'block';
-                        document.getElementById('appendix-exp4').style.display = 'none'; 
+                        document.getElementById('appendix-exp4').style.display = 'none';
+                        document.getElementById('appendix-exp5').style.display = 'none';
+                        document.getElementById('appendix-exp6').style.display = 'none';
                         return; 
                     }
                 }
@@ -1860,10 +2047,12 @@ basic.show_icon(IconNames.YES)
                 document.getElementById('data-table-container').innerHTML = generateTableHTML(rows);
                 
                 // 動態顯示對應的附錄區塊
-                document.getElementById('appendix-exp1').style.display = (selectedExp === 'exp1') ? 'block' : 'none';
-                document.getElementById('appendix-exp2').style.display = (selectedExp === 'exp2') ? 'block' : 'none';
-                document.getElementById('appendix-exp3').style.display = (selectedExp === 'exp3') ? 'block' : 'none';
-                document.getElementById('appendix-exp4').style.display = (selectedExp === 'exp4') ? 'block' : 'none'; 
+                const app1 = document.getElementById('appendix-exp1'); if(app1) app1.style.display = (selectedExp === 'exp1') ? 'block' : 'none';
+                const app2 = document.getElementById('appendix-exp2'); if(app2) app2.style.display = (selectedExp === 'exp2') ? 'block' : 'none';
+                const app3 = document.getElementById('appendix-exp3'); if(app3) app3.style.display = (selectedExp === 'exp3') ? 'block' : 'none';
+                const app4 = document.getElementById('appendix-exp4'); if(app4) app4.style.display = (selectedExp === 'exp4') ? 'block' : 'none';
+                const app5 = document.getElementById('appendix-exp5'); if(app5) app5.style.display = (selectedExp === 'exp5') ? 'block' : 'none';
+                const app6 = document.getElementById('appendix-exp6'); if(app6) app6.style.display = (selectedExp === 'exp6') ? 'block' : 'none';
                 
             } catch (e) { 
                 console.log(e); 
