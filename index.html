@@ -619,9 +619,19 @@
             <div class="card orange-border">
                 <h3>4.🔍 實驗四：生死一瞬間（建立死角安全邊際）</h3>
                 <ul>
-                    <li><strong>步驟：</strong> 設定小車以三種不同的行駛速度前進。</li>
+                    <li><strong>步驟：</strong> 設定小車以三種不同的行駛速度（20, 30, 40 cm/s）前進。</li>
                     <li><strong>測試：</strong> 透過程式設定自動緊急煞車，反覆測量車輛因物理慣性至完全停止所需的「實際滑行距離」。此實驗所建立的安全煞車距離，將確保小車在進入不可逆的視野死角前，擁有足夠的安全緩衝。</li>
                 </ul>
+                
+                <div style="background-color: rgba(16, 185, 129, 0.1); border-left: 4px solid var(--accent-green); padding: 18px; margin-top: 20px; border-radius: 0 8px 8px 0;">
+                    <h4 style="color: var(--accent-green); margin-top: 0; margin-bottom: 12px; font-size: 1.1rem;">💡 秉澔的實驗後心得（已完成實測！）</h4>
+                    <p style="margin-top: 0; margin-bottom: 10px; color: var(--accent-glow);">「物理慣性是真的！車速越快，我們需要的『安全預警距離』就越長！」</p>
+                    <ul style="margin-bottom: 0; padding-left: 20px; line-height: 1.8; list-style-type: none;">
+                        <li>🏎️ <strong>速度與煞車距離的正比關係：</strong> 從數據發現，當速度為 20 cm/s 時，煞車距離約 3.3 cm；但提升到 40 cm/s 時，煞車距離直接翻倍來到 7.06 cm！這證明了高速行駛下的物理慣性非常危險。</li>
+                        <li>🛡️ <strong>加上 10 公分「絕對防護罩」：</strong> 為了讓全生命守護系統達到真正的「零死角」，我把『平均煞車滑行距離』再加上『10 公分的系統安全緩衝』，得出了最終的『系統建議預警距離』。</li>
+                        <li>🎯 <strong>確認最終參數：</strong> 根據實驗四的結果，如果小車最高速設定在 40 cm/s，我們的感測器就必須至少在 17.06 cm 以外提早發現石虎並下達煞車指令！這為我們後續的 AI 避障打下了最穩固的安全邊際基礎。</li>
+                    </ul>
+                </div>
             </div>
             
             <div class="card orange-border">
@@ -728,6 +738,27 @@
                     <img src="photo15.jpg" alt="[photo15.jpg]" class="photo-preview clickable-img" onclick="openLightbox(this.src)">
                     <img src="photo16.jpg" alt="[photo16.jpg]" class="photo-preview clickable-img" onclick="openLightbox(this.src)">
                     <img src="photo17.jpg" alt="[photo17.jpg]" class="photo-preview clickable-img" onclick="openLightbox(this.src)">
+                </div>
+            </div>
+            
+            <div class="card">
+                <h3>✅ 任務八：完成實驗四（生死一瞬間）數據蒐集-5/21完成</h3>
+                <p>5月21日，我們進行了實驗四的極限測試！這次要挑戰物理學的「慣性」，找出小車在不同速度下的實際煞車滑行距離，藉此建立最安全的系統預警邊際。</p>
+                <ul>
+                    <li><strong>💻 大腦連線準備 (photo23)：</strong> 實驗開始前，我正專注地將緊急煞車的邏輯寫入 MicroPython，並準備燒錄到小車大腦中。</li>
+                    <li><strong>🏎️ 起跑線待命 (photo24)：</strong> 麥昆小車在起跑線上蓄勢待發，準備以不同的速度（20, 30, 40 cm/s）衝刺，測試生死一瞬間的煞停極限！</li>
+                    <li><strong>👀 戰情監控與紀錄 (photo25)：</strong> 我一邊緊盯著小車衝刺與煞車的動態，一邊看著電腦螢幕接收到的戰情室訊號，把珍貴的滑行距離一筆筆記錄下來。</li>
+                </ul>
+                <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 15px;">
+                    <img src="photo23.jpg" alt="秉澔正在做實驗前的程式燒錄準備" class="photo-preview clickable-img" onclick="openLightbox(this.src)">
+                    <img src="photo24.jpg" alt="小車在起跑線上準備衝刺" class="photo-preview clickable-img" onclick="openLightbox(this.src)">
+                    <img src="photo25.jpg" alt="秉澔觀察著小車衝刺過程與電腦接收到的訊號" class="photo-preview clickable-img" onclick="openLightbox(this.src)">
+                </div>
+                <div style="margin-top: 15px;">
+                    <video controls class="photo-preview" style="width: 100%; max-width: 600px;">
+                        <source src="video2.mp4" type="video/mp4">
+                        您的瀏覽器不支援影片播放。
+                    </video>
                 </div>
             </div>
         </div>
@@ -989,7 +1020,62 @@ basic.show_icon(IconNames.YES)
 </code></pre>
                 </div>
             </div>
-        </div>
+
+            <div id="appendix-exp4" class="card purple-border" style="margin-top: 40px; background-color: rgba(139, 92, 246, 0.05); display: none;">
+                <h3 style="color: var(--accent-purple);">📂 實驗四附錄：核心程式碼與原始數據佐證</h3>
+                <p>這場「生死一瞬間」的速度與煞車極限測試，我們透過 MicroPython 精準捕捉了小車從收到煞車指令到完全靜止的滑行距離。</p>
+                
+                <h4 style="color: var(--accent-glow); margin-top: 20px;">1. 原始數據截圖 (Raw Data)</h4>
+                <p style="line-height: 1.6;">我們測試了不同的速度參數，並將五次測量的滑行距離精準回傳至戰情室。這些真實數據證明了物理慣性對自動駕駛安全的絕對影響！</p>
+                
+                <div style="background-color: rgba(0,0,0,0.2); padding: 15px; border-radius: 8px; border: 1px dashed #475569;">
+                    <p style="color: var(--accent-orange); margin-top: 0; font-size: 0.9rem;">💡 提示：點擊下方圖片，可用滑鼠滾輪放大觀看精確數據，並可按住圖片拖曳平移！</p>
+                    <img src="raw_data_12.jpg" alt="實驗四原始數據12" class="photo-preview clickable-img" onclick="openLightbox(this.src)">
+                    <img src="raw_data_13.jpg" alt="實驗四原始數據13" class="photo-preview clickable-img" onclick="openLightbox(this.src)">
+                    <img src="raw_data_14.jpg" alt="實驗四原始數據14" class="photo-preview clickable-img" onclick="openLightbox(this.src)">
+                    <img src="raw_data_15.jpg" alt="實驗四原始數據15" class="photo-preview clickable-img" onclick="openLightbox(this.src)">
+                    <img src="raw_data_16.jpg" alt="實驗四原始數據16" class="photo-preview clickable-img" onclick="openLightbox(this.src)">
+                </div>
+
+                <h4 style="color: var(--accent-glow); margin-top: 30px;">2. 小車端（發射端）最終優化版程式碼與物理解析</h4>
+                <p>為了精準測量滑行距離，這支程式會在偵測到目標的瞬間，記錄下「觸發煞車時的雷達距離」，並在車輛完全靜止後，再次記錄「最終停止時的雷達距離」。兩者相減，就是這台車最真實的煞車物理滑行距離！</p>
+                
+                <div style="background-color: #1e1e1e; padding: 15px; border-radius: 8px; overflow-x: auto; border: 1px solid #334155; box-shadow: inset 0 0 10px rgba(0,0,0,0.5);">
+<pre style="margin: 0; color: #d4d4d4; font-family: Consolas, 'Courier New', monospace; font-size: 0.95rem; line-height: 1.5;"><code><span style="color: #6a9955;"># --- 實驗四：緊急煞車滑行距離測試 ---</span>
+<span style="color: #569cd6;">def</span> <span style="color: #dcdcaa;">test_emergency_brake</span>(speed_pwm):
+    <span style="color: #6a9955;"># 1. 小車全速前進</span>
+    maqueenPlusV2.control_motor(maqueenPlusV2.MyEnumMotor.ALL_MOTOR, maqueenPlusV2.MyEnumDir.FORWARD, speed_pwm)
+    
+    <span style="color: #569cd6;">while</span> <span style="color: #569cd6;">True</span>:
+        <span style="color: #6a9955;"># 隨時高速掃描前方距離</span>
+        current_dist = matrixLidarDistance.matrix_point_output(matrixLidarDistance.Addr.ADDR4, <span style="color: #b5cea8;">3</span>, <span style="color: #b5cea8;">3</span>) / <span style="color: #b5cea8;">10</span>
+        
+        <span style="color: #6a9955;"># 假設設定在距離 50cm 處觸發緊急煞車</span>
+        <span style="color: #569cd6;">if</span> current_dist <= <span style="color: #b5cea8;">50</span> <span style="color: #569cd6;">and</span> current_dist > <span style="color: #b5cea8;">0</span>:
+            <span style="color: #6a9955;"># 紀錄觸發當下的真實距離</span>
+            trigger_dist = current_dist
+            
+            <span style="color: #6a9955;"># 2. 斷電煞車！</span>
+            maqueenPlusV2.control_motor_stop(maqueenPlusV2.MyEnumMotor.ALL_MOTOR)
+            
+            <span style="color: #6a9955;"># 3. 等待車輛因物理慣性滑行至完全靜止</span>
+            basic.pause(<span style="color: #b5cea8;">1000</span>)
+            
+            <span style="color: #6a9955;"># 4. 測量停止後的最終距離</span>
+            final_dist = matrixLidarDistance.matrix_point_output(matrixLidarDistance.Addr.ADDR4, <span style="color: #b5cea8;">3</span>, <span style="color: #b5cea8;">3</span>) / <span style="color: #b5cea8;">10</span>
+            
+            <span style="color: #6a9955;"># 5. 計算並廣播滑行距離</span>
+            slide_dist = trigger_dist - final_dist
+            
+            radio.send_string(<span style="color: #ce9178;">"Speed: "</span> + str(speed_pwm))
+            basic.pause(<span style="color: #b5cea8;">200</span>)
+            radio.send_string(<span style="color: #ce9178;">"Slide: "</span> + str(slide_dist) + <span style="color: #ce9178;">" cm"</span>)
+            basic.show_icon(IconNames.NO)
+            <span style="color: #569cd6;">break</span>
+</code></pre>
+                </div>
+            </div>
+            </div>
 
         <div id="qa" class="page-section">
             <h1>🙋 獨立研究 Q&A</h1>
@@ -1326,6 +1412,7 @@ basic.show_icon(IconNames.YES)
                         document.getElementById('appendix-exp1').style.display = 'none';
                         document.getElementById('appendix-exp2').style.display = 'none';
                         document.getElementById('appendix-exp3').style.display = 'block';
+                        document.getElementById('appendix-exp4').style.display = 'none'; // 隱藏實驗四
                         return; // 實驗三專屬邏輯結束，跳出不再執行後方程式
                     }
                 }
@@ -1526,6 +1613,7 @@ basic.show_icon(IconNames.YES)
                 document.getElementById('appendix-exp1').style.display = (selectedExp === 'exp1') ? 'block' : 'none';
                 document.getElementById('appendix-exp2').style.display = (selectedExp === 'exp2') ? 'block' : 'none';
                 document.getElementById('appendix-exp3').style.display = (selectedExp === 'exp3') ? 'block' : 'none';
+                document.getElementById('appendix-exp4').style.display = (selectedExp === 'exp4') ? 'block' : 'none'; // 🌟 新增實驗四控制
                 
             } catch (e) { 
                 console.log(e); 
