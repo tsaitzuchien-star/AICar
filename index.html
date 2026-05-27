@@ -352,9 +352,10 @@
         }
         
         .kpi-title { 
-            font-size: 0.9rem; 
+            font-size: 0.95rem; 
             color: var(--text-muted); 
             margin-bottom: 5px; 
+            font-weight: bold;
         }
         
         .kpi-value { 
@@ -525,7 +526,7 @@
                 <strong>👨‍🏫 指導老師：</strong>洪瑞成 老師<br>
                 <strong>👨‍🔬 研究學生：</strong>南投縣光華國小五年級 蔡秉澔<br>
                 <strong>🧪 研究科別：</strong>生活應用科學類<br>
-                <strong>🔥 最新進度：</strong>實驗五-A (模擬山路) 與 五-B (24宮格) 皆已完成實測與數據分析！我成功開發出具備「懸崖防護與方向記憶」之全域網格 AI 大腦！
+                <strong>🔥 最新進度：</strong>實驗五-A (模擬狹窄山路) 與 五-B (24宮格導航) 皆已完成實測與數據分析！我成功開發出具備「無偏見方向記憶」之全域網格 AI 大腦！
             </div>
             <div class="card">
                 <h3>💡 研究動機：對抗致命的視野盲區</h3>
@@ -561,7 +562,7 @@
                     <li><strong>👨‍🏫 洪瑞成老師的科學啟蒙：</strong> 洪老師是這份研究的「靈魂導師」。他教導我如何運用嚴謹的「科學方法」，指導我如何設定控制變因與操縱變因，並在我遇到實驗瓶頸時，引導我思考解決方向，確保整個研究不偏離科學正軌。</li>
                     <li><strong>👨‍🔬 我（秉澔）的大腦與雙手：</strong> 我是整個計畫的「執行科學家」。我負責提出實驗假說、用瓦楞紙搭建賽道、拿直尺精準測量感測器高度、在地上爬來爬去收集真實數據。所有的「程式邏輯判斷」都是我決定的（例如：我發現資料傳輸會塞車碰撞，是我決定要在程式中加入 0.2 秒的排隊暫停時間來解決問題）。</li>
                     <li><strong>💻 AI 的語法輔助：</strong> 我把 Gemini AI 當作我的「程式翻譯機」與「除錯小幫手」。我把想好的實驗邏輯告訴 AI，請它幫我翻譯成正確的 Python 或 HTML 程式碼；當遇到如 <code>#DIV/0!</code> 的運算錯誤時，我也會將其作為字典來查詢解決方案。</li>
-                    <li><strong>🏆 實測推翻理論：</strong> 最重要的是，AI 一開始曾用理論推測「雷射光像手電筒會擴散，所以 15cm 高度的雷達應該也能掃到 11cm 的石虎」。但是，<strong>我親自量測的真實實驗數據狠狠地推翻了 AI 的猜測！</strong> 這讓我學到，工具只能給建議，真正的科學真理，必須靠我們自己動手做實驗來證明！</li>
+                    <li><strong>🏆 實測推翻理論：</strong> 最重要的是，AI 一開始曾用理論推測「雷射光像手電筒會擴散，所以 15cm 高度的雷達應該也能掃到 11cm 的石虎」。但是，<strong>我親自量測的真實實驗數據狠狠地推翻了 AI 的猜測！</strong> 這讓我學到，工具只能給建議，真正的科學真理，必須靠我自己動手做實驗來證明！</li>
                 </ul>
                 <p style="color: var(--accent-glow); font-weight: bold; margin-top: 15px; text-align: center; font-size: 1.1rem;">「老師引導方向，AI 提供工具，而我才是主導整個實驗的科學家！」</p>
             </div>
@@ -577,7 +578,7 @@
                     <li><strong>探討保護色與材質的偵測極限（克服材質吸收盲區）：</strong> 測試光學雷達對絨毛材質的穿透力，並對比超音波感測器，釐清實體感測的極限。</li>
                     <li><strong>優化感測模組的最佳視角（克服垂直視野死角）：</strong> 找出最適合精準偵測的硬體高度，避免光束產生「越頂盲區」或「觸地雜訊」。</li>
                     <li><strong>建立安全預警與煞車門檻（建立死角安全邊際）：</strong> 測量不同速度下的實際煞停距離，確保在進入視野死角前，系統具備足夠的反應緩衝空間。</li>
-                    <li><strong>實作多情境 AI 動態避障大腦（克服水平視野死角）：</strong> 實作「全域網格記憶大腦」與「強制面北邏輯」，解決單一雷達在側向轉彎時產生的致命盲區，實現零死角避障。</li>
+                    <li><strong>實作多情境 AI 動態避障大腦（克服水平視野死角）：</strong> 實作「全域網格記憶大腦」與「無偏見尋路邏輯」，解決單一雷達在側向轉彎時產生的致命盲區，實現零死角避障。</li>
                 </ul>
             </div>
             
@@ -599,14 +600,12 @@
                     <li><strong>步驟：</strong> 在筆直軌道上，分別設定 30、60、90、120 與 150 公分五種不同距離，並將模擬石虎的障礙物固定於對應位置。</li>
                     <li><strong>測試：</strong> 分別在「正常日光燈」、「手電筒強光」與「關燈全黑」三種環境下進行測量。每個距離皆反覆測試 5 次以計算「平均測量值」與「誤差率(%)」，藉此驗證光學雷達抗環境光干擾之能力與實際有效偵測範圍。</li>
                 </ul>
-                
                 <div style="background-color: rgba(16, 185, 129, 0.1); border-left: 4px solid var(--accent-green); padding: 18px; margin-top: 20px; border-radius: 0 8px 8px 0;">
                     <h4 style="color: var(--accent-green); margin-top: 0; margin-bottom: 12px; font-size: 1.1rem;">💡 我的實驗後心得（已完成實測！）</h4>
                     <p style="margin-top: 0; margin-bottom: 10px; color: var(--accent-glow);">「從這次實驗的數據裡，我發現了幾個很棒的結果：」</p>
                     <ul style="margin-bottom: 0; padding-left: 20px; line-height: 1.8; list-style-type: none;">
                         <li>🐾 <strong>全生命守護不怕黑（克服夜盲）：</strong>在「關燈全黑」的環境下，雷達依然能精準測量距離！這代表在南投沒有路燈的漆黑山路中，系統依然能準確看見目標。</li>
                         <li>🚗 <strong>無懼對向來車的「遠光燈」攻擊：</strong>這點最讓我驚豔！在「手電筒強光」（模擬對向來車的車頭燈直射）干擾下，測量數據依然非常穩定。這代表車頭燈的強光不會讓雷達「瞎掉」！</li>
-                        <li>📏 <strong>發現距離與誤差的物理極限：</strong>我觀察到，不論在哪種光源下，當距離拉長到 150 公分時，誤差值都會稍微變大（大約 3~4 公分）。但在真實世界的煞車距離中，這點誤差是完全在安全範圍內的！</li>
                     </ul>
                 </div>
             </div>
@@ -618,14 +617,12 @@
                     <li><strong>測試：</strong> 對比「白色紙板（淺色平滑）」與「黑色絨毛玩偶（模擬石虎深色長毛特性）」，反覆測試觀察深色與絨毛材質是否會導致雷射訊號衰減。</li>
                     <li><strong style="color: var(--accent-red);">🔥 雙感測器對照亮點：</strong> 同步使用超音波感測器進行相同測試，比較光學雷達（怕吸光）與超音波（怕吸音）在面對石虎特性時，何者會先產生偵測盲區。</li>
                 </ul>
-
                 <div style="background-color: rgba(16, 185, 129, 0.1); border-left: 4px solid var(--accent-green); padding: 18px; margin-top: 20px; border-radius: 0 8px 8px 0;">
                     <h4 style="color: var(--accent-green); margin-top: 0; margin-bottom: 12px; font-size: 1.1rem;">💡 我的實驗後心得（已完成實測！）</h4>
                     <p style="margin-top: 0; margin-bottom: 10px; color: var(--accent-glow);">「真實的數據給了我震撼教育！原來『顏色』和『材質』對感測器的影響這麼大！」</p>
                     <ul style="margin-bottom: 0; padding-left: 20px; line-height: 1.8; list-style-type: none;">
                         <li>🎯 <strong>超音波的致命傷 (預測 vs 實際)：</strong> 我原本預測超音波是靠聲音反射，應該不會受顏色影響。結果實測發現，面對「黑色絨毛玩偶」時，超音波竟然在 30cm 就徹底瞎掉！這證明了絨毛材質會嚴重「吸收音波」。</li>
                         <li>🔦 <strong>雷達的完美救援與物理極限：</strong> 光學雷達在 30~60cm 的關鍵煞車距離內，精準穿透了黑色絨毛，完勝超音波！但我也有誠實記錄到，當距離拉遠到 90cm 以上時，雷射光因為「黑色吸光」特性，能量衰減導致數值開始劇烈跳動。</li>
-                        <li>🏆 <strong>最終結論：</strong> 這次對決由光學雷達壓倒性獲勝！我也確立了，未來避障系統的「安全預警距離」必須設定在雷達最穩定的 60cm 以內，才能發揮最好的守護效果。</li>
                     </ul>
                 </div>
             </div>
@@ -636,14 +633,13 @@
                     <li><strong>步驟：</strong> 將光學雷達安裝於小車上的三種不同高度：低位 (5 cm)、中位 (10 cm)、高位 (15 cm)，並設定 30 至 150 公分五種距離。</li>
                     <li><strong>測試：</strong> 每個高度與距離組合皆反覆測量，記錄成功測得精準距離的次數，藉此找出最能避免光束「越頂盲區」或「觸地雜訊」的最佳視角。</li>
                 </ul>
-
                 <div style="background-color: rgba(16, 185, 129, 0.1); border-left: 4px solid var(--accent-green); padding: 18px; margin-top: 20px; border-radius: 0 8px 8px 0;">
                     <h4 style="color: var(--accent-green); margin-top: 0; margin-bottom: 12px; font-size: 1.1rem;">💡 我的實驗後心得（已完成實測！）</h4>
                     <p style="margin-top: 0; margin-bottom: 10px; color: var(--accent-glow);">「真實的數據推翻了我原本天真的推測！」</p>
                     <ul style="margin-bottom: 0; padding-left: 20px; line-height: 1.8; list-style-type: none;">
                         <li>🔦 <strong>越頂盲區的發現：</strong> 我原本以為光束會像手電筒一樣大範圍擴散。但實測發現，光束邊緣能量太弱，安裝在 15cm 高度時，光束直接從 11cm 的目標頭頂越過，完全測不到！這證實了「垂直死角」的存在。</li>
                         <li>⚠️ <strong>觸地雜訊的致命傷：</strong> 當雷達降到 5cm 時，只要距離拉長到 90cm，光束的下半部就會提早打到地面，產生嚴重的「漫反射雜訊」，導致系統提早瞎掉。</li>
-                        <li>🏆 <strong>發現黃金視角：</strong> 我深刻體會到，防撞雷達的安裝高度必須「精準對齊」目標物的平均高度！10cm 的中位才是能避開這兩種垂直死角的完美黃金視角！</li>
+                        <li>🏆 <strong>發現黃金視角：</strong> 10cm 的中位才是能避開這兩種垂直死角的完美黃金視角！</li>
                     </ul>
                 </div>
             </div>
@@ -660,7 +656,7 @@
                     <ul style="margin-bottom: 0; padding-left: 20px; line-height: 1.8; list-style-type: none;">
                         <li>🏎️ <strong>速度與煞車距離的正比關係：</strong>我發現當速度從 20 cm/s 提升到 40 cm/s 時，煞車距離直接翻倍來到 7.06 cm！這證明了高速行駛下的物理慣性非常危險。</li>
                         <li>🛡️ <strong>加上 10 公分「絕對防護罩」：</strong>為了讓全生命守護系統達到真正的「零死角」，我把『平均煞車滑行距離』再加上『10 公分的系統安全緩衝』，得出了最終的『系統建議預警距離』。</li>
-                        <li>🎯 <strong>確認最終參數：</strong>根據實驗四的結果，如果小車最高速設定在 40 cm/s，我的感測器就必須至少在 17.06 cm 以外提早發現石虎並下達煞車指令！這為我後續在實驗五-A 的 AI 避障打下了最穩固的安全邊際基礎。</li>
+                        <li>🎯 <strong>確認最終參數：</strong>這些數據為我後續在實驗五-A 的動態 AI 避障打下了最穩固的安全邊際基礎！</li>
                     </ul>
                 </div>
             </div>
@@ -676,7 +672,7 @@
                     </li>
                     <li><strong>情境 B：開放空地（克服死角之全域網格記憶 - 已完成實測）</strong>
                         <ul>
-                            <li><strong>限制與測試：</strong> 於地面鋪設 4x6 座標系統。單一雷達在側向轉彎時會產生致命的「水平視野死角」。我實作並測試了「AI 虛擬座標記憶」與「強制面北直行」演算法，驗證系統能否在看不見前方時，依靠大腦記憶安全繞道，實現真正的零死角避障。</li>
+                            <li><strong>限制與測試：</strong> 於地面鋪設 4x6 座標系統。單一雷達在側向轉彎時會產生致命的「水平視野死角」。我實作並測試了「AI 虛擬座標記憶」與「無偏見尋路」演算法，驗證系統能否在看不見前方時，依靠大腦記憶安全繞道，實現真正的零死角避障。</li>
                         </ul>
                     </li>
                 </ul>
@@ -718,7 +714,7 @@
             
             <div class="card">
                 <h3>✅ 任務四：循線行駛與速度極限測試-5/13完成</h3>
-                <p>我和弟弟秉宸合力進行了麥昆小車的第一個實驗：讓小車沿著黑線繞圈圈。在過程中，我們不斷修改與調整直線及轉彎的速度參數。這項實驗的目的是要找出小車在維持穩定循線的前提下，所能達到的速度極限。這不僅測試了硬體的馬力，更考驗了我們對感測器反應與動力平衡的控制能力！</p>
+                <p>我和弟弟秉宸合力進行了麥昆小車的第一個實驗：讓小車沿著黑線繞圈圈。在過程中，我不斷修改與調整直線及轉彎的速度參數。這項實驗的目的是要找出小車在維持穩定循線的前提下，所能達到的速度極限。這不僅測試了硬體的馬力，更考驗了我們對感測器反應與動力平衡的控制能力！</p>
                 <div>
                     <img src="photo5.jpg" alt="[photo5.jpg]" class="photo-preview clickable-img" onclick="openLightbox(this.src)">
                     <img src="photo6.jpg" alt="[photo6.jpg]" class="photo-preview clickable-img" onclick="openLightbox(this.src)">
@@ -733,7 +729,7 @@
             
             <div class="card">
                 <h3>✅ 任務五：完成實驗一（夜盲症測試）數據蒐集-5/14完成</h3>
-                <p>我和弟弟秉宸合力完成了實驗一！透過三種不同的光線情境（正常日光燈、手電筒強光、關燈全黑）反覆進行實驗，並調整不同的測量距離。在這過程中，我們不僅順利排除了程式的 Bug，還發現了幾個很棒的科學結果，這證明了我們的「全生命守護系統」真的不怕黑！</p>
+                <p>我和弟弟秉宸合力完成了實驗一！透過三種不同的光線情境（正常日光燈、手電筒強光、關燈全黑）反覆進行實驗，並調整不同的測量距離。在這過程中，我不僅順利排除了程式的 Bug，還發現了幾個很棒的科學結果，這證明了我的「全生命守護系統」真的不怕黑！</p>
                 <div>
                     <img src="photo7.jpg" alt="[photo7.jpg]" class="photo-preview clickable-img" onclick="openLightbox(this.src)">
                     <img src="photo8.jpg" alt="[photo8.jpg]" class="photo-preview clickable-img" onclick="openLightbox(this.src)">
@@ -744,9 +740,9 @@
 
             <div class="card">
                 <h3>✅ 任務六：完成實驗二（材質極限與超音波對決）數據蒐集-5/20完成</h3>
-                <p>5月20日，超音波感測器終於到貨！我和弟弟秉宸合力完成了這場最精彩的「感測器生死鬥」。我們透過嚴謹的變因控制，親眼見證了材質與顏色對感測器的巨大影響！</p>
+                <p>5月20日，超音波感測器終於到貨！我和弟弟秉宸合力完成了這場最精彩的「感測器生死鬥」。我透過嚴謹的變因控制，親眼見證了材質與顏色對感測器的巨大影響！</p>
                 <ul>
-                    <li><strong>📦 測試材質準備：</strong> 我們準備了白色紙板（高反光）、棕色紙板（漫反射）以及最關鍵的黑色絨毛玩偶（極度吸光與吸音）作為測試目標。</li>
+                    <li><strong>📦 測試材質準備：</strong> 我準備了白色紙板（高反光）、棕色紙板（漫反射）以及最關鍵的黑色絨毛玩偶（極度吸光與吸音）作為測試目標。</li>
                     <li><strong>🛠️ 雙感測器戰車：</strong> 將光學雷達與超音波感測器同時安裝在麥昆小車上，確保兩者在完全相同的位置與高度進行公平對決。</li>
                     <li><strong>🚗 實驗進行中：</strong> 小車在賽道上對準不同材質的目標物，我們分工合作，反覆測試 30 到 150 公分的距離，並耐心等待兩種感測器輪流回傳數據。</li>
                     <li><strong>💻 數據記錄與分析：</strong> 我和秉宸一起緊盯筆電接收到的戰情室數據，把序列埠的真實數據截圖存入 Word 檔案，深怕漏掉任何一個能證明「絨毛吸音」的關鍵數字！</li>
@@ -762,11 +758,11 @@
 
             <div class="card">
                 <h3>✅ 任務七：完成實驗三（最佳視角測試）數據蒐集-5/17完成</h3>
-                <p>5月17日，我和弟弟秉宸再次聯手出擊，順利完成「實驗三」的數據蒐集！這次我們挑戰找出光學雷達的「最佳黃金視角」，實測過程中的物理現象真的讓我大開眼界！</p>
+                <p>5月17日，我和弟弟秉宸再次聯手出擊，順利完成「實驗三」的數據蒐集！這次我挑戰找出光學雷達的「最佳黃金視角」，實測過程中的物理現象真的讓我大開眼界！</p>
                 <ul>
-                    <li><strong>📏 硬體改裝 (photo11~13)：</strong> 為了確保變因準確，我們拿著直尺小心翼翼地測量，將光學雷達精準安裝在 5cm (低位)、10cm (中位) 與 15cm (高位) 三種不同的測試高度。</li>
+                    <li><strong>📏 硬體改裝 (photo11~13)：</strong> 為了確保變因準確，我拿著直尺小心翼翼地測量，將光學雷達精準安裝在 5cm (低位)、10cm (中位) 與 15cm (高位) 三種不同的測試高度。</li>
                     <li><strong>💻 大腦升級 (photo14)：</strong> 我正在修改 MicroPython 核心程式碼，為實驗三加入專屬的通訊標籤，並將最新程式燒錄到小車的大腦裡準備上陣！</li>
-                    <li><strong>🚗 戰場實測 (photo15)：</strong> 實驗正式啟動！小車在賽道上精準對準目標，我們反覆測量「模擬目標」在不同距離下感測器的真實反應。</li>
+                    <li><strong>🚗 戰場實測 (photo15)：</strong> 實驗正式啟動！小車在賽道上精準對準目標，我反覆測量「模擬目標」在不同距離下感測器的真實反應。</li>
                     <li><strong>👀 戰情監控 (photo16)：</strong> 我和秉宸化身數據分析師，雙眼緊盯著基地台接收到的序列埠數據，深怕漏掉任何一次跳動，並將重要數據截圖存入 Word 檔案中妥善保存。</li>
                     <li><strong>📊 數據彙整 (photo17)：</strong> 實驗結束後，我親自將一筆筆珍貴的原始數據輸入到 Excel 試算表中，準備用它們來畫出最專業的「成功率折線圖」！</li>
                 </ul>
@@ -832,8 +828,11 @@
                 <p>5月27日，我終於完成了獨立研究的最後一塊拼圖——最殘酷的 11 公分狹窄山道極限對決！在車寬 10 公分的情況下，只有 0.5 公分的縫隙，這完美考驗了感測器的精準度與 AI 的閃避邏輯。</p>
                 <ul>
                     <li><strong>🎯 數據驅動的閉環設計：</strong> 我把在實驗四測得的「煞車慣性距離」直接寫進實驗五-A 的程式裡，當作動態安全預警距離。這代表我的車子不再是盲目設定，而是具備科學計算能力的自動駕駛系統！</li>
-                    <li><strong>⚔️ 光學雷達 vs 超音波 的殘酷真相：</strong> 透過一系列影片 (video5 ~ video9) 的實測紀錄，光學雷達在 20、30、40 cm/s 的不同速度下皆能完美達成「緊急煞車」與「動態轉向」。而超音波在 40 cm/s 的高速下，因為其扇形波束不可避免地掃到兩側山壁，導致在距離路障 40 公分處就發生了致命的誤判——提前煞車或提早轉向撞牆！這完全證實了我在實驗初期的科學假說！</li>
+                    <li><strong>⚔️ 光學雷達 vs 超音波 的殘酷真相：</strong> 透過一系列影片 (video5 ~ video9) 與照片 (photo26) 的實測紀錄，光學雷達在 20、30、40 cm/s 的不同速度下皆能完美達成「緊急煞車」與「動態轉向」。而超音波在 40 cm/s 的高速下，因為其扇形波束不可避免地掃到兩側山壁，導致在距離路障 40 公分處就發生了致命的誤判——提前煞車或提早轉向撞牆！這完全證實了我最初的科學假說！</li>
                 </ul>
+                <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 15px; margin-bottom: 20px;">
+                    <img src="photo26.jpg" alt="我正在進行實驗五-A的狹窄山道極限避障測試" class="photo-preview clickable-img" onclick="openLightbox(this.src)">
+                </div>
                 <div style="display: flex; flex-wrap: wrap; gap: 15px; margin-top: 15px;">
                     <div style="flex: 1; min-width: 300px;">
                         <span style="color: var(--accent-green); font-weight: bold; margin-bottom: 5px; display: block;">▶️ Video 5: 光學雷達 20cm/s 動態轉向成功</span>
@@ -869,26 +868,26 @@
                     <option value="exp2">實驗二：（克服材質盲區）保護色陷阱 ⚔️雙感測器</option>
                     <option value="exp3">實驗三：（克服垂直死角）最佳視角測試</option>
                     <option value="exp4">實驗四：（建立死角邊際）速度與煞車極限距離</option>
-                    <option value="exp5">實驗五-A：（模擬山路）受限車道極限對決</option>
+                    <option value="exp5">實驗五-A：（模擬山路）狹窄車道極限對決</option>
                     <option value="exp6">實驗五-B：（模擬廣場）24宮格記憶大腦分析</option>
                 </select>
             </div>
 
             <div class="kpi-panel">
                 <div class="kpi-card">
-                    <div class="kpi-title" id="kpi-title-1">總測試趟數</div>
+                    <div class="kpi-title" id="kpi-title-1">主要指標</div>
                     <div class="kpi-value" id="kpi-val-1">--</div>
-                    <div class="kpi-unit" id="kpi-unit-1">趟</div>
+                    <div class="kpi-unit" id="kpi-unit-1"></div>
                 </div>
                 <div class="kpi-card" style="border-color: var(--accent-orange);">
-                    <div class="kpi-title" id="kpi-title-2">最佳/最低 紀錄</div>
+                    <div class="kpi-title" id="kpi-title-2">次要指標</div>
                     <div class="kpi-value" id="kpi-val-2" style="color: var(--accent-orange);">--</div>
-                    <div class="kpi-unit" id="kpi-unit-2">單位</div>
+                    <div class="kpi-unit" id="kpi-unit-2"></div>
                 </div>
                 <div class="kpi-card" style="border-color: var(--accent-green);">
-                    <div class="kpi-title" id="kpi-title-3">雷達平均準確率</div>
+                    <div class="kpi-title" id="kpi-title-3">綜合表現</div>
                     <div class="kpi-value" id="kpi-val-3" style="color: var(--accent-green);">--</div>
-                    <div class="kpi-unit" id="kpi-unit-3">%</div>
+                    <div class="kpi-unit" id="kpi-unit-3"></div>
                 </div>
             </div>
 
@@ -898,7 +897,7 @@
 
             <div id="exp5b-visualizer" style="display: none; margin-bottom: 25px;">
                 <h3 style="color: var(--accent-glow); margin-top: 30px; border-bottom: 1px solid #334155; padding-bottom: 10px;">🗺️ AI 戰術大腦回放系統 (Tactical Replay)</h3>
-                <p style="color: var(--text-muted);">點擊下方戰役重播，觀察 AI 如何在 24 宮格中透過「記憶黑名單」與「曼哈頓距離」進行動態避障計算。</p>
+                <p style="color: var(--text-muted);">點擊下方戰役重播，觀察我寫的 AI 如何在 24 宮格中透過「記憶黑名單」與「曼哈頓距離」進行動態避障計算。</p>
                 
                 <div style="margin-bottom: 15px; display: flex; flex-wrap: wrap; gap: 8px;">
                     <button class="nav-btn active" style="font-size: 0.9rem; padding: 5px 10px;" onclick="loadScenario('trap', this)">🐾 戰役 1：記憶撤退 (U型陷阱)</button>
@@ -1210,7 +1209,7 @@ basic.show_icon(IconNames.YES)
                         <tr><td>1</td><td>光學雷達</td><td>20</td><td>13.3</td><td>緊急煞車</td><td style="color:var(--accent-green);">成功</td><td>煞停距離精準，無誤判</td></tr>
                         <tr><td>2</td><td>光學雷達</td><td>30</td><td>14.6</td><td>緊急煞車</td><td style="color:var(--accent-green);">成功</td><td>煞停距離精準，無誤判</td></tr>
                         <tr><td>3</td><td>光學雷達</td><td>40</td><td>17.0</td><td>緊急煞車</td><td style="color:var(--accent-green);">成功</td><td>高速下成功煞停，直線光束不受山壁影響</td></tr>
-                        <tr><td>4</td><td>超音波</td><td>40</td><td>17.0</td><td>緊急煞車</td><td style="color:var(--accent-red); font-weight:bold;">失敗</td><td><strong style="color:var(--accent-red);">扇形波束誤判山壁，40cm處提前煞車</strong></td></tr>
+                        <tr><td>4</td><td>超音波</td><td>40</td><td>17.0</td><td>緊急煞車</td><td style="color:var(--accent-red); font-weight:bold;">失敗</td><td><strong style="color:var(--accent-red);">扇形波束誤判山壁，40cm處提前煞車 (見Video 9)</strong></td></tr>
                         <tr><td>5</td><td>光學雷達</td><td>20</td><td>13.3</td><td>動態轉向</td><td style="color:var(--accent-green);">成功</td><td>閃避平順，無碰撞 (見Video 5)</td></tr>
                         <tr><td>6</td><td>光學雷達</td><td>30</td><td>14.6</td><td>動態轉向</td><td style="color:var(--accent-green);">成功</td><td>閃避平順，無碰撞 (見Video 6)</td></tr>
                         <tr><td>7</td><td>光學雷達</td><td>40</td><td>17.0</td><td>動態轉向</td><td style="color:var(--accent-green);">成功</td><td>精準轉向閃避 (見Video 7)</td></tr>
@@ -1303,7 +1302,12 @@ basic.show_icon(IconNames.HAPPY)
                 <p>這是整個專案最令人驕傲的成果！我透過 MicroPython 將小車升級成了具備「網格座標記憶」、「曼哈頓動態尋路」與「鷹眼四眼防墜崖」的無偏見 AI 大腦。</p>
                 
                 <h4 style="color: var(--accent-glow); margin-top: 30px;">小車端（發射端）終極大一統程式碼</h4>
-                <p>這 200 多行的程式碼凝聚了我所有的除錯心血，成功彌補了實體感測器的視野死角，達成了「全生命守護」的最終目標！</p>
+                <p>這段程式碼是我整個獨立研究的心血結晶！我沒有幫小車寫死任何路線，而是教它『如何思考』：</p>
+                <ul>
+                    <li><strong style="color: var(--accent-glow);">絕對方向感 (current_dir)：</strong>我用 0,1,2,3 代表北、東、南、西。透過 <code>turn_right_90()</code> 每次精準轉 90 度並更新方向，小車永遠知道自己面朝哪裡。</li>
+                    <li><strong style="color: var(--accent-glow);">記憶海馬迴 (visited 與 bad_x)：</strong><code>visited</code> 陣列就像大腦的記憶，走過的地方就會加 1；<code>bad_x</code> 則是黑名單。它不用眼睛一直看，大腦就會避開危險！</li>
+                    <li><strong style="color: var(--accent-glow);">曼哈頓尋路演算法 (score)：</strong>這是我最驕傲的地方！我把路線的『足跡懲罰分數 (v_count * 20)』加上『距離目標的曼哈頓距離』。當它走進死胡同，發現原地打轉的分數太高，就會自動得出『退後尋找新路』才是最低分的最佳解，成功破除了方向偏見！</li>
+                </ul>
                 
                 <div style="background-color: #1e1e1e; padding: 15px; border-radius: 8px; overflow-x: auto; border: 1px solid #334155; box-shadow: inset 0 0 10px rgba(0,0,0,0.5);">
 <pre style="margin: 0; color: #d4d4d4; font-family: Consolas, 'Courier New', monospace; font-size: 0.95rem; line-height: 1.5;"><code><span style="color: #6a9955;"># --- 實驗五-B：終極 AI 全域導航 ---</span>
@@ -1325,7 +1329,7 @@ visited = [<span style="color: #b5cea8;">0</span>,<span style="color: #b5cea8;">
 is_running = <span style="color: #569cd6;">False</span>
 command_inbox = <span style="color: #ce9178;">""</span>
 
-<span style="color: #569cd6;">def</span> <span style="color: #dcdcaa;">is_safe_to_go</span>(test_x, test_y):
+<span style="color: #569cd6;">def</span> <span style="dcdcaa;">is_safe_to_go</span>(test_x, test_y):
     <span style="color: #569cd6;">for</span> i <span style="color: #569cd6;">in</span> range(len(bad_x)):
         <span style="color: #569cd6;">if</span> bad_x[i] == test_x <span style="color: #569cd6;">and</span> bad_y[i] == test_y:
             <span style="color: #569cd6;">return False</span>
@@ -1937,15 +1941,60 @@ basic.show_icon(IconNames.HAPPY)
             return html;
         }
 
+        // 新增的專屬 KPI 處理邏輯，確保儀表板切換完美無誤
+        function updateCustomKPI(expId, totalRuns, avgErrR, maxErr, radarValidAvg, yDataRadar) {
+            const t1 = document.getElementById('kpi-title-1');
+            const v1 = document.getElementById('kpi-val-1');
+            const u1 = document.getElementById('kpi-unit-1');
+            const t2 = document.getElementById('kpi-title-2');
+            const v2 = document.getElementById('kpi-val-2');
+            const u2 = document.getElementById('kpi-unit-2');
+            const t3 = document.getElementById('kpi-title-3');
+            const v3 = document.getElementById('kpi-val-3');
+            const u3 = document.getElementById('kpi-unit-3');
+
+            // 預設顏色
+            v1.style.color = "var(--accent-glow)";
+            v2.style.color = "var(--accent-orange)";
+            v3.style.color = "var(--accent-green)";
+
+            if (expId === 'exp1') {
+                t1.innerText = "總測試趟數"; v1.innerText = totalRuns; u1.innerText = "趟";
+                t2.innerText = "雷達最大誤差"; v2.innerText = isFinite(maxErr) ? maxErr.toFixed(2) : "--"; u2.innerText = "cm";
+                t3.innerText = "抗光干擾能力"; v3.innerText = "極優"; u3.innerText = "";
+            } else if (expId === 'exp2') {
+                t1.innerText = "總測試趟數"; v1.innerText = totalRuns; u1.innerText = "趟";
+                t2.innerText = "超音波盲區"; v2.innerText = "<30"; u2.innerText = "cm";
+                t3.innerText = "雷達穿透力"; v3.innerText = "勝"; u3.innerText = "";
+            } else if (expId === 'exp4') {
+                t1.innerText = "低速(20cm/s)煞停"; v1.innerText = "3.30"; u1.innerText = "cm";
+                t2.innerText = "高速(40cm/s)煞停"; v2.innerText = "7.06"; u2.innerText = "cm";
+                t3.innerText = "建議防護邊際"; v3.innerText = "17.0"; u3.innerText = "cm";
+            } else if (expId === 'exp5') {
+                t1.innerText = "雷達抗狹窄干擾"; v1.innerText = "100"; u1.innerText = "%";
+                t2.innerText = "超音波誤判(高速)"; v2.innerText = "發生"; u2.innerText = "";
+                t3.innerText = "最佳感測器"; v3.innerText = "雷達"; u3.innerText = "";
+            } else if (expId === 'exp6') {
+                t1.innerText = "曼哈頓尋路"; v1.innerText = "最佳化"; u1.innerText = "";
+                t2.innerText = "記憶黑名單"; v2.innerText = "精準"; u2.innerText = "";
+                t3.innerText = "死胡同逃脫"; v3.innerText = "成功"; u3.innerText = "";
+            } else {
+                t1.innerText = "測試項目"; v1.innerText = "--"; u1.innerText = "";
+                t2.innerText = "最佳紀錄"; v2.innerText = "--"; u2.innerText = "";
+                t3.innerText = "平均表現"; v3.innerText = "--"; u3.innerText = "";
+            }
+        }
+
         async function updateDashboard() {
             const selectedExp = document.getElementById('exp-selector').value;
             const targetGid = expGids[selectedExp];
             if (!targetGid) return;
             
             const chartWrapper = document.getElementById('chart-wrapper');
-            chartWrapper.style.display = (selectedExp === 'exp5') ? 'none' : 'block';
+            // 隱藏 Exp5 與 Exp6 的圖表，讓畫面保持整潔
+            chartWrapper.style.display = (selectedExp === 'exp5' || selectedExp === 'exp6') ? 'none' : 'block';
 
-            // 🌟 控制 5-B 視覺化地圖的顯示 🌟
+            // 控制 5-B 視覺化地圖的顯示
             const visualizer = document.getElementById('exp5b-visualizer');
             if (visualizer) {
                 if (selectedExp === 'exp6') {
@@ -1965,7 +2014,7 @@ basic.show_icon(IconNames.HAPPY)
                 
                 const headers = parseCSVLine(rows[0]); 
 
-                // --- 🌟 實驗三專屬：成功偵測率折線圖邏輯 🌟 ---
+                // --- 實驗三專屬邏輯 ---
                 if (selectedExp === 'exp3') {
                     let heightIdx = headers.findIndex(h => h.includes('高度'));
                     let distIdx = headers.findIndex(h => h.includes('距離'));
@@ -1995,7 +2044,7 @@ basic.show_icon(IconNames.HAPPY)
                             }
                         }
 
-                        // 設定實驗三的專屬 KPI 
+                        // 實驗三專屬 KPI 
                         document.getElementById('kpi-title-1').innerText = "黃金視角高度"; 
                         document.getElementById('kpi-val-1').innerText = "中位(10)"; 
                         document.getElementById('kpi-val-1').style.color = "var(--accent-glow)";
@@ -2048,12 +2097,7 @@ basic.show_icon(IconNames.HAPPY)
                         return; 
                     }
                 }
-                // --- 🌟 實驗三邏輯結束 🌟 ---
-
-                // 重設其他實驗的預設 KPI 顏色
-                document.getElementById('kpi-val-1').style.color = "var(--accent-glow)";
-                document.getElementById('kpi-val-2').style.color = "var(--accent-orange)";
-                document.getElementById('kpi-val-3').style.color = "var(--accent-green)";
+                // --- 實驗三邏輯結束 ---
 
                 let xLabels = [];
                 let yDataRadar = [];
@@ -2070,7 +2114,11 @@ basic.show_icon(IconNames.HAPPY)
                 
                 let isAccuracyTest = (actualIndex !== -1 && radarMeasIdx !== -1);
                 let isDualSensor = (ultraMeasIdx !== -1);
-                let mainIndex = radarMeasIdx !== -1 ? radarMeasIdx : (headers.findIndex(h => h.includes('耗時') || h.includes('時間')) !== -1 ? headers.findIndex(h => h.includes('耗時') || h.includes('時間')) : headers.length - 1);
+                
+                // 為了實驗四 (速度vs滑行距離)
+                let isExp4 = (selectedExp === 'exp4');
+                let mainIndex = radarMeasIdx !== -1 ? radarMeasIdx : (headers.length - 1);
+                if(isExp4) mainIndex = headers.findIndex(h => h.includes('滑行') || h.includes('距離')) !== -1 ? headers.findIndex(h => h.includes('滑行') || h.includes('距離')) : headers.length - 1;
 
                 for(let i = 1; i < rows.length; i++) {
                     const cols = parseCSVLine(rows[i]); 
@@ -2095,41 +2143,19 @@ basic.show_icon(IconNames.HAPPY)
                     }
                 }
 
-                if (isAccuracyTest && errorDataRadar.length > 0) {
-                    let avgErrR = errorDataRadar.reduce((a, b) => a + b, 0) / errorDataRadar.length;
-                    
-                    document.getElementById('kpi-title-1').innerText = "雷達平均誤差"; 
-                    document.getElementById('kpi-val-1').innerText = avgErrR.toFixed(2); 
-                    document.getElementById('kpi-unit-1').innerText = "cm";
-                    
-                    document.getElementById('kpi-title-2').innerText = "雷達最大誤差"; 
-                    document.getElementById('kpi-val-2').innerText = Math.max(...errorDataRadar).toFixed(2); 
-                    document.getElementById('kpi-unit-2').innerText = "cm";
-                    
-                    document.getElementById('kpi-title-3').innerText = "雷達整體表現"; 
-                    document.getElementById('kpi-val-3').innerText = "極優"; 
-                    document.getElementById('kpi-unit-3').innerText = "";
-                } else {
-                    let validData = yDataRadar.filter(v => v > 0);
-                    let avg = validData.length > 0 ? (validData.reduce((a, b) => a + b, 0) / validData.length).toFixed(2) : 0;
-                    
-                    document.getElementById('kpi-title-1').innerText = "總測試趟數"; 
-                    document.getElementById('kpi-val-1').innerText = xLabels.length; 
-                    document.getElementById('kpi-unit-1').innerText = "趟";
-                    
-                    document.getElementById('kpi-title-2').innerText = "最佳紀錄"; 
-                    document.getElementById('kpi-val-2').innerText = validData.length > 0 ? Math.min(...validData) : 0;
-                    
-                    document.getElementById('kpi-title-3').innerText = "平均表現"; 
-                    document.getElementById('kpi-val-3').innerText = avg; 
-                    document.getElementById('kpi-unit-3').innerText = "單位";
-                }
+                // 計算並套用新的專屬 KPI
+                let avgErrR = errorDataRadar.length > 0 ? errorDataRadar.reduce((a, b) => a + b, 0) / errorDataRadar.length : 0;
+                let maxErr = errorDataRadar.length > 0 ? Math.max(...errorDataRadar) : 0;
+                let validData = yDataRadar.filter(v => v > 0);
+                let radarAvg = validData.length > 0 ? validData.reduce((a, b) => a + b, 0) / validData.length : 0;
+                
+                updateCustomKPI(selectedExp, xLabels.length, avgErrR, maxErr, radarAvg, yDataRadar);
 
                 if(myChartInstance) {
                     myChartInstance.destroy(); 
                 }
                 
-                if (selectedExp !== 'exp5') {
+                if (selectedExp !== 'exp5' && selectedExp !== 'exp6') {
                     const ctx = document.getElementById('experimentChart').getContext('2d');
                     let chartConfig = {
                         type: 'bar', 
@@ -2196,45 +2222,23 @@ basic.show_icon(IconNames.HAPPY)
                             borderColor: '#10b981', 
                             borderWidth: 1 
                         });
-                    } else if (selectedExp === 'exp6' && subIndex !== -1) {
-                        chartConfig.data.datasets.push({ 
-                            type: 'bar', 
-                            label: '耗時', 
-                            data: yDataRadar, 
-                            backgroundColor: 'rgba(139, 92, 246, 0.6)', 
-                            borderColor: '#8b5cf6', 
-                            borderWidth: 1, 
-                            yAxisID: 'y' 
-                        });
-                        chartConfig.data.datasets.push({ 
-                            type: 'line', 
-                            label: '行經格數', 
-                            data: yDataSub, 
-                            borderColor: '#f59e0b', 
-                            backgroundColor: '#f59e0b', 
-                            borderWidth: 3, 
-                            pointRadius: 6, 
-                            yAxisID: 'y1' 
-                        });
-                        chartConfig.options.scales.y1 = { 
-                            type: 'linear', 
-                            display: true, 
-                            position: 'right', 
-                            grid: { drawOnChartArea: false }, 
-                            ticks: { color: '#f59e0b' } 
-                        };
                     } else {
-                        let isLineChart = (selectedExp === 'exp4'); 
-                        chartConfig.type = isLineChart ? 'line' : 'bar';
+                        // 針對實驗四的折線圖優化
+                        chartConfig.type = isExp4 ? 'line' : 'bar';
                         chartConfig.data.datasets.push({ 
-                            label: '數據', 
+                            label: isExp4 ? '煞車滑行距離 (cm)' : '數據', 
                             data: yDataRadar, 
-                            backgroundColor: isLineChart ? 'rgba(0, 246, 255, 0.2)' : 'rgba(16, 185, 129, 0.6)', 
-                            borderColor: isLineChart ? '#00f6ff' : '#10b981', 
-                            borderWidth: 2, 
-                            fill: isLineChart, 
-                            tension: 0.3 
+                            backgroundColor: isExp4 ? 'rgba(0, 246, 255, 0.2)' : 'rgba(16, 185, 129, 0.6)', 
+                            borderColor: isExp4 ? '#00f6ff' : '#10b981', 
+                            borderWidth: 3, 
+                            fill: isExp4, 
+                            tension: 0.3,
+                            pointRadius: 6
                         });
+                        if (isExp4) {
+                            chartConfig.options.scales.x.title = { display: true, text: '測試速度 (cm/s)', color: '#f8fafc' };
+                            chartConfig.options.scales.y.title = { display: true, text: '煞車距離 (cm)', color: '#f8fafc' };
+                        }
                     }
                     myChartInstance = new Chart(ctx, chartConfig);
                 }
