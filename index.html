@@ -600,12 +600,14 @@
                     <li><strong>步驟：</strong> 在筆直軌道上，分別設定 30、60、90、120 與 150 公分五種不同距離，並將模擬石虎的障礙物固定於對應位置。</li>
                     <li><strong>測試：</strong> 分別在「正常日光燈」、「手電筒強光」與「關燈全黑」三種環境下進行測量。每個距離皆反覆測試 5 次以計算「平均測量值」與「誤差率(%)」，藉此驗證光學雷達抗環境光干擾之能力與實際有效偵測範圍。</li>
                 </ul>
+                
                 <div style="background-color: rgba(16, 185, 129, 0.1); border-left: 4px solid var(--accent-green); padding: 18px; margin-top: 20px; border-radius: 0 8px 8px 0;">
                     <h4 style="color: var(--accent-green); margin-top: 0; margin-bottom: 12px; font-size: 1.1rem;">💡 我的實驗後心得（已完成實測！）</h4>
                     <p style="margin-top: 0; margin-bottom: 10px; color: var(--accent-glow);">「從這次實驗的數據裡，我發現了幾個很棒的結果：」</p>
                     <ul style="margin-bottom: 0; padding-left: 20px; line-height: 1.8; list-style-type: none;">
                         <li>🐾 <strong>全生命守護不怕黑（克服夜盲）：</strong>在「關燈全黑」的環境下，雷達依然能精準測量距離！這代表在南投沒有路燈的漆黑山路中，系統依然能準確看見目標。</li>
                         <li>🚗 <strong>無懼對向來車的「遠光燈」攻擊：</strong>這點最讓我驚豔！在「手電筒強光」（模擬對向來車的車頭燈直射）干擾下，測量數據依然非常穩定。這代表車頭燈的強光不會讓雷達「瞎掉」！</li>
+                        <li>📏 <strong>發現距離與誤差的物理極限：</strong>我觀察到，不論在哪種光源下，當距離拉長到 150 公分時，誤差值都會稍微變大（大約 3~4 公分）。但在真實世界的煞車距離中，這點誤差是完全在安全範圍內的！</li>
                     </ul>
                 </div>
             </div>
@@ -617,12 +619,14 @@
                     <li><strong>測試：</strong> 對比「白色紙板（淺色平滑）」與「黑色絨毛玩偶（模擬石虎深色長毛特性）」，反覆測試觀察深色與絨毛材質是否會導致雷射訊號衰減。</li>
                     <li><strong style="color: var(--accent-red);">🔥 雙感測器對照亮點：</strong> 同步使用超音波感測器進行相同測試，比較光學雷達（怕吸光）與超音波（怕吸音）在面對石虎特性時，何者會先產生偵測盲區。</li>
                 </ul>
+
                 <div style="background-color: rgba(16, 185, 129, 0.1); border-left: 4px solid var(--accent-green); padding: 18px; margin-top: 20px; border-radius: 0 8px 8px 0;">
                     <h4 style="color: var(--accent-green); margin-top: 0; margin-bottom: 12px; font-size: 1.1rem;">💡 我的實驗後心得（已完成實測！）</h4>
                     <p style="margin-top: 0; margin-bottom: 10px; color: var(--accent-glow);">「真實的數據給了我震撼教育！原來『顏色』和『材質』對感測器的影響這麼大！」</p>
                     <ul style="margin-bottom: 0; padding-left: 20px; line-height: 1.8; list-style-type: none;">
                         <li>🎯 <strong>超音波的致命傷 (預測 vs 實際)：</strong> 我原本預測超音波是靠聲音反射，應該不會受顏色影響。結果實測發現，面對「黑色絨毛玩偶」時，超音波竟然在 30cm 就徹底瞎掉！這證明了絨毛材質會嚴重「吸收音波」。</li>
                         <li>🔦 <strong>雷達的完美救援與物理極限：</strong> 光學雷達在 30~60cm 的關鍵煞車距離內，精準穿透了黑色絨毛，完勝超音波！但我也有誠實記錄到，當距離拉遠到 90cm 以上時，雷射光因為「黑色吸光」特性，能量衰減導致數值開始劇烈跳動。</li>
+                        <li>🏆 <strong>最終結論：</strong> 這次對決由光學雷達壓倒性獲勝！我也確立了，未來避障系統的「安全預警距離」必須設定在雷達最穩定的 60cm 以內，才能發揮最好的守護效果。</li>
                     </ul>
                 </div>
             </div>
@@ -633,13 +637,14 @@
                     <li><strong>步驟：</strong> 將光學雷達安裝於小車上的三種不同高度：低位 (5 cm)、中位 (10 cm)、高位 (15 cm)，並設定 30 至 150 公分五種距離。</li>
                     <li><strong>測試：</strong> 每個高度與距離組合皆反覆測量，記錄成功測得精準距離的次數，藉此找出最能避免光束「越頂盲區」或「觸地雜訊」的最佳視角。</li>
                 </ul>
+
                 <div style="background-color: rgba(16, 185, 129, 0.1); border-left: 4px solid var(--accent-green); padding: 18px; margin-top: 20px; border-radius: 0 8px 8px 0;">
                     <h4 style="color: var(--accent-green); margin-top: 0; margin-bottom: 12px; font-size: 1.1rem;">💡 我的實驗後心得（已完成實測！）</h4>
                     <p style="margin-top: 0; margin-bottom: 10px; color: var(--accent-glow);">「真實的數據推翻了我原本天真的推測！」</p>
                     <ul style="margin-bottom: 0; padding-left: 20px; line-height: 1.8; list-style-type: none;">
                         <li>🔦 <strong>越頂盲區的發現：</strong> 我原本以為光束會像手電筒一樣大範圍擴散。但實測發現，光束邊緣能量太弱，安裝在 15cm 高度時，光束直接從 11cm 的目標頭頂越過，完全測不到！這證實了「垂直死角」的存在。</li>
                         <li>⚠️ <strong>觸地雜訊的致命傷：</strong> 當雷達降到 5cm 時，只要距離拉長到 90cm，光束的下半部就會提早打到地面，產生嚴重的「漫反射雜訊」，導致系統提早瞎掉。</li>
-                        <li>🏆 <strong>發現黃金視角：</strong> 10cm 的中位才是能避開這兩種垂直死角的完美黃金視角！</li>
+                        <li>🏆 <strong>發現黃金視角：</strong> 我深刻體會到，防撞雷達的安裝高度必須「精準對齊」目標物的平均高度！10cm 的中位才是能避開這兩種垂直死角的完美黃金視角！</li>
                     </ul>
                 </div>
             </div>
@@ -656,7 +661,7 @@
                     <ul style="margin-bottom: 0; padding-left: 20px; line-height: 1.8; list-style-type: none;">
                         <li>🏎️ <strong>速度與煞車距離的正比關係：</strong>我發現當速度從 20 cm/s 提升到 40 cm/s 時，煞車距離直接翻倍來到 7.06 cm！這證明了高速行駛下的物理慣性非常危險。</li>
                         <li>🛡️ <strong>加上 10 公分「絕對防護罩」：</strong>為了讓全生命守護系統達到真正的「零死角」，我把『平均煞車滑行距離』再加上『10 公分的系統安全緩衝』，得出了最終的『系統建議預警距離』。</li>
-                        <li>🎯 <strong>確認最終參數：</strong>這些數據為我後續在實驗五-A 的動態 AI 避障打下了最穩固的安全邊際基礎！</li>
+                        <li>🎯 <strong>確認最終參數：</strong>根據實驗四的結果，如果小車最高速設定在 40 cm/s，我的感測器就必須至少在 17.06 cm 以外提早發現石虎並下達煞車指令！這為我後續在實驗五-A 的 AI 避障打下了最穩固的安全邊際基礎。</li>
                     </ul>
                 </div>
             </div>
@@ -664,10 +669,10 @@
             <div class="card orange-border">
                 <h3>5.🔍 實驗五：生命轉彎處（克服水平視野死角之動態避障）<span style="color: var(--accent-red);">＋【超音波對決】</span></h3>
                 <ul>
-                    <li><strong>情境 A：受限車道（模擬狹窄山路 - 已完成實測）</strong>
+                    <li><strong>情境 A：受限車道（狹窄山道極限對決 - 已完成實測）</strong>
                         <ul>
-                            <li><strong>限制與測試：</strong> 小車寬 10 公分，於寬度僅 11 公分的狹窄車道內移動，測試小車在 130cm 處遇到障礙物時的極限閃避能力。</li>
-                            <li><strong style="color: var(--accent-red);">🔥 雙感測器對照亮點：</strong> 換上超音波感測器跑同一賽道，驗證其「扇形音波」是否會掃到兩側山壁而產生誤判煞車或轉向。</li>
+                            <li><strong>限制與測試：</strong> 小車寬 10 公分，於寬度僅 11 公分的狹窄車道內移動。測試小車以 20、30、40 cm/s 通過山路 100 公分後，在 130cm 處遇到障礙物時的緊急煞車與動態轉向能力。</li>
+                            <li><strong style="color: var(--accent-red);">🔥 雙感測器對照亮點：</strong> 換上超音波感測器跑同一賽道，驗證其「扇形音波」是否會掃到兩側山壁而產生致命的誤判。</li>
                         </ul>
                     </li>
                     <li><strong>情境 B：開放空地（克服死角之全域網格記憶 - 已完成實測）</strong>
@@ -680,9 +685,9 @@
                     <h4 style="color: var(--accent-green); margin-top: 0; margin-bottom: 12px; font-size: 1.1rem;">💡 我的實驗後心得（實驗五-A 與 五-B 皆已完成！）</h4>
                     <p style="margin-top: 0; margin-bottom: 10px; color: var(--accent-glow);">「光學與聲波的終極對決，以及 AI 的記憶學習真的太神奇了！」</p>
                     <ul style="margin-bottom: 0; padding-left: 20px; line-height: 1.8; list-style-type: none;">
-                        <li>👁️ <strong>實驗五-A 狹窄車道的超音波致命傷：</strong> 在 11 公分的極窄車道中，光學雷達憑藉直線光束，在 20、30、40 cm/s 時都能精準直行並成功避障。但當我切換成超音波感測器，並把速度提升到 40 cm/s 時，超音波那發散的『扇形波束』竟然在 40 公分外就掃到了兩側的『山壁』！這導致車子發生了致命的誤判，提早煞車甚至在轉向時直接撞牆。這完全證實了光學雷達在複雜狹窄地形中不可取代的地位！</li>
+                        <li>👁️ <strong>實驗五-A 狹窄車道的超音波致命傷：</strong> 在 11 公分的極窄車道中，光學雷達憑藉直線光束，在 20、30、40 cm/s 時都能精準直行並成功避障。但當我切換成超音波感測器，並把速度提升到 40 cm/s 時，超音波那發散的『扇形波束』竟然在 40 公分外就掃到了兩側的『山壁』！這導致車子發生了致命的誤判，提早煞車甚至在轉向時直接撞牆。這完全證實了我最初的科學假說！</li>
                         <li>🧠 <strong>實驗五-B 網格記憶與果斷撤退：</strong> 在遇到連續的「U型死胡同」時，一開始小車會打轉，但當『足跡懲罰分數』累積超過極限，它就會果斷放棄並向後撤退尋找新路線，完全不需要人為介入！它甚至知道轉彎後就不再查探死胡同，因為黑名單已經記住了！</li>
-                        <li>⚖️ <strong>破除 AI 偏見與閉環控制：</strong> 我將實驗四計算出來的煞車距離，精準輸入到實驗五的程式中當作『安全防護參數』；我也學會取消硬性方向偏見、完全信任曼哈頓距離，讓車子變成真正全域通用的 AI 大腦。這是我學到最寶貴的演算法邏輯課！</li>
+                        <li>⚖️ <strong>數據驅動的閉環設計：</strong> 我把在實驗四測得的「煞車慣性距離」直接寫進實驗五-A 的程式裡，當作動態安全預警距離。這代表我的車子不再是盲目設定，而是具備科學計算能力的自動駕駛系統！</li>
                     </ul>
                 </div>
             </div>
@@ -1201,22 +1206,8 @@ basic.show_icon(IconNames.YES)
                 <p>這是我研究中最重要的閉環控制實證！我把實驗四得到的「煞車距離參數」直接寫入實驗五-A 的程式邏輯中，實現了基於速度的「動態安全預警系統」。</p>
                 
                 <h4 style="color: var(--accent-glow); margin-top: 20px;">1. 狹窄山道極限對決紀錄表 (11cm 車道 vs 10cm 車寬)</h4>
-                <p>透過下表，你可以清楚發現：超音波在 40 cm/s 時，是因為「波束過廣誤判兩側山壁」才失敗的。這不是避障演算法的問題，而是超音波的先天物理特性造成的！</p>
+                <p>透過上方的數據儀表板，你可以清楚發現：超音波在 40 cm/s 時，是因為「波束過廣誤判兩側山壁」才失敗的。這不是避障演算法的問題，而是超音波的先天物理特性造成的！</p>
                 
-                <div class="data-table-wrapper">
-                    <table class="data-table">
-                        <tr><th>測試編號</th><th>感測模式</th><th>設定速度 (cm/s)</th><th>安全預警距離 (cm)<br>(實驗四設定)</th><th>避障策略</th><th>實驗結果</th><th>觀察現象與對比 (關鍵紀錄)</th></tr>
-                        <tr><td>1</td><td>光學雷達</td><td>20</td><td>13.3</td><td>緊急煞車</td><td style="color:var(--accent-green);">成功</td><td>煞停距離精準，無誤判</td></tr>
-                        <tr><td>2</td><td>光學雷達</td><td>30</td><td>14.6</td><td>緊急煞車</td><td style="color:var(--accent-green);">成功</td><td>煞停距離精準，無誤判</td></tr>
-                        <tr><td>3</td><td>光學雷達</td><td>40</td><td>17.0</td><td>緊急煞車</td><td style="color:var(--accent-green);">成功</td><td>高速下成功煞停，直線光束不受山壁影響</td></tr>
-                        <tr><td>4</td><td>超音波</td><td>40</td><td>17.0</td><td>緊急煞車</td><td style="color:var(--accent-red); font-weight:bold;">失敗</td><td><strong style="color:var(--accent-red);">扇形波束誤判山壁，40cm處提前煞車 (見Video 9)</strong></td></tr>
-                        <tr><td>5</td><td>光學雷達</td><td>20</td><td>13.3</td><td>動態轉向</td><td style="color:var(--accent-green);">成功</td><td>閃避平順，無碰撞 (見Video 5)</td></tr>
-                        <tr><td>6</td><td>光學雷達</td><td>30</td><td>14.6</td><td>動態轉向</td><td style="color:var(--accent-green);">成功</td><td>閃避平順，無碰撞 (見Video 6)</td></tr>
-                        <tr><td>7</td><td>光學雷達</td><td>40</td><td>17.0</td><td>動態轉向</td><td style="color:var(--accent-green);">成功</td><td>精準轉向閃避 (見Video 7)</td></tr>
-                        <tr><td>8</td><td>超音波</td><td>40</td><td>17.0</td><td>動態轉向</td><td style="color:var(--accent-red); font-weight:bold;">失敗</td><td><strong style="color:var(--accent-red);">誤判山壁，導致提前轉向撞牆 (見Video 8)</strong></td></tr>
-                    </table>
-                </div>
-
                 <h4 style="color: var(--accent-glow); margin-top: 30px;">2. 小車端（發射端）實驗五-A V14 動態轉向程式碼</h4>
                 <p>在這段程式碼中，我設計了 <code>get_safe_dist(speed)</code> 函數，它會動態讀取速度並回傳我們計算好的安全防護罩距離。這才是真正的數據驅動防護！</p>
                 <div style="background-color: #1e1e1e; padding: 15px; border-radius: 8px; overflow-x: auto; border: 1px solid #334155; box-shadow: inset 0 0 10px rgba(0,0,0,0.5);">
@@ -1329,7 +1320,7 @@ visited = [<span style="color: #b5cea8;">0</span>,<span style="color: #b5cea8;">
 is_running = <span style="color: #569cd6;">False</span>
 command_inbox = <span style="color: #ce9178;">""</span>
 
-<span style="color: #569cd6;">def</span> <span style="dcdcaa;">is_safe_to_go</span>(test_x, test_y):
+<span style="color: #569cd6;">def</span> <span style="color: #dcdcaa;">is_safe_to_go</span>(test_x, test_y):
     <span style="color: #569cd6;">for</span> i <span style="color: #569cd6;">in</span> range(len(bad_x)):
         <span style="color: #569cd6;">if</span> bad_x[i] == test_x <span style="color: #569cd6;">and</span> bad_y[i] == test_y:
             <span style="color: #569cd6;">return False</span>
@@ -1988,7 +1979,6 @@ basic.show_icon(IconNames.HAPPY)
         async function updateDashboard() {
             const selectedExp = document.getElementById('exp-selector').value;
             const targetGid = expGids[selectedExp];
-            if (!targetGid) return;
             
             const chartWrapper = document.getElementById('chart-wrapper');
             // 隱藏 Exp5 與 Exp6 的圖表，讓畫面保持整潔
@@ -2005,6 +1995,38 @@ basic.show_icon(IconNames.HAPPY)
                 }
             }
 
+            // 🌟 實驗五-A 專屬攔截：直接渲染正確數據，避免抓到舊 GID 導致出現兩個表格
+            if (selectedExp === 'exp5') {
+                let exp5aHTML = `<div class="data-table-wrapper"><h3 style="margin-top:0; color: var(--accent-glow);">📝 實驗詳細數據表 (11cm山壁極限對決)</h3>
+                <table class="data-table">
+                    <tr><th>測試編號</th><th>感測模式</th><th>設定速度 (cm/s)</th><th>安全預警距離 (cm)</th><th>避障策略</th><th>實驗結果</th><th>觀察現象與對比 (關鍵紀錄)</th></tr>
+                    <tr><td>1</td><td>光學雷達</td><td>20</td><td>13.3</td><td>緊急煞車</td><td style="color:var(--accent-green);">成功</td><td>煞車距離準確，完美避開</td></tr>
+                    <tr><td>2</td><td>光學雷達</td><td>30</td><td>14.6</td><td>緊急煞車</td><td style="color:var(--accent-green);">成功</td><td>煞車距離準確，完美避開</td></tr>
+                    <tr><td>3</td><td>光學雷達</td><td>40</td><td>17.0</td><td>緊急煞車</td><td style="color:var(--accent-green);">成功</td><td>高速下成功煞停，直線光束不受山壁影響</td></tr>
+                    <tr><td>4</td><td>超音波</td><td>40</td><td>17.0</td><td>緊急煞車</td><td style="color:var(--accent-red); font-weight:bold;">失敗</td><td><strong style="color:var(--accent-red);">在約40cm處誤判山壁提前煞車</strong></td></tr>
+                    <tr><td>5</td><td>光學雷達</td><td>20</td><td>13.3</td><td>動態轉向</td><td style="color:var(--accent-green);">成功</td><td>閃避平順，無碰撞</td></tr>
+                    <tr><td>6</td><td>光學雷達</td><td>30</td><td>14.6</td><td>動態轉向</td><td style="color:var(--accent-green);">成功</td><td>閃避平順，無碰撞</td></tr>
+                    <tr><td>7</td><td>光學雷達</td><td>40</td><td>17.0</td><td>動態轉向</td><td style="color:var(--accent-green);">成功</td><td>精準轉向閃避</td></tr>
+                    <tr><td>8</td><td>超音波</td><td>40</td><td>17.0</td><td>動態轉向</td><td style="color:var(--accent-red); font-weight:bold;">失敗</td><td><strong style="color:var(--accent-red);">誤判山壁提前轉向撞到山壁</strong></td></tr>
+                </table></div>`;
+                
+                document.getElementById('data-table-container').innerHTML = exp5aHTML;
+                updateCustomKPI('exp5', 8, 0, 0, 100, []);
+                
+                // 動態顯示對應的附錄區塊
+                const app1 = document.getElementById('appendix-exp1'); if(app1) app1.style.display = 'none';
+                const app2 = document.getElementById('appendix-exp2'); if(app2) app2.style.display = 'none';
+                const app3 = document.getElementById('appendix-exp3'); if(app3) app3.style.display = 'none';
+                const app4 = document.getElementById('appendix-exp4'); if(app4) app4.style.display = 'none';
+                const app5 = document.getElementById('appendix-exp5'); if(app5) app5.style.display = 'block';
+                const app6 = document.getElementById('appendix-exp6'); if(app6) app6.style.display = 'none';
+                
+                if(myChartInstance) myChartInstance.destroy(); // Ensure chart is cleared
+                return; 
+            }
+
+            if (!targetGid) return;
+
             try {
                 const response = await fetch(baseCsvUrl + targetGid);
                 const data = await response.text();
@@ -2014,7 +2036,7 @@ basic.show_icon(IconNames.HAPPY)
                 
                 const headers = parseCSVLine(rows[0]); 
 
-                // --- 實驗三專屬邏輯 ---
+                // --- 🌟 實驗三專屬：成功偵測率折線圖邏輯 🌟 ---
                 if (selectedExp === 'exp3') {
                     let heightIdx = headers.findIndex(h => h.includes('高度'));
                     let distIdx = headers.findIndex(h => h.includes('距離'));
@@ -2044,7 +2066,7 @@ basic.show_icon(IconNames.HAPPY)
                             }
                         }
 
-                        // 實驗三專屬 KPI 
+                        // 設定實驗三的專屬 KPI 
                         document.getElementById('kpi-title-1').innerText = "黃金視角高度"; 
                         document.getElementById('kpi-val-1').innerText = "中位(10)"; 
                         document.getElementById('kpi-val-1').style.color = "var(--accent-glow)";
@@ -2097,7 +2119,7 @@ basic.show_icon(IconNames.HAPPY)
                         return; 
                     }
                 }
-                // --- 實驗三邏輯結束 ---
+                // --- 🌟 實驗三邏輯結束 🌟 ---
 
                 let xLabels = [];
                 let yDataRadar = [];
