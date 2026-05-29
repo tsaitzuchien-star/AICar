@@ -506,22 +506,25 @@
                 <p style="color: var(--text-muted);">點擊下方戰役重播，觀察我寫的 AI 如何在 24 宮格中透過「記憶黑名單」與「曼哈頓距離」進行動態避障計算。</p>
                 
                 <div style="background: rgba(255,255,255,0.05); padding: 15px; border-radius: 8px; border: 1px solid #334155; margin-bottom: 15px;">
-                    <h4 style="color: var(--accent-glow); margin-top: 0; margin-bottom: 10px;">🛠️ 自訂戰役測試器</h4>
+                    <h4 style="color: var(--accent-glow); margin-top: 0; margin-bottom: 10px;">🛠️ 自訂戰役測試器 (A* 終極大腦版)</h4>
                     <div style="display: flex; gap: 10px; flex-wrap: wrap; align-items: center;">
-                        <label style="color: #94a3b8; font-size: 0.9rem;">起點 (X,Y):</label>
-                        <input type="number" id="custom-sx" value="3" min="0" max="3" class="custom-input">
-                        <input type="number" id="custom-sy" value="3" min="0" max="5" class="custom-input">
+                        <label style="color: #94a3b8; font-size: 0.9rem;">起點(X,Y):</label>
+                        <input type="number" id="custom-sx" value="0" min="0" max="3" class="custom-input">
+                        <input type="number" id="custom-sy" value="0" min="0" max="5" class="custom-input">
 
-                        <label style="color: #94a3b8; font-size: 0.9rem; margin-left: 10px;">終點 (X,Y):</label>
-                        <input type="number" id="custom-tx" value="0" min="0" max="3" class="custom-input">
-                        <input type="number" id="custom-ty" value="0" min="0" max="5" class="custom-input">
+                        <label style="color: #94a3b8; font-size: 0.9rem; margin-left: 10px;">終點(X,Y):</label>
+                        <input type="number" id="custom-tx" value="0" min="0" max="4" class="custom-input">
+                        <input type="number" id="custom-ty" value="4" min="0" max="5" class="custom-input">
 
-                        <label style="color: #94a3b8; font-size: 0.9rem; margin-left: 10px;">路障 (X,Y 分號換組):</label>
-                        <input type="text" id="custom-obs" value="1,1; 2,1" placeholder="例: 2,5; 2,4" class="custom-input-text">
+                        <label style="color: #f59e0b; font-size: 0.9rem; margin-left: 10px; font-weight: bold;">🚧 預知施工:</label>
+                        <input type="text" id="custom-static-obs" value="0,3" placeholder="例: 0,3" class="custom-input-text" style="border-color: #f59e0b;">
+
+                        <label style="color: #ef4444; font-size: 0.9rem; margin-left: 10px; font-weight: bold;">🐾 突發路障:</label>
+                        <input type="text" id="custom-obs" value="1,2" placeholder="例: 1,2" class="custom-input-text" style="border-color: #ef4444;">
 
                         <button class="nav-btn" style="background-color: var(--accent-green); color: #0f172a; padding: 6px 15px; border: none; font-weight: bold; margin-left: auto;" onclick="runCustomScenario(this)">🚀 生成並執行</button>
                     </div>
-                    <p style="margin: 10px 0 0 0; font-size: 0.85rem; color: var(--text-muted);">💡 提示：X 範圍 0~3，Y 範圍 0~5。自訂後系統會即時用我的「曼哈頓尋路演算法」跑出動態避障路線！</p>
+                    <p style="margin: 10px 0 0 0; font-size: 0.85rem; color: var(--text-muted);">💡 提示：輸入格式為 X,Y (例如 0,3; 1,3)。大腦已升級 A* 演算法，會結合「已知地圖」與「突發感測」進行全局最優算繪！</p>
                 </div>
 
                 <div style="margin-bottom: 15px; display: flex; flex-wrap: wrap; gap: 8px;">
@@ -1356,11 +1359,11 @@ basic.show_icon(IconNames.HAPPY)
             updateTransform(); 
         });
 
-        // --- 🌟 V3.0 實驗五-B 戰術地圖邏輯 (包含自訂戰役生成器) 🌟 ---
+        // --- 🌟 V4.0 實驗五-B 戰術地圖邏輯 (A* 終極大腦版) 🌟 ---
         const scenarios = {
             'trap': {
                 start: {x:3, y:3}, target: {x:0, y:5},
-                obstacles: [{x:2, y:5}, {x:2, y:4}],
+                dynamicObstacles: [{x:2, y:5}, {x:2, y:4}],
                 steps: [
                     {x:3,y:3, log:"出發 (3,3)，目標 (0,5)", type:"normal"},
                     {x:3,y:4, log:"前往 (3,4)", type:"normal"},
@@ -1381,10 +1384,10 @@ basic.show_icon(IconNames.HAPPY)
             },
             'perfect': {
                 start: {x:3, y:3}, target: {x:0, y:0},
-                obstacles: [{x:1, y:1}, {x:2, y:1}],
+                dynamicObstacles: [{x:1, y:1}, {x:2, y:1}],
                 steps: [
                     {x:3,y:3, log:"出發 (3,3)，目標 (0,0)", type:"normal"},
-                    {x:2,y:3, log:"移除偏見，完全信任曼哈頓距離", type:"highlight"},
+                    {x:2,y:3, log:"移除偏見，完全信任運算距離", type:"highlight"},
                     {x:1,y:3, log:"前往 (1,3)", type:"normal"},
                     {x:0,y:3, log:"前往 (0,3)", type:"normal"},
                     {x:0,y:2, log:"前往 (0,2)", type:"normal"},
@@ -1394,7 +1397,7 @@ basic.show_icon(IconNames.HAPPY)
             },
             'test1': {
                 start: {x:3, y:0}, target: {x:0, y:5},
-                obstacles: [{x:3, y:2}, {x:2, y:3}, {x:1, y:3}],
+                dynamicObstacles: [{x:3, y:2}, {x:2, y:3}, {x:1, y:3}],
                 steps: [
                     {x:3,y:0, log:"出發 (3,0)，目標 (0,5)", type:"normal"},
                     {x:3,y:1, log:"前往 (3,1)", type:"normal"},
@@ -1412,7 +1415,7 @@ basic.show_icon(IconNames.HAPPY)
             },
             'test2': {
                 start: {x:3, y:0}, target: {x:0, y:5},
-                obstacles: [{x:3, y:3}, {x:2, y:2}, {x:1, y:2}],
+                dynamicObstacles: [{x:3, y:3}, {x:2, y:2}, {x:1, y:2}],
                 steps: [
                     {x:3,y:0, log:"出發 (3,0)，目標 (0,5)", type:"normal"},
                     {x:3,y:1, log:"前往 (3,1)", type:"normal"},
@@ -1451,15 +1454,45 @@ basic.show_icon(IconNames.HAPPY)
             }
         }
 
-        // 🌟 新增：模擬我寫在 Micro:bit 裡的 AI 演算法，即時運算避障路線！
-        function simulateCustomScenario(sx, sy, tx, ty, obsList) {
+        // 🌟 新增：模擬 A* 終極大腦演算法
+        function simulateCustomScenario(sx, sy, tx, ty, dynamicObsList, staticObsList = []) {
             let cx = sx, cy = sy;
-            let bad = [];
+            // 🧠 1. 大腦開機就載入「高精地圖」(預知施工放入黑名單)
+            let bad = [...staticObsList];
             let visited = new Array(24).fill(0);
             visited[cx + cy * 4] = 1;
 
             let steps = [];
             steps.push({x: cx, y: cy, log: `出發 (${cx},${cy})，目標 (${tx},${ty})`, type: "normal"});
+            if (staticObsList.length > 0) {
+                let staticLogs = staticObsList.map(o => `(${o.x},${o.y})`).join(" 及 ");
+                steps.push({x: cx, y: cy, log: `🗺️ 下載高精地圖... 已知前方 ${staticLogs} 道路施工！`, type: "highlight"});
+            }
+
+            // 🌟 2. 升級版 A* 核心：計算「真實繞道路徑長度」而非直線距離
+            function getTrueDistance(startX, startY, targetX, targetY, badList) {
+                let queue = [{x: startX, y: startY, d: 0}];
+                let vMap = new Array(24).fill(false);
+                vMap[startX + startY * 4] = true;
+
+                while(queue.length > 0) {
+                    let curr = queue.shift();
+                    if (curr.x === targetX && curr.y === targetY) return curr.d;
+
+                    let dirs = [[0,1], [1,0], [0,-1], [-1,0]];
+                    for (let d of dirs) {
+                        let nx = curr.x + d[0], ny = curr.y + d[1];
+                        if (nx>=0 && nx<=3 && ny>=0 && ny<=5) {
+                            // 避開牆壁與黑名單
+                            if (!vMap[nx + ny*4] && !badList.some(b => b.x === nx && b.y === ny)) {
+                                vMap[nx + ny*4] = true;
+                                queue.push({x: nx, y: ny, d: curr.d + 1});
+                            }
+                        }
+                    }
+                }
+                return 999; // 死胡同
+            }
 
             let stepCount = 0;
             while(cx !== tx || cy !== ty) {
@@ -1471,7 +1504,6 @@ basic.show_icon(IconNames.HAPPY)
                 let safeDirs = [];
                 let checkSafe = (x, y) => !bad.some(b => b.x === x && b.y === y);
 
-                // 方向：0:北(y+1), 1:東(x+1), 2:南(y-1), 3:西(x-1)
                 if (cy < 5 && checkSafe(cx, cy + 1)) safeDirs.push(0);
                 if (cx < 3 && checkSafe(cx + 1, cy)) safeDirs.push(1);
                 if (cy > 0 && checkSafe(cx, cy - 1)) safeDirs.push(2);
@@ -1485,17 +1517,14 @@ basic.show_icon(IconNames.HAPPY)
                 let bestDir = -1;
                 let minScore = 99999;
 
+                // 🧠 3. 大腦運算：每一格都用 A* 推演未來的真實步數
                 for (let d of safeDirs) {
                     let nx = cx, ny = cy;
-                    if (d === 0) ny += 1;
-                    else if (d === 1) nx += 1;
-                    else if (d === 2) ny -= 1;
-                    else if (d === 3) nx -= 1;
+                    if (d === 0) ny += 1; else if (d === 1) nx += 1; else if (d === 2) ny -= 1; else if (d === 3) nx -= 1;
 
                     let vCount = visited[nx + ny * 4];
-                    let dist = Math.abs(tx - nx) + Math.abs(ty - ny);
-                    // 曼哈頓距離與足跡懲罰演算法
-                    let score = (vCount * 20) + dist;
+                    let trueDist = getTrueDistance(nx, ny, tx, ty, bad); // 取代原本的曼哈頓距離
+                    let score = (vCount * 20) + trueDist; // 足跡懲罰 + 真實剩餘步數
 
                     if (score < minScore) {
                         minScore = score;
@@ -1504,21 +1533,19 @@ basic.show_icon(IconNames.HAPPY)
                 }
 
                 let nx = cx, ny = cy;
-                if (bestDir === 0) ny += 1;
-                else if (bestDir === 1) nx += 1;
-                else if (bestDir === 2) ny -= 1;
-                else if (bestDir === 3) nx -= 1;
+                if (bestDir === 0) ny += 1; else if (bestDir === 1) nx += 1; else if (bestDir === 2) ny -= 1; else if (bestDir === 3) nx -= 1;
 
-                if (obsList.some(o => o.x === nx && o.y === ny)) {
-                    steps.push({x: cx, y: cy, log: `⚠️ 偵測路障! 寫入黑名單(${nx},${ny})`, type: "warning"});
-                    bad.push({x: nx, y: ny});
+                // 👁️ 4. 感測器啟動：確認下一步有沒有突發狀況
+                if (dynamicObsList.some(o => o.x === nx && o.y === ny)) {
+                    steps.push({x: cx, y: cy, log: `⚠️ 突發狀況! 光學雷達偵測到路障，寫入黑名單(${nx},${ny})`, type: "warning"});
+                    bad.push({x: nx, y: ny}); // 動態融合新的黑名單，下次運算就會避開！
                 } else {
                     let isRetreat = (visited[nx + ny * 4] > 0); 
                     cx = nx; cy = ny;
                     visited[cx + cy * 4] += 1;
 
                     if (isRetreat) {
-                        steps.push({x: cx, y: cy, log: `退回 (${cx},${cy}) 尋找新路線`, type: "highlight"});
+                        steps.push({x: cx, y: cy, log: `退回 (${cx},${cy}) 重新規劃全域路線`, type: "highlight"});
                     } else {
                         steps.push({x: cx, y: cy, log: `前往 (${cx},${cy})`, type: "normal"});
                     }
@@ -1526,37 +1553,44 @@ basic.show_icon(IconNames.HAPPY)
             }
 
             if (cx === tx && cy === ty) {
-                steps.push({x: cx, y: cy, log: `🏁 成功避障，抵達終點 (${tx},${ty})！`, type: "success"});
+                steps.push({x: cx, y: cy, log: `🏁 成功結合地圖與雷達避障，抵達終點 (${tx},${ty})！`, type: "success"});
             }
 
             return steps;
         }
 
-        // 🌟 新增：執行自訂戰役的觸發器
+        // 🌟 新增：執行自訂戰役的觸發器 (支援靜態與動態路障)
         function runCustomScenario(btn) {
             const sx = parseInt(document.getElementById('custom-sx').value);
             const sy = parseInt(document.getElementById('custom-sy').value);
             const tx = parseInt(document.getElementById('custom-tx').value);
             const ty = parseInt(document.getElementById('custom-ty').value);
             const obsStr = document.getElementById('custom-obs').value;
+            const staticObsStr = document.getElementById('custom-static-obs').value;
 
-            let obs = [];
-            if (obsStr.trim() !== '') {
-                const parts = obsStr.split(';');
-                parts.forEach(p => {
-                    const coords = p.split(',');
-                    if (coords.length === 2) {
-                        obs.push({x: parseInt(coords[0].trim()), y: parseInt(coords[1].trim())});
-                    }
-                });
+            let parseObs = (str) => {
+                let list = [];
+                if (str.trim() !== '') {
+                    str.split(';').forEach(p => {
+                        const coords = p.split(',');
+                        if (coords.length === 2) {
+                            list.push({x: parseInt(coords[0].trim()), y: parseInt(coords[1].trim())});
+                        }
+                    });
+                }
+                return list;
             }
 
-            const steps = simulateCustomScenario(sx, sy, tx, ty, obs);
+            let dynObs = parseObs(obsStr);
+            let staticObs = parseObs(staticObsStr);
+
+            const steps = simulateCustomScenario(sx, sy, tx, ty, dynObs, staticObs);
 
             scenarios['custom'] = {
                 start: {x: sx, y: sy},
                 target: {x: tx, y: ty},
-                obstacles: obs,
+                dynamicObstacles: dynObs,
+                staticObstacles: staticObs,
                 steps: steps
             };
 
@@ -1591,9 +1625,21 @@ basic.show_icon(IconNames.HAPPY)
             const targetCell = document.getElementById(`cell-${data.target.x}-${data.target.y}`);
             if(targetCell) { targetCell.classList.add('target'); targetCell.innerHTML = '🏁'; }
             
-            data.obstacles.forEach(obs => {
+            // 渲染預知施工 🚧
+            data.staticObstacles?.forEach(obs => {
+                let c = document.getElementById(`cell-${obs.x}-${obs.y}`);
+                if(c) { c.classList.add('obstacle'); c.style.borderColor = '#f59e0b'; c.style.background = 'rgba(245, 158, 11, 0.2)'; c.innerHTML = '🚧'; }
+            });
+            // 渲染突發石虎 🐾
+            data.dynamicObstacles?.forEach(obs => {
                 let c = document.getElementById(`cell-${obs.x}-${obs.y}`);
                 if(c) { c.classList.add('obstacle'); c.innerHTML = '🐾'; }
+            });
+            
+            // 相容舊的資料格式
+            data.obstacles?.forEach(obs => {
+                let c = document.getElementById(`cell-${obs.x}-${obs.y}`);
+                if(c && c.innerHTML === '') { c.classList.add('obstacle'); c.innerHTML = '🐾'; }
             });
         }
 
