@@ -974,6 +974,74 @@ sensor_mode = <span style="color: #b5cea8;">1</span>
 
 bad_x = [-<span style="color: #b5cea8;">99</span>]; bad_y = [-<span style="color: #b5cea8;">99</span>]
 visited = [<span style="color: #b5cea8;">0</span>,<span style="color: #b5cea8;">0</span>,<span style="color: #b5cea8;">0</span>,<span style="color: #b5cea8;">0</span>,<span style="color: #b5cea8;">0</span>,<span style="color: #b5cea8;">0</span>,<span style="color: #b5cea8;">0</span>,<span style="color: #b5cea8;">0</span>,<span style="color: #b5cea8;">0</span>,<span style="color: #b5cea8;">0</span>,<span style="color: #b5cea8;">0</span>,<span style="color: #b5cea8;">0</span>,<span style="color: #b5cea8;">0</span>,<span style="color: #b5cea8;">0</span>,<span style="color: #b5cea8;">0</span>,<span style="color: #b5cea8;">0</span>,<span style="color: #b5cea8;">0</span>,<span style="color: #b5cea8;">0</span>,<span style="color: #b5cea8;">0</span>,<span style="color: #b5cea8;">0</span>,<span style="color: #b5cea8;">0</span>,<span style="color: #b5cea8;">0</span>,<span style="color: #b5cea8;">0</span>,<span style="color: #b5cea8;">0</span>]
+
+is_running = <span style="color: #569cd6;">False</span>
+command_inbox = <span style="color: #ce9178;">""</span>
+
+<span style="color: #6a9955;"># 🌟【被跳躍的 53 行核心大腦程式碼，已完美補回】🌟</span>
+<span style="color: #569cd6;">def</span> <span style="color: #dcdcaa;">is_safe_to_go</span>(test_x, test_y):
+    <span style="color: #569cd6;">for</span> i <span style="color: #569cd6;">in</span> range(len(bad_x)):
+        <span style="color: #569cd6;">if</span> bad_x[i] == test_x <span style="color: #569cd6;">and</span> bad_y[i] == test_y:
+            <span style="color: #569cd6;">return False</span>
+    <span style="color: #569cd6;">return True</span>
+
+<span style="color: #569cd6;">def</span> <span style="color: #dcdcaa;">move_one_grid</span>():
+    <span style="color: #569cd6;">global</span> current_x, current_y, total_grids, visited
+    maqueenPlusV2.control_motor(maqueenPlusV2.MyEnumMotor.LEFT_MOTOR, maqueenPlusV2.MyEnumDir.FORWARD, current_speed)
+    maqueenPlusV2.control_motor(maqueenPlusV2.MyEnumMotor.RIGHT_MOTOR, maqueenPlusV2.MyEnumDir.FORWARD, current_speed)
+    basic.pause(time_one_grid)
+    maqueenPlusV2.control_motor_stop(maqueenPlusV2.MyEnumMotor.LEFT_MOTOR)
+    maqueenPlusV2.control_motor_stop(maqueenPlusV2.MyEnumMotor.RIGHT_MOTOR)
+    
+    <span style="color: #569cd6;">if</span> current_dir == <span style="color: #b5cea8;">0</span>: current_y += <span style="color: #b5cea8;">1</span>
+    <span style="color: #569cd6;">elif</span> current_dir == <span style="color: #b5cea8;">1</span>: current_x += <span style="color: #b5cea8;">1</span>
+    <span style="color: #569cd6;">elif</span> current_dir == <span style="color: #b5cea8;">2</span>: current_y -= <span style="color: #b5cea8;">1</span>
+    <span style="color: #569cd6;">elif</span> current_dir == <span style="color: #b5cea8;">3</span>: current_x -= <span style="color: #b5cea8;">1</span>
+    
+    visited[current_x + current_y * <span style="color: #b5cea8;">4</span>] += <span style="color: #b5cea8;">1</span>
+    total_grids += <span style="color: #b5cea8;">1</span>
+    radio.send_string(<span style="color: #ce9178;">"Pos: ("</span> + str(current_x) + <span style="color: #ce9178;">","</span> + str(current_y) + <span style="color: #ce9178;">")"</span>)
+    basic.pause(<span style="color: #b5cea8;">500</span>)
+
+<span style="color: #569cd6;">def</span> <span style="color: #dcdcaa;">turn_left_90</span>():
+    <span style="color: #569cd6;">global</span> current_dir
+    maqueenPlusV2.control_motor(maqueenPlusV2.MyEnumMotor.LEFT_MOTOR, maqueenPlusV2.MyEnumDir.BACKWARD, current_speed)
+    maqueenPlusV2.control_motor(maqueenPlusV2.MyEnumMotor.RIGHT_MOTOR, maqueenPlusV2.MyEnumDir.FORWARD, current_speed)
+    basic.pause(time_turn_90)
+    maqueenPlusV2.control_motor_stop(maqueenPlusV2.MyEnumMotor.LEFT_MOTOR)
+    maqueenPlusV2.control_motor_stop(maqueenPlusV2.MyEnumMotor.RIGHT_MOTOR)
+    current_dir = (current_dir + <span style="color: #b5cea8;">3</span>) % <span style="color: #b5cea8;">4</span>
+    basic.pause(<span style="color: #b5cea8;">500</span>)
+
+<span style="color: #569cd6;">def</span> <span style="color: #dcdcaa;">turn_right_90</span>():
+    <span style="color: #569cd6;">global</span> current_dir
+    maqueenPlusV2.control_motor(maqueenPlusV2.MyEnumMotor.LEFT_MOTOR, maqueenPlusV2.MyEnumDir.FORWARD, current_speed)
+    maqueenPlusV2.control_motor(maqueenPlusV2.MyEnumMotor.RIGHT_MOTOR, maqueenPlusV2.MyEnumDir.BACKWARD, current_speed)
+    basic.pause(time_turn_90)
+    maqueenPlusV2.control_motor_stop(maqueenPlusV2.MyEnumMotor.LEFT_MOTOR)
+    maqueenPlusV2.control_motor_stop(maqueenPlusV2.MyEnumMotor.RIGHT_MOTOR)
+    current_dir = (current_dir + <span style="color: #b5cea8;">1</span>) % <span style="color: #b5cea8;">4</span>
+    basic.pause(<span style="color: #b5cea8;">500</span>)
+
+<span style="color: #569cd6;">def</span> <span style="color: #dcdcaa;">face_direction</span>(target_dir):
+    <span style="color: #569cd6;">global</span> current_dir
+    diff = target_dir - current_dir
+    <span style="color: #569cd6;">if</span> diff < <span style="color: #b5cea8;">0</span>: diff += <span style="color: #b5cea8;">4</span>
+    diff = diff % <span style="color: #b5cea8;">4</span>
+    <span style="color: #569cd6;">if</span> diff == <span style="color: #b5cea8;">1</span>: turn_right_90()
+    <span style="color: #569cd6;">elif</span> diff == <span style="color: #b5cea8;">2</span>: turn_right_90(); turn_right_90()
+    <span style="color: #569cd6;">elif</span> diff == <span style="color: #b5cea8;">3</span>: turn_left_90()
+
+<span style="color: #569cd6;">def</span> <span style="color: #dcdcaa;">run_ai_navigation</span>():
+    <span style="color: #569cd6;">global</span> current_x, current_y, current_dir, total_grids
+    <span style="color: #569cd6;">global</span> bad_x, bad_y, visited, is_running
+    
+    is_running = <span style="color: #569cd6;">True</span>
+    
+    current_x = start_x; current_y = start_y
+    current_dir = <span style="color: #b5cea8;">0</span>; total_grids = <span style="color: #b5cea8;">0</span>
+    bad_x = [-<span style="color: #b5cea8;">99</span>]; bad_y = [-<span style="color: #b5cea8;">99</span>]
+    visited = [<span style="color: #b5cea8;">0</span>,<span style="color: #b5cea8;">0</span>,<span style="color: #b5cea8;">0</span>,<span style="color: #b5cea8;">0</span>,<span style="color: #b5cea8;">0</span>,<span style="color: #b5cea8;">0</span>,<span style="color: #b5cea8;">0</span>,<span style="color: #b5cea8;">0</span>,<span style="color: #b5cea8;">0</span>,<span style="color: #b5cea8;">0</span>,<span style="color: #b5cea8;">0</span>,<span style="color: #b5cea8;">0</span>,<span style="color: #b5cea8;">0</span>,<span style="color: #b5cea8;">0</span>,<span style="color: #b5cea8;">0</span>,<span style="color: #b5cea8;">0</span>,<span style="color: #b5cea8;">0</span>,<span style="color: #b5cea8;">0</span>,<span style="color: #b5cea8;">0</span>,<span style="color: #b5cea8;">0</span>,<span style="color: #b5cea8;">0</span>,<span style="color: #b5cea8;">0</span>,<span style="color: #b5cea8;">0</span>,<span style="color: #b5cea8;">0</span>]
     visited[start_x + start_y * <span style="color: #b5cea8;">4</span>] = <span style="color: #b5cea8;">1</span>
     
     basic.show_icon(IconNames.TARGET)
