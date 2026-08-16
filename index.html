@@ -87,6 +87,27 @@
         .custom-input { background: #0f172a; color: #00f6ff; border: 1px solid #334155; border-radius: 4px; padding: 6px; font-family: monospace; font-size: 1rem; width: 60px; text-align: center; }
         .custom-input-text { background: #0f172a; color: #f59e0b; border: 1px solid #334155; border-radius: 4px; padding: 6px; font-family: monospace; font-size: 0.9rem; width: 140px; }
 
+        /* 🌟 迷霧遊戲專屬樣式 🌟 */
+        #fog-game-container .controls { display: flex; gap: 15px; margin-bottom: 20px; flex-wrap: wrap; justify-content: center; }
+        #fog-game-container .scoreboard { display: flex; justify-content: center; gap: 40px; margin-bottom: 20px; font-size: 1.2rem; }
+        #fog-game-container .score-box { background: rgba(255,255,255,0.05); padding: 10px 20px; border-radius: 10px; border: 1px solid #334155; text-align: center; width: 160px; }
+        #fog-game-container .human-score { color: #f59e0b; font-weight: bold; font-size: 1.5rem; }
+        #fog-game-container .ai-score { color: #10b981; font-weight: bold; font-size: 1.5rem; }
+        #fog-game-container .fog-grid { display: grid; grid-template-columns: repeat(4, 70px); grid-template-rows: repeat(6, 70px); gap: 5px; background: #1e293b; padding: 10px; border-radius: 12px; border: 2px solid #475569; position: relative; margin: 0 auto; width: 320px; }
+        #fog-game-container .fog-cell { background: #0f172a; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 1.8rem; position: relative; transition: 0.3s; }
+        #fog-game-container .fog-cell.fog { background: #334155; }
+        #fog-game-container .fog-cell.fog::after { content: '?'; color: rgba(255,255,255,0.2); font-size: 1rem; }
+        #fog-game-container .fog-cell.clear { background: #1e293b; border: 1px solid #334155; }
+        #fog-game-container .fog-cell.obstacle { background: rgba(239, 68, 68, 0.2); border: 1px solid #ef4444; }
+        #fog-game-container .fog-cell.obstacle::before { content: '🐾'; }
+        #fog-game-container .fog-cell.start { border: 2px solid #f59e0b; background: rgba(245, 158, 11, 0.2); }
+        #fog-game-container .fog-cell.target { border: 2px solid #00f6ff; background: rgba(0, 246, 255, 0.2); }
+        #fog-game-container .fog-cell.target::before { content: '🏁'; }
+        #fog-game-container .fog-player { position: absolute; width: 50px; height: 50px; background: #f59e0b; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; box-shadow: 0 0 15px #f59e0b; transition: all 0.2s ease-in-out; z-index: 10; pointer-events: none; }
+        #fog-game-container .fog-player.ai-mode { background: #10b981; box-shadow: 0 0 15px #10b981; }
+        #fog-game-container .fog-player::after { content: '🚗'; }
+        #fog-game-message { margin-top: 20px; font-size: 1.2rem; color: #f59e0b; height: 30px; font-weight: bold; text-align: center; }
+
         @media (max-width: 768px) {
             body { flex-direction: column; }
             .sidebar { width: 100%; padding: 15px 15px 5px 15px; gap: 10px; }
@@ -98,6 +119,7 @@
             h1 { font-size: 1.5rem; }
             .kpi-panel { flex-direction: column; gap: 10px; }
             .tactical-board { justify-content: center; }
+            #fog-game-container .scoreboard { gap: 10px; }
         }
     </style>
 </head>
@@ -511,6 +533,7 @@
                     <option value="exp5">實驗五-A：（模擬山路）狹窄車道極限對決</option>
                     <option value="exp6">實驗五-B：（模擬廣場）24宮格記憶大腦分析</option>
                     <option value="exp7">實驗六：（克服A柱死角）多雷達融合與動態禮讓</option>
+                    <option value="game" style="color: #f59e0b; font-weight: bold;">🎮 互動體驗：迷霧對決小遊戲</option>
                 </select>
             </div>
 
@@ -534,6 +557,32 @@
 
             <div class="chart-container" style="position: relative; height:400px; display: none;" id="chart-wrapper">
                 <canvas id="experimentChart"></canvas>
+            </div>
+
+            <!-- 🌟 全新的迷霧對決小遊戲區塊 🌟 -->
+            <div id="fog-game-wrapper" style="display: none; margin-bottom: 25px;">
+                <h3 style="color: var(--accent-glow); margin-top: 30px; border-bottom: 1px solid #334155; padding-bottom: 10px;">🌫️ 迷霧探測對決：人類直覺 vs AI 網格大腦</h3>
+                <p style="color: var(--text-muted);">障礙物已隨機生成並隱藏（保證絕對有路），走到旁邊雷達才會照亮！</p>
+                
+                <div id="fog-game-container" style="display: flex; flex-direction: column; align-items: center; background: rgba(0,0,0,0.2); padding: 20px; border-radius: 12px; border: 1px solid #334155;">
+                    <div class="controls" style="margin-bottom: 20px;">
+                        <button class="nav-btn" style="border-color: #00f6ff; color: #00f6ff;" onclick="fogGenerateMap()">🎲 隨機生成新地圖</button>
+                        <button class="nav-btn" style="border-color: #f59e0b; color: #f59e0b;" onclick="fogStartHuman()">👤 人類挑戰 (方向鍵)</button>
+                        <button class="nav-btn" style="border-color: #10b981; color: #10b981;" onclick="fogStartAI()">🤖 AI 大腦挑戰</button>
+                    </div>
+                    
+                    <div class="scoreboard" style="display: flex; gap: 40px; margin-bottom: 20px;">
+                        <div class="score-box" style="background: rgba(255,255,255,0.05); padding: 10px 20px; border-radius: 10px; border: 1px solid #334155; text-align: center; width: 160px;">人類移動步數<br><span id="fog-human-steps" style="color: #f59e0b; font-weight: bold; font-size: 1.5rem;">0</span></div>
+                        <div class="score-box" style="background: rgba(255,255,255,0.05); padding: 10px 20px; border-radius: 10px; border: 1px solid #334155; text-align: center; width: 160px;">AI 移動步數<br><span id="fog-ai-steps" style="color: #10b981; font-weight: bold; font-size: 1.5rem;">0</span></div>
+                    </div>
+                    
+                    <div style="position: relative;">
+                        <div class="fog-grid" id="fog-grid"></div>
+                        <div class="fog-player" id="fog-player" style="display: none;"></div>
+                    </div>
+                    
+                    <div id="fog-game-message" style="margin-top: 20px; font-size: 1.2rem; color: #00f6ff; height: 30px; font-weight: bold;">請點擊「隨機生成新地圖」開始！</div>
+                </div>
             </div>
 
             <div id="exp5b-visualizer" style="display: none; margin-bottom: 25px;">
@@ -978,7 +1027,6 @@ visited = [<span style="color: #b5cea8;">0</span>,<span style="color: #b5cea8;">
 is_running = <span style="color: #569cd6;">False</span>
 command_inbox = <span style="color: #ce9178;">""</span>
 
-<span style="color: #6a9955;"># 🌟【被跳躍的 53 行核心大腦程式碼，已完美補回】🌟</span>
 <span style="color: #569cd6;">def</span> <span style="color: #dcdcaa;">is_safe_to_go</span>(test_x, test_y):
     <span style="color: #569cd6;">for</span> i <span style="color: #569cd6;">in</span> range(len(bad_x)):
         <span style="color: #569cd6;">if</span> bad_x[i] == test_x <span style="color: #569cd6;">and</span> bad_y[i] == test_y:
@@ -1395,6 +1443,262 @@ basic.show_icon(IconNames.HAPPY)
             updateTransform(); 
         });
 
+        // --- 🌟 迷霧對決小遊戲邏輯 🌟 ---
+        const fogCols = 4;
+        const fogRows = 6;
+        const fogCellSize = 75; // 70px + 5px gap
+        let fogMap = []; // 0: empty, 1: obstacle
+        let fogStartX = 3, fogStartY = 5;
+        let fogTargetX = 0, fogTargetY = 0;
+        let fogCurrentX = 3, fogCurrentY = 5;
+        
+        let fogIsHumanTurn = false;
+        let fogSteps = 0;
+        let fogAiTimeout = null;
+        
+        let fogAiKnownMap = []; 
+        let fogAiVisited = [];
+
+        function fogInitArrays() {
+            fogMap = Array(fogCols * fogRows).fill(0);
+            fogAiKnownMap = Array(fogCols * fogRows).fill(0);
+            fogAiVisited = Array(fogCols * fogRows).fill(0);
+        }
+
+        function fogIsSolvable(testMap) {
+            let queue = [{x: fogStartX, y: fogStartY}];
+            let visited = Array(fogCols * fogRows).fill(false);
+            visited[fogStartY * fogCols + fogStartX] = true;
+            let dirs = [[0,-1], [1,0], [0,1], [-1,0]];
+
+            while(queue.length > 0) {
+                let curr = queue.shift();
+                if(curr.x === fogTargetX && curr.y === fogTargetY) return true;
+
+                for(let d of dirs) {
+                    let nx = curr.x + d[0];
+                    let ny = curr.y + d[1];
+                    let nIdx = ny * fogCols + nx;
+
+                    if(nx >= 0 && nx < fogCols && ny >= 0 && ny < fogRows) {
+                        if(!visited[nIdx] && testMap[nIdx] === 0) {
+                            visited[nIdx] = true;
+                            queue.push({x: nx, y: ny});
+                        }
+                    }
+                }
+            }
+            return false;
+        }
+
+        function fogGenerateMap() {
+            if(fogAiTimeout) clearTimeout(fogAiTimeout);
+            let mapValid = false;
+            
+            while(!mapValid) {
+                fogInitArrays();
+                let numObstacles = 6; // 固定 6 個障礙物
+                let count = 0;
+                while(count < numObstacles) {
+                    let rx = Math.floor(Math.random() * fogCols);
+                    let ry = Math.floor(Math.random() * fogRows);
+                    if((rx === fogStartX && ry === fogStartY) || (rx === fogTargetX && ry === fogTargetY)) continue;
+                    
+                    let idx = ry * fogCols + rx;
+                    if(fogMap[idx] === 0) {
+                        fogMap[idx] = 1;
+                        count++;
+                    }
+                }
+                mapValid = fogIsSolvable(fogMap);
+            }
+            
+            document.getElementById('fog-human-steps').innerText = '0';
+            document.getElementById('fog-ai-steps').innerText = '0';
+            fogDrawGrid(true);
+            document.getElementById('fog-game-message').innerText = "地圖已生成（固定 6 個障礙物且保證有解）！";
+            document.getElementById('fog-game-message').style.color = "#00f6ff";
+            document.getElementById('fog-player').style.display = "none";
+            fogIsHumanTurn = false;
+        }
+
+        function fogDrawGrid(isFogged) {
+            const grid = document.getElementById('fog-grid');
+            if(!grid) return;
+            grid.innerHTML = '';
+            for(let y = 0; y < fogRows; y++) {
+                for(let x = 0; x < fogCols; x++) {
+                    let cell = document.createElement('div');
+                    cell.className = 'fog-cell';
+                    cell.id = `fog-cell-${x}-${y}`;
+                    
+                    if(x === fogStartX && y === fogStartY) cell.classList.add('start');
+                    else if(x === fogTargetX && y === fogTargetY) cell.classList.add('target');
+                    
+                    if(isFogged && !(x === fogStartX && y === fogStartY) && !(x === fogTargetX && y === fogTargetY)) {
+                        cell.classList.add('fog');
+                    } else {
+                        if(fogMap[y * fogCols + x] === 1) cell.classList.add('obstacle');
+                        else cell.classList.add('clear');
+                    }
+                    grid.appendChild(cell);
+                }
+            }
+        }
+
+        function fogUpdatePlayerPosition() {
+            const player = document.getElementById('fog-player');
+            if(!player) return;
+            player.style.display = "flex";
+            player.style.left = (fogCurrentX * fogCellSize + 10) + 'px'; // 調整中心偏移
+            player.style.top = (fogCurrentY * fogCellSize + 10) + 'px';
+            
+            fogRevealCell(fogCurrentX, fogCurrentY);
+            fogRevealCell(fogCurrentX + 1, fogCurrentY);
+            fogRevealCell(fogCurrentX - 1, fogCurrentY);
+            fogRevealCell(fogCurrentX, fogCurrentY + 1);
+            fogRevealCell(fogCurrentX, fogCurrentY - 1);
+        }
+
+        function fogRevealCell(x, y) {
+            if(x < 0 || x >= fogCols || y < 0 || y >= fogRows) return;
+            let cell = document.getElementById(`fog-cell-${x}-${y}`);
+            if(cell && cell.classList.contains('fog')) {
+                cell.classList.remove('fog');
+                if(fogMap[y * fogCols + x] === 1) {
+                    cell.classList.add('obstacle');
+                    fogAiKnownMap[y * fogCols + x] = 1;
+                } else {
+                    cell.classList.add('clear');
+                }
+            }
+        }
+
+        function fogStartHuman() {
+            if(fogAiTimeout) clearTimeout(fogAiTimeout);
+            if(fogMap.length === 0) fogGenerateMap(); // 保險機制
+            fogDrawGrid(true);
+            fogCurrentX = fogStartX; fogCurrentY = fogStartY;
+            fogSteps = 0;
+            document.getElementById('fog-human-steps').innerText = fogSteps;
+            const p = document.getElementById('fog-player');
+            p.className = "fog-player";
+            fogUpdatePlayerPosition();
+            fogIsHumanTurn = true;
+            document.getElementById('fog-game-message').innerText = "人類回合：請使用鍵盤方向鍵 (↑ ↓ ← →) 尋找終點！";
+            document.getElementById('fog-game-message').style.color = "#f59e0b";
+        }
+
+        window.addEventListener('keydown', function(e) {
+            if(!fogIsHumanTurn) return;
+            // 只有在畫面看到遊戲時才觸發
+            const wrapper = document.getElementById('fog-game-wrapper');
+            if(wrapper.style.display === 'none') return;
+
+            if(["ArrowUp","ArrowDown","ArrowLeft","ArrowRight"].indexOf(e.key) > -1) {
+                e.preventDefault();
+            }
+
+            let nx = fogCurrentX, ny = fogCurrentY;
+            if(e.key === 'ArrowUp') ny--;
+            if(e.key === 'ArrowDown') ny++;
+            if(e.key === 'ArrowLeft') nx--;
+            if(e.key === 'ArrowRight') nx++;
+            
+            if(nx >= 0 && nx < fogCols && ny >= 0 && ny < fogRows) {
+                if(fogMap[ny * fogCols + nx] === 1) {
+                    fogRevealCell(nx, ny);
+                    document.getElementById('fog-game-message').innerText = "⚠️ 哎呀！前方有死角障礙物，請換路！";
+                } else {
+                    fogCurrentX = nx; fogCurrentY = ny;
+                    fogSteps++;
+                    document.getElementById('fog-human-steps').innerText = fogSteps;
+                    fogUpdatePlayerPosition();
+                    document.getElementById('fog-game-message').innerText = "探索中...";
+                    
+                    if(fogCurrentX === fogTargetX && fogCurrentY === fogTargetY) {
+                        document.getElementById('fog-game-message').innerText = "🎉 人類挑戰成功！總共花了 " + fogSteps + " 步。";
+                        fogIsHumanTurn = false;
+                    }
+                }
+            }
+        });
+
+        function fogStartAI() {
+            fogIsHumanTurn = false;
+            if(fogAiTimeout) clearTimeout(fogAiTimeout);
+            if(fogMap.length === 0) fogGenerateMap(); // 保險機制
+            fogDrawGrid(true);
+            fogCurrentX = fogStartX; fogCurrentY = fogStartY;
+            fogSteps = 0;
+            
+            fogAiKnownMap = Array(fogCols * fogRows).fill(0);
+            fogAiVisited = Array(fogCols * fogRows).fill(0);
+            
+            document.getElementById('fog-ai-steps').innerText = fogSteps;
+            document.getElementById('fog-player').className = "fog-player ai-mode";
+            fogUpdatePlayerPosition();
+            document.getElementById('fog-game-message').innerText = "🤖 AI 大腦開始演算...";
+            document.getElementById('fog-game-message').style.color = "#10b981";
+            
+            fogAiTimeout = setTimeout(fogAiMove, 300);
+        }
+
+        function fogAiMove() {
+            if(fogCurrentX === fogTargetX && fogCurrentY === fogTargetY) {
+                document.getElementById('fog-game-message').innerText = "🤖 AI 挑戰成功！花了 " + fogSteps + " 步。快對比看看誰比較聰明！";
+                return;
+            }
+
+            fogAiVisited[fogCurrentY * fogCols + fogCurrentX] += 1;
+            let dirs = [[0,-1], [1,0], [0,1], [-1,0]];
+            let bestDir = -1;
+            let minScore = 99999;
+
+            for(let i=0; i<dirs.length; i++) {
+                let nx = fogCurrentX + dirs[i][0];
+                let ny = fogCurrentY + dirs[i][1];
+                
+                if(nx >= 0 && nx < fogCols && ny >= 0 && ny < fogRows && fogAiKnownMap[ny * fogCols + nx] === 0) {
+                    if(fogMap[ny * fogCols + nx] === 1) {
+                        fogRevealCell(nx, ny);
+                        fogAiKnownMap[ny * fogCols + nx] = 1;
+                        document.getElementById('fog-game-message').innerText = "⚠️ AI 發現死角障礙物，寫入黑名單！重新演算...";
+                        fogAiTimeout = setTimeout(fogAiMove, 500);
+                        return;
+                    }
+
+                    let vCount = fogAiVisited[ny * fogCols + nx];
+                    let distToTarget = Math.abs(fogTargetX - nx) + Math.abs(fogTargetY - ny);
+                    let score = (vCount * 20) + distToTarget;
+
+                    if(score < minScore) {
+                        minScore = score;
+                        bestDir = i;
+                    }
+                }
+            }
+
+            if(bestDir !== -1) {
+                fogCurrentX += dirs[bestDir][0];
+                fogCurrentY += dirs[bestDir][1];
+                fogSteps++;
+                document.getElementById('fog-ai-steps').innerText = fogSteps;
+                fogUpdatePlayerPosition();
+                
+                if(fogCurrentX === fogTargetX && fogCurrentY === fogTargetY) {
+                     document.getElementById('fog-game-message').innerText = "🤖 抵達終點！";
+                } else {
+                     document.getElementById('fog-game-message').innerText = "🤖 AI 安全導航中...";
+                }
+                
+                fogAiTimeout = setTimeout(fogAiMove, 300);
+            } else {
+                document.getElementById('fog-game-message').innerText = "❌ 糟糕！地圖發生異常死胡同。";
+            }
+        }
+
+
         // --- 🌟 V4.0 實驗五-B 戰術地圖邏輯 (A* 終極大腦版) 🌟 ---
         const scenarios = {
             'trap': {
@@ -1768,7 +2072,11 @@ basic.show_icon(IconNames.HAPPY)
             v2.style.color = "var(--accent-orange)";
             v3.style.color = "var(--accent-green)";
 
-            if (expId === 'exp1') {
+            if (expId === 'game') {
+                t1.innerText = "挑戰模式"; v1.innerText = "互動對決"; u1.innerText = "";
+                t2.innerText = "地圖驗證"; v2.innerText = "BFS防死路"; u2.innerText = "";
+                t3.innerText = "障礙生成"; v3.innerText = "固定 6 個"; u3.innerText = "";
+            } else if (expId === 'exp1') {
                 t1.innerText = "總測試趟數"; v1.innerText = totalRuns; u1.innerText = "趟";
                 t2.innerText = "雷達最大誤差"; v2.innerText = isFinite(maxErr) ? maxErr.toFixed(2) : "--"; u2.innerText = "cm";
                 t3.innerText = "抗光干擾能力"; v3.innerText = "極優"; u3.innerText = "";
@@ -1804,8 +2112,8 @@ basic.show_icon(IconNames.HAPPY)
             const targetGid = expGids[selectedExp];
             
             const chartWrapper = document.getElementById('chart-wrapper');
-            // 隱藏 Exp5, Exp6, Exp7 的圖表，讓畫面保持整潔
-            chartWrapper.style.display = (selectedExp === 'exp5' || selectedExp === 'exp6' || selectedExp === 'exp7') ? 'none' : 'block';
+            // 隱藏 Exp5, Exp6, Exp7 與 Game 的圖表，讓畫面保持整潔
+            chartWrapper.style.display = (selectedExp === 'exp5' || selectedExp === 'exp6' || selectedExp === 'exp7' || selectedExp === 'game') ? 'none' : 'block';
 
             // 控制 5-B 視覺化地圖的顯示
             const visualizer = document.getElementById('exp5b-visualizer');
@@ -1815,6 +2123,32 @@ basic.show_icon(IconNames.HAPPY)
                     resetReplay(); 
                 } else {
                     visualizer.style.display = 'none';
+                }
+            }
+
+            // 🌟 互動體驗：迷霧對決小遊戲 攔截顯示
+            const fogGameWrapper = document.getElementById('fog-game-wrapper');
+            const dataTableContainer = document.getElementById('data-table-container');
+            if (fogGameWrapper) {
+                if (selectedExp === 'game') {
+                    fogGameWrapper.style.display = 'block';
+                    dataTableContainer.style.display = 'none';
+                    updateCustomKPI('game', 0, 0, 0, 0, []);
+                    if (fogMap.length === 0) fogGenerateMap(); // 若還沒生成地圖就生成一張
+                    
+                    // 隱藏所有附錄
+                    const app1 = document.getElementById('appendix-exp1'); if(app1) app1.style.display = 'none';
+                    const app2 = document.getElementById('appendix-exp2'); if(app2) app2.style.display = 'none';
+                    const app3 = document.getElementById('appendix-exp3'); if(app3) app3.style.display = 'none';
+                    const app4 = document.getElementById('appendix-exp4'); if(app4) app4.style.display = 'none';
+                    const app5 = document.getElementById('appendix-exp5'); if(app5) app5.style.display = 'none';
+                    const app6 = document.getElementById('appendix-exp6'); if(app6) app6.style.display = 'none';
+                    
+                    if(myChartInstance) myChartInstance.destroy();
+                    return;
+                } else {
+                    fogGameWrapper.style.display = 'none';
+                    dataTableContainer.style.display = 'block';
                 }
             }
 
@@ -2023,7 +2357,7 @@ basic.show_icon(IconNames.HAPPY)
                     myChartInstance.destroy(); 
                 }
                 
-                if (selectedExp !== 'exp5' && selectedExp !== 'exp6' && selectedExp !== 'exp7') {
+                if (selectedExp !== 'exp5' && selectedExp !== 'exp6' && selectedExp !== 'exp7' && selectedExp !== 'game') {
                     const ctx = document.getElementById('experimentChart').getContext('2d');
                     let chartConfig = {
                         type: 'bar', 
