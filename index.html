@@ -350,7 +350,7 @@
             </div>
         </div>
 
-<div id="devlog" class="page-section">
+        <div id="devlog" class="page-section">
             <h1>🛠️ 實作紀錄：我的手作與開發日誌</h1>
             
             <div class="card">
@@ -518,6 +518,30 @@
                     </div>
                 </div>
             </div>
+
+            <div class="card">
+                <h3>✅ 任務十一：完成實驗六（多雷達融合克服 A 柱死角）測試與數據蒐集-8/30完成</h3>
+                <p>8月30日，我和弟弟秉宸完成了本次科展最帥氣的壓軸關卡——「A 柱死角防護與動態禮讓系統」！我們成功把麥昆小車升級成擁有 180 度防護網的「三眼戰車」。</p>
+                <ul>
+                    <li><strong>🛠️ 硬體改裝實作（硬體工程：秉宸）：</strong> 弟弟發揮巧手，在小車的左、右兩側各增設了一顆 LiDAR，並透過 I2C 指撥開關分配了不同位址（ADDR4, ADDR1, ADDR2）。最厲害的是，他將左右雷達以向外展開約 45 度的「外八字」角度安裝，完美模擬真實汽車盲點偵測的扇形視角！</li>
+                    <li><strong>💻 軟體開發與除錯（軟體工程：秉澔）：</strong> 這次開發遇到了真實自駕車最經典的三大工程難題：
+                        <ul>
+                            <li><strong style="color: var(--accent-orange);">1. 物理幾何誤差：</strong> 轉彎時目標呈斜角，導致距離拉長。我導入「情境感知」，把側邊轉彎防護網動態放大至 25 公分。</li>
+                            <li><strong style="color: var(--accent-orange);">2. 硬體延遲失控：</strong> 雷達讀取時間導致轉彎超過 150 度！我改用 Micro:bit 內建的 <code>input.running_time()</code> 絕對時間碼表，讓馬達精準轉動 945 毫秒。</li>
+                            <li><strong style="color: var(--accent-orange);">3. 系統阻塞 (Blocking Delay)：</strong> 跑馬燈字串顯示會吃掉 1 秒鐘導致煞車不及。我將面板改為「瞬間圖示顯示」，達成零延遲急煞！</li>
+                        </ul>
+                    </li>
+                    <li><strong>🚦 實驗結果結論：</strong> 在單向雷達對照組中，車子左轉時完全無視死角行人直接撞上。但在「三雷達融合模式」下，車子轉彎瞬間提早睜開左眼，精準在障礙物前緊急煞車亮紅燈；移開障礙物後亮綠燈，精準補足剩餘轉角駛向終點 (3,3) 並完美面北歸位。全生命守護系統，大成功！</li>
+                </ul>
+                <div style="background-color: rgba(16, 185, 129, 0.1); border-left: 4px solid var(--accent-green); padding: 18px; margin-top: 15px; border-radius: 0 8px 8px 0;">
+                    <span style="color: var(--accent-green); font-weight: bold; font-size: 1.1rem;">⏳ 影像紀錄待補 (下週上傳)</span>
+                    <p style="margin-top: 5px; color: var(--accent-glow);">實驗六的精彩照片與「動態禮讓」實測影片，將於下週獨立研究課後正式補上！敬請期待這台三眼戰車的完美演出！</p>
+                </div>
+                <!-- 預留未來放照片和影片的區塊 -->
+                <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 15px; display: none;" id="exp6-media-placeholder">
+                    <img src="photo27.jpg" alt="實驗六測試照片" class="photo-preview clickable-img" onclick="openLightbox(this.src)">
+                </div>
+            </div>
         </div>
 
         <div id="dashboard" class="page-section">
@@ -571,7 +595,7 @@
                         <button class="nav-btn" style="border-color: #10b981; color: #10b981;" onclick="fogStartAI()">🤖 AI 大腦挑戰</button>
                     </div>
                     
-                    <div class="scoreboard" style="display: flex; gap: 40px; margin-bottom: 20px;">
+                    <div class="scoreboard" style="display: flex; justify-content: center; gap: 40px; margin-bottom: 20px;">
                         <div class="score-box" style="background: rgba(255,255,255,0.05); padding: 10px 20px; border-radius: 10px; border: 1px solid #334155; text-align: center; width: 160px;">人類移動步數<br><span id="fog-human-steps" style="color: #f59e0b; font-weight: bold; font-size: 1.5rem;">0</span></div>
                         <div class="score-box" style="background: rgba(255,255,255,0.05); padding: 10px 20px; border-radius: 10px; border: 1px solid #334155; text-align: center; width: 160px;">AI 移動步數<br><span id="fog-ai-steps" style="color: #10b981; font-weight: bold; font-size: 1.5rem;">0</span></div>
                     </div>
