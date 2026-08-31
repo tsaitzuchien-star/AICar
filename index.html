@@ -533,13 +533,32 @@
                     </li>
                     <li><strong>🚦 實驗結果結論：</strong> 在單向雷達對照組中，車子左轉時完全無視死角行人直接撞上。但在「三雷達融合模式」下，車子轉彎瞬間提早睜開左眼，精準在障礙物前緊急煞車亮紅燈；移開障礙物後亮綠燈，精準補足剩餘轉角駛向終點 (3,3) 並完美面北歸位。全生命守護系統，大成功！</li>
                 </ul>
+                
                 <div style="background-color: rgba(16, 185, 129, 0.1); border-left: 4px solid var(--accent-green); padding: 18px; margin-top: 15px; border-radius: 0 8px 8px 0;">
-                    <span style="color: var(--accent-green); font-weight: bold; font-size: 1.1rem;">⏳ 影像紀錄待補 (下週上傳)</span>
-                    <p style="margin-top: 5px; color: var(--accent-glow);">實驗六的精彩照片與「動態禮讓」實測影片，將於下週獨立研究課後正式補上！敬請期待這台三眼戰車的完美演出！</p>
+                    <span style="color: var(--accent-green); font-weight: bold; font-size: 1.1rem;">🎉 影像紀錄正式上線！兄弟聯手大成功</span>
+                    <p style="margin-top: 5px; color: var(--accent-glow);">今天秉澔與秉宸合力完成了三眼戰車的組裝與模擬行人避障實測！</p>
+                    <ul style="margin-bottom: 0; padding-left: 20px; line-height: 1.8; list-style-type: none; color: var(--text-main);">
+                        <li>🛠️ <strong>硬體組裝：</strong>秉宸親手完成了左側與右側光學雷達的精準安裝。</li>
+                        <li>🤖 <strong>角色分配模擬：</strong>弟弟負責啟動與控制小車，哥哥則利用鋼彈機器人模型生動地模擬過馬路的行人。</li>
+                        <li>🚦 <strong>動態禮讓實測：</strong>影片中成功測試了小車在轉彎過程中，A柱雷達精準偵測到行人並觸發緊急剎車。小車耐心等待，確認行人完全離開盲區後，才安全地繼續轉彎與前進！</li>
+                    </ul>
                 </div>
-                <!-- 預留未來放照片和影片的區塊 -->
-                <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 15px; display: none;" id="exp6-media-placeholder">
-                    <img src="photo27.jpg" alt="實驗六測試照片" class="photo-preview clickable-img" onclick="openLightbox(this.src)">
+                
+                <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 15px;">
+                    <img src="photo27.jpg" alt="秉宸親手組裝左側光學雷達" class="photo-preview clickable-img" onclick="openLightbox(this.src)">
+                    <img src="photo28.jpg" alt="秉宸親手組裝右側光學雷達" class="photo-preview clickable-img" onclick="openLightbox(this.src)">
+                    <img src="photo29.jpg" alt="三顆光學雷達組裝完成後的小車" class="photo-preview clickable-img" onclick="openLightbox(this.src)">
+                    <img src="photo30.jpg" alt="哥哥利用鋼彈機器人模型模擬行人與小車的合照" class="photo-preview clickable-img" onclick="openLightbox(this.src)">
+                </div>
+
+                <div style="display: flex; flex-wrap: wrap; gap: 15px; margin-top: 15px;">
+                    <div style="flex: 1; min-width: 300px;">
+                        <span style="color: var(--accent-green); font-weight: bold; margin-bottom: 5px; display: block;">▶️ Video 10: 兄弟合作！A 柱死角動態禮讓與鋼彈行人模擬實測</span>
+                        <video controls class="photo-preview" style="width: 100%; max-width: 600px; margin-top: 0;">
+                            <source src="video10.mp4" type="video/mp4">
+                            您的瀏覽器不支援影片播放。
+                        </video>
+                    </div>
                 </div>
             </div>
         </div>
@@ -656,6 +675,7 @@
                     </div>
                 </div>
             </div>
+            
             <div id="data-table-container"></div>
 
             <div id="appendix-exp1" class="card purple-border" style="margin-top: 40px; background-color: rgba(139, 92, 246, 0.05); display: none;">
@@ -1248,6 +1268,89 @@ matrixLidarDistance.initialize(matrixLidarDistance.Addr.ADDR4, matrixLidarDistan
 radio.set_group(<span style="color: #b5cea8;">107</span>)
 radio.set_transmit_power(<span style="color: #b5cea8;">7</span>)
 basic.show_icon(IconNames.HAPPY)
+</code></pre>
+                </div>
+            </div>
+
+            <!-- 新增實驗六附錄 -->
+            <div id="appendix-exp7" class="card purple-border" style="margin-top: 40px; background-color: rgba(139, 92, 246, 0.05); display: none;">
+                <h3 style="color: var(--accent-purple);">📂 實驗六附錄：核心程式碼與數據驅動分析</h3>
+                <p>為了解決真實汽車駕駛最致命的「A 柱視野死角」，我們透過硬體擴充與軟體演算法，打造了具備「動態禮讓 (Dynamic Yielding)」智慧的多雷達融合系統！</p>
+                
+                <h4 style="color: var(--accent-glow); margin-top: 30px;">小車端（發射端）實驗六：三雷達融合與動態禮讓程式碼</h4>
+                <p>這段程式碼不僅解決了 A 柱盲區，更處理了自駕車常見的工程難題：</p>
+                <ul>
+                    <li><strong style="color: var(--accent-glow);">情境感知放大防護：</strong>轉彎時目標會呈斜角，我將側邊的防護網動態放大至 <code>25 cm</code>，確保能更早發現行人。</li>
+                    <li><strong style="color: var(--accent-glow);">絕對時間碼表 (running_time)：</strong>如果用一般的 <code>pause()</code>，會因為雷達讀取的時間誤差導致轉彎角度過大。我改用微控制器的絕對時間來控制馬達運轉 <code>945 毫秒</code>，確保每一次 90 度轉彎都完美精準！</li>
+                    <li><strong style="color: var(--accent-glow);">動態禮讓鎖定迴圈：</strong>當 A 柱雷達掃描到行人時，系統會進入 <code>while</code> 鎖定狀態並顯示紅燈，直到行人完全離開盲區，才會顯示綠燈並繼續完成剩餘的轉彎動作。這就是會「停、看、聽」的安全 AI！</li>
+                </ul>
+                
+                <div style="background-color: #1e1e1e; padding: 15px; border-radius: 8px; overflow-x: auto; border: 1px solid #334155; box-shadow: inset 0 0 10px rgba(0,0,0,0.5);">
+<pre style="margin: 0; color: #d4d4d4; font-family: Consolas, 'Courier New', monospace; font-size: 0.95rem; line-height: 1.5;"><code><span style="color: #6a9955;"># --- 實驗六：多雷達融合克服 A 柱死角與動態禮讓 (V2.0) ---</span>
+
+current_speed = <span style="color: #b5cea8;">80</span>
+turn_time_90 = <span style="color: #b5cea8;">945</span>  <span style="color: #6a9955;"># 絕對時間碼表：精準控制轉彎 90 度</span>
+safe_dist_forward = <span style="color: #b5cea8;">15</span>
+safe_dist_turn = <span style="color: #b5cea8;">25</span>  <span style="color: #6a9955;"># 情境感知：轉彎死角防護網動態放大</span>
+
+<span style="color: #569cd6;">def</span> <span style="color: #dcdcaa;">check_pedestrian</span>(lidar_addr):
+    <span style="color: #6a9955;"># 讀取指定雷達(例如左側 A 柱)的距離</span>
+    dist = matrixLidarDistance.matrix_point_output(lidar_addr, <span style="color: #b5cea8;">3</span>, <span style="color: #b5cea8;">3</span>) / <span style="color: #b5cea8;">10</span>
+    <span style="color: #569cd6;">return</span> dist > <span style="color: #b5cea8;">0</span> <span style="color: #569cd6;">and</span> dist <= safe_dist_turn
+
+<span style="color: #569cd6;">def</span> <span style="color: #dcdcaa;">dynamic_yield</span>(lidar_addr):
+    <span style="color: #6a9955;"># 動態禮讓 (停看聽) 鎖定迴圈</span>
+    <span style="color: #569cd6;">while</span> check_pedestrian(lidar_addr):
+        maqueenPlusV2.control_motor_stop(maqueenPlusV2.MyEnumMotor.ALL_MOTOR)
+        basic.show_icon(IconNames.NO) <span style="color: #6a9955;"># 瞬間圖示顯示紅燈，無 Blocking 延遲</span>
+        radio.send_string(<span style="color: #ce9178;">"Yielding..."</span>)
+        basic.pause(<span style="color: #b5cea8;">100</span>) <span style="color: #6a9955;"># 持續監測行人是否離開</span>
+    
+    <span style="color: #6a9955;"># 行人離開盲區，亮綠燈</span>
+    basic.show_icon(IconNames.YES)
+    radio.send_string(<span style="color: #ce9178;">"Clear!"</span>)
+
+<span style="color: #569cd6;">def</span> <span style="color: #dcdcaa;">safe_left_turn</span>():
+    start_time = input.running_time()
+    
+    <span style="color: #6a9955;"># 運用絕對時間碼表，不受感測器讀取延遲影響，確保精準轉向</span>
+    <span style="color: #569cd6;">while</span> input.running_time() - start_time < turn_time_90:
+        <span style="color: #6a9955;"># 轉彎過程中，提早睜開左眼 (ADDR1) 掃描 A 柱死角</span>
+        <span style="color: #569cd6;">if</span> check_pedestrian(matrixLidarDistance.Addr.ADDR1):
+            dynamic_yield(matrixLidarDistance.Addr.ADDR1)
+            <span style="color: #6a9955;"># 禮讓完畢後更新開始時間，精準補足剩下的轉彎角度</span>
+            <span style="color: #6a9955;"># (在真實環境中，轉向角度可以進一步依靠陀螺儀輔助)</span>
+            start_time = input.running_time() - (turn_time_90 - (input.running_time() - start_time))
+        
+        <span style="color: #6a9955;"># 繼續執行左轉</span>
+        maqueenPlusV2.control_motor(maqueenPlusV2.MyEnumMotor.LEFT_MOTOR, maqueenPlusV2.MyEnumDir.BACKWARD, current_speed)
+        maqueenPlusV2.control_motor(maqueenPlusV2.MyEnumMotor.RIGHT_MOTOR, maqueenPlusV2.MyEnumDir.FORWARD, current_speed)
+        basic.pause(<span style="color: #b5cea8;">10</span>)
+    
+    maqueenPlusV2.control_motor_stop(maqueenPlusV2.MyEnumMotor.ALL_MOTOR)
+
+<span style="color: #569cd6;">def</span> <span style="color: #dcdcaa;">run_exp6</span>():
+    <span style="color: #6a9955;"># 1. 啟動三顆雷達融合防護網 (中、左、右)</span>
+    matrixLidarDistance.initialize(matrixLidarDistance.Addr.ADDR4, matrixLidarDistance.Matrix.MAT)
+    matrixLidarDistance.initialize(matrixLidarDistance.Addr.ADDR1, matrixLidarDistance.Matrix.MAT)
+    matrixLidarDistance.initialize(matrixLidarDistance.Addr.ADDR2, matrixLidarDistance.Matrix.MAT)
+    
+    <span style="color: #6a9955;"># 2. 直行前往十字路口</span>
+    maqueenPlusV2.control_motor(maqueenPlusV2.MyEnumMotor.ALL_MOTOR, maqueenPlusV2.MyEnumDir.FORWARD, current_speed)
+    basic.pause(<span style="color: #b5cea8;">1000</span>) 
+    
+    <span style="color: #6a9955;"># 3. 執行具備動態禮讓能力的安全左轉</span>
+    safe_left_turn()
+    
+    <span style="color: #6a9955;"># 4. 完美面北歸位至終點</span>
+    maqueenPlusV2.control_motor(maqueenPlusV2.MyEnumMotor.ALL_MOTOR, maqueenPlusV2.MyEnumDir.FORWARD, current_speed)
+    basic.pause(<span style="color: #b5cea8;">1000</span>)
+    maqueenPlusV2.control_motor_stop(maqueenPlusV2.MyEnumMotor.ALL_MOTOR)
+    basic.show_arrow(ArrowNames.NORTH)
+    radio.send_string(<span style="color: #ce9178;">"Mission Complete!"</span>)
+
+<span style="color: #6a9955;"># 按下 A 鍵開始任務</span>
+input.on_button_pressed(Button.A, run_exp6)
 </code></pre>
                 </div>
             </div>
@@ -2167,6 +2270,7 @@ basic.show_icon(IconNames.HAPPY)
                     const app4 = document.getElementById('appendix-exp4'); if(app4) app4.style.display = 'none';
                     const app5 = document.getElementById('appendix-exp5'); if(app5) app5.style.display = 'none';
                     const app6 = document.getElementById('appendix-exp6'); if(app6) app6.style.display = 'none';
+                    const app7 = document.getElementById('appendix-exp7'); if(app7) app7.style.display = 'none';
                     
                     if(myChartInstance) myChartInstance.destroy();
                     return;
@@ -2201,6 +2305,7 @@ basic.show_icon(IconNames.HAPPY)
                 const app4 = document.getElementById('appendix-exp4'); if(app4) app4.style.display = 'none';
                 const app5 = document.getElementById('appendix-exp5'); if(app5) app5.style.display = 'block';
                 const app6 = document.getElementById('appendix-exp6'); if(app6) app6.style.display = 'none';
+                const app7 = document.getElementById('appendix-exp7'); if(app7) app7.style.display = 'none';
                 
                 if(myChartInstance) myChartInstance.destroy(); // Ensure chart is cleared
                 return; 
@@ -2224,6 +2329,7 @@ basic.show_icon(IconNames.HAPPY)
                 const app4 = document.getElementById('appendix-exp4'); if(app4) app4.style.display = 'none';
                 const app5 = document.getElementById('appendix-exp5'); if(app5) app5.style.display = 'none';
                 const app6 = document.getElementById('appendix-exp6'); if(app6) app6.style.display = 'none';
+                const app7 = document.getElementById('appendix-exp7'); if(app7) app7.style.display = 'block';
                 
                 if(myChartInstance) myChartInstance.destroy();
                 return; 
@@ -2320,6 +2426,7 @@ basic.show_icon(IconNames.HAPPY)
                         const app4 = document.getElementById('appendix-exp4'); if(app4) app4.style.display = (selectedExp === 'exp4') ? 'block' : 'none';
                         const app5 = document.getElementById('appendix-exp5'); if(app5) app5.style.display = (selectedExp === 'exp5') ? 'block' : 'none';
                         const app6 = document.getElementById('appendix-exp6'); if(app6) app6.style.display = (selectedExp === 'exp6') ? 'block' : 'none';
+                        const app7 = document.getElementById('appendix-exp7'); if(app7) app7.style.display = (selectedExp === 'exp7') ? 'block' : 'none';
                         return; 
                     }
                 }
@@ -2478,6 +2585,7 @@ basic.show_icon(IconNames.HAPPY)
                 const app4 = document.getElementById('appendix-exp4'); if(app4) app4.style.display = (selectedExp === 'exp4') ? 'block' : 'none';
                 const app5 = document.getElementById('appendix-exp5'); if(app5) app5.style.display = (selectedExp === 'exp5') ? 'block' : 'none';
                 const app6 = document.getElementById('appendix-exp6'); if(app6) app6.style.display = (selectedExp === 'exp6') ? 'block' : 'none';
+                const app7 = document.getElementById('appendix-exp7'); if(app7) app7.style.display = (selectedExp === 'exp7') ? 'block' : 'none';
                 
             } catch (e) { 
                 console.log(e); 
