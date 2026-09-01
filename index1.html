@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>全生命守護 - 科展特訓簡報</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Poppins:wght@500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <style>
+        * { box-sizing: border-box; }
+        
+        body {
+            background-color: #0f172a;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0;
+            padding: 40px 20px;
+            font-family: 'Noto Sans TC', sans-serif;
+            gap: 60px;
+        }
+
+        .slide-container {
+            background: linear-gradient(145deg, #1e293b, #0f172a);
+            border-radius: 20px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+            display: flex;
+            flex-direction: column;
+            /* 修正版面溢出：移除固定寬高，改用響應式與最大寬度 */
+            width: 100%;
+            max-width: 1280px; 
+            min-height: 720px; 
+            height: auto;
+            position: relative;
+            border: 1px solid #334155;
+            border-top: 5px solid #00f6ff;
+            overflow: hidden;
+        }
+
+        /* 標題與內文排版 (導入 clamp 讓文字自動縮放) */
+        .slide-header {
+            padding: 30px 4% 15px 4%;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        .slide-title {
+            font-size: clamp(26px, 3.5vw, 42px);
+            font-weight: 800;
+            color: #00f6ff;
+            margin: 0;
+            text-shadow: 0 0 15px rgba(0, 246, 255, 0.3);
+        }
+        .slide-subtitle {
+            font-size: clamp(16px, 2vw, 22px);
+            color: #94a3b8;
+            margin-top: 8px;
+            margin-bottom: 0;
+        }
+
+        .slide-content {
+            display: flex;
+            flex: 1;
+            padding: 20px 4%;
+            gap: 3vw;
+        }
+
+        /* 左右分欄設計 */
+        .left-col { flex: 1.2; display: flex; flex-direction: column; gap: 15px; }
+        .right-col { flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: 300px; }
+
+        /* 角色標籤徽章 */
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            border-radius: 30px;
+            font-size: clamp(14px, 1.5vw, 20px);
+            font-weight: 700;
+            margin-bottom: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+        .badge.shared { background-color: rgba(16, 185, 129, 0.2); color: #10b981; border: 2px solid #10b981; }
+        .badge.bro-soft { background-color: rgba(0, 246, 255, 0.15); color: #00f6ff; border: 2px solid #00f6ff; }
+        .badge.bro-hard { background-color: rgba(245, 158, 11, 0.15); color: #f59e0b; border: 2px solid #f59e0b; }
+
+        /* 內容卡片 */
+        .role-card {
+            background: rgba(0, 0, 0, 0.25);
+            border-radius: 15px;
+            padding: 20px;
+            border: 1px solid #334155;
+            transition: transform 0.3s ease;
+        }
+        .role-card:hover { transform: translateX(10px); background: rgba(0, 0, 0, 0.4); }
+        .role-card p {
+            color: #f8fafc;
+            font-size: clamp(15px, 1.6vw, 20px);
+            line-height: 1.6;
+            margin: 0;
+        }
+        .role-card ul { margin-top: 10px; margin-bottom: 0; padding-left: 20px; }
+        .role-card li { font-size: clamp(15px, 1.6vw, 20px); color: #f8fafc; line-height: 1.6; margin-bottom: 8px; }
+
+        /* 繪圖畫布區域 */
+        .drawing-canvas {
+            width: 100%;
+            height: 100%;
+            min-height: 250px;
+            background: #0b1120;
+            border-radius: 15px;
+            border: 2px dashed #475569;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+            padding: 10px;
+        }
+
+        /* 頁碼 */
+        .page-number {
+            position: absolute;
+            bottom: 20px;
+            right: 30px;
+            color: #475569;
+            font-size: 24px;
+            font-weight: 900;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        /* 封面專用樣式 */
+        .title-slide { justify-content: center; align-items: center; text-align: center; padding: 40px 20px; }
+        .title-slide h1 { font-size: clamp(36px, 5vw, 72px); color: #f8fafc; margin-bottom: 20px; text-shadow: 0 0 20px rgba(0,246,255,0.4); }
+        .title-slide .highlight { color: #00f6ff; }
+        .title-slide h2 { font-size: clamp(18px, 3vw, 32px); color: #f59e0b; margin-top: 0; font-weight: 500; }
+        .avatar-container { display: flex; gap: clamp(20px, 4vw, 40px); margin-top: 50px; flex-wrap: wrap; justify-content: center; }
+        .avatar { display: flex; flex-direction: column; align-items: center; gap: 15px; }
+        .avatar-circle { width: clamp(80px, 10vw, 120px); height: clamp(80px, 10vw, 120px); border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: clamp(30px, 4vw, 50px); }
+        .avatar.soft .avatar-circle { background: rgba(0, 246, 255, 0.1); border: 3px solid #00f6ff; color: #00f6ff; }
+        .avatar.hard .avatar-circle { background: rgba(245, 158, 11, 0.1); border: 3px solid #f59e0b; color: #f59e0b; }
+        
+        /* RWD 響應式設計：當螢幕小於 900px 時，左右佈局改為上下堆疊 */
+        @media (max-width: 900px) {
+            .slide-content { flex-direction: column; overflow-y: auto; }
+            .left-col { width: 100%; flex: none; }
+            .right-col { width: 100%; flex: none; }
+            .slide-container { min-height: auto; height: auto; }
+            .drawing-canvas { min-height: 300px; }
+            .page-number { display: none; } /* 手機版太擠時可隱藏頁碼 */
+        }
+    </style>
+</head>
+<body>
+
+    <div class="slide-container title-slide">
+        <h1>全生命守護系統 <br><span class="highlight">科展 10 招演練特訓</span></h1>
+        <h2>🎯 講稿分工與 QA 魔鬼實戰手冊</h2>
+        
+        <div class="avatar-container">
+            <div class="avatar soft">
+                <div class="avatar-circle"><i class="fa-solid fa-laptop-code"></i></div>
+                <div class="badge bro-soft">哥哥 秉澔 (主講：軟體與數據)</div>
+            </div>
+            <div class="avatar hard">
+                <div class="avatar-circle"><i class="fa-solid fa-screwdriver-wrench"></i></div>
+                <div class="badge bro-hard">弟弟 秉宸 (主講：硬體與實作)</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="slide-container">
+        <div class="slide-header">
+            <h2 class="slide-title">1. 初心動機：為什麼要做這個題目？</h2>
+            <p class="slide-subtitle">解說最致命的盲區與我們想保護的對象</p>
+        </div>
+        <div class="slide-content">
+            <div class="left-col">
+                <div class="role-card">
+                    <div class="badge shared"><i class="fa-solid fa-bullseye"></i> 共同必備</div>
+                    <p>評審好！我們的目標是保護「南投石虎」與過馬路的「行人」，解決自動駕駛中最致命的「A 柱視野死角」問題！</p>
+                </div>
+                <div class="role-card">
+                    <div class="badge bro-soft"><i class="fa-solid fa-code"></i> 哥哥 秉澔</div>
+                    <p>我負責開發小車的大腦。我會向評審解釋，當車子轉彎產生盲區看不見時，我們怎麼用「AI 網格座標記憶」把危險記起來繞過去。</p>
+                </div>
+                <div class="role-card">
+                    <div class="badge bro-hard"><i class="fa-solid fa-hammer"></i> 弟弟 秉宸</div>
+                    <p>我負責打造這台戰車。我會向評審展示麥昆小車與光學雷達，並說明我們為什麼不用鏡頭（因為晚上看不到），而選擇不怕黑的雷達！</p>
+                </div>
+            </div>
+            <div class="right-col">
+                <div class="drawing-canvas">
+                    <!-- SVG 畫圖：A柱死角示意圖 -->
+                    <svg viewBox="0 0 400 300" width="100%" height="100%">
+                        <!-- 道路 -->
+                        <path d="M 50 0 L 50 300 M 350 0 L 350 300" stroke="#334155" stroke-width="4" stroke-dasharray="20 10" />
+                        <!-- 汽車 (俯視) -->
+                        <rect x="150" y="180" width="100" height="150" rx="20" fill="#3b82f6" />
+                        <rect x="160" y="200" width="80" height="40" rx="5" fill="#1e293b" /> <!-- 擋風玻璃 -->
+                        <!-- A柱盲區 (紅色扇形) -->
+                        <path d="M 160 200 L 40 50 A 200 200 0 0 1 120 20 Z" fill="rgba(239, 68, 68, 0.3)" />
+                        <!-- 盲區標示字 -->
+                        <text x="70" y="100" fill="#ef4444" font-size="20" font-weight="bold" font-family="sans-serif">A柱盲區</text>
+                        <!-- 行人/石虎 在盲區內 -->
+                        <circle cx="100" cy="80" r="15" fill="#f59e0b" />
+                        <text x="125" y="85" fill="#f59e0b" font-size="16" font-family="sans-serif">石虎/行人</text>
+                        <!-- 雷射光束 (只能照前方) -->
+                        <line x1="200" y1="180" x2="200" y2="20" stroke="#00f6ff" stroke-width="3" stroke-dasharray="10 5" />
+                    </svg>
+                </div>
+            </div>
+        </div>
+        <div class="page-number">01</div>
+    </div>
+
+    <div class="slide-container">
+        <div class="slide-header">
+            <h2 class="slide-title">2. 感測對決：光與聲音的生死鬥</h2>
+            <p class="slide-subtitle">實驗二：為什麼不用傳統超音波？</p>
+        </div>
+        <div class="slide-content">
+            <div class="left-col">
+                <div class="role-card">
+                    <div class="badge bro-soft"><i class="fa-solid fa-chart-line"></i> 哥哥 秉澔 (數據解析)</div>
+                    <p>我會打開戰情室數據給評審看！雷射光很精準，但我誠實記錄到它的極限：遇到黑色絨毛玩偶，因為「吸光」，超過 90cm 數據就會飄。所以我把安全防護罩設在 60cm 內！</p>
+                </div>
+                <div class="role-card">
+                    <div class="badge bro-hard"><i class="fa-solid fa-volume-high"></i> 弟弟 秉宸 (物理實證)</div>
+                    <p>我會現場拿著「黑色絨毛玩偶」展示！大家以為超音波很厲害，但實測證明，遇到石虎的「絨毛」會嚴重吸音，超音波在 30cm 就徹底瞎掉測不到了！</p>
+                </div>
+                <div class="role-card">
+                    <div class="badge shared"><i class="fa-solid fa-trophy"></i> 結論總結</div>
+                    <p>光學雷達大獲全勝！它是對抗黑夜與石虎保護色最好的武器。</p>
+                </div>
+            </div>
+            <div class="right-col">
+                <div class="drawing-canvas">
+                    <!-- SVG 畫圖：光學雷達 vs 超音波 打在絨毛上 -->
+                    <svg viewBox="0 0 400 300" width="100%" height="100%">
+                        <!-- 上半部：光學雷達 -->
+                        <rect x="30" y="50" width="60" height="40" fill="#1e293b" stroke="#00f6ff" stroke-width="2" rx="5"/>
+                        <text x="35" y="75" fill="#00f6ff" font-size="14" font-weight="bold">雷達 (光)</text>
+                        <!-- 雷射光束穿透 -->
+                        <line x1="90" y1="70" x2="300" y2="70" stroke="#00f6ff" stroke-width="4" />
+                        
+                        <!-- 下半部：超音波 -->
+                        <rect x="30" y="200" width="60" height="40" fill="#1e293b" stroke="#f59e0b" stroke-width="2" rx="5"/>
+                        <text x="35" y="225" fill="#f59e0b" font-size="12" font-weight="bold">超音波 (聲)</text>
+                        <!-- 超音波發散被吸收 (變短) -->
+                        <path d="M 90 220 Q 150 180 180 220 Q 150 260 90 220" fill="rgba(245, 158, 11, 0.2)" stroke="#f59e0b" stroke-width="2"/>
+                        <text x="110" y="250" fill="#ef4444" font-size="14" font-weight="bold">音波被吸收!</text>
+
+                        <!-- 右側：黑色絨毛目標 -->
+                        <path d="M 320 150 C 350 100 380 100 370 150 C 390 180 370 220 320 200 C 280 220 270 180 280 150 C 270 100 300 100 320 150 Z" fill="#334155" stroke="#1e293b" stroke-width="5" stroke-linejoin="round"/>
+                        <text x="300" y="160" fill="#cbd5e1" font-size="14">黑色絨毛</text>
+                    </svg>
+                </div>
+            </div>
+        </div>
+        <div class="page-number">02</div>
+    </div>
+
+    <div class="slide-container">
+        <div class="slide-header">
+            <h2 class="slide-title">3. 物理極限：找出黃金高度與安全煞車</h2>
+            <p class="slide-subtitle">實驗三、四：我們如何把物理放進程式裡？</p>
+        </div>
+        <div class="slide-content">
+            <div class="left-col">
+                <div class="role-card">
+                    <div class="badge bro-hard"><i class="fa-solid fa-ruler"></i> 弟弟 秉宸 (硬體量測)</div>
+                    <p>評審一定會問高度怎麼決定的！我會說：我親自拿尺量了 5, 10, 15cm。發現裝 15cm 會「從頭頂越過去測不到」，裝 5cm 會「打到地板產生雜訊」。10cm 的中位才是黃金視角！</p>
+                </div>
+                <div class="role-card">
+                    <div class="badge bro-soft"><i class="fa-solid fa-stopwatch"></i> 哥哥 秉澔 (數值轉換)</div>
+                    <p>車子煞車有「物理慣性」！實測 40cm/s 全速時滑行了 7.06cm。所以我把 7.06 加上 10cm 的系統絕對緩衝，算出「17cm 的安全邊際」寫進程式，變成 AI 大腦的直覺！</p>
+                </div>
+            </div>
+            <div class="right-col">
+                <div class="drawing-canvas">
+                    <!-- SVG 畫圖：高度量測與越頂盲區 -->
+                    <svg viewBox="0 0 400 300" width="100%" height="100%">
+                        <!-- 地板 -->
+                        <line x1="20" y1="280" x2="380" y2="280" stroke="#cbd5e1" stroke-width="4" />
+                        
+                        <!-- 量尺 -->
+                        <rect x="50" y="80" width="15" height="200" fill="#eab308" />
+                        <line x1="50" y1="100" x2="70" y2="100" stroke="#000" stroke-width="2"/>
+                        <text x="20" y="105" fill="#eab308" font-size="14">15cm</text>
+                        <line x1="50" y1="160" x2="70" y2="160" stroke="#000" stroke-width="2"/>
+                        <text x="20" y="165" fill="#eab308" font-size="14">10cm</text>
+                        <line x1="50" y1="220" x2="70" y2="220" stroke="#000" stroke-width="2"/>
+                        <text x="25" y="225" fill="#eab308" font-size="14">5cm</text>
+
+                        <!-- 目標物 (11cm高) -->
+                        <rect x="300" y="170" width="40" height="110" fill="#f59e0b" rx="5" />
+                        <text x="295" y="160" fill="#f59e0b" font-size="12">目標(11cm)</text>
+
+                        <!-- 高位雷射 (越頂) -->
+                        <line x1="65" y1="100" x2="380" y2="100" stroke="#ef4444" stroke-width="3" stroke-dasharray="5 5" />
+                        <text x="120" y="90" fill="#ef4444" font-size="12">越頂盲區 (測不到!)</text>
+
+                        <!-- 中位雷射 (完美命中) -->
+                        <line x1="65" y1="160" x2="300" y2="160" stroke="#10b981" stroke-width="4" />
+                        <text x="120" y="150" fill="#10b981" font-size="12">黃金視角 (完美命中!)</text>
+
+                        <!-- 低位雷射 (打到地板) -->
+                        <line x1="65" y1="220" x2="220" y2="280" stroke="#3b82f6" stroke-width="3" stroke-dasharray="5 5" />
+                        <text x="120" y="270" fill="#3b82f6" font-size="12">觸地雜訊</text>
+                    </svg>
+                </div>
+            </div>
+        </div>
+        <div class="page-number">03</div>
+    </div>
+
+    <div class="slide-container">
+        <div class="slide-header">
+            <h2 class="slide-title">4. 狹路相逢：致命的扇形波束</h2>
+            <p class="slide-subtitle">實驗五-A：為何狹窄山道只能用雷射？</p>
+        </div>
+        <div class="slide-content">
+            <div class="left-col">
+                <div class="role-card">
+                    <div class="badge bro-hard"><i class="fa-solid fa-mountain"></i> 弟弟 秉宸 (還原現場)</div>
+                    <p>我會向評審解說我們的殘酷賽道：車子寬 10cm，車道只有 11cm！這代表旁邊的縫隙只有 0.5cm！</p>
+                </div>
+                <div class="role-card">
+                    <div class="badge bro-soft"><i class="fa-solid fa-wave-square"></i> 哥哥 秉澔 (波形分析)</div>
+                    <p>這是我用來證明「超音波有缺陷」的主戰場！因為光學雷達是「直線光束」，可以順利穿過山洞。但超音波是「扇形波」，跑太快時會掃到兩邊的山壁，讓大腦以為前面有障礙物而直接撞牆！</p>
+                </div>
+            </div>
+            <div class="right-col">
+                <div class="drawing-canvas">
+                    <!-- SVG 畫圖：狹窄車道超音波撞牆 -->
+                    <svg viewBox="0 0 400 300" width="100%" height="100%">
+                        <!-- 山道牆壁 -->
+                        <rect x="50" y="0" width="40" height="300" fill="#334155" />
+                        <rect x="310" y="0" width="40" height="300" fill="#334155" />
+                        <text x="55" y="150" fill="#94a3b8" font-size="14" transform="rotate(-90 55,150)">山壁</text>
+                        <text x="330" y="150" fill="#94a3b8" font-size="14" transform="rotate(-90 330,150)">山壁</text>
+
+                        <!-- 小車 -->
+                        <rect x="150" y="200" width="100" height="80" fill="#3b82f6" rx="10"/>
+                        <text x="175" y="245" fill="#fff" font-size="16" font-weight="bold">小車</text>
+
+                        <!-- 直線雷射 (綠色) -->
+                        <line x1="200" y1="200" x2="200" y2="20" stroke="#10b981" stroke-width="4" stroke-dasharray="10 5" />
+                        <text x="210" y="100" fill="#10b981" font-size="14">直線雷射安全通過</text>
+
+                        <!-- 發散超音波 (橙色，打到牆壁) -->
+                        <path d="M 200 200 L 90 80" stroke="#ef4444" stroke-width="3" />
+                        <path d="M 200 200 L 310 80" stroke="#ef4444" stroke-width="3" />
+                        <path d="M 90 80 Q 200 50 310 80" fill="none" stroke="#ef4444" stroke-width="2" stroke-dasharray="5 5"/>
+                        
+                        <!-- 爆炸/誤判點 -->
+                        <circle cx="90" cy="80" r="15" fill="#ef4444" opacity="0.8" />
+                        <circle cx="310" cy="80" r="15" fill="#ef4444" opacity="0.8" />
+                        <text x="10" y="70" fill="#ef4444" font-size="14" font-weight="bold">誤判障礙!</text>
+                    </svg>
+                </div>
+            </div>
+        </div>
+        <div class="page-number">04</div>
+    </div>
+
+    <div class="slide-container">
+        <div class="slide-header">
+            <h2 class="slide-title">5. 網格大腦：教 AI 學會「思考與撤退」</h2>
+            <p class="slide-subtitle">實驗五-B：沒有地圖，看不見死角怎麼辦？</p>
+        </div>
+        <div class="slide-content">
+            <div class="left-col">
+                <div class="role-card">
+                    <div class="badge bro-hard"><i class="fa-solid fa-map-location-dot"></i> 弟弟 秉宸 (賽道設計)</div>
+                    <p>我會在台上解釋我們如何用膠帶在地上貼出 4x6 的 24 宮格，以及確保車子每次轉彎剛好是 90 度，不會壓線破壞實體網格。</p>
+                </div>
+                <div class="role-card">
+                    <div class="badge bro-soft"><i class="fa-solid fa-brain"></i> 哥哥 秉澔 (演算法解說)</div>
+                    <p>這是我最驕傲的程式！評審問：「為何車子知道要倒退？」我會回答：因為我寫了「曼哈頓距離」與「足跡懲罰分數」。走進死胡同時，原地打轉扣分太重，AI 算出來「退後找新路」分數最低，就會自動果斷撤退！它把死角危險寫進黑名單了！</p>
+                </div>
+            </div>
+            <div class="right-col">
+                <div class="drawing-canvas">
+                    <!-- SVG 畫圖：24宮格與曼哈頓尋路 -->
+                    <svg viewBox="0 0 400 300" width="100%" height="100%">
+                        <!-- 繪製網格 -->
+                        <defs>
+                            <pattern id="grid" width="50" height="50" patternUnits="userSpaceOnUse">
+                                <rect width="50" height="50" fill="none" stroke="#334155" stroke-width="2"/>
+                            </pattern>
+                        </defs>
+                        <rect x="100" y="25" width="200" height="250" fill="url(#grid)" />
+                        
+                        <!-- 起點與終點 -->
+                        <rect x="250" y="225" width="50" height="50" fill="rgba(245, 158, 11, 0.3)" stroke="#f59e0b" stroke-width="3"/>
+                        <text x="255" y="255" fill="#f59e0b" font-size="14" font-weight="bold">起點</text>
+                        <rect x="100" y="25" width="50" height="50" fill="rgba(0, 246, 255, 0.3)" stroke="#00f6ff" stroke-width="3"/>
+                        <text x="105" y="55" fill="#00f6ff" font-size="14" font-weight="bold">終點</text>
+
+                        <!-- 障礙物 (U型死胡同) -->
+                        <rect x="200" y="125" width="50" height="50" fill="rgba(239, 68, 68, 0.5)" />
+                        <text x="215" y="155" fill="#fff" font-size="20">✖</text>
+                        <rect x="250" y="125" width="50" height="50" fill="rgba(239, 68, 68, 0.5)" />
+                        <text x="265" y="155" fill="#fff" font-size="20">✖</text>
+                        <rect x="200" y="175" width="50" height="50" fill="rgba(239, 68, 68, 0.5)" />
+                        <text x="215" y="205" fill="#fff" font-size="20">✖</text>
+
+                        <!-- 尋路軌跡 (Cyan) -->
+                        <path d="M 275 250 L 275 200 L 225 200 L 225 250 L 175 250 L 175 100 L 125 100 L 125 50" fill="none" stroke="#00f6ff" stroke-width="4" stroke-linejoin="round" />
+                        
+                        <!-- 標籤 -->
+                        <text x="285" y="190" fill="#cbd5e1" font-size="12">碰到路障</text>
+                        <text x="130" y="270" fill="#10b981" font-size="12">果斷撤退換路!</text>
+                    </svg>
+                </div>
+            </div>
+        </div>
+        <div class="page-number">05</div>
+    </div>
+
+    <div class="slide-container">
+        <div class="slide-header">
+            <h2 class="slide-title">6. 三眼戰車：徹底消滅 A 柱死角</h2>
+            <p class="slide-subtitle">實驗六：多雷達融合與「停、看、聽」動態禮讓</p>
+        </div>
+        <div class="slide-content">
+            <div class="left-col">
+                <div class="role-card">
+                    <div class="badge bro-hard"><i class="fa-solid fa-wrench"></i> 弟弟 秉宸 (硬體改造)</div>
+                    <p>這是我最喜歡的部分！我會展示怎麼透過「I2C 撥碼開關」分配位址，把左、右兩顆雷達裝成「外八字 45 度」，完美模擬汽車的扇形防護網！</p>
+                </div>
+                <div class="role-card">
+                    <div class="badge bro-soft"><i class="fa-solid fa-microchip"></i> 哥哥 秉澔 (禮讓大腦)</div>
+                    <p>這裡有兩個亮點：第一，我用了「絕對時間」解決轉彎延遲誤差。第二，我寫了一個「動態禮讓鎖定迴圈」。車子轉彎發現行人時會死死煞車亮紅燈，直到行人完全走過馬路，它才會變綠燈補完剩下的轉角！</p>
+                </div>
+            </div>
+            <div class="right-col">
+                <div class="drawing-canvas">
+                    <!-- SVG 畫圖：三眼戰車 180度防護 -->
+                    <svg viewBox="0 0 400 300" width="100%" height="100%">
+                        <!-- 汽車 -->
+                        <rect x="160" y="150" width="80" height="120" rx="15" fill="#3b82f6" />
+                        <rect x="170" y="170" width="60" height="30" rx="5" fill="#1e293b" />
+                        
+                        <!-- 3顆雷達 -->
+                        <rect x="190" y="145" width="20" height="10" fill="#f59e0b" /> <!-- 中 -->
+                        <rect x="155" y="155" width="20" height="10" fill="#f59e0b" transform="rotate(-45 165 160)" /> <!-- 左 -->
+                        <rect x="225" y="155" width="20" height="10" fill="#f59e0b" transform="rotate(45 235 160)" /> <!-- 右 -->
+
+                        <!-- 光束防護網 (半透明漸層概念) -->
+                        <path d="M 200 150 L 100 20 A 150 150 0 0 1 300 20 Z" fill="rgba(0, 246, 255, 0.15)" stroke="#00f6ff" stroke-width="2" stroke-dasharray="5 5" />
+                        <line x1="200" y1="150" x2="100" y2="20" stroke="#00f6ff" stroke-width="2" />
+                        <line x1="200" y1="150" x2="200" y2="0" stroke="#00f6ff" stroke-width="2" />
+                        <line x1="200" y1="150" x2="300" y2="20" stroke="#00f6ff" stroke-width="2" />
+
+                        <!-- A柱行人被提早發現 -->
+                        <circle cx="120" cy="80" r="15" fill="#ef4444" />
+                        <text x="60" y="70" fill="#ef4444" font-size="14" font-weight="bold">死角行人</text>
+                        <text x="60" y="90" fill="#10b981" font-size="14" font-weight="bold">提早煞停!</text>
+                        
+                        <!-- 180度標示 -->
+                        <path d="M 130 140 A 80 80 0 0 1 270 140" fill="none" stroke="#f59e0b" stroke-width="3" />
+                        <text x="175" y="130" fill="#f59e0b" font-size="14" font-weight="bold">180° 防護</text>
+                    </svg>
+                </div>
+            </div>
+        </div>
+        <div class="page-number">06</div>
+    </div>
+
+    <div class="slide-container">
+        <div class="slide-header">
+            <h2 class="slide-title">7. 人機與兄弟協作：誰才是真正的科學家？</h2>
+            <p class="slide-subtitle">打破迷思：程式都是 AI 寫的嗎？</p>
+        </div>
+        <div class="slide-content">
+            <div class="left-col">
+                <div class="role-card">
+                    <div class="badge shared"><i class="fa-solid fa-handshake"></i> 我們與 AI 的關係</div>
+                    <p>評審如果問到 AI 的幫忙，我們要大聲說：「老師引導方向，家長陪伴把關，AI 作為學習教練，而我們才是主導整個實驗的科學家！」</p>
+                </div>
+                <div class="role-card">
+                    <div class="badge bro-soft"><i class="fa-solid fa-bug"></i> 哥哥：推翻 AI 的理論</div>
+                    <p>AI 一開始猜「15cm 高度光束擴散能掃到目標」。是我親自量測真實數據，狠狠推翻了 AI 的猜測！我也親自解決了 AI 沒注意到的「無線電封包碰撞塞車」問題。</p>
+                </div>
+                <div class="role-card">
+                    <div class="badge bro-hard"><i class="fa-solid fa-hands-holding-circle"></i> 弟弟：真實的工程實作</div>
+                    <p>鎖螺絲、接排線、處理複雜的 I2C 擴充板分配，以及拿著鋼彈模型精準走位模擬行人，這些都是 AI 無法幫我們代勞的真實苦工！</p>
+                </div>
+            </div>
+            <div class="right-col">
+                <div class="drawing-canvas" style="flex-direction: column; gap: 30px;">
+                    <!-- SVG 畫圖：兄弟與 AI 的合作 -->
+                    <svg viewBox="0 0 400 150" width="100%" height="45%">
+                        <!-- AI 機器人 -->
+                        <rect x="50" y="50" width="60" height="60" rx="10" fill="#94a3b8" />
+                        <circle cx="70" cy="70" r="8" fill="#0f172a" />
+                        <circle cx="90" cy="70" r="8" fill="#0f172a" />
+                        <path d="M 60 90 Q 80 110 100 90" fill="none" stroke="#0f172a" stroke-width="3" />
+                        <line x1="80" y1="50" x2="80" y2="30" stroke="#94a3b8" stroke-width="3" />
+                        <circle cx="80" cy="25" r="5" fill="#00f6ff" />
+                        <text x="45" y="130" fill="#94a3b8" font-size="14" font-weight="bold">AI 教練 (提供語法)</text>
+
+                        <!-- 交換箭頭 -->
+                        <path d="M 130 70 L 170 70 M 160 60 L 170 70 L 160 80" fill="none" stroke="#00f6ff" stroke-width="3" />
+                        <path d="M 170 90 L 130 90 M 140 80 L 130 90 L 140 100" fill="none" stroke="#f59e0b" stroke-width="3" />
+
+                        <!-- 兄弟大腦 -->
+                        <circle cx="240" cy="80" r="40" fill="#3b82f6" />
+                        <text x="210" y="85" fill="#fff" font-size="16" font-weight="bold">兄弟大腦</text>
+                        <text x="200" y="140" fill="#3b82f6" font-size="14" font-weight="bold">(決策與物理驗證)</text>
+                    </svg>
+
+                    <svg viewBox="0 0 400 100" width="100%" height="30%">
+                        <rect x="50" y="20" width="300" height="60" fill="rgba(239, 68, 68, 0.2)" stroke="#ef4444" stroke-width="2" rx="10"/>
+                        <text x="140" y="55" fill="#ef4444" font-size="18" font-weight="bold">真實數據 推翻 理論猜測!</text>
+                    </svg>
+                </div>
+            </div>
+        </div>
+        <div class="page-number">07</div>
+    </div>
+
+    <div class="slide-container">
+        <div class="slide-header">
+            <h2 class="slide-title">8. 未來願景：讓系統在真實世界上線</h2>
+            <p class="slide-subtitle">如果這項研究要落地，我們還缺什麼？</p>
+        </div>
+        <div class="slide-content">
+            <div class="left-col">
+                <div class="role-card">
+                    <div class="badge shared"><i class="fa-solid fa-globe"></i> 真正目標</div>
+                    <p>評審喜歡有遠見的研究！我們不只是玩車子，而是希望將這套「三雷達融合與動態禮讓系統」裝在真實道路的電線桿或未來的汽車上。</p>
+                </div>
+                <div class="role-card">
+                    <div class="badge bro-soft"><i class="fa-solid fa-eye"></i> 哥哥願景 (軟體升級)</div>
+                    <p>目前雷達只看「距離」，無法分辨是石虎還是落葉。我未來計畫加入「AI 影像辨識 (HuskyLens)」，結合雷達與影像，達成最精準的多感測器融合 (Sensor Fusion)！</p>
+                </div>
+                <div class="role-card">
+                    <div class="badge bro-hard"><i class="fa-solid fa-solar-panel"></i> 弟弟願景 (硬體供電)</div>
+                    <p>南投深山缺乏電網！我建議在電線桿上加裝「獨立太陽能與電池儲能設備」，這樣我們的全生命守護網才能 24 小時不中斷運作！</p>
+                </div>
+            </div>
+            <div class="right-col">
+                <div class="drawing-canvas">
+                    <!-- SVG 畫圖：太陽能、電線桿與攝影機 -->
+                    <svg viewBox="0 0 400 300" width="100%" height="100%">
+                        <!-- 地板 -->
+                        <line x1="0" y1="250" x2="400" y2="250" stroke="#475569" stroke-width="4" />
+                        
+                        <!-- 電線桿 -->
+                        <rect x="180" y="100" width="10" height="150" fill="#64748b" />
+                        
+                        <!-- 太陽能板 -->
+                        <rect x="140" y="50" width="90" height="40" fill="#0ea5e9" transform="rotate(-15 185 70)" stroke="#e2e8f0" stroke-width="2"/>
+                        <!-- 太陽 -->
+                        <circle cx="80" cy="50" r="20" fill="#facc15" />
+                        <line x1="80" y1="15" x2="80" y2="5" stroke="#facc15" stroke-width="3" />
+                        <line x1="80" y1="85" x2="80" y2="95" stroke="#facc15" stroke-width="3" />
+                        <line x1="45" y1="50" x2="35" y2="50" stroke="#facc15" stroke-width="3" />
+                        <line x1="115" y1="50" x2="125" y2="50" stroke="#facc15" stroke-width="3" />
+
+                        <!-- 儲能電池 -->
+                        <rect x="175" y="140" width="20" height="30" fill="#10b981" rx="3" />
+                        <text x="205" y="160" fill="#10b981" font-size="12">儲能電池</text>
+
+                        <!-- HuskyLens 與 雷達 -->
+                        <rect x="190" y="180" width="30" height="20" fill="#1e293b" />
+                        <circle cx="210" cy="190" r="6" fill="#00f6ff" /> <!-- 鏡頭 -->
+                        <text x="230" y="195" fill="#00f6ff" font-size="12">影像+雷達融合</text>
+
+                        <!-- 偵測波 -->
+                        <path d="M 220 190 L 350 250 M 220 190 L 300 250" stroke="#00f6ff" stroke-width="2" stroke-dasharray="5 5" fill="none" />
+                        <!-- 石虎 -->
+                        <circle cx="330" cy="235" r="15" fill="#f59e0b" />
+                        <text x="320" y="220" fill="#f59e0b" font-size="12">石虎</text>
+                    </svg>
+                </div>
+            </div>
+        </div>
+        <div class="page-number">08</div>
+    </div>
+
+    <div class="slide-container">
+        <div class="slide-header">
+            <h2 class="slide-title">9. 終極問答心法與默契接麥</h2>
+            <p class="slide-subtitle">面對評審的靈魂拷問，我們要怎麼神救援？</p>
+        </div>
+        <div class="slide-content">
+            <div class="left-col">
+                <div class="role-card" style="border-left: 5px solid #00f6ff;">
+                    <h3 style="color: #00f6ff; margin-top: 0;">🎤 哥哥的守備範圍 (軟體與數據)</h3>
+                    <ul>
+                        <li>評審問：「演算法怎麼寫的？為什麼會後退？」</li>
+                        <li>評審問：「這些誤差圖表代表什麼意思？」</li>
+                        <li>👉 哥哥回答完後，可以說：「這是軟體運算的部分，硬體接線的巧思，我請秉宸補充！」</li>
+                    </ul>
+                </div>
+                <div class="role-card" style="border-left: 5px solid #f59e0b;">
+                    <h3 style="color: #f59e0b; margin-top: 0;">🎤 弟弟的守備範圍 (硬體與實體展示)</h3>
+                    <ul>
+                        <li>評審問：「超音波跟雷達到底差在哪裡？」(弟弟馬上拿絨毛玩偶示範)</li>
+                        <li>評審問：「三顆雷達是怎麼接到同一塊板子上的？」(解釋 I2C)</li>
+                        <li>👉 弟弟示範完後，可以說：「至於這三顆雷達的資料怎麼寫防撞程式，我請哥哥說明！」</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="right-col">
+                <div class="role-card" style="width: 100%; border-top: 5px solid #10b981; background: rgba(16, 185, 129, 0.1);">
+                    <h3 style="color: #10b981; margin-top: 0; text-align: center;">🛡️ 最高指導原則：誠實至上</h3>
+                    <div style="font-size: 20px; line-height: 1.8; color: #cbd5e1; padding: 10px;">
+                        <p>❌ 遇到沒做過的，千萬不要硬拗或瞎掰！</p>
+                        <p>✅ 勇敢說：「老師這個問題很棒！我們在這次實驗中還沒有測到這個部分，但我們未來可以把這個變因加入後續的研究計畫中！」</p>
+                        <p style="margin-top: 15px; color: #f8fafc; font-weight: bold; text-align: center;">讓數據幫我們說話，展現出「我們真的有親手做實驗」的熱情！</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="page-number">09</div>
+    </div>
+
+    <div class="slide-container title-slide">
+        <h1 style="font-size: 60px;">準備好了嗎？</h1>
+        <h2 style="color: #10b981; margin-top: 20px;">讓我們開始向洪老師進行微型簡報！</h2>
+        
+        <div style="margin-top: 50px;">
+            <svg viewBox="0 0 200 100" width="200" height="100">
+                <path d="M 50 50 L 80 80 L 150 20" fill="none" stroke="#10b981" stroke-width="15" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+        </div>
+        <p style="color: #94a3b8; font-size: 20px; margin-top: 30px;">加油！你們是最棒的科學家兄弟檔！</p>
+        <div class="page-number">10</div>
+    </div>
+
+</body>
+</html>
