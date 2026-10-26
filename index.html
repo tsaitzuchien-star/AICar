@@ -696,59 +696,84 @@
                 </div>
 
                 <h4 style="color: var(--accent-glow); margin-top: 30px;">2. 小車端（發射端）最終優化版程式碼</h4>
-                <p>這是我們使用 MakeCode Python 撰寫的核心大腦！裡面包含了 LiDAR 讀取、毫米換算公分、計算平均值，以及為了解決通訊碰撞而加入的 <code>200ms</code> 無線電排隊廣播機制。</p>
+                <p>這是我們使用 MakeCode Python 撰寫的核心大腦！裡面包含了 LiDAR 讀取、毫米換算公分、計算平均值，以及「號碼牌」機制（<code>is_running</code>：遙控器和 A 鍵只負責舉號碼牌，真正的實驗交給主迴圈執行，避免當機）。最新版把雷達與超音波的數值合併成一行 <code>R1:xx U:yy</code> 發送，每次間隔 500ms，讓無線電不塞車。（以下為 0921 最新版程式）</p>
                 
                 <div style="background-color: #1e1e1e; padding: 15px; border-radius: 8px; overflow-x: auto; border: 1px solid #334155; box-shadow: inset 0 0 10px rgba(0,0,0,0.5);">
-<pre style="margin: 0; color: #d4d4d4; font-family: Consolas, 'Courier New', monospace; font-size: 0.95rem; line-height: 1.5;"><code><span style="color: #569cd6;">def</span> <span style="color: #dcdcaa;">on_button_pressed_a</span>():
-    <span style="color: #569cd6;">global</span> total_distance, average, avg_msg
-    <span style="color: #6a9955;"># 每次測量前歸零，確保平均值正確</span>
-    total_distance = <span style="color: #b5cea8;">0</span>
+<pre style="margin: 0; color: #d4d4d4; font-family: Consolas, 'Courier New', monospace; font-size: 0.95rem; line-height: 1.5;"><code><span style="color: #6a9955;"># 1. 定義全域變數</span>
+total_radar = <span style="color: #b5cea8;">0</span>
+total_ultra = <span style="color: #b5cea8;">0</span>
+is_running = <span style="color: #569cd6;">False</span>
+
+<span style="color: #6a9955;"># 2. 將「實驗執行邏輯」獨立出來</span>
+<span style="color: #569cd6;">def</span> run_experiment():
+    <span style="color: #569cd6;">global</span> total_radar, total_ultra
+    total_radar = <span style="color: #b5cea8;">0</span>
+    total_ultra = <span style="color: #b5cea8;">0</span>
     basic.show_icon(IconNames.TARGET)
-    
-    <span style="color: #6a9955;"># 傳送開始訊號</span>
-    radio.send_string(<span style="color: #ce9178;">"--- START ---"</span>)
-    basic.pause(<span style="color: #b5cea8;">200</span>)  <span style="color: #6a9955;"># 【優化】加長等待時間，確保通訊不塞車</span>
-    
-    <span style="color: #569cd6;">for</span> index <span style="color: #569cd6;">in</span> range(<span style="color: #b5cea8;">5</span>):
-        <span style="color: #6a9955;"># 讀取雷達數據並換算為公分</span>
-        dist = matrixLidarDistance.matrix_point_output(matrixLidarDistance.Addr.ADDR4, <span style="color: #b5cea8;">3</span>, <span style="color: #b5cea8;">3</span>) / <span style="color: #b5cea8;">10</span>
-        
-        <span style="color: #6a9955;"># 組合訊息字串</span>
-        msg = <span style="color: #ce9178;">"Count "</span> + str(index + <span style="color: #b5cea8;">1</span>) + <span style="color: #ce9178;">": "</span> + str(dist) + <span style="color: #ce9178;">" cm"</span>
-        
-        <span style="color: #6a9955;"># 廣播每一次的測量結果</span>
+
+    <span style="color: #6a9955;"># 宣告實驗開始</span>
+    radio.send_string(<span style="color: #ce9178;">"--- EXP 1 ---"</span>)
+    basic.pause(<span style="color: #b5cea8;">500</span>)
+
+    <span style="color: #569cd6;">for</span> index <span style="color: #569cd6;">in</span> <span style="color: #569cd6;">range</span>(<span style="color: #b5cea8;">5</span>):
+        <span style="color: #6a9955;"># 讀取【光學雷達】數據</span>
+        dist_radar = matrixLidarDistance.matrix_point_output(matrixLidarDistance.Addr.ADDR4, <span style="color: #b5cea8;">3</span>, <span style="color: #b5cea8;">3</span>) / <span style="color: #b5cea8;">10</span>
+
+        <span style="color: #6a9955;"># 讀取【超音波】數據 (提醒：若數值卡死不動，請將 P13 與 P14 的線對調)</span>
+        dist_ultra = maqueenPlusV2.read_ultrasonic(DigitalPin.P13, DigitalPin.P14)
+
+        <span style="color: #6a9955;"># 【神級優化】將雷達與超音波合併成一行發送，絕對不會超過 19 字元極限！</span>
+        msg = <span style="color: #ce9178;">"R"</span> + str(index + <span style="color: #b5cea8;">1</span>) + <span style="color: #ce9178;">":"</span> + str(dist_radar) + <span style="color: #ce9178;">" U:"</span> + str(dist_ultra)
         radio.send_string(msg)
-        basic.pause(<span style="color: #b5cea8;">200</span>)  <span style="color: #6a9955;"># 【優化】加長排隊時間，避免封包碰撞缺字</span>
-        
-        <span style="color: #6a9955;"># 累加距離</span>
-        total_distance += dist
         basic.pause(<span style="color: #b5cea8;">500</span>)
-        
-    <span style="color: #6a9955;"># --- 迴圈結束後，計算平均值並廣播 ---</span>
-    average = total_distance / <span style="color: #b5cea8;">5</span>
-    avg_msg = <span style="color: #ce9178;">"AVG: "</span> + str(average) + <span style="color: #ce9178;">" cm"</span>
-    
-    <span style="color: #6a9955;"># 傳送平均值</span>
+
+        total_radar += dist_radar
+        total_ultra += dist_ultra
+
+    <span style="color: #6a9955;"># 傳送平均值 (合併發送)</span>
+    avg_msg = <span style="color: #ce9178;">"RA:"</span> + str(total_radar / <span style="color: #b5cea8;">5</span>) + <span style="color: #ce9178;">" UA:"</span> + str(total_ultra / <span style="color: #b5cea8;">5</span>)
     radio.send_string(avg_msg)
-    basic.pause(<span style="color: #b5cea8;">200</span>)
-    radio.send_string(<span style="color: #ce9178;">"-------------------"</span>)
-    basic.pause(<span style="color: #b5cea8;">200</span>)
-    
-    basic.show_number(average)
+    basic.pause(<span style="color: #b5cea8;">500</span>)
+
     basic.show_icon(IconNames.YES)
 
+
+<span style="color: #6a9955;"># 3. 無線電遙控接收區：只發號碼牌，不直接執行！</span>
+<span style="color: #569cd6;">def</span> on_received_string(receivedString):
+    <span style="color: #569cd6;">global</span> is_running
+    <span style="color: #569cd6;">if</span> receivedString == <span style="color: #ce9178;">"GO"</span>:
+        is_running = <span style="color: #569cd6;">True</span>
+radio.on_received_string(on_received_string)
+
+
+<span style="color: #6a9955;"># 4. 手動按鍵觸發 (一樣發號碼牌，讓流程統一更穩定)</span>
+<span style="color: #569cd6;">def</span> on_button_pressed_a():
+    <span style="color: #569cd6;">global</span> is_running
+    is_running = <span style="color: #569cd6;">True</span>
 input.on_button_pressed(Button.A, on_button_pressed_a)
 
+
+<span style="color: #6a9955;"># ==========================================</span>
+<span style="color: #6a9955;"># 主迴圈：小車在這邊不斷檢查號碼牌並執行動作</span>
+<span style="color: #6a9955;"># ==========================================</span>
+<span style="color: #569cd6;">def</span> on_forever():
+    <span style="color: #569cd6;">global</span> is_running
+    <span style="color: #6a9955;"># 如果看到號碼牌舉起來了，才開始做實驗</span>
+    <span style="color: #569cd6;">if</span> is_running == <span style="color: #569cd6;">True</span>:
+        run_experiment()
+        is_running = <span style="color: #569cd6;">False</span>    <span style="color: #6a9955;"># 執行完畢，放下號碼牌</span>
+basic.forever(on_forever)
+
+
 <span style="color: #6a9955;"># --- 開機啟動設定 ---</span>
-avg_msg = <span style="color: #ce9178;">""</span>
-average = <span style="color: #b5cea8;">0</span>
-total_distance = <span style="color: #b5cea8;">0</span>
-<span style="color: #6a9955;"># 雷達開機初始化 (讓雷達睜開眼睛)</span>
+<span style="color: #6a9955;"># 初始化麥昆小車 I2C</span>
+maqueenPlusV2.i2c_init()
+<span style="color: #6a9955;"># 初始化光學雷達</span>
 matrixLidarDistance.initialize(matrixLidarDistance.Addr.ADDR4, matrixLidarDistance.Matrix.MAT)
-<span style="color: #6a9955;"># 設定廣播群組（對講機頻道為 99）</span>
+<span style="color: #6a9955;"># 設定廣播頻道為 99</span>
 radio.set_group(<span style="color: #b5cea8;">99</span>)
-basic.show_icon(IconNames.YES)
-</code></pre>
+<span style="color: #6a9955;"># 顯示笑臉代表開機完成</span>
+basic.show_icon(IconNames.HAPPY)</code></pre>
                 </div>
             </div>
 
@@ -770,56 +795,84 @@ basic.show_icon(IconNames.YES)
                 </div>
 
                 <h4 style="color: var(--accent-glow); margin-top: 30px;">2. 小車端（發射端）最終優化版程式碼與物理解析</h4>
-                <p>為了同時讀取兩種感測器，我們在程式中加入了 <strong style="color: var(--accent-green);">交替排隊廣播機制</strong>。先讓雷達廣播 (L2_R_Count)，暫停 200ms 後，再讓超音波廣播 (L2_U_Count)，最後暫停 500ms 讓聲波散去，避免互相干擾。</p>
+                <p>為了同時讀取兩種感測器，我們在程式中加入了 <strong style="color: var(--accent-green);">合併廣播機制</strong>。早期版本是雷達、超音波輪流各送一行，最新版改成一行同時送出 <code>R1:雷達 U:超音波</code>，字數不超過無線電 19 字元的上限，再暫停 500ms 讓聲波散去，避免互相干擾。（以下為 0921 最新版程式）</p>
                 <p>這支程式完美揭露了物理真相：<strong style="color: var(--accent-orange);">超音波怕吸音、雷射光怕吸光！</strong> 面對深色且毛茸茸的目標，超音波的聲音被完全吸收，而光學雷達則成功穿透了保護色，在 60 公分內給出了最精準的救援數據！</p>
                 
                 <div style="background-color: #1e1e1e; padding: 15px; border-radius: 8px; overflow-x: auto; border: 1px solid #334155; box-shadow: inset 0 0 10px rgba(0,0,0,0.5);">
-<pre style="margin: 0; color: #d4d4d4; font-family: Consolas, 'Courier New', monospace; font-size: 0.95rem; line-height: 1.5;"><code><span style="color: #6a9955;"># 將「實驗執行邏輯」獨立出來，A 鍵和遙控器都能呼叫</span>
-<span style="color: #569cd6;">def</span> <span style="color: #dcdcaa;">run_experiment_2</span>():
+<pre style="margin: 0; color: #d4d4d4; font-family: Consolas, 'Courier New', monospace; font-size: 0.95rem; line-height: 1.5;"><code><span style="color: #6a9955;"># 1. 定義全域變數</span>
+total_radar = <span style="color: #b5cea8;">0</span>
+total_ultra = <span style="color: #b5cea8;">0</span>
+is_running = <span style="color: #569cd6;">False</span>  <span style="color: #6a9955;"># 【新增】號碼牌機制</span>
+
+<span style="color: #6a9955;"># 2. 將「實驗執行邏輯」獨立出來</span>
+<span style="color: #569cd6;">def</span> run_experiment():
     <span style="color: #569cd6;">global</span> total_radar, total_ultra
     total_radar = <span style="color: #b5cea8;">0</span>
     total_ultra = <span style="color: #b5cea8;">0</span>
     basic.show_icon(IconNames.TARGET)
-    
-    <span style="color: #6a9955;"># 發送實驗二專屬標記</span>
-    radio.send_string(<span style="color: #ce9178;">"--- EXP 2 START ---"</span>)
-    basic.pause(<span style="color: #b5cea8;">200</span>)
-    
-    <span style="color: #569cd6;">for</span> index <span style="color: #569cd6;">in</span> range(<span style="color: #b5cea8;">5</span>):
+
+    <span style="color: #6a9955;"># 宣告實驗二開始</span>
+    radio.send_string(<span style="color: #ce9178;">"--- EXP 2 ---"</span>)
+    basic.pause(<span style="color: #b5cea8;">500</span>)
+
+    <span style="color: #569cd6;">for</span> index <span style="color: #569cd6;">in</span> <span style="color: #569cd6;">range</span>(<span style="color: #b5cea8;">5</span>):
         <span style="color: #6a9955;"># 讀取【光學雷達】數據</span>
         dist_radar = matrixLidarDistance.matrix_point_output(matrixLidarDistance.Addr.ADDR4, <span style="color: #b5cea8;">3</span>, <span style="color: #b5cea8;">3</span>) / <span style="color: #b5cea8;">10</span>
         <span style="color: #6a9955;"># 讀取【超音波】數據</span>
         dist_ultra = maqueenPlusV2.read_ultrasonic(DigitalPin.P13, DigitalPin.P14)
-        
-        <span style="color: #6a9955;"># 交替排隊廣播數據，避免封包碰撞</span>
-        radio.send_string(<span style="color: #ce9178;">"L2_R_Count "</span> + str(index + <span style="color: #b5cea8;">1</span>) + <span style="color: #ce9178;">": "</span> + str(dist_radar) + <span style="color: #ce9178;">" cm"</span>)
-        basic.pause(<span style="color: #b5cea8;">200</span>)
-        radio.send_string(<span style="color: #ce9178;">"L2_U_Count "</span> + str(index + <span style="color: #b5cea8;">1</span>) + <span style="color: #ce9178;">": "</span> + str(dist_ultra) + <span style="color: #ce9178;">" cm"</span>)
+
+        <span style="color: #6a9955;"># 【神級優化】將雷達與超音波合併成一行發送，減少塞車且字數安全！</span>
+        msg = <span style="color: #ce9178;">"R"</span> + str(index + <span style="color: #b5cea8;">1</span>) + <span style="color: #ce9178;">":"</span> + str(dist_radar) + <span style="color: #ce9178;">" U:"</span> + str(dist_ultra)
+        radio.send_string(msg)
         basic.pause(<span style="color: #b5cea8;">500</span>)
-        
+
         total_radar += dist_radar
         total_ultra += dist_ultra
-        
-    <span style="color: #6a9955;"># 結算平均值</span>
-    radio.send_string(<span style="color: #ce9178;">"L2_R_AVG: "</span> + str(total_radar / <span style="color: #b5cea8;">5</span>) + <span style="color: #ce9178;">" cm"</span>)
-    basic.pause(<span style="color: #b5cea8;">200</span>)
-    radio.send_string(<span style="color: #ce9178;">"L2_U_AVG: "</span> + str(total_ultra / <span style="color: #b5cea8;">5</span>) + <span style="color: #ce9178;">" cm"</span>)
+
+    <span style="color: #6a9955;"># 傳送平均值 (合併發送)</span>
+    avg_msg = <span style="color: #ce9178;">"RA:"</span> + str(total_radar / <span style="color: #b5cea8;">5</span>) + <span style="color: #ce9178;">" UA:"</span> + str(total_ultra / <span style="color: #b5cea8;">5</span>)
+    radio.send_string(avg_msg)
+    basic.pause(<span style="color: #b5cea8;">500</span>)
+
     basic.show_icon(IconNames.YES)
 
-<span style="color: #6a9955;"># 無線電遙控接收區</span>
-<span style="color: #569cd6;">def</span> <span style="color: #dcdcaa;">on_received_string</span>(receivedString):
+
+<span style="color: #6a9955;"># 3. 無線電遙控接收區：只發號碼牌，不直接執行！</span>
+<span style="color: #569cd6;">def</span> on_received_string(receivedString):
+    <span style="color: #569cd6;">global</span> is_running
     <span style="color: #569cd6;">if</span> receivedString == <span style="color: #ce9178;">"GO"</span>:
-        run_experiment_2()
+        is_running = <span style="color: #569cd6;">True</span>
 radio.on_received_string(on_received_string)
 
-<span style="color: #6a9955;"># 開機初始化</span>
-total_ultra = <span style="color: #b5cea8;">0</span>
-total_radar = <span style="color: #b5cea8;">0</span>
-input.on_button_pressed(Button.A, run_experiment_2)
+
+<span style="color: #6a9955;"># 4. 手動按鍵觸發：只發號碼牌</span>
+<span style="color: #569cd6;">def</span> on_button_pressed_a():
+    <span style="color: #569cd6;">global</span> is_running
+    is_running = <span style="color: #569cd6;">True</span>
+input.on_button_pressed(Button.A, on_button_pressed_a)
+
+
+<span style="color: #6a9955;"># ==========================================</span>
+<span style="color: #6a9955;"># 主迴圈：小車在這邊不斷檢查號碼牌並執行動作</span>
+<span style="color: #6a9955;"># ==========================================</span>
+<span style="color: #569cd6;">def</span> on_forever():
+    <span style="color: #569cd6;">global</span> is_running
+    <span style="color: #6a9955;"># 如果看到號碼牌舉起來了，才開始做實驗</span>
+    <span style="color: #569cd6;">if</span> is_running == <span style="color: #569cd6;">True</span>:
+        run_experiment()
+        is_running = <span style="color: #569cd6;">False</span>    <span style="color: #6a9955;"># 執行完畢，放下號碼牌</span>
+basic.forever(on_forever)
+
+
+<span style="color: #6a9955;"># --- 開機啟動設定 ---</span>
+<span style="color: #6a9955;"># 初始化麥昆小車 I2C</span>
+maqueenPlusV2.i2c_init()
+<span style="color: #6a9955;"># 初始化光學雷達</span>
 matrixLidarDistance.initialize(matrixLidarDistance.Addr.ADDR4, matrixLidarDistance.Matrix.MAT)
+<span style="color: #6a9955;"># 設定廣播頻道為 99</span>
 radio.set_group(<span style="color: #b5cea8;">99</span>)
-basic.show_icon(IconNames.HAPPY)
-</code></pre>
+<span style="color: #6a9955;"># 顯示笑臉代表開機完成</span>
+basic.show_icon(IconNames.HAPPY)</code></pre>
                 </div>
             </div>
 
@@ -839,63 +892,84 @@ basic.show_icon(IconNames.HAPPY)
                 </div>
 
                 <h4 style="color: var(--accent-glow); margin-top: 30px;">2. 小車端（發射端）最終優化版程式碼與物理解析</h4>
-                <p>為了讓戰情中心更容易辨識，我們特別將廣播的標籤升級為 <code>L3_Count</code> 與 <code>--- EXP 3 START ---</code>。這套程式讓我們發現了最驚人的事實：<strong style="color: var(--accent-orange);">「垂直視野死角真實存在！」</strong></p>
+                <p>為了讓戰情中心更容易辨識，我們特別將廣播格式統一為 <code>--- EXP 3 ---</code> 與 <code>R1:164.5</code> 這種精簡格式，並加入號碼牌機制。（以下為 0921 最新版程式）這套程式讓我們發現了最驚人的事實：<strong style="color: var(--accent-orange);">「垂直視野死角真實存在！」</strong></p>
                 <p>原本我們預測光束會像手電筒一樣呈現大圓盤狀擴散，就算裝在 15cm 高，邊緣的餘光應該也能掃到 11cm 的目標。但實測數據狠狠地推翻了這個想像——我們只讀取中央 (3,3) 一格，視角只有約 7.5°，根本沒有「邊緣餘光」可用，加上深色絨毛的吸光特性，導致高位 (15cm) 完完全全測不到（Overshoot 越頂盲區）！</p>
                 
                 <div style="background-color: #1e1e1e; padding: 15px; border-radius: 8px; overflow-x: auto; border: 1px solid #334155; box-shadow: inset 0 0 10px rgba(0,0,0,0.5);">
-<pre style="margin: 0; color: #d4d4d4; font-family: Consolas, 'Courier New', monospace; font-size: 0.95rem; line-height: 1.5;"><code><span style="color: #569cd6;">def</span> <span style="color: #dcdcaa;">on_received_string</span>(receivedString):
-    <span style="color: #6a9955;"># 遠端遙控接收：如果收到基地台喊 "GO"，就執行實驗三測量！</span>
-    <span style="color: #569cd6;">if</span> receivedString == <span style="color: #ce9178;">"GO"</span>:
-        start_scanning_exp3()
-radio.on_received_string(on_received_string)
+<pre style="margin: 0; color: #d4d4d4; font-family: Consolas, 'Courier New', monospace; font-size: 0.95rem; line-height: 1.5;"><code><span style="color: #6a9955;"># 1. 定義全域變數</span>
+total_L3 = <span style="color: #b5cea8;">0</span>
+is_running = <span style="color: #569cd6;">False</span>  <span style="color: #6a9955;"># 【新增】號碼牌機制</span>
 
-<span style="color: #569cd6;">def</span> <span style="color: #dcdcaa;">start_scanning_exp3</span>():
-    <span style="color: #569cd6;">global</span> total_L3, dist_L3, average_L3, avg_msg_L3
+<span style="color: #6a9955;"># 2. 將「實驗執行邏輯」獨立出來</span>
+<span style="color: #569cd6;">def</span> start_scanning_exp3():
+    <span style="color: #569cd6;">global</span> total_L3
     <span style="color: #6a9955;"># 每次測量前歸零，確保平均值正確</span>
     total_L3 = <span style="color: #b5cea8;">0</span>
     basic.show_icon(IconNames.TARGET)
-    
-    <span style="color: #6a9955;"># 傳送實驗三開始訊號，方便戰情中心識別</span>
-    radio.send_string(<span style="color: #ce9178;">"--- EXP 3 START ---"</span>)
-    basic.pause(<span style="color: #b5cea8;">200</span>)
-    
-    <span style="color: #569cd6;">for</span> index <span style="color: #569cd6;">in</span> range(<span style="color: #b5cea8;">5</span>):
+
+    <span style="color: #6a9955;"># 傳送實驗三開始訊號，精簡格式與前兩個實驗統一</span>
+    radio.send_string(<span style="color: #ce9178;">"--- EXP 3 ---"</span>)
+    basic.pause(<span style="color: #b5cea8;">500</span>)
+
+    <span style="color: #569cd6;">for</span> index <span style="color: #569cd6;">in</span> <span style="color: #569cd6;">range</span>(<span style="color: #b5cea8;">5</span>):
         <span style="color: #6a9955;"># 讀取光學雷達數據並換算為公分</span>
         dist_L3 = matrixLidarDistance.matrix_point_output(matrixLidarDistance.Addr.ADDR4, <span style="color: #b5cea8;">3</span>, <span style="color: #b5cea8;">3</span>) / <span style="color: #b5cea8;">10</span>
-        
-        <span style="color: #6a9955;"># 組合訊息字串 (加上 L3_ 標籤代表實驗三)</span>
-        msg = <span style="color: #ce9178;">"L3_Count "</span> + str(index + <span style="color: #b5cea8;">1</span>) + <span style="color: #ce9178;">": "</span> + str(dist_L3) + <span style="color: #ce9178;">" cm"</span>
-        
-        <span style="color: #6a9955;"># 廣播每一次的雷達測量結果</span>
+
+        <span style="color: #6a9955;"># 【神級優化】精簡字串，絕對安全不超過 19 字元</span>
+        <span style="color: #6a9955;"># 顯示格式會像是 "R1:164.5"</span>
+        msg = <span style="color: #ce9178;">"R"</span> + str(index + <span style="color: #b5cea8;">1</span>) + <span style="color: #ce9178;">":"</span> + str(dist_L3)
         radio.send_string(msg)
-        basic.pause(<span style="color: #b5cea8;">200</span>)
-        
-        total_L3 += dist_L3
         basic.pause(<span style="color: #b5cea8;">500</span>)
-        
+
+        total_L3 += dist_L3
+
     <span style="color: #6a9955;"># --- 迴圈結束後，計算平均值並廣播 ---</span>
     average_L3 = total_L3 / <span style="color: #b5cea8;">5</span>
-    avg_msg_L3 = <span style="color: #ce9178;">"L3_AVG: "</span> + str(average_L3) + <span style="color: #ce9178;">" cm"</span>
-    
+    avg_msg_L3 = <span style="color: #ce9178;">"R_AVG:"</span> + str(average_L3)
+
+    <span style="color: #6a9955;"># 傳送實驗三平均值</span>
     radio.send_string(avg_msg_L3)
-    basic.pause(<span style="color: #b5cea8;">200</span>)
-    radio.send_string(<span style="color: #ce9178;">"-------------------"</span>)
-    basic.pause(<span style="color: #b5cea8;">200</span>)
-    
+    basic.pause(<span style="color: #b5cea8;">500</span>)
+
     basic.show_number(average_L3)
     basic.show_icon(IconNames.YES)
 
-<span style="color: #6a9955;"># --- 開機啟動設定 ---</span>
-avg_msg_L3 = <span style="color: #ce9178;">""</span>
-average_L3 = <span style="color: #b5cea8;">0</span>
-dist_L3 = <span style="color: #b5cea8;">0</span>
-total_L3 = <span style="color: #b5cea8;">0</span>
 
-input.on_button_pressed(Button.A, start_scanning_exp3)
+<span style="color: #6a9955;"># 3. 無線電遙控接收區：只發號碼牌，不直接執行！</span>
+<span style="color: #569cd6;">def</span> on_received_string(receivedString):
+    <span style="color: #569cd6;">global</span> is_running
+    <span style="color: #569cd6;">if</span> receivedString == <span style="color: #ce9178;">"GO"</span>:
+        is_running = <span style="color: #569cd6;">True</span>
+radio.on_received_string(on_received_string)
+
+
+<span style="color: #6a9955;"># 4. 手動按鍵觸發：只發號碼牌</span>
+<span style="color: #569cd6;">def</span> on_button_pressed_a():
+    <span style="color: #569cd6;">global</span> is_running
+    is_running = <span style="color: #569cd6;">True</span>
+input.on_button_pressed(Button.A, on_button_pressed_a)
+
+
+<span style="color: #6a9955;"># ==========================================</span>
+<span style="color: #6a9955;"># 主迴圈：小車在這邊不斷檢查號碼牌並執行動作</span>
+<span style="color: #6a9955;"># ==========================================</span>
+<span style="color: #569cd6;">def</span> on_forever():
+    <span style="color: #569cd6;">global</span> is_running
+    <span style="color: #569cd6;">if</span> is_running == <span style="color: #569cd6;">True</span>:
+        start_scanning_exp3()
+        is_running = <span style="color: #569cd6;">False</span>    <span style="color: #6a9955;"># 執行完畢，把號碼牌放下</span>
+basic.forever(on_forever)
+
+
+<span style="color: #6a9955;"># --- 開機啟動設定 ---</span>
+<span style="color: #6a9955;"># 雷達開機初始化</span>
 matrixLidarDistance.initialize(matrixLidarDistance.Addr.ADDR4, matrixLidarDistance.Matrix.MAT)
+
+<span style="color: #6a9955;"># 設定廣播群組（對講機頻道為 99）</span>
 radio.set_group(<span style="color: #b5cea8;">99</span>)
-basic.show_icon(IconNames.YES)
-</code></pre>
+
+<span style="color: #6a9955;"># 顯示打勾圖案，代表小車已準備就緒，等待遙控</span>
+basic.show_icon(IconNames.YES)</code></pre>
                 </div>
             </div>
 
@@ -916,41 +990,104 @@ basic.show_icon(IconNames.YES)
                 </div>
 
                 <h4 style="color: var(--accent-glow); margin-top: 30px;">2. 小車端（發射端）最終優化版程式碼與物理解析</h4>
-                <p>為了精準測量滑行距離，這支程式會在偵測到目標的瞬間，記錄下「觸發煞車時的雷達距離」，並在車輛完全靜止後，再次記錄「最終停止時的雷達距離」。兩者相減，就是這台車最真實的煞車物理滑行距離！</p>
+                <p>為了精準測量滑行距離，這支程式會在偵測到目標的瞬間，記錄下「觸發煞車時的雷達距離」，並在車輛滑行 1.5 秒完全靜止後，再次記錄「最終停止時的雷達距離」。最新版的煞車觸發線設在 15 公分。兩者相減，就是這台車最真實的煞車物理滑行距離！</p>
                 
                 <div style="background-color: #1e1e1e; padding: 15px; border-radius: 8px; overflow-x: auto; border: 1px solid #334155; box-shadow: inset 0 0 10px rgba(0,0,0,0.5);">
-<pre style="margin: 0; color: #d4d4d4; font-family: Consolas, 'Courier New', monospace; font-size: 0.95rem; line-height: 1.5;"><code><span style="color: #6a9955;"># --- 實驗四：緊急煞車滑行距離測試 ---</span>
-<span style="color: #569cd6;">def</span> <span style="color: #dcdcaa;">test_emergency_brake</span>(speed_pwm):
-    <span style="color: #6a9955;"># 1. 小車全速前進</span>
-    maqueenPlusV2.control_motor(maqueenPlusV2.MyEnumMotor.ALL_MOTOR, maqueenPlusV2.MyEnumDir.FORWARD, speed_pwm)
-    
+<pre style="margin: 0; color: #d4d4d4; font-family: Consolas, 'Courier New', monospace; font-size: 0.95rem; line-height: 1.5;"><code><span style="color: #6a9955;"># --- 實驗四：生死一瞬間 (優化統一格式版) ---</span>
+
+<span style="color: #6a9955;"># 1. 在這裡設定測試速度的 PWM 值！(150, 205, 或 255)</span>
+current_speed = <span style="color: #b5cea8;">150</span>
+
+<span style="color: #6a9955;"># 2. 預定緊急煞車的基準線：設定在 15 公分</span>
+brake_distance = <span style="color: #b5cea8;">15</span>
+
+<span style="color: #6a9955;"># 【新增】號碼牌機制</span>
+is_running = <span style="color: #569cd6;">False</span>
+
+<span style="color: #569cd6;">def</span> run_braking_test():
+    <span style="color: #569cd6;">global</span> current_speed, brake_distance
+
+    basic.show_icon(IconNames.TARGET)
+
+    <span style="color: #6a9955;"># 宣告實驗四開始，格式與前三實驗統一</span>
+    radio.send_string(<span style="color: #ce9178;">"--- EXP 4 ---"</span>)
+    basic.pause(<span style="color: #b5cea8;">500</span>)
+
+    <span style="color: #6a9955;"># 廣播目前設定的速度 (精簡為 Speed:150)</span>
+    radio.send_string(<span style="color: #ce9178;">"Speed:"</span> + str(current_speed))
+    basic.pause(<span style="color: #b5cea8;">1000</span>) <span style="color: #6a9955;"># 給測量者 1 秒鐘的準備時間</span>
+
+    <span style="color: #6a9955;"># 【起步】：雙輪同時啟動，以設定速度前進 (ALL_MOTOR 可以簡化程式)</span>
+    maqueenPlusV2.control_motor(maqueenPlusV2.MyEnumMotor.ALL_MOTOR, maqueenPlusV2.MyEnumDir.FORWARD, current_speed)
+
+    <span style="color: #6a9955;"># 【自動駕駛監控迴圈】</span>
     <span style="color: #569cd6;">while</span> <span style="color: #569cd6;">True</span>:
-        <span style="color: #6a9955;"># 隨時高速掃描前方距離</span>
-        current_dist = matrixLidarDistance.matrix_point_output(matrixLidarDistance.Addr.ADDR4, <span style="color: #b5cea8;">3</span>, <span style="color: #b5cea8;">3</span>) / <span style="color: #b5cea8;">10</span>
-        
-        <span style="color: #6a9955;"># 假設設定在距離 50cm 處觸發緊急煞車</span>
-        <span style="color: #569cd6;">if</span> current_dist <= <span style="color: #b5cea8;">50</span> <span style="color: #569cd6;">and</span> current_dist > <span style="color: #b5cea8;">0</span>:
-            <span style="color: #6a9955;"># 紀錄觸發當下的真實距離</span>
-            trigger_dist = current_dist
-            
-            <span style="color: #6a9955;"># 2. 斷電煞車！</span>
+        <span style="color: #6a9955;"># 讀取光學雷達前方距離</span>
+        dist = matrixLidarDistance.matrix_point_output(matrixLidarDistance.Addr.ADDR4, <span style="color: #b5cea8;">3</span>, <span style="color: #b5cea8;">3</span>) / <span style="color: #b5cea8;">10</span>
+
+        <span style="color: #6a9955;"># 煞車判斷：若距離小於等於 15 公分，且大於 0</span>
+        <span style="color: #569cd6;">if</span> dist &gt; <span style="color: #b5cea8;">0</span> <span style="color: #569cd6;">and</span> dist &lt;= brake_distance:
+            <span style="color: #6a9955;"># 1. 瞬間切斷動力</span>
             maqueenPlusV2.control_motor_stop(maqueenPlusV2.MyEnumMotor.ALL_MOTOR)
-            
-            <span style="color: #6a9955;"># 3. 等待車輛因物理慣性滑行至完全靜止</span>
-            basic.pause(<span style="color: #b5cea8;">1000</span>)
-            
-            <span style="color: #6a9955;"># 4. 測量停止後的最終距離</span>
+
+            <span style="color: #6a9955;"># 2. 記錄煞車瞬間的精準距離</span>
+            trigger_dist = dist
+
+            <span style="color: #6a9955;"># 3. 讓車輛因物理慣性滑行 1.5 秒，確保完全靜止</span>
+            basic.pause(<span style="color: #b5cea8;">1500</span>)
+
+            <span style="color: #6a9955;"># 4. 重新讀取完全靜止後的「最終距離」</span>
             final_dist = matrixLidarDistance.matrix_point_output(matrixLidarDistance.Addr.ADDR4, <span style="color: #b5cea8;">3</span>, <span style="color: #b5cea8;">3</span>) / <span style="color: #b5cea8;">10</span>
-            
-            <span style="color: #6a9955;"># 5. 計算並廣播滑行距離</span>
+
+            <span style="color: #6a9955;"># 5. 計算實際滑行距離</span>
             slide_dist = trigger_dist - final_dist
-            
-            radio.send_string(<span style="color: #ce9178;">"Speed: "</span> + str(speed_pwm))
-            basic.pause(<span style="color: #b5cea8;">200</span>)
-            radio.send_string(<span style="color: #ce9178;">"Slide: "</span> + str(slide_dist) + <span style="color: #ce9178;">" cm"</span>)
+
+            <span style="color: #6a9955;"># 6. 【關鍵修改】：改用 send_string，並加入等待時間防塞車</span>
+            radio.send_string(<span style="color: #ce9178;">"Trig:"</span> + str(trigger_dist))
+            basic.pause(<span style="color: #b5cea8;">500</span>)
+            radio.send_string(<span style="color: #ce9178;">"Slide:"</span> + str(slide_dist))
+            basic.pause(<span style="color: #b5cea8;">500</span>)
+
             basic.show_icon(IconNames.NO)
-            <span style="color: #569cd6;">break</span>
-</code></pre>
+            <span style="color: #569cd6;">break</span> <span style="color: #6a9955;"># 跳出監控，等待下一次測試</span>
+
+        basic.pause(<span style="color: #b5cea8;">10</span>) <span style="color: #6a9955;"># 每 10 毫秒極速監測一次</span>
+
+    basic.pause(<span style="color: #b5cea8;">2000</span>)
+    basic.show_icon(IconNames.YES)
+
+
+<span style="color: #6a9955;"># --- 無線電遙控啟動：只發號碼牌 ---</span>
+<span style="color: #569cd6;">def</span> on_received_string(receivedString):
+    <span style="color: #569cd6;">global</span> is_running
+    <span style="color: #569cd6;">if</span> receivedString == <span style="color: #ce9178;">"GO"</span>:
+        is_running = <span style="color: #569cd6;">True</span>
+radio.on_received_string(on_received_string)
+
+
+<span style="color: #6a9955;"># --- 按鍵 A 手動啟動：只發號碼牌 ---</span>
+<span style="color: #569cd6;">def</span> on_button_pressed_a():
+    <span style="color: #569cd6;">global</span> is_running
+    is_running = <span style="color: #569cd6;">True</span>
+input.on_button_pressed(Button.A, on_button_pressed_a)
+
+
+<span style="color: #6a9955;"># ==========================================</span>
+<span style="color: #6a9955;"># 主迴圈：小車在這邊不斷檢查號碼牌並執行動作</span>
+<span style="color: #6a9955;"># ==========================================</span>
+<span style="color: #569cd6;">def</span> on_forever():
+    <span style="color: #569cd6;">global</span> is_running
+    <span style="color: #569cd6;">if</span> is_running == <span style="color: #569cd6;">True</span>:
+        run_braking_test()
+        is_running = <span style="color: #569cd6;">False</span>    <span style="color: #6a9955;"># 執行完畢，放下號碼牌</span>
+basic.forever(on_forever)
+
+
+<span style="color: #6a9955;"># --- 開機啟動設定 ---</span>
+maqueenPlusV2.i2c_init()
+matrixLidarDistance.initialize(matrixLidarDistance.Addr.ADDR4, matrixLidarDistance.Matrix.MAT)
+radio.set_group(<span style="color: #b5cea8;">99</span>)
+basic.show_icon(IconNames.HAPPY)</code></pre>
                 </div>
             </div>
 
@@ -961,143 +1098,245 @@ basic.show_icon(IconNames.YES)
                 <h4 style="color: var(--accent-glow); margin-top: 20px;">1. 狹窄山道極限對決紀錄表 (11cm 車道 vs 10cm 車寬)</h4>
                 <p>透過上方的數據儀表板，你可以清楚發現：超音波在 40 cm/s 時，是因為「波束過廣誤判兩側山壁」才失敗的。這不是避障演算法的問題，而是超音波的先天物理特性造成的！</p>
                 
-                <h4 style="color: var(--accent-glow); margin-top: 30px;">2. 小車端（發射端）實驗五-A V14 動態轉向程式碼</h4>
-                <p>在這段程式碼中，我們設計了 <code>get_safe_dist(speed)</code> 函數，它會動態讀取速度並回傳我們計算好的安全防護罩距離。這才是真正的數據驅動防護！</p>
+                <h4 style="color: var(--accent-glow); margin-top: 30px;">2. 小車端（發射端）實驗五-A V4 動態轉向程式碼（0921 最新版）</h4>
+                <p>在這段程式碼中，我們設計了 <code>get_safe_dist(speed)</code> 函數，它會動態讀取速度並回傳我們計算好的安全防護罩距離。這才是真正的數據驅動防護！另外，最新版依照三種速度（150／205／255）分別校正了後退、轉出、通過、轉回的時間。</p>
                 <div style="background-color: #1e1e1e; padding: 15px; border-radius: 8px; overflow-x: auto; border: 1px solid #334155; box-shadow: inset 0 0 10px rgba(0,0,0,0.5);">
-<pre style="margin: 0; color: #d4d4d4; font-family: Consolas, 'Courier New', monospace; font-size: 0.95rem; line-height: 1.5;"><code><span style="color: #6a9955;"># --- 實驗五-A：動態轉向閃避版 (V14) ---</span>
+<pre style="margin: 0; color: #d4d4d4; font-family: Consolas, 'Courier New', monospace; font-size: 0.95rem; line-height: 1.5;"><code><span style="color: #6a9955;"># --- 實驗五-A：動態轉向閃避版 (V16 三段變速獨立校正版) ---</span>
 
-<span style="color: #6a9955;"># 🌟 設定區：透過調整這行來測試 150, 205, 或 255</span>
-current_speed = <span style="color: #b5cea8;">150</span>  <span style="color: #6a9955;"># 預設 20cm/s (PWM: 150)</span>
+<span style="color: #6a9955;"># 🌟 設定區</span>
+<span style="color: #6a9955;"># ==========================================</span>
+<span style="color: #6a9955;"># 【請在這裡手動修改 current_speed 進行三種速度測試】</span>
+<span style="color: #6a9955;"># 速度 150：約 20cm/s</span>
+<span style="color: #6a9955;"># 速度 205：約 30cm/s</span>
+<span style="color: #6a9955;"># 速度 255：約 40cm/s</span>
+<span style="color: #6a9955;"># ==========================================</span>
+current_speed = <span style="color: #b5cea8;">255</span>
+
 sensor_mode = <span style="color: #b5cea8;">1</span>      <span style="color: #6a9955;"># 1: 光學雷達, 2: 超音波</span>
+is_running = <span style="color: #569cd6;">False</span>   <span style="color: #6a9955;"># 號碼牌機制</span>
 
 <span style="color: #6a9955;"># 🌟 根據實驗數據設定的防護罩</span>
-<span style="color: #569cd6;">def</span> <span style="color: #dcdcaa;">get_safe_dist</span>(speed):
+<span style="color: #569cd6;">def</span> get_safe_dist(speed):
     <span style="color: #569cd6;">if</span> speed == <span style="color: #b5cea8;">150</span>: <span style="color: #569cd6;">return</span> <span style="color: #b5cea8;">13.3</span>
     <span style="color: #569cd6;">elif</span> speed == <span style="color: #b5cea8;">205</span>: <span style="color: #569cd6;">return</span> <span style="color: #b5cea8;">14.6</span>
     <span style="color: #569cd6;">else</span>: <span style="color: #569cd6;">return</span> <span style="color: #b5cea8;">17.0</span>
 
-<span style="color: #6a9955;"># 🌟 【關鍵更新】自動轉向閃避動作</span>
-<span style="color: #569cd6;">def</span> <span style="color: #dcdcaa;">auto_dodge</span>():
+<span style="color: #6a9955;"># 🌟 自動轉向閃避動作 (三段變速獨立校正版)</span>
+<span style="color: #569cd6;">def</span> auto_dodge():
+    <span style="color: #569cd6;">global</span> is_running
     radio.send_string(<span style="color: #ce9178;">"Action: DODGE!"</span>)
+
+    <span style="color: #6a9955;"># === 【關鍵新增】：根據目前速度，自動切換對應的時間參數 ===</span>
+    <span style="color: #6a9955;"># 先設定預設變數</span>
+    back_t = <span style="color: #b5cea8;">200</span>      <span style="color: #6a9955;"># 1. 稍微後退的時間</span>
+    turn_out_t = <span style="color: #b5cea8;">200</span>  <span style="color: #6a9955;"># 2. 向右轉向閃避的時間</span>
+    pass_t = <span style="color: #b5cea8;">900</span>      <span style="color: #6a9955;"># 3. 直行越過路障的時間</span>
+    turn_in_t = <span style="color: #b5cea8;">100</span>   <span style="color: #6a9955;"># 4. 轉回正前方的時間</span>
+    fwd_t = <span style="color: #b5cea8;">1000</span>      <span style="color: #6a9955;"># 5. 轉正後，往前開的安全時間</span>
+
+    <span style="color: #569cd6;">if</span> current_speed == <span style="color: #b5cea8;">150</span>:
+        <span style="color: #6a9955;"># 🐢 低速參數 (速度慢，需要的時間比較長，請依實際狀況微調)</span>
+        back_t = <span style="color: #b5cea8;">200</span>
+        turn_out_t = <span style="color: #b5cea8;">360</span>
+        pass_t = <span style="color: #b5cea8;">500</span>
+        turn_in_t = <span style="color: #b5cea8;">400</span>
+        fwd_t = <span style="color: #b5cea8;">1000</span>
+    <span style="color: #569cd6;">elif</span> current_speed == <span style="color: #b5cea8;">205</span>:
+        <span style="color: #6a9955;"># 🚗 中速參數 (你原本設定的預設值)</span>
+        back_t = <span style="color: #b5cea8;">200</span>
+        turn_out_t = <span style="color: #b5cea8;">280</span>
+        pass_t = <span style="color: #b5cea8;">400</span>
+        turn_in_t = <span style="color: #b5cea8;">380</span>
+        fwd_t = <span style="color: #b5cea8;">800</span>
+    <span style="color: #569cd6;">elif</span> current_speed == <span style="color: #b5cea8;">255</span>:
+        <span style="color: #6a9955;"># 🚀 高速參數 (速度極快，只要轉/走一下下就到了，請依實際狀況微調)</span>
+        back_t = <span style="color: #b5cea8;">200</span>
+        turn_out_t = <span style="color: #b5cea8;">200</span>
+        pass_t = <span style="color: #b5cea8;">300</span>
+        turn_in_t = <span style="color: #b5cea8;">280</span>
+        fwd_t = <span style="color: #b5cea8;">600</span>
+    <span style="color: #6a9955;"># ========================================================</span>
+
     <span style="color: #6a9955;"># 1. 稍微後退 (預防太靠近撞到)</span>
     maqueenPlusV2.control_motor(maqueenPlusV2.MyEnumMotor.ALL_MOTOR, maqueenPlusV2.MyEnumDir.BACKWARD, current_speed)
-    basic.pause(<span style="color: #b5cea8;">200</span>)
-    
+    basic.pause(back_t)
+
     <span style="color: #6a9955;"># 2. 向右轉向閃避 (右馬達減速或反轉)</span>
     maqueenPlusV2.control_motor(maqueenPlusV2.MyEnumMotor.LEFT_MOTOR, maqueenPlusV2.MyEnumDir.FORWARD, current_speed)
     maqueenPlusV2.control_motor(maqueenPlusV2.MyEnumMotor.RIGHT_MOTOR, maqueenPlusV2.MyEnumDir.BACKWARD, current_speed)
-    basic.pause(<span style="color: #b5cea8;">200</span>) <span style="color: #6a9955;"># 轉彎時間 (可微調)</span>
-    
+    basic.pause(turn_out_t)
+
     <span style="color: #6a9955;"># 3. 直行越過路障</span>
     maqueenPlusV2.control_motor(maqueenPlusV2.MyEnumMotor.ALL_MOTOR, maqueenPlusV2.MyEnumDir.FORWARD, current_speed)
-    basic.pause(<span style="color: #b5cea8;">900</span>) <span style="color: #6a9955;"># 繞過時間 (可微調)</span>
-    
-    <span style="color: #6a9955;"># 4. 轉回正前方 (歸位)</span>
+    basic.pause(pass_t)
+
+    <span style="color: #6a9955;"># 4. 轉回正前方 (向左轉回)</span>
     maqueenPlusV2.control_motor(maqueenPlusV2.MyEnumMotor.LEFT_MOTOR, maqueenPlusV2.MyEnumDir.BACKWARD, current_speed)
     maqueenPlusV2.control_motor(maqueenPlusV2.MyEnumMotor.RIGHT_MOTOR, maqueenPlusV2.MyEnumDir.FORWARD, current_speed)
-    basic.pause(<span style="color: #b5cea8;">100</span>)
-    
+    basic.pause(turn_in_t)
+
+    <span style="color: #6a9955;"># 5. 轉正後，往前開一段「你指定的安全時間」</span>
+    maqueenPlusV2.control_motor(maqueenPlusV2.MyEnumMotor.ALL_MOTOR, maqueenPlusV2.MyEnumDir.FORWARD, current_speed)
+    basic.pause(fwd_t)
+
+    <span style="color: #6a9955;"># 6. 安全煞停：時間到了立刻停止馬達，避免掉下桌子！</span>
     maqueenPlusV2.control_motor_stop(maqueenPlusV2.MyEnumMotor.ALL_MOTOR)
 
-<span style="color: #569cd6;">def</span> <span style="color: #dcdcaa;">run_exp5a</span>():
-    radio.send_string(<span style="color: #ce9178;">"--- 5-A START ---"</span>)
-    safe_dist = get_safe_dist(current_speed)
-    
-    <span style="color: #569cd6;">while True</span>:
-        <span style="color: #6a9955;"># 讀取感測距離</span>
-        dist = <span style="color: #b5cea8;">0</span>
-        <span style="color: #569cd6;">if</span> sensor_mode == <span style="color: #b5cea8;">1</span>:
-            dist = matrixLidarDistance.matrix_point_output(matrixLidarDistance.Addr.ADDR4, <span style="color: #b5cea8;">3</span>, <span style="color: #b5cea8;">3</span>) / <span style="color: #b5cea8;">10</span>
-        <span style="color: #569cd6;">else</span>:
-            dist = maqueenPlusV2.read_ultrasonic(DigitalPin.P13, DigitalPin.P14)
-            
-        <span style="color: #6a9955;"># 邏輯判斷：安全邊際內執行閃避，安全區則全速前進</span>
-        <span style="color: #569cd6;">if</span> dist > <span style="color: #b5cea8;">0</span> <span style="color: #569cd6;">and</span> dist <= safe_dist:
-            auto_dodge()
-            <span style="color: #569cd6;">break</span> <span style="color: #6a9955;"># 閃避後結束測試，方便觀察結果</span>
-        <span style="color: #569cd6;">else</span>:
-            maqueenPlusV2.control_motor(maqueenPlusV2.MyEnumMotor.ALL_MOTOR, maqueenPlusV2.MyEnumDir.FORWARD, current_speed)
+    <span style="color: #6a9955;"># 閃避完成後停止實驗，放下號碼牌</span>
+    is_running = <span style="color: #569cd6;">False</span>
+    radio.send_string(<span style="color: #ce9178;">"Dodge Done!"</span>)
 
-<span style="color: #6a9955;"># 無線電接收設定</span>
-<span style="color: #569cd6;">def</span> <span style="color: #dcdcaa;">on_received_string</span>(receivedString):
-    <span style="color: #569cd6;">global</span> sensor_mode, current_speed
+
+<span style="color: #6a9955;"># 🌟 無線電接收設定：只負責修改變數與發號碼牌</span>
+<span style="color: #569cd6;">def</span> on_received_string(receivedString):
+    <span style="color: #569cd6;">global</span> sensor_mode, current_speed, is_running
+
     <span style="color: #569cd6;">if</span> receivedString == <span style="color: #ce9178;">"A"</span>: <span style="color: #6a9955;"># 雷達模式</span>
         sensor_mode = <span style="color: #b5cea8;">1</span>
-        run_exp5a()
+        is_running = <span style="color: #569cd6;">True</span>
+        radio.send_string(<span style="color: #ce9178;">"--- 5A Lidar ---"</span>)
     <span style="color: #569cd6;">elif</span> receivedString == <span style="color: #ce9178;">"B"</span>: <span style="color: #6a9955;"># 超音波模式</span>
         sensor_mode = <span style="color: #b5cea8;">2</span>
-        run_exp5a()
-    <span style="color: #6a9955;"># 這裡可以新增收到 "SPD150", "SPD205", "SPD255" 來改變速度</span>
+        is_running = <span style="color: #569cd6;">True</span>
+        radio.send_string(<span style="color: #ce9178;">"--- 5A Sonar ---"</span>)
+    <span style="color: #6a9955;"># 改變速度</span>
     <span style="color: #569cd6;">elif</span> receivedString == <span style="color: #ce9178;">"SPD150"</span>: current_speed = <span style="color: #b5cea8;">150</span>
     <span style="color: #569cd6;">elif</span> receivedString == <span style="color: #ce9178;">"SPD205"</span>: current_speed = <span style="color: #b5cea8;">205</span>
     <span style="color: #569cd6;">elif</span> receivedString == <span style="color: #ce9178;">"SPD255"</span>: current_speed = <span style="color: #b5cea8;">255</span>
 radio.on_received_string(on_received_string)
 
-<span style="color: #6a9955;"># 初始化</span>
+<span style="color: #6a9955;"># 🌟 主迴圈：小車在這邊不斷檢查號碼牌並執行動作</span>
+<span style="color: #569cd6;">def</span> on_forever():
+    <span style="color: #569cd6;">global</span> is_running
+
+    <span style="color: #6a9955;"># 如果實驗啟動中</span>
+    <span style="color: #569cd6;">if</span> is_running == <span style="color: #569cd6;">True</span>:
+        safe_dist = get_safe_dist(current_speed)
+        dist = <span style="color: #b5cea8;">0</span>
+
+        <span style="color: #6a9955;"># 讀取感測距離</span>
+        <span style="color: #569cd6;">if</span> sensor_mode == <span style="color: #b5cea8;">1</span>:
+            dist = matrixLidarDistance.matrix_point_output(matrixLidarDistance.Addr.ADDR4, <span style="color: #b5cea8;">3</span>, <span style="color: #b5cea8;">3</span>) / <span style="color: #b5cea8;">10</span>
+        <span style="color: #569cd6;">else</span>:
+            dist = maqueenPlusV2.read_ultrasonic(DigitalPin.P13, DigitalPin.P14)
+
+        <span style="color: #6a9955;"># 邏輯判斷：安全邊際內執行閃避，安全區則全速前進</span>
+        <span style="color: #569cd6;">if</span> dist &gt; <span style="color: #b5cea8;">0</span> <span style="color: #569cd6;">and</span> dist &lt;= safe_dist:
+            auto_dodge()
+        <span style="color: #569cd6;">else</span>:
+            maqueenPlusV2.control_motor(maqueenPlusV2.MyEnumMotor.ALL_MOTOR, maqueenPlusV2.MyEnumDir.FORWARD, current_speed)
+
+        <span style="color: #6a9955;"># 給感測器一點喘息時間，防止讀取過快當機</span>
+        basic.pause(<span style="color: #b5cea8;">10</span>)
+
+basic.forever(on_forever)
+
+<span style="color: #6a9955;"># 🌟 開機啟動初始化</span>
+maqueenPlusV2.i2c_init()
 matrixLidarDistance.initialize(matrixLidarDistance.Addr.ADDR4, matrixLidarDistance.Matrix.MAT)
-radio.set_group(<span style="color: #b5cea8;">107</span>)
-basic.show_icon(IconNames.HAPPY)
-</code></pre>
+radio.set_group(<span style="color: #b5cea8;">99</span>)
+basic.show_icon(IconNames.HAPPY)</code></pre>
                 </div>
             </div>
 
             <div id="appendix-exp6" class="card purple-border" style="margin-top: 40px; background-color: rgba(139, 92, 246, 0.05); display: none;">
                 <h3 style="color: var(--accent-purple);">📂 實驗五-B附錄：核心程式碼與原始數據佐證</h3>
-                <p>這是整個專案最令人驕傲的成果！我們透過 MakeCode Python 將小車升級成了具備「網格座標記憶」、「曼哈頓動態尋路」與「鷹眼四眼防墜崖」的無偏見 AI 大腦。</p>
+                <p>這是整個專案最令人驕傲的成果！我們透過 MakeCode Python 將小車升級成了具備「網格座標記憶」、「真實步數尋路」與「鷹眼四眼防墜崖」的無偏見 AI 大腦。</p>
                 
-                <h4 style="color: var(--accent-glow); margin-top: 30px;">小車端（發射端）終極大一統程式碼</h4>
+                <h4 style="color: var(--accent-glow); margin-top: 30px;">小車端（發射端）終極大一統程式碼（0921 最新版）</h4>
                 <p>這段程式碼是我們整個獨立研究的心血結晶！我們沒有幫小車寫死任何路線，而是教它『如何思考』：</p>
                 <ul>
                     <li><strong style="color: var(--accent-glow);">絕對方向感 (current_dir)：</strong>我們用 0,1,2,3 代表北、東、南、西。透過 <code>turn_right_90()</code> 每次精準轉 90 度並更新方向，小車永遠知道自己面朝哪裡。</li>
                     <li><strong style="color: var(--accent-glow);">記憶海馬迴 (visited 與 bad_x)：</strong><code>visited</code> 陣列就像大腦的記憶，走過的地方就會加 1；<code>bad_x</code> 則是黑名單。它不用眼睛一直看，大腦就會避開危險！</li>
-                    <li><strong style="color: var(--accent-glow);">曼哈頓尋路演算法 (score)：</strong>這是我們最驕傲的地方！我們把路線的『足跡懲罰分數 (v_count * 20)』加上『距離目標的曼哈頓距離』。當它走進死胡同，發現原地打轉的分數太高，就會自動得出『退後尋找新路』才是最低分的最佳解，成功破除了方向偏見！</li>
+                    <li><strong style="color: var(--accent-glow);">預知施工地圖 (static_bad_x)：</strong>出發前先把已知的施工路段 (0,3) 寫進黑名單，就像導航軟體的高精地圖。</li>
+                    <li><strong style="color: var(--accent-glow);">真實步數尋路 (get_true_distance + score)：</strong>這是我們最驕傲的地方！早期版本用「曼哈頓距離」估算離終點多遠，但它會忽略路障。最新版改用波前擴散（從下一格一圈一圈往外找，也就是 BFS 廣度優先搜尋）算出繞過路障後的「真實步數」，再加上『足跡懲罰分數 (v_count * 20)』。當它走進死胡同，發現原地打轉的分數太高，就會自動得出『退後尋找新路』才是最低分的最佳解，成功破除了方向偏見！</li>
                 </ul>
                 
                 <div style="background-color: #1e1e1e; padding: 15px; border-radius: 8px; overflow-x: auto; border: 1px solid #334155; box-shadow: inset 0 0 10px rgba(0,0,0,0.5);">
-<pre style="margin: 0; color: #d4d4d4; font-family: Consolas, 'Courier New', monospace; font-size: 0.95rem; line-height: 1.5;"><code><span style="color: #6a9955;"># --- 實驗五-B：終極 AI 全域導航 ---</span>
+<pre style="margin: 0; color: #d4d4d4; font-family: Consolas, 'Courier New', monospace; font-size: 0.95rem; line-height: 1.5;"><code><span style="color: #6a9955;"># --- 實驗五-B：終極 AI 全域導航 (V15 A* 進化版) ---</span>
+
 current_speed = <span style="color: #b5cea8;">80</span>
 time_one_grid = <span style="color: #b5cea8;">960</span>
-time_turn_90 = <span style="color: #b5cea8;">945</span>
+time_turn_90 = <span style="color: #b5cea8;">1050</span>
 
-<span style="color: #6a9955;"># 🌟 設定的起終點：(3,3) 到 (0,0)</span>
-start_x = <span style="color: #b5cea8;">3</span>; start_y = <span style="color: #b5cea8;">3</span>
-target_x = <span style="color: #b5cea8;">0</span>; target_y = <span style="color: #b5cea8;">0</span>
+<span style="color: #6a9955;"># 🌟 A* 終極大腦設定</span>
+start_x = <span style="color: #b5cea8;">0</span>; start_y = <span style="color: #b5cea8;">0</span>     <span style="color: #6a9955;"># 起點 (0,0)</span>
+target_x = <span style="color: #b5cea8;">3</span>; target_y = <span style="color: #b5cea8;">4</span>   <span style="color: #6a9955;"># 終點 (3,4)</span>
 final_facing = <span style="color: #b5cea8;">0</span>
+
+<span style="color: #6a9955;"># 🚧 靜態地圖：預知施工座標</span>
+static_bad_x = [<span style="color: #b5cea8;">0</span>]
+static_bad_y = [<span style="color: #b5cea8;">3</span>]
 
 current_x = <span style="color: #b5cea8;">0</span>; current_y = <span style="color: #b5cea8;">0</span>; current_dir = <span style="color: #b5cea8;">0</span>; total_grids = <span style="color: #b5cea8;">0</span>
 sensor_mode = <span style="color: #b5cea8;">1</span>
 
-bad_x = [-<span style="color: #b5cea8;">99</span>]; bad_y = [-<span style="color: #b5cea8;">99</span>]
+<span style="color: #6a9955;"># 動態黑名單與足跡記憶 (改用安全的初始值)</span>
+bad_x = [-<span style="color: #b5cea8;">99</span>]
+bad_y = [-<span style="color: #b5cea8;">99</span>]
+<span style="color: #6a9955;"># 解決行 22 報錯：不使用乘法，直接寫滿 24 個 0</span>
 visited = [<span style="color: #b5cea8;">0</span>,<span style="color: #b5cea8;">0</span>,<span style="color: #b5cea8;">0</span>,<span style="color: #b5cea8;">0</span>,<span style="color: #b5cea8;">0</span>,<span style="color: #b5cea8;">0</span>,<span style="color: #b5cea8;">0</span>,<span style="color: #b5cea8;">0</span>,<span style="color: #b5cea8;">0</span>,<span style="color: #b5cea8;">0</span>,<span style="color: #b5cea8;">0</span>,<span style="color: #b5cea8;">0</span>,<span style="color: #b5cea8;">0</span>,<span style="color: #b5cea8;">0</span>,<span style="color: #b5cea8;">0</span>,<span style="color: #b5cea8;">0</span>,<span style="color: #b5cea8;">0</span>,<span style="color: #b5cea8;">0</span>,<span style="color: #b5cea8;">0</span>,<span style="color: #b5cea8;">0</span>,<span style="color: #b5cea8;">0</span>,<span style="color: #b5cea8;">0</span>,<span style="color: #b5cea8;">0</span>,<span style="color: #b5cea8;">0</span>]
 
 is_running = <span style="color: #569cd6;">False</span>
 command_inbox = <span style="color: #ce9178;">""</span>
 
-<span style="color: #569cd6;">def</span> <span style="color: #dcdcaa;">is_safe_to_go</span>(test_x, test_y):
-    <span style="color: #569cd6;">for</span> i <span style="color: #569cd6;">in</span> range(len(bad_x)):
+<span style="color: #569cd6;">def</span> is_safe_to_go(test_x, test_y):
+    <span style="color: #569cd6;">for</span> i <span style="color: #569cd6;">in</span> <span style="color: #569cd6;">range</span>(len(bad_x)):
         <span style="color: #569cd6;">if</span> bad_x[i] == test_x <span style="color: #569cd6;">and</span> bad_y[i] == test_y:
-            <span style="color: #569cd6;">return False</span>
-    <span style="color: #569cd6;">return True</span>
+            <span style="color: #569cd6;">return</span> <span style="color: #569cd6;">False</span>
+    <span style="color: #569cd6;">return</span> <span style="color: #569cd6;">True</span>
 
-<span style="color: #569cd6;">def</span> <span style="color: #dcdcaa;">move_one_grid</span>():
+<span style="color: #6a9955;"># 🧠 升級核心：真實路徑長度運算 (A-Star 波前尋路大腦)</span>
+<span style="color: #569cd6;">def</span> get_true_distance(sx, sy, tx, ty):
+    q_x = [sx]
+    q_y = [sy]
+    q_d = [<span style="color: #b5cea8;">0</span>]
+    <span style="color: #6a9955;"># 解決行 38 報錯：不使用乘法，直接寫滿 24 個 False</span>
+    v_map = [<span style="color: #569cd6;">False</span>,<span style="color: #569cd6;">False</span>,<span style="color: #569cd6;">False</span>,<span style="color: #569cd6;">False</span>,<span style="color: #569cd6;">False</span>,<span style="color: #569cd6;">False</span>,<span style="color: #569cd6;">False</span>,<span style="color: #569cd6;">False</span>,<span style="color: #569cd6;">False</span>,<span style="color: #569cd6;">False</span>,<span style="color: #569cd6;">False</span>,<span style="color: #569cd6;">False</span>,<span style="color: #569cd6;">False</span>,<span style="color: #569cd6;">False</span>,<span style="color: #569cd6;">False</span>,<span style="color: #569cd6;">False</span>,<span style="color: #569cd6;">False</span>,<span style="color: #569cd6;">False</span>,<span style="color: #569cd6;">False</span>,<span style="color: #569cd6;">False</span>,<span style="color: #569cd6;">False</span>,<span style="color: #569cd6;">False</span>,<span style="color: #569cd6;">False</span>,<span style="color: #569cd6;">False</span>]
+    v_map[sx + sy * <span style="color: #b5cea8;">4</span>] = <span style="color: #569cd6;">True</span>
+    head = <span style="color: #b5cea8;">0</span>
+
+    <span style="color: #569cd6;">while</span> head &lt; len(q_x):
+        cx = q_x[head]
+        cy = q_y[head]
+        cd = q_d[head]
+        head += <span style="color: #b5cea8;">1</span>
+
+        <span style="color: #6a9955;"># 找到終點，回傳真實步數</span>
+        <span style="color: #569cd6;">if</span> cx == tx <span style="color: #569cd6;">and</span> cy == ty:
+            <span style="color: #569cd6;">return</span> cd
+
+        <span style="color: #6a9955;"># 檢查四個方向 (北東南西) 尋找暢通活路</span>
+        <span style="color: #569cd6;">if</span> cy &lt; <span style="color: #b5cea8;">5</span> <span style="color: #569cd6;">and</span> <span style="color: #569cd6;">not</span> v_map[cx + (cy+<span style="color: #b5cea8;">1</span>)*<span style="color: #b5cea8;">4</span>] <span style="color: #569cd6;">and</span> is_safe_to_go(cx, cy+<span style="color: #b5cea8;">1</span>):
+            v_map[cx + (cy+<span style="color: #b5cea8;">1</span>)*<span style="color: #b5cea8;">4</span>] = <span style="color: #569cd6;">True</span>; q_x.append(cx); q_y.append(cy+<span style="color: #b5cea8;">1</span>); q_d.append(cd+<span style="color: #b5cea8;">1</span>)
+        <span style="color: #569cd6;">if</span> cx &lt; <span style="color: #b5cea8;">3</span> <span style="color: #569cd6;">and</span> <span style="color: #569cd6;">not</span> v_map[(cx+<span style="color: #b5cea8;">1</span>) + cy*<span style="color: #b5cea8;">4</span>] <span style="color: #569cd6;">and</span> is_safe_to_go(cx+<span style="color: #b5cea8;">1</span>, cy):
+            v_map[(cx+<span style="color: #b5cea8;">1</span>) + cy*<span style="color: #b5cea8;">4</span>] = <span style="color: #569cd6;">True</span>; q_x.append(cx+<span style="color: #b5cea8;">1</span>); q_y.append(cy); q_d.append(cd+<span style="color: #b5cea8;">1</span>)
+        <span style="color: #569cd6;">if</span> cy &gt; <span style="color: #b5cea8;">0</span> <span style="color: #569cd6;">and</span> <span style="color: #569cd6;">not</span> v_map[cx + (cy-<span style="color: #b5cea8;">1</span>)*<span style="color: #b5cea8;">4</span>] <span style="color: #569cd6;">and</span> is_safe_to_go(cx, cy-<span style="color: #b5cea8;">1</span>):
+            v_map[cx + (cy-<span style="color: #b5cea8;">1</span>)*<span style="color: #b5cea8;">4</span>] = <span style="color: #569cd6;">True</span>; q_x.append(cx); q_y.append(cy-<span style="color: #b5cea8;">1</span>); q_d.append(cd+<span style="color: #b5cea8;">1</span>)
+        <span style="color: #569cd6;">if</span> cx &gt; <span style="color: #b5cea8;">0</span> <span style="color: #569cd6;">and</span> <span style="color: #569cd6;">not</span> v_map[(cx-<span style="color: #b5cea8;">1</span>) + cy*<span style="color: #b5cea8;">4</span>] <span style="color: #569cd6;">and</span> is_safe_to_go(cx-<span style="color: #b5cea8;">1</span>, cy):
+            v_map[(cx-<span style="color: #b5cea8;">1</span>) + cy*<span style="color: #b5cea8;">4</span>] = <span style="color: #569cd6;">True</span>; q_x.append(cx-<span style="color: #b5cea8;">1</span>); q_y.append(cy); q_d.append(cd+<span style="color: #b5cea8;">1</span>)
+
+    <span style="color: #569cd6;">return</span> <span style="color: #b5cea8;">999</span> <span style="color: #6a9955;"># 如果發現四面都是死路，回傳極大值</span>
+
+<span style="color: #569cd6;">def</span> move_one_grid():
     <span style="color: #569cd6;">global</span> current_x, current_y, total_grids, visited
     maqueenPlusV2.control_motor(maqueenPlusV2.MyEnumMotor.LEFT_MOTOR, maqueenPlusV2.MyEnumDir.FORWARD, current_speed)
     maqueenPlusV2.control_motor(maqueenPlusV2.MyEnumMotor.RIGHT_MOTOR, maqueenPlusV2.MyEnumDir.FORWARD, current_speed)
     basic.pause(time_one_grid)
     maqueenPlusV2.control_motor_stop(maqueenPlusV2.MyEnumMotor.LEFT_MOTOR)
     maqueenPlusV2.control_motor_stop(maqueenPlusV2.MyEnumMotor.RIGHT_MOTOR)
-    
+
     <span style="color: #569cd6;">if</span> current_dir == <span style="color: #b5cea8;">0</span>: current_y += <span style="color: #b5cea8;">1</span>
     <span style="color: #569cd6;">elif</span> current_dir == <span style="color: #b5cea8;">1</span>: current_x += <span style="color: #b5cea8;">1</span>
     <span style="color: #569cd6;">elif</span> current_dir == <span style="color: #b5cea8;">2</span>: current_y -= <span style="color: #b5cea8;">1</span>
     <span style="color: #569cd6;">elif</span> current_dir == <span style="color: #b5cea8;">3</span>: current_x -= <span style="color: #b5cea8;">1</span>
-    
+
     visited[current_x + current_y * <span style="color: #b5cea8;">4</span>] += <span style="color: #b5cea8;">1</span>
     total_grids += <span style="color: #b5cea8;">1</span>
     radio.send_string(<span style="color: #ce9178;">"Pos: ("</span> + str(current_x) + <span style="color: #ce9178;">","</span> + str(current_y) + <span style="color: #ce9178;">")"</span>)
     basic.pause(<span style="color: #b5cea8;">500</span>)
 
-<span style="color: #569cd6;">def</span> <span style="color: #dcdcaa;">turn_left_90</span>():
+<span style="color: #569cd6;">def</span> turn_left_90():
     <span style="color: #569cd6;">global</span> current_dir
     maqueenPlusV2.control_motor(maqueenPlusV2.MyEnumMotor.LEFT_MOTOR, maqueenPlusV2.MyEnumDir.BACKWARD, current_speed)
     maqueenPlusV2.control_motor(maqueenPlusV2.MyEnumMotor.RIGHT_MOTOR, maqueenPlusV2.MyEnumDir.FORWARD, current_speed)
@@ -1107,7 +1346,7 @@ command_inbox = <span style="color: #ce9178;">""</span>
     current_dir = (current_dir + <span style="color: #b5cea8;">3</span>) % <span style="color: #b5cea8;">4</span>
     basic.pause(<span style="color: #b5cea8;">500</span>)
 
-<span style="color: #569cd6;">def</span> <span style="color: #dcdcaa;">turn_right_90</span>():
+<span style="color: #569cd6;">def</span> turn_right_90():
     <span style="color: #569cd6;">global</span> current_dir
     maqueenPlusV2.control_motor(maqueenPlusV2.MyEnumMotor.LEFT_MOTOR, maqueenPlusV2.MyEnumDir.FORWARD, current_speed)
     maqueenPlusV2.control_motor(maqueenPlusV2.MyEnumMotor.RIGHT_MOTOR, maqueenPlusV2.MyEnumDir.BACKWARD, current_speed)
@@ -1117,126 +1356,132 @@ command_inbox = <span style="color: #ce9178;">""</span>
     current_dir = (current_dir + <span style="color: #b5cea8;">1</span>) % <span style="color: #b5cea8;">4</span>
     basic.pause(<span style="color: #b5cea8;">500</span>)
 
-<span style="color: #569cd6;">def</span> <span style="color: #dcdcaa;">face_direction</span>(target_dir):
+<span style="color: #569cd6;">def</span> face_direction(target_dir):
     <span style="color: #569cd6;">global</span> current_dir
     diff = target_dir - current_dir
-    <span style="color: #569cd6;">if</span> diff < <span style="color: #b5cea8;">0</span>: diff += <span style="color: #b5cea8;">4</span>
+    <span style="color: #569cd6;">if</span> diff &lt; <span style="color: #b5cea8;">0</span>: diff += <span style="color: #b5cea8;">4</span>
     diff = diff % <span style="color: #b5cea8;">4</span>
     <span style="color: #569cd6;">if</span> diff == <span style="color: #b5cea8;">1</span>: turn_right_90()
     <span style="color: #569cd6;">elif</span> diff == <span style="color: #b5cea8;">2</span>: turn_right_90(); turn_right_90()
     <span style="color: #569cd6;">elif</span> diff == <span style="color: #b5cea8;">3</span>: turn_left_90()
 
-<span style="color: #569cd6;">def</span> <span style="color: #dcdcaa;">run_ai_navigation</span>():
+<span style="color: #569cd6;">def</span> run_ai_navigation():
     <span style="color: #569cd6;">global</span> current_x, current_y, current_dir, total_grids
     <span style="color: #569cd6;">global</span> bad_x, bad_y, visited, is_running
-    
+
     is_running = <span style="color: #569cd6;">True</span>
-    
+
     current_x = start_x; current_y = start_y
     current_dir = <span style="color: #b5cea8;">0</span>; total_grids = <span style="color: #b5cea8;">0</span>
-    bad_x = [-<span style="color: #b5cea8;">99</span>]; bad_y = [-<span style="color: #b5cea8;">99</span>]
+
+    <span style="color: #6a9955;"># 🗺️ 載入高精地圖：把預知施工座標放入大腦黑名單</span>
+    bad_x = [-<span style="color: #b5cea8;">99</span>]
+    bad_y = [-<span style="color: #b5cea8;">99</span>]
+    <span style="color: #569cd6;">for</span> i <span style="color: #569cd6;">in</span> <span style="color: #569cd6;">range</span>(len(static_bad_x)):
+        bad_x.append(static_bad_x[i])
+        bad_y.append(static_bad_y[i])
+
+    <span style="color: #6a9955;"># 解決行 127 報錯：不使用乘法</span>
     visited = [<span style="color: #b5cea8;">0</span>,<span style="color: #b5cea8;">0</span>,<span style="color: #b5cea8;">0</span>,<span style="color: #b5cea8;">0</span>,<span style="color: #b5cea8;">0</span>,<span style="color: #b5cea8;">0</span>,<span style="color: #b5cea8;">0</span>,<span style="color: #b5cea8;">0</span>,<span style="color: #b5cea8;">0</span>,<span style="color: #b5cea8;">0</span>,<span style="color: #b5cea8;">0</span>,<span style="color: #b5cea8;">0</span>,<span style="color: #b5cea8;">0</span>,<span style="color: #b5cea8;">0</span>,<span style="color: #b5cea8;">0</span>,<span style="color: #b5cea8;">0</span>,<span style="color: #b5cea8;">0</span>,<span style="color: #b5cea8;">0</span>,<span style="color: #b5cea8;">0</span>,<span style="color: #b5cea8;">0</span>,<span style="color: #b5cea8;">0</span>,<span style="color: #b5cea8;">0</span>,<span style="color: #b5cea8;">0</span>,<span style="color: #b5cea8;">0</span>]
     visited[start_x + start_y * <span style="color: #b5cea8;">4</span>] = <span style="color: #b5cea8;">1</span>
-    
+
     basic.show_icon(IconNames.TARGET)
     <span style="color: #569cd6;">if</span> sensor_mode == <span style="color: #b5cea8;">1</span>: radio.send_string(<span style="color: #ce9178;">"--- LiDAR NAV ---"</span>)
     <span style="color: #569cd6;">else</span>: radio.send_string(<span style="color: #ce9178;">"--- SONAR NAV ---"</span>)
-        
+
     start_time = input.running_time()
-    
+
     <span style="color: #569cd6;">while</span> current_x != target_x <span style="color: #569cd6;">or</span> current_y != target_y:
         safe_dirs = []
-        <span style="color: #569cd6;">if</span> current_y < <span style="color: #b5cea8;">5</span> <span style="color: #569cd6;">and</span> is_safe_to_go(current_x, current_y + <span style="color: #b5cea8;">1</span>): safe_dirs.append(<span style="color: #b5cea8;">0</span>)
-        <span style="color: #569cd6;">if</span> current_x < <span style="color: #b5cea8;">3</span> <span style="color: #569cd6;">and</span> is_safe_to_go(current_x + <span style="color: #b5cea8;">1</span>, current_y): safe_dirs.append(<span style="color: #b5cea8;">1</span>)
-        <span style="color: #569cd6;">if</span> current_y > <span style="color: #b5cea8;">0</span> <span style="color: #569cd6;">and</span> is_safe_to_go(current_x, current_y - <span style="color: #b5cea8;">1</span>): safe_dirs.append(<span style="color: #b5cea8;">2</span>)
-        <span style="color: #569cd6;">if</span> current_x > <span style="color: #b5cea8;">0</span> <span style="color: #569cd6;">and</span> is_safe_to_go(current_x - <span style="color: #b5cea8;">1</span>, current_y): safe_dirs.append(<span style="color: #b5cea8;">3</span>)
-        
+        <span style="color: #569cd6;">if</span> current_y &lt; <span style="color: #b5cea8;">5</span> <span style="color: #569cd6;">and</span> is_safe_to_go(current_x, current_y + <span style="color: #b5cea8;">1</span>): safe_dirs.append(<span style="color: #b5cea8;">0</span>)
+        <span style="color: #569cd6;">if</span> current_x &lt; <span style="color: #b5cea8;">3</span> <span style="color: #569cd6;">and</span> is_safe_to_go(current_x + <span style="color: #b5cea8;">1</span>, current_y): safe_dirs.append(<span style="color: #b5cea8;">1</span>)
+        <span style="color: #569cd6;">if</span> current_y &gt; <span style="color: #b5cea8;">0</span> <span style="color: #569cd6;">and</span> is_safe_to_go(current_x, current_y - <span style="color: #b5cea8;">1</span>): safe_dirs.append(<span style="color: #b5cea8;">2</span>)
+        <span style="color: #569cd6;">if</span> current_x &gt; <span style="color: #b5cea8;">0</span> <span style="color: #569cd6;">and</span> is_safe_to_go(current_x - <span style="color: #b5cea8;">1</span>, current_y): safe_dirs.append(<span style="color: #b5cea8;">3</span>)
+
         <span style="color: #569cd6;">if</span> len(safe_dirs) == <span style="color: #b5cea8;">0</span>:
             radio.send_string(<span style="color: #ce9178;">"TRAPPED!"</span>)
             basic.show_icon(IconNames.SAD)
             <span style="color: #569cd6;">break</span>
-            
+
         best_dir = -<span style="color: #b5cea8;">1</span>; min_score = <span style="color: #b5cea8;">9999</span>
-        
+
         <span style="color: #569cd6;">for</span> d <span style="color: #569cd6;">in</span> safe_dirs:
             nx = current_x; ny = current_y
             <span style="color: #569cd6;">if</span> d == <span style="color: #b5cea8;">0</span>: ny += <span style="color: #b5cea8;">1</span>
             <span style="color: #569cd6;">elif</span> d == <span style="color: #b5cea8;">1</span>: nx += <span style="color: #b5cea8;">1</span>
             <span style="color: #569cd6;">elif</span> d == <span style="color: #b5cea8;">2</span>: ny -= <span style="color: #b5cea8;">1</span>
             <span style="color: #569cd6;">elif</span> d == <span style="color: #b5cea8;">3</span>: nx -= <span style="color: #b5cea8;">1</span>
-            
+
             v_count = visited[nx + ny * <span style="color: #b5cea8;">4</span>]
-            dist_x = abs(target_x - nx)
-            dist_y = abs(target_y - ny)
-            
-            <span style="color: #6a9955;"># 🌟 核心修正：移除硬編碼的「方向偏見」，只信任動態算出來的「曼哈頓距離」與「足跡懲罰」！</span>
-            dist_to_target = dist_x + dist_y
-            score = (v_count * <span style="color: #b5cea8;">20</span>) + dist_to_target
-                
-            <span style="color: #569cd6;">if</span> score < min_score:
+
+            <span style="color: #6a9955;"># 🌟 核心升級：使用 get_true_distance 取代直線距離</span>
+            true_dist = get_true_distance(nx, ny, target_x, target_y)
+            score = (v_count * <span style="color: #b5cea8;">20</span>) + true_dist
+
+            <span style="color: #569cd6;">if</span> score &lt; min_score:
                 min_score = score
                 best_dir = d
-                
+
         face_direction(best_dir)
         <span style="color: #569cd6;">if</span> best_dir == <span style="color: #b5cea8;">0</span>: basic.show_arrow(ArrowNames.NORTH)
         <span style="color: #569cd6;">elif</span> best_dir == <span style="color: #b5cea8;">1</span>: basic.show_arrow(ArrowNames.EAST)
         <span style="color: #569cd6;">elif</span> best_dir == <span style="color: #b5cea8;">2</span>: basic.show_arrow(ArrowNames.SOUTH)
         <span style="color: #569cd6;">elif</span> best_dir == <span style="color: #b5cea8;">3</span>: basic.show_arrow(ArrowNames.WEST)
-        
+
         dist = <span style="color: #b5cea8;">0</span>
         <span style="color: #569cd6;">if</span> sensor_mode == <span style="color: #b5cea8;">1</span>: dist = matrixLidarDistance.matrix_point_output(matrixLidarDistance.Addr.ADDR4, <span style="color: #b5cea8;">3</span>, <span style="color: #b5cea8;">3</span>) / <span style="color: #b5cea8;">10</span>
         <span style="color: #569cd6;">else</span>: dist = maqueenPlusV2.read_ultrasonic(DigitalPin.P13, DigitalPin.P14)
-        
-        <span style="color: #569cd6;">if</span> dist > <span style="color: #b5cea8;">0</span> <span style="color: #569cd6;">and</span> dist <= <span style="color: #b5cea8;">9</span>:
+
+        <span style="color: #6a9955;"># 👁️ 感測器即時偵測區</span>
+        <span style="color: #569cd6;">if</span> dist &gt; <span style="color: #b5cea8;">0</span> <span style="color: #569cd6;">and</span> dist &lt;= <span style="color: #b5cea8;">9</span>:
             ox = current_x; oy = current_y
             <span style="color: #569cd6;">if</span> best_dir == <span style="color: #b5cea8;">0</span>: oy += <span style="color: #b5cea8;">1</span>
             <span style="color: #569cd6;">elif</span> best_dir == <span style="color: #b5cea8;">1</span>: ox += <span style="color: #b5cea8;">1</span>
             <span style="color: #569cd6;">elif</span> best_dir == <span style="color: #b5cea8;">2</span>: oy -= <span style="color: #b5cea8;">1</span>
             <span style="color: #569cd6;">elif</span> best_dir == <span style="color: #b5cea8;">3</span>: ox -= <span style="color: #b5cea8;">1</span>
-            
-            obj_name = <span style="color: #ce9178;">"Puppy"</span>
-            <span style="color: #569cd6;">if</span> ox == <span style="color: #b5cea8;">0</span> <span style="color: #569cd6;">and</span> oy == <span style="color: #b5cea8;">4</span>: obj_name = <span style="color: #ce9178;">"LeopardCat"</span>
-            <span style="color: #569cd6;">elif</span> ox == <span style="color: #b5cea8;">1</span> <span style="color: #569cd6;">and</span> oy == <span style="color: #b5cea8;">3</span>: obj_name = <span style="color: #ce9178;">"Human"</span>
-            
+
+            obj_name = <span style="color: #ce9178;">"Obstacle"</span>
+            <span style="color: #569cd6;">if</span> ox == <span style="color: #b5cea8;">1</span> <span style="color: #569cd6;">and</span> oy == <span style="color: #b5cea8;">2</span>: obj_name = <span style="color: #ce9178;">"LeopardCat"</span>
+
             radio.send_string(<span style="color: #ce9178;">"Dodge:"</span> + obj_name)
             basic.pause(<span style="color: #b5cea8;">150</span>)
-            
+
             bad_x.append(ox); bad_y.append(oy)
         <span style="color: #569cd6;">else</span>:
             move_one_grid()
-            
+
     <span style="color: #569cd6;">if</span> current_x == target_x <span style="color: #569cd6;">and</span> current_y == target_y:
         face_direction(final_facing)
-        
+
         end_time = input.running_time()
         radio.send_string(<span style="color: #ce9178;">"Time:"</span> + str((end_time - start_time) / <span style="color: #b5cea8;">1000</span>))
         basic.pause(<span style="color: #b5cea8;">500</span>)
         radio.send_string(<span style="color: #ce9178;">"Grids:"</span> + str(total_grids))
         basic.pause(<span style="color: #b5cea8;">1000</span>)
-        
+
         maqueenPlusV2.control_motor_stop(maqueenPlusV2.MyEnumMotor.LEFT_MOTOR)
         maqueenPlusV2.control_motor_stop(maqueenPlusV2.MyEnumMotor.RIGHT_MOTOR)
 
-<span style="color: #569cd6;">def</span> <span style="color: #dcdcaa;">on_received_string</span>(receivedString):
+<span style="color: #569cd6;">def</span> on_received_string(receivedString):
     <span style="color: #569cd6;">global</span> command_inbox, is_running
     <span style="color: #569cd6;">if</span> is_running: <span style="color: #569cd6;">return</span>
     <span style="color: #569cd6;">if</span> receivedString == <span style="color: #ce9178;">"A"</span> <span style="color: #569cd6;">or</span> receivedString == <span style="color: #ce9178;">"B"</span>:
         command_inbox = receivedString
 radio.on_received_string(on_received_string)
 
-<span style="color: #569cd6;">def</span> <span style="color: #dcdcaa;">on_button_pressed_a</span>():
+<span style="color: #569cd6;">def</span> on_button_pressed_a():
     <span style="color: #569cd6;">global</span> command_inbox, is_running
-    <span style="color: #569cd6;">if not</span> is_running: command_inbox = <span style="color: #ce9178;">"A"</span>
+    <span style="color: #569cd6;">if</span> <span style="color: #569cd6;">not</span> is_running: command_inbox = <span style="color: #ce9178;">"A"</span>
 input.on_button_pressed(Button.A, on_button_pressed_a)
 
-<span style="color: #569cd6;">def</span> <span style="color: #dcdcaa;">on_button_pressed_b</span>():
+<span style="color: #569cd6;">def</span> on_button_pressed_b():
     <span style="color: #569cd6;">global</span> command_inbox, is_running
-    <span style="color: #569cd6;">if not</span> is_running: command_inbox = <span style="color: #ce9178;">"B"</span>
+    <span style="color: #569cd6;">if</span> <span style="color: #569cd6;">not</span> is_running: command_inbox = <span style="color: #ce9178;">"B"</span>
 input.on_button_pressed(Button.B, on_button_pressed_b)
 
-<span style="color: #569cd6;">def</span> <span style="color: #dcdcaa;">on_forever</span>():
+<span style="color: #569cd6;">def</span> on_forever():
     <span style="color: #569cd6;">global</span> command_inbox, sensor_mode, is_running
-    
+
     <span style="color: #569cd6;">if</span> command_inbox == <span style="color: #ce9178;">"A"</span>:
         command_inbox = <span style="color: #ce9178;">""</span>
         sensor_mode = <span style="color: #b5cea8;">1</span>
@@ -1244,12 +1489,12 @@ input.on_button_pressed(Button.B, on_button_pressed_b)
         radio.send_string(<span style="color: #ce9178;">"--- SET LiDAR ---"</span>)
         basic.pause(<span style="color: #b5cea8;">100</span>)
         run_ai_navigation()
-        
+
         basic.pause(<span style="color: #b5cea8;">1000</span>)
         command_inbox = <span style="color: #ce9178;">""</span>
         is_running = <span style="color: #569cd6;">False</span>
         basic.show_icon(IconNames.HAPPY)
-        
+
     <span style="color: #569cd6;">elif</span> command_inbox == <span style="color: #ce9178;">"B"</span>:
         command_inbox = <span style="color: #ce9178;">""</span>
         sensor_mode = <span style="color: #b5cea8;">2</span>
@@ -1257,7 +1502,7 @@ input.on_button_pressed(Button.B, on_button_pressed_b)
         radio.send_string(<span style="color: #ce9178;">"--- SET SONAR ---"</span>)
         basic.pause(<span style="color: #b5cea8;">100</span>)
         run_ai_navigation()
-        
+
         basic.pause(<span style="color: #b5cea8;">1000</span>)
         command_inbox = <span style="color: #ce9178;">""</span>
         is_running = <span style="color: #569cd6;">False</span>
@@ -1267,10 +1512,9 @@ basic.forever(on_forever)
 
 <span style="color: #6a9955;"># 初始化設定</span>
 matrixLidarDistance.initialize(matrixLidarDistance.Addr.ADDR4, matrixLidarDistance.Matrix.MAT)
-radio.set_group(<span style="color: #b5cea8;">107</span>)
+radio.set_group(<span style="color: #b5cea8;">99</span>)
 radio.set_transmit_power(<span style="color: #b5cea8;">7</span>)
-basic.show_icon(IconNames.HAPPY)
-</code></pre>
+basic.show_icon(IconNames.HAPPY)</code></pre>
                 </div>
             </div>
 
@@ -1283,77 +1527,195 @@ basic.show_icon(IconNames.HAPPY)
                 <p>這段程式碼不僅解決了 A 柱盲區，更處理了自駕車常見的工程難題：</p>
                 <ul>
                     <li><strong style="color: var(--accent-glow);">情境感知放大防護：</strong>轉彎時目標會呈斜角，我們將側邊的防護網動態放大至 <code>25 cm</code>，確保能更早發現行人。</li>
-                    <li><strong style="color: var(--accent-glow);">絕對時間碼表 (running_time)：</strong>如果用一般的 <code>pause()</code>，會因為雷達讀取的時間誤差導致轉彎角度過大。我們改用微控制器的絕對時間來控制馬達運轉 <code>945 毫秒</code>，確保每一次 90 度轉彎都完美精準！</li>
-                    <li><strong style="color: var(--accent-glow);">動態禮讓鎖定迴圈：</strong>當 A 柱雷達掃描到行人時，系統會進入 <code>while</code> 鎖定狀態並顯示紅燈，直到行人完全離開盲區，才會顯示綠燈並繼續完成剩餘的轉彎動作。這就是會「停、看、聽」的安全 AI！</li>
+                    <li><strong style="color: var(--accent-glow);">絕對時間碼表 (running_time)：</strong>如果用一般的 <code>pause()</code>，會因為雷達讀取的時間誤差導致轉彎角度過大。我們改用微控制器的絕對時間來累計「馬達真正轉動的時間」，轉滿 <code>1050 毫秒</code>才算完成 90 度轉彎；遇到行人暫停時碼表會凍結，所以停多久都不會轉過頭！</li>
+                    <li><strong style="color: var(--accent-glow);">動態禮讓鎖定迴圈：</strong>當 A 柱雷達掃描到行人時，<code>do_action()</code> 迴圈會立刻停下馬達並顯示紅燈，直到行人完全離開盲區，才會顯示綠燈並繼續完成剩餘的轉彎動作。這就是會「停、看、聽」的安全 AI！</li>
                 </ul>
                 
                 <div style="background-color: #1e1e1e; padding: 15px; border-radius: 8px; overflow-x: auto; border: 1px solid #334155; box-shadow: inset 0 0 10px rgba(0,0,0,0.5);">
-<pre style="margin: 0; color: #d4d4d4; font-family: Consolas, 'Courier New', monospace; font-size: 0.95rem; line-height: 1.5;"><code><span style="color: #6a9955;"># --- 實驗六：多雷達融合克服 A 柱死角與動態禮讓 (V2.0) ---</span>
+<pre style="margin: 0; color: #d4d4d4; font-family: Consolas, 'Courier New', monospace; font-size: 0.95rem; line-height: 1.5;"><code><span style="color: #6a9955;"># --- 終極完美神級版：實驗六精準度 + 零延遲動態禮讓 + 終點歸位 ---</span>
 
 current_speed = <span style="color: #b5cea8;">80</span>
-turn_time_90 = <span style="color: #b5cea8;">945</span>  <span style="color: #6a9955;"># 絕對時間碼表：精準控制轉彎 90 度</span>
-safe_dist_forward = <span style="color: #b5cea8;">15</span>
-safe_dist_turn = <span style="color: #b5cea8;">25</span>  <span style="color: #6a9955;"># 情境感知：轉彎死角防護網動態放大</span>
+time_one_grid = <span style="color: #b5cea8;">960</span>   <span style="color: #6a9955;"># 走一格的精準時間</span>
+time_turn_90 = <span style="color: #b5cea8;">1050</span>    <span style="color: #6a9955;"># 轉90度的精準時間</span>
 
-<span style="color: #569cd6;">def</span> <span style="color: #dcdcaa;">check_pedestrian</span>(lidar_addr):
-    <span style="color: #6a9955;"># 讀取指定雷達(例如左側 A 柱)的距離</span>
-    dist = matrixLidarDistance.matrix_point_output(lidar_addr, <span style="color: #b5cea8;">3</span>, <span style="color: #b5cea8;">3</span>) / <span style="color: #b5cea8;">10</span>
-    <span style="color: #569cd6;">return</span> dist > <span style="color: #b5cea8;">0</span> <span style="color: #569cd6;">and</span> dist <= safe_dist_turn
+start_x = <span style="color: #b5cea8;">0</span>; start_y = <span style="color: #b5cea8;">0</span>
+target_x = <span style="color: #b5cea8;">3</span>; target_y = <span style="color: #b5cea8;">3</span>
 
-<span style="color: #569cd6;">def</span> <span style="color: #dcdcaa;">dynamic_yield</span>(lidar_addr):
-    <span style="color: #6a9955;"># 動態禮讓 (停看聽) 鎖定迴圈</span>
-    <span style="color: #569cd6;">while</span> check_pedestrian(lidar_addr):
-        maqueenPlusV2.control_motor_stop(maqueenPlusV2.MyEnumMotor.ALL_MOTOR)
-        basic.show_icon(IconNames.NO) <span style="color: #6a9955;"># 瞬間圖示顯示紅燈，無 Blocking 延遲</span>
-        radio.send_string(<span style="color: #ce9178;">"Yielding..."</span>)
-        basic.pause(<span style="color: #b5cea8;">100</span>) <span style="color: #6a9955;"># 持續監測行人是否離開</span>
-    
-    <span style="color: #6a9955;"># 行人離開盲區，亮綠燈</span>
-    basic.show_icon(IconNames.YES)
-    radio.send_string(<span style="color: #ce9178;">"Clear!"</span>)
+safe_dist_front = <span style="color: #b5cea8;">15</span>
+safe_dist_side = <span style="color: #b5cea8;">25</span>
 
-<span style="color: #569cd6;">def</span> <span style="color: #dcdcaa;">safe_left_turn</span>():
-    start_time = input.running_time()
-    
-    <span style="color: #6a9955;"># 運用絕對時間碼表，不受感測器讀取延遲影響，確保精準轉向</span>
-    <span style="color: #569cd6;">while</span> input.running_time() - start_time < turn_time_90:
-        <span style="color: #6a9955;"># 轉彎過程中，提早睜開左眼 (ADDR1) 掃描 A 柱死角</span>
-        <span style="color: #569cd6;">if</span> check_pedestrian(matrixLidarDistance.Addr.ADDR1):
-            dynamic_yield(matrixLidarDistance.Addr.ADDR1)
-            <span style="color: #6a9955;"># 禮讓完畢後更新開始時間，精準補足剩下的轉彎角度</span>
-            <span style="color: #6a9955;"># (在真實環境中，轉向角度可以進一步依靠陀螺儀輔助)</span>
-            start_time = input.running_time() - (turn_time_90 - (input.running_time() - start_time))
-        
-        <span style="color: #6a9955;"># 繼續執行左轉</span>
+current_x = <span style="color: #b5cea8;">0</span>; current_y = <span style="color: #b5cea8;">0</span>; current_dir = <span style="color: #b5cea8;">0</span>
+test_mode = <span style="color: #b5cea8;">0</span>
+
+<span style="color: #6a9955;"># 【新增】號碼牌機制，防當機</span>
+command_inbox = <span style="color: #ce9178;">""</span>
+is_running = <span style="color: #569cd6;">False</span>
+
+<span style="color: #6a9955;"># --- ⚙️ 馬達啟動引擎 ---</span>
+<span style="color: #569cd6;">def</span> start_motor(move_type):
+    <span style="color: #569cd6;">if</span> move_type == <span style="color: #ce9178;">"STRAIGHT"</span>:
+        maqueenPlusV2.control_motor(maqueenPlusV2.MyEnumMotor.ALL_MOTOR, maqueenPlusV2.MyEnumDir.FORWARD, current_speed)
+    <span style="color: #569cd6;">elif</span> move_type == <span style="color: #ce9178;">"LEFT"</span>:
         maqueenPlusV2.control_motor(maqueenPlusV2.MyEnumMotor.LEFT_MOTOR, maqueenPlusV2.MyEnumDir.BACKWARD, current_speed)
         maqueenPlusV2.control_motor(maqueenPlusV2.MyEnumMotor.RIGHT_MOTOR, maqueenPlusV2.MyEnumDir.FORWARD, current_speed)
-        basic.pause(<span style="color: #b5cea8;">10</span>)
-    
+    <span style="color: #569cd6;">elif</span> move_type == <span style="color: #ce9178;">"RIGHT"</span>:
+        maqueenPlusV2.control_motor(maqueenPlusV2.MyEnumMotor.LEFT_MOTOR, maqueenPlusV2.MyEnumDir.FORWARD, current_speed)
+        maqueenPlusV2.control_motor(maqueenPlusV2.MyEnumMotor.RIGHT_MOTOR, maqueenPlusV2.MyEnumDir.BACKWARD, current_speed)
+
+<span style="color: #6a9955;"># --- ⏱️ 絕對時間碼表與情境雷達 (解決爆走的核心) ---</span>
+<span style="color: #569cd6;">def</span> do_action(move_type, target_time):
+    time_run = <span style="color: #b5cea8;">0</span>
+    is_moving = <span style="color: #569cd6;">False</span>
+    last_t = input.running_time()
+
+    <span style="color: #6a9955;"># 只有累積「馬達真正運轉的時間」達到目標，才會結束動作</span>
+    <span style="color: #569cd6;">while</span> time_run &lt; target_time:
+
+        <span style="color: #6a9955;"># 1. 雷達掃描 (情境感知)</span>
+        obstacle = <span style="color: #569cd6;">False</span>
+        dc = matrixLidarDistance.matrix_point_output(matrixLidarDistance.Addr.ADDR4, <span style="color: #b5cea8;">3</span>, <span style="color: #b5cea8;">3</span>) / <span style="color: #b5cea8;">10</span>
+        <span style="color: #569cd6;">if</span> dc &gt; <span style="color: #b5cea8;">0</span> <span style="color: #569cd6;">and</span> dc &lt;= safe_dist_front: obstacle = <span style="color: #569cd6;">True</span>
+
+        <span style="color: #569cd6;">if</span> test_mode == <span style="color: #b5cea8;">3</span> <span style="color: #569cd6;">and</span> <span style="color: #569cd6;">not</span> obstacle:
+            <span style="color: #569cd6;">if</span> move_type == <span style="color: #ce9178;">"LEFT"</span>:
+                dl = matrixLidarDistance.matrix_point_output(matrixLidarDistance.Addr.ADDR1, <span style="color: #b5cea8;">3</span>, <span style="color: #b5cea8;">3</span>) / <span style="color: #b5cea8;">10</span>
+                <span style="color: #569cd6;">if</span> dl &gt; <span style="color: #b5cea8;">0</span> <span style="color: #569cd6;">and</span> dl &lt;= safe_dist_side: obstacle = <span style="color: #569cd6;">True</span>
+            <span style="color: #569cd6;">elif</span> move_type == <span style="color: #ce9178;">"RIGHT"</span>:
+                dr = matrixLidarDistance.matrix_point_output(matrixLidarDistance.Addr.ADDR2, <span style="color: #b5cea8;">3</span>, <span style="color: #b5cea8;">3</span>) / <span style="color: #b5cea8;">10</span>
+                <span style="color: #569cd6;">if</span> dr &gt; <span style="color: #b5cea8;">0</span> <span style="color: #569cd6;">and</span> dr &lt;= safe_dist_side: obstacle = <span style="color: #569cd6;">True</span>
+
+        <span style="color: #6a9955;"># 2. 精準時間累加 (馬達有動才算數)</span>
+        now = input.running_time()
+        <span style="color: #569cd6;">if</span> is_moving:
+            time_run += (now - last_t)
+        last_t = now
+
+        <span style="color: #6a9955;"># 3. 瞬間反應煞車系統 (零延遲)</span>
+        <span style="color: #569cd6;">if</span> obstacle:
+            <span style="color: #569cd6;">if</span> is_moving:
+                maqueenPlusV2.control_motor_stop(maqueenPlusV2.MyEnumMotor.ALL_MOTOR)
+                is_moving = <span style="color: #569cd6;">False</span>
+                basic.show_icon(IconNames.NO) <span style="color: #6a9955;"># 瞬間亮紅燈，絕不浪費時間</span>
+            basic.pause(<span style="color: #b5cea8;">50</span>)
+            last_t = input.running_time() <span style="color: #6a9955;"># 凍結碼表</span>
+        <span style="color: #569cd6;">else</span>:
+            <span style="color: #569cd6;">if</span> <span style="color: #569cd6;">not</span> is_moving:
+                basic.show_icon(IconNames.YES) <span style="color: #6a9955;"># 瞬間亮綠燈</span>
+                start_motor(move_type)
+                is_moving = <span style="color: #569cd6;">True</span>
+                last_t = input.running_time() <span style="color: #6a9955;"># 重啟碼表</span>
+            basic.pause(<span style="color: #b5cea8;">20</span>) <span style="color: #6a9955;"># 讓馬達走一小段再檢查，避免大腦過熱</span>
+
+    <span style="color: #6a9955;"># 動作完成，強制煞停</span>
     maqueenPlusV2.control_motor_stop(maqueenPlusV2.MyEnumMotor.ALL_MOTOR)
 
-<span style="color: #569cd6;">def</span> <span style="color: #dcdcaa;">run_exp6</span>():
-    <span style="color: #6a9955;"># 1. 啟動三顆雷達融合防護網 (中、左、右)</span>
-    matrixLidarDistance.initialize(matrixLidarDistance.Addr.ADDR4, matrixLidarDistance.Matrix.MAT)
-    matrixLidarDistance.initialize(matrixLidarDistance.Addr.ADDR1, matrixLidarDistance.Matrix.MAT)
-    matrixLidarDistance.initialize(matrixLidarDistance.Addr.ADDR2, matrixLidarDistance.Matrix.MAT)
-    
-    <span style="color: #6a9955;"># 2. 直行前往十字路口</span>
-    maqueenPlusV2.control_motor(maqueenPlusV2.MyEnumMotor.ALL_MOTOR, maqueenPlusV2.MyEnumDir.FORWARD, current_speed)
-    basic.pause(<span style="color: #b5cea8;">1000</span>) 
-    
-    <span style="color: #6a9955;"># 3. 執行具備動態禮讓能力的安全左轉</span>
-    safe_left_turn()
-    
-    <span style="color: #6a9955;"># 4. 完美面北歸位至終點</span>
-    maqueenPlusV2.control_motor(maqueenPlusV2.MyEnumMotor.ALL_MOTOR, maqueenPlusV2.MyEnumDir.FORWARD, current_speed)
-    basic.pause(<span style="color: #b5cea8;">1000</span>)
-    maqueenPlusV2.control_motor_stop(maqueenPlusV2.MyEnumMotor.ALL_MOTOR)
-    basic.show_arrow(ArrowNames.NORTH)
-    radio.send_string(<span style="color: #ce9178;">"Mission Complete!"</span>)
+<span style="color: #6a9955;"># --- 🚗 基礎移動指令 ---</span>
+<span style="color: #569cd6;">def</span> move_one_grid():
+    <span style="color: #569cd6;">global</span> current_x, current_y
+    do_action(<span style="color: #ce9178;">"STRAIGHT"</span>, time_one_grid)
+    <span style="color: #569cd6;">if</span> current_dir == <span style="color: #b5cea8;">0</span>: current_y += <span style="color: #b5cea8;">1</span>
+    <span style="color: #569cd6;">elif</span> current_dir == <span style="color: #b5cea8;">1</span>: current_x += <span style="color: #b5cea8;">1</span>
+    <span style="color: #569cd6;">elif</span> current_dir == <span style="color: #b5cea8;">2</span>: current_y -= <span style="color: #b5cea8;">1</span>
+    <span style="color: #569cd6;">elif</span> current_dir == <span style="color: #b5cea8;">3</span>: current_x -= <span style="color: #b5cea8;">1</span>
+    radio.send_string(<span style="color: #ce9178;">"Pos:("</span> + str(current_x) + <span style="color: #ce9178;">","</span> + str(current_y) + <span style="color: #ce9178;">")"</span>)
+    basic.pause(<span style="color: #b5cea8;">500</span>)
 
-<span style="color: #6a9955;"># 按下 A 鍵開始任務</span>
-input.on_button_pressed(Button.A, run_exp6)
-</code></pre>
+<span style="color: #569cd6;">def</span> turn_left_90():
+    <span style="color: #569cd6;">global</span> current_dir
+    do_action(<span style="color: #ce9178;">"LEFT"</span>, time_turn_90)
+    current_dir = (current_dir + <span style="color: #b5cea8;">3</span>) % <span style="color: #b5cea8;">4</span>
+    basic.pause(<span style="color: #b5cea8;">500</span>)
+
+<span style="color: #569cd6;">def</span> turn_right_90():
+    <span style="color: #569cd6;">global</span> current_dir
+    do_action(<span style="color: #ce9178;">"RIGHT"</span>, time_turn_90)
+    current_dir = (current_dir + <span style="color: #b5cea8;">1</span>) % <span style="color: #b5cea8;">4</span>
+    basic.pause(<span style="color: #b5cea8;">500</span>)
+
+<span style="color: #569cd6;">def</span> face_direction(target_dir):
+    diff = (target_dir - current_dir) % <span style="color: #b5cea8;">4</span>
+    <span style="color: #569cd6;">if</span> diff &lt; <span style="color: #b5cea8;">0</span>: diff += <span style="color: #b5cea8;">4</span>
+    <span style="color: #569cd6;">if</span> diff == <span style="color: #b5cea8;">1</span>: turn_right_90()
+    <span style="color: #569cd6;">elif</span> diff == <span style="color: #b5cea8;">2</span>: turn_right_90(); turn_right_90()
+    <span style="color: #569cd6;">elif</span> diff == <span style="color: #b5cea8;">3</span>: turn_left_90()
+
+<span style="color: #6a9955;"># --- 🧠 網格巡航大腦 ---</span>
+<span style="color: #569cd6;">def</span> run_navigation():
+    <span style="color: #569cd6;">global</span> current_x, current_y, current_dir
+    current_x = start_x; current_y = start_y; current_dir = <span style="color: #b5cea8;">0</span>
+    basic.show_icon(IconNames.TARGET)
+
+    <span style="color: #569cd6;">if</span> test_mode == <span style="color: #b5cea8;">1</span>: radio.send_string(<span style="color: #ce9178;">"--- EXP6: Front ---"</span>)
+    <span style="color: #569cd6;">elif</span> test_mode == <span style="color: #b5cea8;">3</span>: radio.send_string(<span style="color: #ce9178;">"--- EXP6: ALL ---"</span>)
+    basic.pause(<span style="color: #b5cea8;">500</span>)
+
+    <span style="color: #569cd6;">while</span> current_x != target_x <span style="color: #569cd6;">or</span> current_y != target_y:
+        <span style="color: #569cd6;">if</span> current_y != target_y:
+            <span style="color: #569cd6;">if</span> current_y &lt; target_y: face_direction(<span style="color: #b5cea8;">0</span>)
+            <span style="color: #569cd6;">else</span>: face_direction(<span style="color: #b5cea8;">2</span>)
+            move_one_grid()
+        <span style="color: #569cd6;">elif</span> current_x != target_x:
+            <span style="color: #569cd6;">if</span> current_x &lt; target_x: face_direction(<span style="color: #b5cea8;">1</span>)
+            <span style="color: #569cd6;">else</span>: face_direction(<span style="color: #b5cea8;">3</span>)
+            move_one_grid()
+
+    <span style="color: #6a9955;"># 🌟 抵達終點後，強制轉向面朝北 (0)</span>
+    face_direction(<span style="color: #b5cea8;">0</span>)
+
+    <span style="color: #6a9955;"># 任務完美結束</span>
+    radio.send_string(<span style="color: #ce9178;">"Mission Clear!"</span>)
+    basic.show_icon(IconNames.HEART)
+
+<span style="color: #6a9955;"># --- 📡 萬能戰情室遙控接收區 ---</span>
+<span style="color: #569cd6;">def</span> on_received_string(receivedString):
+    <span style="color: #569cd6;">global</span> command_inbox, is_running
+    <span style="color: #569cd6;">if</span> is_running: <span style="color: #569cd6;">return</span>
+    <span style="color: #569cd6;">if</span> receivedString == <span style="color: #ce9178;">"A"</span> <span style="color: #569cd6;">or</span> receivedString == <span style="color: #ce9178;">"B"</span>:
+        command_inbox = receivedString
+radio.on_received_string(on_received_string)
+
+<span style="color: #569cd6;">def</span> on_button_pressed_a():
+    <span style="color: #569cd6;">global</span> command_inbox, is_running
+    <span style="color: #569cd6;">if</span> <span style="color: #569cd6;">not</span> is_running: command_inbox = <span style="color: #ce9178;">"A"</span>
+input.on_button_pressed(Button.A, on_button_pressed_a)
+
+<span style="color: #569cd6;">def</span> on_button_pressed_b():
+    <span style="color: #569cd6;">global</span> command_inbox, is_running
+    <span style="color: #569cd6;">if</span> <span style="color: #569cd6;">not</span> is_running: command_inbox = <span style="color: #ce9178;">"B"</span>
+input.on_button_pressed(Button.B, on_button_pressed_b)
+
+<span style="color: #6a9955;"># --- 🔄 主迴圈：處理遙控指令防當機 ---</span>
+<span style="color: #569cd6;">def</span> on_forever():
+    <span style="color: #569cd6;">global</span> command_inbox, test_mode, is_running
+
+    <span style="color: #569cd6;">if</span> command_inbox == <span style="color: #ce9178;">"A"</span>:
+        command_inbox = <span style="color: #ce9178;">""</span>
+        is_running = <span style="color: #569cd6;">True</span>
+        test_mode = <span style="color: #b5cea8;">1</span> <span style="color: #6a9955;"># 前方雷達模式</span>
+        run_navigation()
+        is_running = <span style="color: #569cd6;">False</span>
+
+    <span style="color: #569cd6;">elif</span> command_inbox == <span style="color: #ce9178;">"B"</span>:
+        command_inbox = <span style="color: #ce9178;">""</span>
+        is_running = <span style="color: #569cd6;">True</span>
+        test_mode = <span style="color: #b5cea8;">3</span> <span style="color: #6a9955;"># 三方雷達全開模式</span>
+        run_navigation()
+        is_running = <span style="color: #569cd6;">False</span>
+
+basic.forever(on_forever)
+
+<span style="color: #6a9955;"># --- 開機啟動設定 ---</span>
+<span style="color: #6a9955;"># 【關鍵新增】喚醒麥昆小車硬體</span>
+maqueenPlusV2.i2c_init()
+
+matrixLidarDistance.initialize(matrixLidarDistance.Addr.ADDR4, matrixLidarDistance.Matrix.MAT)
+matrixLidarDistance.initialize(matrixLidarDistance.Addr.ADDR1, matrixLidarDistance.Matrix.MAT)
+matrixLidarDistance.initialize(matrixLidarDistance.Addr.ADDR2, matrixLidarDistance.Matrix.MAT)
+
+<span style="color: #6a9955;"># 【關鍵新增】設定與戰情室相同的廣播頻道</span>
+radio.set_group(<span style="color: #b5cea8;">99</span>)
+radio.set_transmit_power(<span style="color: #b5cea8;">7</span>)
+basic.show_icon(IconNames.YES)</code></pre>
                 </div>
             </div>
 
