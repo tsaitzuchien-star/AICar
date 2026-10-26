@@ -154,6 +154,14 @@ summary { cursor: pointer; font-weight: 500; padding: 8px 0; min-height: 44px; d
 .chips { display: flex; flex-wrap: wrap; gap: 6px; }
 .chip { font-size: 13px; padding: 2px 10px; border-radius: 12px; }
 
+/* album */
+.album { margin-top: 22px; }
+.album-h { margin-bottom: 8px; }
+.album-h b { color: var(--amber); margin-right: 6px; }
+.album-row { display: grid; gap: 8px; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
+.album-row img { width: 100%; aspect-ratio: 1 / 1; object-fit: cover; border-radius: 6px; }
+.album-row a:focus-visible { outline: 3px solid var(--gold); }
+
 /* evidence */
 .evidence a { display: block; background: var(--night-2); border-radius: 10px; padding: 18px 20px; color: #F6F3EC; text-decoration: none; }
 .evidence a:hover { outline: 2px solid var(--gold); color: #F6F3EC; }
@@ -171,6 +179,7 @@ footer { padding: 32px 0 48px; font-size: 14px; color: var(--ink-2); }
     <a href="#journey">研究旅程</a>
     <a href="#lessons">失敗與修正</a>
     <a href="#data">數據中心</a>
+    <a href="#album">相簿</a>
     <a href="#videos">影片</a>
     <a href="lab.html">完整研究紀錄</a>
   </div>
@@ -356,7 +365,7 @@ footer { padding: 32px 0 48px; font-size: 14px; color: var(--ink-2); }
     <h2>一個寫程式，一個做硬體</h2>
     <div class="team">
       <div class="card member">
-        <div class="badge" aria-hidden="true">澔</div>
+        <img src="member_binghao.jpg" alt="哥哥秉澔在搭好的瓦楞板場地旁" loading="lazy" style="object-position: 50% 12%;">
         <div>
           <h3>蔡秉澔・六年級</h3>
           <div class="role">軟體：程式與演算法</div>
@@ -364,7 +373,7 @@ footer { padding: 32px 0 48px; font-size: 14px; color: var(--ink-2); }
         </div>
       </div>
       <div class="card member">
-        <img src="photo27.jpg" alt="秉宸親手組裝左側光學雷達" loading="lazy">
+        <img src="member_bingchen.jpg" alt="弟弟秉宸在組裝小車" loading="lazy" style="object-position: 50% 10%;">
         <div>
           <h3>蔡秉宸・四年級</h3>
           <div class="role">硬體：組裝與安裝</div>
@@ -460,6 +469,25 @@ footer { padding: 32px 0 48px; font-size: 14px; color: var(--ink-2); }
       <details><summary>看完整數據表</summary><div class="scroll" id="e6-table"></div></details>
       <p class="source">資料來源：實驗數據總表「實驗六：A柱死角與動態禮讓測試」・8/30 完成</p>
     </div>
+  </div>
+</section>
+
+<!-- 開發日誌相簿 -->
+<section id="album">
+  <div class="wrap">
+    <div class="eyebrow">開發日誌相簿</div>
+    <h2>我們一路走來的照片</h2>
+    <p class="muted">點照片可以看大圖。每個任務的完整過程在<a href="lab.html">完整研究紀錄</a>的開發日誌裡。</p>
+      <div class="album"><div class="album-h"><b>5/9</b> 搭建瓦楞板實驗場地</div><div class="album-row"><a href="photo1.jpg" target="_blank" rel="noopener"><img src="photo1.jpg" alt="搭建瓦楞板實驗場地照片 1" loading="lazy"></a></div></div>
+      <div class="album"><div class="album-h"><b>5/10</b> micro:bit 程式練習</div><div class="album-row"><a href="photo2.jpg" target="_blank" rel="noopener"><img src="photo2.jpg" alt="micro:bit 程式練習照片 1" loading="lazy"></a></div></div>
+      <div class="album"><div class="album-h"><b>5/13</b> 組裝麥昆 Plus V3 小車</div><div class="album-row"><a href="photo3.jpg" target="_blank" rel="noopener"><img src="photo3.jpg" alt="組裝麥昆 Plus V3 小車照片 1" loading="lazy"></a><a href="photo4.jpg" target="_blank" rel="noopener"><img src="photo4.jpg" alt="組裝麥昆 Plus V3 小車照片 2" loading="lazy"></a></div></div>
+      <div class="album"><div class="album-h"><b>5/13</b> 循線行駛與速度測試</div><div class="album-row"><a href="photo5.jpg" target="_blank" rel="noopener"><img src="photo5.jpg" alt="循線行駛與速度測試照片 1" loading="lazy"></a><a href="photo6.jpg" target="_blank" rel="noopener"><img src="photo6.jpg" alt="循線行駛與速度測試照片 2" loading="lazy"></a></div></div>
+      <div class="album"><div class="album-h"><b>5/14</b> 實驗一：夜盲症測試</div><div class="album-row"><a href="photo7.jpg" target="_blank" rel="noopener"><img src="photo7.jpg" alt="實驗一：夜盲症測試照片 1" loading="lazy"></a><a href="photo8.jpg" target="_blank" rel="noopener"><img src="photo8.jpg" alt="實驗一：夜盲症測試照片 2" loading="lazy"></a><a href="photo9.jpg" target="_blank" rel="noopener"><img src="photo9.jpg" alt="實驗一：夜盲症測試照片 3" loading="lazy"></a><a href="photo10.jpg" target="_blank" rel="noopener"><img src="photo10.jpg" alt="實驗一：夜盲症測試照片 4" loading="lazy"></a></div></div>
+      <div class="album"><div class="album-h"><b>5/17</b> 實驗三：最佳視角測試</div><div class="album-row"><a href="photo11.jpg" target="_blank" rel="noopener"><img src="photo11.jpg" alt="實驗三：最佳視角測試照片 1" loading="lazy"></a><a href="photo12.jpg" target="_blank" rel="noopener"><img src="photo12.jpg" alt="實驗三：最佳視角測試照片 2" loading="lazy"></a><a href="photo13.jpg" target="_blank" rel="noopener"><img src="photo13.jpg" alt="實驗三：最佳視角測試照片 3" loading="lazy"></a><a href="photo14.jpg" target="_blank" rel="noopener"><img src="photo14.jpg" alt="實驗三：最佳視角測試照片 4" loading="lazy"></a><a href="photo15.jpg" target="_blank" rel="noopener"><img src="photo15.jpg" alt="實驗三：最佳視角測試照片 5" loading="lazy"></a><a href="photo16.jpg" target="_blank" rel="noopener"><img src="photo16.jpg" alt="實驗三：最佳視角測試照片 6" loading="lazy"></a><a href="photo17.jpg" target="_blank" rel="noopener"><img src="photo17.jpg" alt="實驗三：最佳視角測試照片 7" loading="lazy"></a></div></div>
+      <div class="album"><div class="album-h"><b>5/20</b> 實驗二：材質與超音波對決</div><div class="album-row"><a href="photo18.jpg" target="_blank" rel="noopener"><img src="photo18.jpg" alt="實驗二：材質與超音波對決照片 1" loading="lazy"></a><a href="photo19.jpg" target="_blank" rel="noopener"><img src="photo19.jpg" alt="實驗二：材質與超音波對決照片 2" loading="lazy"></a><a href="photo20.jpg" target="_blank" rel="noopener"><img src="photo20.jpg" alt="實驗二：材質與超音波對決照片 3" loading="lazy"></a><a href="photo21.jpg" target="_blank" rel="noopener"><img src="photo21.jpg" alt="實驗二：材質與超音波對決照片 4" loading="lazy"></a><a href="photo22.jpg" target="_blank" rel="noopener"><img src="photo22.jpg" alt="實驗二：材質與超音波對決照片 5" loading="lazy"></a></div></div>
+      <div class="album"><div class="album-h"><b>5/21</b> 實驗四：生死一瞬間</div><div class="album-row"><a href="photo23.jpg" target="_blank" rel="noopener"><img src="photo23.jpg" alt="實驗四：生死一瞬間照片 1" loading="lazy"></a><a href="photo24.jpg" target="_blank" rel="noopener"><img src="photo24.jpg" alt="實驗四：生死一瞬間照片 2" loading="lazy"></a><a href="photo25.jpg" target="_blank" rel="noopener"><img src="photo25.jpg" alt="實驗四：生死一瞬間照片 3" loading="lazy"></a></div></div>
+      <div class="album"><div class="album-h"><b>5/27</b> 實驗五-A：窄山道避障</div><div class="album-row"><a href="photo26.jpg" target="_blank" rel="noopener"><img src="photo26.jpg" alt="實驗五-A：窄山道避障照片 1" loading="lazy"></a></div></div>
+      <div class="album"><div class="album-h"><b>8/30</b> 實驗六：三雷達與動態禮讓</div><div class="album-row"><a href="photo27.jpg" target="_blank" rel="noopener"><img src="photo27.jpg" alt="實驗六：三雷達與動態禮讓照片 1" loading="lazy"></a><a href="photo28.jpg" target="_blank" rel="noopener"><img src="photo28.jpg" alt="實驗六：三雷達與動態禮讓照片 2" loading="lazy"></a><a href="photo29.jpg" target="_blank" rel="noopener"><img src="photo29.jpg" alt="實驗六：三雷達與動態禮讓照片 3" loading="lazy"></a><a href="photo30.jpg" target="_blank" rel="noopener"><img src="photo30.jpg" alt="實驗六：三雷達與動態禮讓照片 4" loading="lazy"></a></div></div>
   </div>
 </section>
 
