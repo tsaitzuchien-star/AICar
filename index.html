@@ -198,10 +198,11 @@
 
             <div class="card purple-border" style="background-color: rgba(139, 92, 246, 0.05);">
                 <h3 style="color: var(--accent-purple);">🤖 誠實聲明：師生與 AI 的協作紀實 (符合教育部數位教學指引)</h3>
-                <p>在這次獨立研究中，為了確保研究的深度與廣度，我們採取了現代科學家最常使用的「人機協作」模式。本研究參考教育部《中小學數位教學指引3.0》（國家教育研究院，2024）的建議，實踐「適齡適性」與「引導善用」的科技精神：</p>
+                <p>在這次獨立研究中，為了確保研究的深度與廣度，我們採取了現代科學家最常使用的「人機協作」模式。本研究參考教育部《中小學數位教學指引3.0》（國家教育研究院，2024）的建議，以及教育部《國民中小學學生學習評量及作業使用生成式人工智慧注意事項》（114年3月3日臺教授國部字第1145500214號函）的規定，實踐「適齡適性」與「引導善用」的科技精神：</p>
                 <ul style="line-height: 1.8;">
                     <li><strong style="color: var(--accent-orange);">👨‍👩‍👦 家長陪伴與老師引導（成人陪伴原則）：</strong> 《中小學數位教學指引3.0》提醒：13 歲以下學生應避免直接使用開放性的生成式 AI 工具，國小階段宜在教師引導下使用。因此本研究沒有讓我們自己註冊或單獨操作 AI，而是由爸爸使用自己的帳號、在旁全程陪伴，我們一起討論問題、判斷 AI 的回答對不對，同時在洪瑞成老師的科學指導下進行。</li>
-                    <li><strong>💻 AI 作為「學習教練與夥伴」：</strong> 我們並非讓 AI 代筆，而是把大型語言模型（Gemini）當作「程式翻譯機」與「腦力激盪教練」。我們將想好的實驗邏輯透過討論轉化為程式，並利用 AI 共同解決「A柱死角」與「石虎路殺」等真實世界的重大社會議題，藉此培養解決真實問題的 AI 素養。</li>
+                    <li><strong>💻 AI 作為「學習教練與夥伴」：</strong> 我們並非讓 AI 代筆，而是把大型語言模型當作「程式翻譯機」與「腦力激盪教練」：5～9 月使用 Gemini，10 月起使用 Claude（協助把燒錄檔還原成可讀程式碼、整理實驗數據與說明書草稿）。我們將想好的實驗邏輯透過討論轉化為程式，並利用 AI 共同解決「A柱死角」與「石虎路殺」等真實世界的重大社會議題，藉此培養解決真實問題的 AI 素養。</li>
+                    <li><strong>📝 標示與留存紀錄：</strong> 依照教育部注意事項，我們會標示哪些內容有 AI 協助、使用了哪一個 AI 工具，並以截圖或對話連結保存 AI 的協作過程，供老師與評審查核。</li>
                     <li><strong>👨‍🔬 兄弟聯手：軟硬體雙劍合璧：</strong> 我們是整個計畫的「執行科學家」。所有的物理實驗、賽道搭建、以及雷達高度的精準測量，都是我們和弟弟親手完成的。「程式邏輯判斷」也全由我們主導（例如：發現資料傳輸會塞車，是我們決定加入 0.2 秒的排隊機制）。</li>
                     <li><strong>🏆 實測推翻理論（科學家精神）：</strong> 最重要的是，AI 一開始曾用理論推測「雷射光像手電筒會擴散，15cm 高度應能掃到目標」。但是，<strong>我們親自量測的真實實驗數據狠狠地推翻了 AI 的猜測！</strong> 這讓我們學到，AI 只能給建議，真正的科學真理必須靠我們自己動手做實驗來證明！</li>
                 </ul>
@@ -284,7 +285,7 @@
                     <h4 style="color: var(--accent-green); margin-top: 0; margin-bottom: 12px; font-size: 1.1rem;">💡 我們的實驗後心得（已完成實測！）</h4>
                     <p style="margin-top: 0; margin-bottom: 10px; color: var(--accent-glow);">「真實的數據推翻了我們原本天真的推測！」</p>
                     <ul style="margin-bottom: 0; padding-left: 20px; line-height: 1.8; list-style-type: none;">
-                        <li>🔦 <strong>越頂盲區的發現：</strong> 我們原本以為光束會像手電筒一樣大範圍擴散。但實測發現，光束邊緣能量太弱，安裝在 15cm 高度時，光束直接從 11cm 的目標頭頂越過，完全測不到！這證實了「垂直死角」的存在。</li>
+                        <li>🔦 <strong>越頂盲區的發現：</strong> 我們原本以為光束會像手電筒一樣大範圍擴散。但我們的程式只讀 8×8 矩陣中的 (3,3) 這一格，視角只有約 7.5°，安裝在 15cm 高度時，這道窄光束直接從 11cm 的目標頭頂越過，完全測不到！（8×8 的正中心落在四格交界，所以 (3,3) 的視線可能略偏離正前方，這點還需要實測確認。）這證實了「垂直死角」的存在。</li>
                         <li>⚠️ <strong>觸地雜訊的致命傷：</strong> 當雷達降到 5cm 時，只要距離拉長到 90cm，光束的下半部就會提早打到地面，產生嚴重的「漫反射雜訊」，導致系統提早瞎掉。</li>
                         <li>🏆 <strong>發現黃金視角：</strong> 我們深刻體會到，防撞雷達的安裝高度必須「精準對齊」目標物的平均高度！10cm 的中位才是能避開這兩種垂直死角的完美黃金視角！</li>
                     </ul>
@@ -424,7 +425,7 @@
                 <p>5月17日，我們和弟弟秉宸再次聯手出擊，順利完成「實驗三」的數據蒐集！這次我們挑戰找出光學雷達的「最佳黃金視角」，實測過程中的物理現象真的讓我們大開眼界！</p>
                 <ul>
                     <li><strong>📏 硬體改裝 (photo11~13)：</strong> 為了確保變因準確，我們拿著直尺小心翼翼地測量，將光學雷達精準安裝在 5cm (低位)、10cm (中位) 與 15cm (高位) 三種不同的測試高度。</li>
-                    <li><strong>💻 大腦升級 (photo14)：</strong> 我們正在修改 MicroPython 核心程式碼，為實驗三加入專屬的通訊標籤，並將最新程式燒錄到小車的大腦裡準備上陣！</li>
+                    <li><strong>💻 大腦升級 (photo14)：</strong> 我們正在修改 MakeCode Python 核心程式碼，為實驗三加入專屬的通訊標籤，並將最新程式燒錄到小車的大腦裡準備上陣！</li>
                     <li><strong>🚗 戰場實測 (photo15)：</strong> 實驗正式啟動！小車在賽道上精準對準目標，我們反覆測量「模擬目標」在不同距離下感測器的真實反應。</li>
                     <li><strong>👀 戰情監控 (photo16)：</strong> 我們和秉宸化身數據分析師，雙眼緊盯著基地台接收到的序列埠數據，深怕漏掉任何一次跳動，並將重要數據截圖存入 Word 檔案中妥善保存。</li>
                     <li><strong>📊 數據彙整 (photo17)：</strong> 實驗結束後，我們親自將一筆筆珍貴的原始數據輸入到 Excel 試算表中，準備用它們來畫出最專業的「成功率折線圖」！</li>
@@ -444,7 +445,7 @@
                 <h3>✅ 任務八：完成實驗四（生死一瞬間）數據蒐集-5/21完成</h3>
                 <p>5月21日，我們進行了實驗四的極限測試！這次要挑戰物理學的「慣性」，找出小車在不同速度下的實際煞車滑行距離，藉此建立最安全的系統預警邊際。</p>
                 <ul>
-                    <li><strong>💻 大腦連線準備 (photo23)：</strong> 實驗開始前，我們正專注地將緊急煞車的邏輯寫入 MicroPython，並準備燒錄到小車大腦中。</li>
+                    <li><strong>💻 大腦連線準備 (photo23)：</strong> 實驗開始前，我們正專注地將緊急煞車的邏輯寫入 MakeCode Python，並準備燒錄到小車大腦中。</li>
                     <li><strong>🏎️ 起跑線待命 (photo24)：</strong> 麥昆小車在起跑線上蓄勢待發，準備以不同的速度（20, 30, 40 cm/s）衝刺，測試生死一瞬間的煞停極限！</li>
                     <li><strong>👀 戰情監控與紀錄 (photo25)：</strong> 我們一邊緊盯著小車衝刺與煞車的動態，一邊看著電腦螢幕接收到的戰情室訊號，把珍貴的滑行距離一筆筆記錄下來。</li>
                 </ul>
@@ -695,7 +696,7 @@
                 </div>
 
                 <h4 style="color: var(--accent-glow); margin-top: 30px;">2. 小車端（發射端）最終優化版程式碼</h4>
-                <p>這是我們使用 MicroPython 撰寫的核心大腦！裡面包含了 LiDAR 讀取、毫米換算公分、計算平均值，以及為了解決通訊碰撞而加入的 <code>200ms</code> 無線電排隊廣播機制。</p>
+                <p>這是我們使用 MakeCode Python 撰寫的核心大腦！裡面包含了 LiDAR 讀取、毫米換算公分、計算平均值，以及為了解決通訊碰撞而加入的 <code>200ms</code> 無線電排隊廣播機制。</p>
                 
                 <div style="background-color: #1e1e1e; padding: 15px; border-radius: 8px; overflow-x: auto; border: 1px solid #334155; box-shadow: inset 0 0 10px rgba(0,0,0,0.5);">
 <pre style="margin: 0; color: #d4d4d4; font-family: Consolas, 'Courier New', monospace; font-size: 0.95rem; line-height: 1.5;"><code><span style="color: #569cd6;">def</span> <span style="color: #dcdcaa;">on_button_pressed_a</span>():
@@ -839,7 +840,7 @@ basic.show_icon(IconNames.HAPPY)
 
                 <h4 style="color: var(--accent-glow); margin-top: 30px;">2. 小車端（發射端）最終優化版程式碼與物理解析</h4>
                 <p>為了讓戰情中心更容易辨識，我們特別將廣播的標籤升級為 <code>L3_Count</code> 與 <code>--- EXP 3 START ---</code>。這套程式讓我們發現了最驚人的事實：<strong style="color: var(--accent-orange);">「垂直視野死角真實存在！」</strong></p>
-                <p>原本我們預測光束會像手電筒一樣呈現大圓盤狀擴散，就算裝在 15cm 高，邊緣的餘光應該也能掃到 11cm 的目標。但實測數據狠狠地推翻了這個想像——邊緣的能量太弱了，加上深色絨毛的吸光特性，導致高位 (15cm) 完完全全測不到（Overshoot 越頂盲區）！</p>
+                <p>原本我們預測光束會像手電筒一樣呈現大圓盤狀擴散，就算裝在 15cm 高，邊緣的餘光應該也能掃到 11cm 的目標。但實測數據狠狠地推翻了這個想像——我們只讀取中央 (3,3) 一格，視角只有約 7.5°，根本沒有「邊緣餘光」可用，加上深色絨毛的吸光特性，導致高位 (15cm) 完完全全測不到（Overshoot 越頂盲區）！</p>
                 
                 <div style="background-color: #1e1e1e; padding: 15px; border-radius: 8px; overflow-x: auto; border: 1px solid #334155; box-shadow: inset 0 0 10px rgba(0,0,0,0.5);">
 <pre style="margin: 0; color: #d4d4d4; font-family: Consolas, 'Courier New', monospace; font-size: 0.95rem; line-height: 1.5;"><code><span style="color: #569cd6;">def</span> <span style="color: #dcdcaa;">on_received_string</span>(receivedString):
@@ -900,7 +901,7 @@ basic.show_icon(IconNames.YES)
 
             <div id="appendix-exp4" class="card purple-border" style="margin-top: 40px; background-color: rgba(139, 92, 246, 0.05); display: none;">
                 <h3 style="color: var(--accent-purple);">📂 實驗四附錄：核心程式碼與原始數據佐證</h3>
-                <p>這場「生死一瞬間」的速度與煞車極限測試，我們透過 MicroPython 精準捕捉了小車從收到煞車指令到完全靜止的滑行距離。</p>
+                <p>這場「生死一瞬間」的速度與煞車極限測試，我們透過 MakeCode Python 精準捕捉了小車從收到煞車指令到完全靜止的滑行距離。</p>
                 
                 <h4 style="color: var(--accent-glow); margin-top: 20px;">1. 原始數據截圖 (Raw Data)</h4>
                 <p style="line-height: 1.6;">我們測試了不同的速度參數，並將五次測量的滑行距離精準回傳至戰情室。這些真實數據證明了物理慣性對自動駕駛安全的絕對影響！這也是我們後續設計避障參數的科學根據。</p>
@@ -1042,7 +1043,7 @@ basic.show_icon(IconNames.HAPPY)
 
             <div id="appendix-exp6" class="card purple-border" style="margin-top: 40px; background-color: rgba(139, 92, 246, 0.05); display: none;">
                 <h3 style="color: var(--accent-purple);">📂 實驗五-B附錄：核心程式碼與原始數據佐證</h3>
-                <p>這是整個專案最令人驕傲的成果！我們透過 MicroPython 將小車升級成了具備「網格座標記憶」、「曼哈頓動態尋路」與「鷹眼四眼防墜崖」的無偏見 AI 大腦。</p>
+                <p>這是整個專案最令人驕傲的成果！我們透過 MakeCode Python 將小車升級成了具備「網格座標記憶」、「曼哈頓動態尋路」與「鷹眼四眼防墜崖」的無偏見 AI 大腦。</p>
                 
                 <h4 style="color: var(--accent-glow); margin-top: 30px;">小車端（發射端）終極大一統程式碼</h4>
                 <p>這段程式碼是我們整個獨立研究的心血結晶！我們沒有幫小車寫死任何路線，而是教它『如何思考』：</p>
