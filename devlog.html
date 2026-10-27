@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>開發日誌｜零死角全生命守護</title>
+<meta name="description" content="秉澔和秉宸從 5/9 搭場地開始，到 10 月改成弧線轉彎，每一個任務的照片、影片、失敗和修正。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="site.css">
+<style>
+.tl { list-style: none; margin: 0; padding: 0; position: relative; }
+.tl::before { content: ""; position: absolute; left: 70px; top: 6px; bottom: 6px; width: 3px; background: var(--line); border-radius: 2px; }
+.ev { display: grid; grid-template-columns: 58px minmax(0, 1fr); gap: 28px; margin-bottom: 18px; position: relative; }
+.ev .when { font-weight: 700; text-align: right; padding-top: 18px; font-size: 15px; color: var(--ink-2); }
+.ev::after { content: ""; position: absolute; left: 65px; top: 22px; width: 13px; height: 13px; border-radius: 7px; background: var(--forest); border: 3px solid var(--paper); }
+.ev.fail::after { background: var(--bad); }
+.ev.turn::after { background: #C27A1A; }
+.ev.fail .card { border-color: #E8C4BC; background: #FFFBFA; }
+.ev.turn .card { border-color: #EBD3A8; background: #FFFCF5; }
+.ev .card h3 { margin-top: 6px; }
+.ev .thumbs { margin-top: 12px; }
+@media (max-width: 600px) {
+  .tl::before { left: 6px; }
+  .ev { grid-template-columns: minmax(0, 1fr); gap: 4px; padding-left: 26px; }
+  .ev .when { text-align: left; padding-top: 0; }
+  .ev::after { left: 1px; top: 4px; }
+}
+.together { display: flex; flex-wrap: wrap; gap: 20px; align-items: center; margin-top: 26px; }
+.together img { width: 84px; height: 84px; border-radius: 42px; object-fit: cover; border: 3px solid var(--gold); }
+.together .pics { display: flex; gap: 10px; }
+.together p { flex: 1 1 300px; min-width: 0; margin: 0; color: var(--night-text); }
+</style>
+</head>
+<body>
+
+<nav class="topnav" aria-label="網站導覽">
+  <div class="wrap">
+    <a class="brand" href="index.html">零死角全生命守護</a>
+    <a href="story.html">研究故事</a>
+    <a href="experiments.html">六個實驗</a>
+    <a href="devlog.html" aria-current="page">開發日誌</a>
+    <a href="data.html">數據中心</a>
+    <a href="qa.html">問題與回答</a>
+    <a href="code.html">程式</a>
+    <a href="about.html">關於我們</a>
+  </div>
+</nav>
+
+<header class="dark page-head">
+  <div class="wrap">
+    <div class="eyebrow">開發日誌</div>
+    <h1>從搭場地開始，一步一步做出來</h1>
+    <p class="lead">5 月 9 日我們用瓦楞板搭出第一條車道，之後組小車、寫程式、做了六個實驗。成功的、失敗的，我們都記下來了。</p>
+    <div class="kpis">
+      <div class="kpi"><b>15 個任務</b><span>5/9 到 10 月</span></div>
+      <div class="kpi"><b>30 張照片</b><span>11 支影片</span></div>
+      <div class="kpi"><b>5 次失敗</b><span>每一次都找到原因再改</span></div>
+      <div class="kpi"><b>4 個轉折點</b><span>老師的問題讓研究轉彎</span></div>
+    </div>
+    <div class="together">
+      <div class="pics"><img src="member_binghao.jpg" alt="哥哥秉澔"><img src="member_bingchen.jpg" alt="弟弟秉宸"></div>
+      <p>這些事情大部分都是我們兩個一起做的。弟弟比較常動手組裝和開車，哥哥比較常寫程式，但遇到問題的時候，我們會一起想、一起試。</p>
+    </div>
+  </div>
+</header>
+
+<section>
+  <div class="wrap">
+    <div class="filters" data-target="#tl" role="group" aria-label="篩選"><button type="button" data-f="all" aria-pressed="true">全部</button><button type="button" data-f="exp1" aria-pressed="false">實驗一</button><button type="button" data-f="exp2" aria-pressed="false">實驗二</button><button type="button" data-f="exp3" aria-pressed="false">實驗三</button><button type="button" data-f="exp4" aria-pressed="false">實驗四</button><button type="button" data-f="exp5a" aria-pressed="false">實驗五-A</button><button type="button" data-f="exp5b" aria-pressed="false">實驗五-B</button><button type="button" data-f="exp6" aria-pressed="false">實驗六</button><button type="button" data-f="fail" aria-pressed="false">失敗與修正</button><button type="button" data-f="turn" aria-pressed="false">轉折點</button></div>
+    <ol class="tl" id="tl">
+<li class="ev task" data-tags="prep"><div class="when">5/9</div><div class="card"><div><span class="tag ">準備與整理</span></div><h3>任務一：搭好瓦楞板實驗場地</h3><p>這是我們兄弟倆一起做的實驗車道。</p><div class="thumbs"><button type="button" data-full="photo1.jpg" data-cap="瓦楞板實驗車道"><img src="photo1.jpg" alt="瓦楞板實驗車道" loading="lazy"></button></div></div></li>
+<li class="ev task" data-tags="prep"><div class="when">5/10</div><div class="card"><div><span class="tag ">準備與整理</span></div><h3>任務二：micro:bit 程式練習</h3><p>我們自己設計了會自動跑 A～Z 跑馬燈、還會發出聲音的測試程式。</p><div class="thumbs"><button type="button" data-full="photo2.jpg" data-cap="micro:bit 跑馬燈測試"><img src="photo2.jpg" alt="micro:bit 跑馬燈測試" loading="lazy"></button></div></div></li>
+<li class="ev task" data-tags="prep"><div class="when">5/13</div><div class="card"><div><span class="tag ">準備與整理</span></div><h3>任務三：組裝麥昆 Plus V3 小車</h3><p>今天我們兄弟倆協力完成了麥昆 Plus V3 智能擴充小車的硬體組裝！這台小車將會是我們接下來進行光學雷達避障測試的核心載具。</p><div class="thumbs"><button type="button" data-full="photo3.jpg" data-cap="組裝麥昆小車"><img src="photo3.jpg" alt="組裝麥昆小車" loading="lazy"></button><button type="button" data-full="photo4.jpg" data-cap="組裝完成的小車"><img src="photo4.jpg" alt="組裝完成的小車" loading="lazy"></button></div></div></li>
+<li class="ev task" data-tags="prep"><div class="when">5/13</div><div class="card"><div><span class="tag ">準備與整理</span></div><h3>任務四：循線行駛與速度極限測試</h3><p>我們兄弟倆合力進行了麥昆小車的第一個實驗：讓小車沿著黑線繞圈圈。在過程中，我們不斷修改與調整直線及轉彎的速度參數。這項實驗的目的是要找出小車在維持穩定循線的前提下，所能達到的速度極限。</p><div class="thumbs"><button type="button" data-full="photo5.jpg" data-cap="循線測試"><img src="photo5.jpg" alt="循線測試" loading="lazy"></button><button type="button" data-full="photo6.jpg" data-cap="調整速度參數"><img src="photo6.jpg" alt="調整速度參數" loading="lazy"></button></div><div class="media-grid" style="margin-top:12px"><figure><video src="video1.mp4" controls preload="none"></video><figcaption>循線行駛測試</figcaption></figure></div></div></li>
+<li class="ev task" data-tags="exp1"><div class="when">5/14</div><div class="card"><div><span class="tag exp">實驗一</span></div><h3>任務五：完成實驗一（夜盲症測試）</h3><p>我們兄弟倆合力完成了實驗一！透過三種不同的光線情境（正常日光燈、手電筒強光、關燈全黑）反覆進行實驗，並調整不同的測量距離。在這過程中，我們不僅順利排除了程式的 Bug，還發現了幾個很棒的科學結果，這證明了我們的「全生命守護系統」真的不怕黑！</p><div class="thumbs"><button type="button" data-full="photo7.jpg" data-cap="實驗一"><img src="photo7.jpg" alt="實驗一" loading="lazy"></button><button type="button" data-full="photo8.jpg" data-cap="實驗一"><img src="photo8.jpg" alt="實驗一" loading="lazy"></button><button type="button" data-full="photo9.jpg" data-cap="實驗一"><img src="photo9.jpg" alt="實驗一" loading="lazy"></button><button type="button" data-full="photo10.jpg" data-cap="實驗一"><img src="photo10.jpg" alt="實驗一" loading="lazy"></button></div></div></li>
+<li class="ev task" data-tags="exp3"><div class="when">5/17</div><div class="card"><div><span class="tag exp">實驗三</span></div><h3>任務七：完成實驗三（最佳視角測試）</h3><p>5 月 17 日，我們兄弟倆再次聯手出擊，順利完成「實驗三」的數據蒐集！這次我們挑戰找出光學雷達的「最佳黃金視角」。</p><p>📏 硬體改裝：我們拿著直尺小心翼翼地測量，將光學雷達精準安裝在 5cm（低位）、10cm（中位）與 15cm（高位）三種不同的測試高度。</p><p>💻 修改程式：我們修改 MakeCode Python 程式，為實驗三加入專屬的通訊標籤，再燒錄到小車裡。</p><p>👀 盯著數據：我們和秉宸雙眼緊盯著基地台接收到的數據，深怕漏掉任何一次跳動，並將重要數據截圖存起來。</p><p>📊 整理數據：實驗結束後，我們把一筆筆原始數據輸入到 Excel 試算表中。</p><div class="thumbs"><button type="button" data-full="photo11.jpg" data-cap="量雷達高度"><img src="photo11.jpg" alt="量雷達高度" loading="lazy"></button><button type="button" data-full="photo12.jpg" data-cap="安裝雷達"><img src="photo12.jpg" alt="安裝雷達" loading="lazy"></button><button type="button" data-full="photo13.jpg" data-cap="三種高度"><img src="photo13.jpg" alt="三種高度" loading="lazy"></button><button type="button" data-full="photo14.jpg" data-cap="修改程式"><img src="photo14.jpg" alt="修改程式" loading="lazy"></button><button type="button" data-full="photo15.jpg" data-cap="實測"><img src="photo15.jpg" alt="實測" loading="lazy"></button><button type="button" data-full="photo16.jpg" data-cap="盯著數據"><img src="photo16.jpg" alt="盯著數據" loading="lazy"></button><button type="button" data-full="photo17.jpg" data-cap="輸入試算表"><img src="photo17.jpg" alt="輸入試算表" loading="lazy"></button></div></div></li>
+<li class="ev fail" data-tags="fail"><div class="when">5/17</div><div class="card"><div><span class="tag fail">失敗與修正</span></div><h3>數字變成亂碼</h3><p>遇到的問題：讓雷達一直量、一直傳，結果兩塊 micro:bit 的資料撞在一起，電腦收到的數字變成亂碼。</p><p>改法：在程式裡加了 basic.pause(200)，每次等 0.2 秒再傳，資料排好隊一個一個傳，數字就變整齊了。</p></div></li>
+<li class="ev task" data-tags="exp2"><div class="when">5/20</div><div class="card"><div><span class="tag exp">實驗二</span></div><h3>任務六：完成實驗二（材質與超音波對決）</h3><p>5 月 20 日，超音波感測器終於到貨！我們兄弟倆合力完成了這場最精彩的「感測器生死鬥」。</p><p>📦 測試材質：白色紙板（高反光）、棕色紙板（漫反射）以及最關鍵的黑色絨毛玩偶（很會吸光也很會吸音）。</p><p>🛠️ 雙感測器戰車：把光學雷達與超音波感測器裝在小車上同一個位置、同一個高度，公平對決。</p><p>🚗 實驗進行中：我們分工合作，反覆測試 30 到 150 公分的距離，耐心等待兩種感測器輪流回傳數據。</p><div class="thumbs"><button type="button" data-full="photo18.jpg" data-cap="測試材質"><img src="photo18.jpg" alt="測試材質" loading="lazy"></button><button type="button" data-full="photo19.jpg" data-cap="雙感測器"><img src="photo19.jpg" alt="雙感測器" loading="lazy"></button><button type="button" data-full="photo20.jpg" data-cap="實驗中"><img src="photo20.jpg" alt="實驗中" loading="lazy"></button><button type="button" data-full="photo21.jpg" data-cap="實驗中"><img src="photo21.jpg" alt="實驗中" loading="lazy"></button><button type="button" data-full="photo22.jpg" data-cap="看數據"><img src="photo22.jpg" alt="看數據" loading="lazy"></button></div></div></li>
+<li class="ev task" data-tags="exp4"><div class="when">5/21</div><div class="card"><div><span class="tag exp">實驗四</span></div><h3>任務八：完成實驗四（生死一瞬間）</h3><p>5 月 21 日，我們進行了實驗四的極限測試！這次要挑戰物理學的「慣性」，找出小車在不同速度下的實際煞車滑行距離。</p><p>💻 實驗開始前，我們把緊急煞車的程式寫好，燒錄到小車裡。</p><p>🏎️ 小車在起跑線上準備以 20、30、40 cm/s 衝刺，測試煞車的極限！</p><p>👀 我們一邊看小車衝刺和煞車，一邊看電腦收到的數字，把滑行距離一筆筆記下來。</p><div class="thumbs"><button type="button" data-full="photo23.jpg" data-cap="寫煞車程式"><img src="photo23.jpg" alt="寫煞車程式" loading="lazy"></button><button type="button" data-full="photo24.jpg" data-cap="起跑線"><img src="photo24.jpg" alt="起跑線" loading="lazy"></button><button type="button" data-full="photo25.jpg" data-cap="記錄滑行距離"><img src="photo25.jpg" alt="記錄滑行距離" loading="lazy"></button></div><div class="media-grid" style="margin-top:12px"><figure><video src="video2.mp4" controls preload="none"></video><figcaption>煞車測試</figcaption></figure></div></div></li>
+<li class="ev turn" data-tags="turn"><div class="when">5/21</div><div class="card"><div><span class="tag star">轉折點</span></div><h3>老師問：會很常遇到石虎嗎？可以換成人嗎？</h3><p>我們覺得很好，因為車子撞到人也很危險。從這天起，我們要保護的對象從石虎變成「石虎和行人」，研究名稱也變成「零死角全生命守護」。</p></div></li>
+<li class="ev turn" data-tags="turn"><div class="when">5/22</div><div class="card"><div><span class="tag star">轉折點</span></div><h3>研究動機改成「視野死角」</h3><p>老師建議把研究動機改成視野死角。我們發現車子轉彎時，前面那顆雷達看不到旁邊，這就是後來實驗五-B 和實驗六要解決的問題。</p></div></li>
+<li class="ev task" data-tags="exp5b"><div class="when">5/24</div><div class="card"><div><span class="tag exp">實驗五-B</span></div><h3>任務九：完成實驗五-B（24 宮格）</h3><p>5 月 24 日，我們迎來了「網格導航關卡」！這是在模擬沒有預先載入地圖的情況下，小車如何靠自己探索並避開不知道在哪裡的障礙物。</p><p>🚧 實驗前，我們仔細擺好模擬石虎與行人的路障，也反覆調整小車原地轉 90 度的角度，讓車身轉彎時不會碰到邊界或路障。</p><p>🏎️ 小車結合了光學雷達和網格記憶，在 24 宮格裡連續閃開路障，還會從死胡同裡退出來！</p><div class="media-grid" style="margin-top:12px"><figure><video src="video3.mp4" controls preload="none"></video><figcaption>擺路障、調整轉彎</figcaption></figure><figure><video src="video4.mp4" controls preload="none"></video><figcaption>24 宮格實際避障</figcaption></figure></div></div></li>
+<li class="ev task" data-tags="exp5a"><div class="when">5/27</div><div class="card"><div><span class="tag exp">實驗五-A</span></div><h3>任務十：完成實驗五-A（窄山路對決）</h3><p>5 月 27 日，我們完成了 11 公分窄山路的對決！小車寬 10 公分，兩邊只剩 0.5 公分的縫。</p><p>🎯 我們把實驗四量到的煞車距離直接寫進實驗五-A 的程式裡，當作提早煞車的距離。</p><p>⚔️ 光學雷達在 20、30、40 cm/s 都能煞車和轉彎成功。超音波在 40 cm/s 時，聲音散開碰到兩邊的山壁，在離路障 40 公分就誤判，提早煞車或提早轉彎撞牆！</p><div class="thumbs"><button type="button" data-full="photo26.jpg" data-cap="窄山路賽道"><img src="photo26.jpg" alt="窄山路賽道" loading="lazy"></button></div><div class="media-grid" style="margin-top:12px"><figure><video src="video5.mp4" controls preload="none"></video><figcaption>光學雷達 20 cm/s 轉向成功</figcaption></figure><figure><video src="video6.mp4" controls preload="none"></video><figcaption>光學雷達 30 cm/s 轉向成功</figcaption></figure><figure><video src="video7.mp4" controls preload="none"></video><figcaption>光學雷達 40 cm/s 轉向成功</figcaption></figure><figure><video src="video8.mp4" controls preload="none"></video><figcaption>超音波 40 cm/s 誤判山壁、提前轉向撞牆</figcaption></figure><figure><video src="video9.mp4" controls preload="none"></video><figcaption>超音波 40 cm/s 誤判山壁、提前煞車</figcaption></figure></div></div></li>
+<li class="ev turn" data-tags="turn"><div class="when">6/7</div><div class="card"><div><span class="tag star">轉折點</span></div><h3>老師問：可以在左右各裝一顆雷達，補上 A 柱死角嗎？</h3><p>我們想到可以在車頭裝三顆雷達：正前方一顆，左前和右前各一顆，變成 180 度的防護罩。老師又問「可以停下來等行人通過再走嗎？」，這兩個問題就變成了實驗六。</p></div></li>
+<li class="ev task" data-tags="prep"><div class="when">6/15</div><div class="card"><div><span class="tag ">準備與整理</span></div><h3>整理出五大核心關鍵字</h3><p>目標 ➡️ 硬體 ➡️ 痛點 ➡️ 軟體 ➡️ 成果：路徑規劃、光學雷達、視野死角、網格記憶、動態避障。</p></div></li>
+<li class="ev task" data-tags="prep"><div class="when">8/16</div><div class="card"><div><span class="tag ">準備與整理</span></div><h3>做出「迷霧探測對決」遊戲</h3><p>老師出了一個題目：障礙物隨機放、地圖蓋起來、只看得到起點和終點。我們把它做成網站上的小遊戲，人和 AI 大腦比比看誰走的步數比較少。</p></div></li>
+<li class="ev task" data-tags="exp6"><div class="when">8/30</div><div class="card"><div><span class="tag exp">實驗六</span></div><h3>任務十一：完成實驗六（三顆雷達和 A 柱死角）</h3><p>8 月 30 日，我們完成了最帥的壓軸關卡「A 柱死角防護與動態禮讓」！小車升級成有 180 度防護網的「三眼戰車」。</p><p>🛠️ 硬體改裝：我們在小車左右兩邊各多裝一顆光學雷達，用 I2C 指撥開關分配不同位址（ADDR4、ADDR1、ADDR2），還把左右雷達往外轉大約 45 度，變成「外八字」。</p><p>🤖 實測分工：弟弟負責啟動和控制小車，哥哥拿鋼彈模型當過馬路的行人。</p><p>🚦 結果：只有一顆雷達時，車子左轉直接撞上死角裡的行人。三顆雷達時，車子轉彎一開始就用左眼看到行人，馬上煞車亮紅燈；行人走開後亮綠燈，繼續轉彎開到終點 (3,3)。</p><div class="thumbs"><button type="button" data-full="photo27.jpg" data-cap="三眼戰車"><img src="photo27.jpg" alt="三眼戰車" loading="lazy"></button><button type="button" data-full="photo28.jpg" data-cap="安裝左右雷達"><img src="photo28.jpg" alt="安裝左右雷達" loading="lazy"></button><button type="button" data-full="photo29.jpg" data-cap="三顆雷達"><img src="photo29.jpg" alt="三顆雷達" loading="lazy"></button><button type="button" data-full="photo30.jpg" data-cap="鋼彈行人"><img src="photo30.jpg" alt="鋼彈行人" loading="lazy"></button></div><div class="media-grid" style="margin-top:12px"><figure><video src="video10.mp4" controls preload="none"></video><figcaption>兄弟合作！A 柱死角動態禮讓實測</figcaption></figure></div></div></li>
+<li class="ev fail" data-tags="fail"><div class="when">8/30</div><div class="card"><div><span class="tag fail">失敗與修正</span></div><h3>轉彎轉過頭、跑馬燈害車子煞不住</h3><p>遇到的問題 1：讀雷達要花時間，轉彎算不準，結果轉到超過 150 度。改法：用 input.running_time() 這個「碼表」算馬達轉多久，就轉得準了。</p><p>遇到的問題 2：車子顯示跑馬燈英文字時會卡大約 1 秒，看到行人卻來不及煞車，直接撞上。改法：拿掉跑馬燈，改成一下就顯示完的圖示。</p><p>遇到的問題 3：轉彎時行人是斜的，距離變遠了，雷達看不到。改法：轉彎時把側邊雷達的煞車距離加大到 25 公分。</p></div></li>
+<li class="ev task" data-tags="prep"><div class="when">9/21</div><div class="card"><div><span class="tag ">準備與整理</span></div><h3>把所有程式整理成最新版</h3><p>我們把每個實驗的程式都整理好，存成「0921 最新版」，網站上的程式也全部換成這一版。</p></div></li>
+<li class="ev turn" data-tags="turn"><div class="when">9/30</div><div class="card"><div><span class="tag star">轉折點</span></div><h3>老師的三個新問題</h3><p>雷達在幾公分會看到鋼彈小人？有效距離是幾公分？小車和真的車差多少？前兩題我們正在用鋼彈實際量，量完會補上真正的數字。</p></div></li>
+<li class="ev task" data-tags="exp5b exp6"><div class="when">10 月</div><div class="card"><div><span class="tag exp">實驗五-B</span><span class="tag exp">實驗六</span></div><h3>改成像真車一樣開：連續前進、弧線轉彎</h3><p>洪老師提醒我們：真的車不會每走一格就停一下，也不會原地轉 90 度。我們把五-B 和六的程式改成不停車、轉彎畫弧線，遇到行人一樣停、看、聽。</p><div class="media-grid" style="margin-top:12px"><figure><video src="video11.mp4" controls preload="none"></video><figcaption>原本的開法：每格停一下、原地轉</figcaption></figure></div></div></li>
+<li class="ev fail" data-tags="fail"><div class="when">10/27</div><div class="card"><div><span class="tag fail">失敗與修正</span></div><h3>弧線版第一次測試：開不到終點</h3><p>遇到的問題：五-B 弧線版畫完一個右彎，又要停下來原地左轉，轉一次歪一點，最後開不到 (3,4)。</p><p>改法：出發前先把整條路線算好，選轉彎最少的路；再用車上的按鈕校正弧線轉 90 度要多久。正在測試中。</p></div></li>
+    </ol>
+  </div>
+</section>
+
+<footer><div class="wrap">南投縣光華國小　蔡秉澔、蔡秉宸　指導老師：洪瑞成</div></footer>
+<script src="site.js"></script>
+</body>
+</html>
