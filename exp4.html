@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>實驗四 生死一瞬間｜零死角全生命守護</title>
+<meta name="description" content="實驗四：小車在三種速度下煞車會滑多遠，算出要多早開始煞車。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="site.css">
+<style>
+.chart { margin: 0; }
+.chart .ct { font-weight: 700; font-size: 16px; color: var(--ink); margin: 0 0 6px; }
+.chart svg { width: 100%; height: auto; display: block; background: var(--card); border: 1px solid var(--line); border-radius: 10px; }
+.chart .cn { font-size: 14px; color: var(--ink-2); margin: 6px 0 0; }
+.chart .cu { font-size: 13px; color: var(--ink-2); margin: 4px 0 0; }
+.charts { display: grid; gap: 18px; grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr)); }
+.charts > *, .ds > *, .game > * { min-width: 0; }
+table.sg { background: var(--card); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+table.sg th, table.sg td { text-align: center; white-space: nowrap; }
+table.sg tbody th { text-align: left; background: var(--card); }
+table.sg td { font-weight: 700; }
+td.ok, .sw.ok { background: var(--ok-bg); color: var(--ok); }
+td.mid, .sw.mid { background: var(--warn-bg); color: var(--warn); }
+td.bad, .sw.bad { background: var(--bad-bg); color: var(--bad); }
+td.na { color: var(--ink-2); font-weight: 400; }
+.map-legend { display: flex; flex-wrap: wrap; gap: 8px 18px; font-size: 14px; margin: 10px 0 0; }
+.map-legend span { display: inline-flex; align-items: center; gap: 6px; }
+.sw { width: 16px; height: 16px; border-radius: 3px; display: inline-block; border: 1px solid var(--line); }
+.media-grid video.tall { aspect-ratio: 9 / 16; max-height: 520px; object-fit: contain; }
+</style>
+</head>
+<body>
+
+<nav class="topnav" aria-label="網站導覽">
+  <div class="wrap">
+    <a class="brand" href="index.html">零死角全生命守護</a>
+    <a href="story.html">研究故事</a><a href="experiments.html" aria-current="page">六個實驗</a><a href="devlog.html">開發日誌</a><a href="data.html">數據中心</a><a href="qa.html">問題與回答</a><a href="code.html">程式</a><a href="about.html">關於我們</a>
+  </div>
+</nav>
+
+<header class="dark page-head">
+  <div class="wrap">
+    <div class="crumbs"><a href="experiments.html">六個實驗</a> ／ 實驗四</div>
+    <div class="eyebrow">實驗四・生死一瞬間（5/21 完成）</div>
+    <h1>車開越快，要多早開始煞車？</h1>
+    <p class="lead">車子煞車以後不會馬上停，還會往前滑一段。我們量出小車在三種速度下滑多遠，再算出要多早看到石虎才來得及。</p>
+    <div class="kpis"><div class="kpi"><b>3.3 cm</b><span>20 cm/s 時滑多遠</span></div><div class="kpi"><b>7.06 cm</b><span>40 cm/s 時滑多遠</span></div><div class="kpi"><b>17.06 cm</b><span>開最快時，要在這之前開始煞車</span></div></div>
+    
+  </div>
+</header><div class="wrap"><nav class="toc" aria-label="本頁目錄"><a href="#how">怎麼做</a><a href="#result">結果</a><a href="#reflect">我們的心得</a><a href="#fix">失敗與修正</a><a href="#teacher">老師問我們</a><a href="#code">程式</a><a href="#raw">原始數據</a></nav></div><section id="how">
+  <div class="wrap">
+    <div class="eyebrow">怎麼做</div>
+    <h2>我們的做法</h2>
+    <div class="cols"><ol class="steps"><li>小車用三種速度（20、30、40 cm/s，程式裡是馬達力氣 150、205、255）往前開。</li><li>雷達在 15 公分內看到障礙物，就馬上停掉馬達。</li><li>程式記下煞車那一刻的距離，等 1.5 秒車子完全停好，再量一次。</li><li>兩個距離相減，就是滑了多遠。每種速度量 5 次，算平均。</li></ol><div><div class="media-grid"><figure><video src="video2.mp4" controls preload="metadata"></video><figcaption>實驗四：煞車測試</figcaption></figure></div><div style="margin-top:14px"><div class="thumbs"><button type="button" data-full="photo23.jpg" data-cap="實驗四：把煞車程式寫進小車" aria-label="放大：實驗四：把煞車程式寫進小車"><img src="photo23.jpg" alt="實驗四：把煞車程式寫進小車" loading="lazy"></button><button type="button" data-full="photo24.jpg" data-cap="實驗四：小車在起跑線" aria-label="放大：實驗四：小車在起跑線"><img src="photo24.jpg" alt="實驗四：小車在起跑線" loading="lazy"></button><button type="button" data-full="photo25.jpg" data-cap="實驗四：看著電腦記錄" aria-label="放大：實驗四：看著電腦記錄"><img src="photo25.jpg" alt="實驗四：看著電腦記錄" loading="lazy"></button></div></div></div></div>
+  </div>
+</section><section id="result" class="alt">
+  <div class="wrap">
+    <div class="eyebrow">結果</div>
+    <h2>速度變兩倍，滑行距離也變兩倍多</h2>
+    <div class="charts" style="grid-template-columns:minmax(0,420px)"><figure class="chart"><figcaption class="ct">煞車滑行距離＋10 公分安全距離</figcaption><svg viewBox="0 0 340 200" role="img" aria-label="三種速度的煞車距離"><line x1="78.0" x2="78.0" y1="12" y2="174" stroke="#E2DCCD"/><text x="78.0" y="190" font-size="11" text-anchor="middle" fill="#5C665E">0</text><line x1="138.5" x2="138.5" y1="12" y2="174" stroke="#E2DCCD"/><text x="138.5" y="190" font-size="11" text-anchor="middle" fill="#5C665E">5</text><line x1="199.0" x2="199.0" y1="12" y2="174" stroke="#E2DCCD"/><text x="199.0" y="190" font-size="11" text-anchor="middle" fill="#5C665E">10</text><line x1="259.5" x2="259.5" y1="12" y2="174" stroke="#E2DCCD"/><text x="259.5" y="190" font-size="11" text-anchor="middle" fill="#5C665E">15</text><line x1="320.0" x2="320.0" y1="12" y2="174" stroke="#E2DCCD"/><text x="320.0" y="190" font-size="11" text-anchor="middle" fill="#5C665E">20</text><text x="70" y="40" font-size="13" text-anchor="end" fill="#1E2A22" font-weight="700">20 cm/s</text><rect x="78" y="26" width="39.9" height="20" rx="3" fill="#2F7A4F"/><rect x="118.9" y="26" width="120.0" height="20" rx="3" fill="#E9B872" fill-opacity=".45"/><circle cx="116.7" cy="56" r="3" fill="#1E2A22" fill-opacity=".55"/><circle cx="121.6" cy="56" r="3" fill="#1E2A22" fill-opacity=".55"/><circle cx="113.1" cy="56" r="3" fill="#1E2A22" fill-opacity=".55"/><circle cx="117.9" cy="56" r="3" fill="#1E2A22" fill-opacity=".55"/><circle cx="120.3" cy="56" r="3" fill="#1E2A22" fill-opacity=".55"/><text x="236.9" y="23" font-size="12" fill="#1E2A22" font-weight="700">13.3</text><text x="70" y="94" font-size="13" text-anchor="end" fill="#1E2A22" font-weight="700">30 cm/s</text><rect x="78" y="80" width="56.4" height="20" rx="3" fill="#2F7A4F"/><rect x="135.4" y="80" width="120.0" height="20" rx="3" fill="#E9B872" fill-opacity=".45"/><circle cx="131.2" cy="110" r="3" fill="#1E2A22" fill-opacity=".55"/><circle cx="131.2" cy="110" r="3" fill="#1E2A22" fill-opacity=".55"/><circle cx="144.6" cy="110" r="3" fill="#1E2A22" fill-opacity=".55"/><circle cx="131.2" cy="110" r="3" fill="#1E2A22" fill-opacity=".55"/><circle cx="133.7" cy="110" r="3" fill="#1E2A22" fill-opacity=".55"/><text x="253.4" y="77" font-size="12" fill="#1E2A22" font-weight="700">14.66</text><text x="70" y="148" font-size="13" text-anchor="end" fill="#1E2A22" font-weight="700">40 cm/s</text><rect x="78" y="134" width="85.4" height="20" rx="3" fill="#2F7A4F"/><rect x="164.4" y="134" width="120.0" height="20" rx="3" fill="#E9B872" fill-opacity=".45"/><circle cx="172.4" cy="164" r="3" fill="#1E2A22" fill-opacity=".55"/><circle cx="160.3" cy="164" r="3" fill="#1E2A22" fill-opacity=".55"/><circle cx="165.1" cy="164" r="3" fill="#1E2A22" fill-opacity=".55"/><circle cx="162.7" cy="164" r="3" fill="#1E2A22" fill-opacity=".55"/><circle cx="156.6" cy="164" r="3" fill="#1E2A22" fill-opacity=".55"/><text x="282.4" y="131" font-size="12" fill="#1E2A22" font-weight="700">17.06</text></svg><p class="cu">單位：公分</p></figure></div><div class="map-legend"><span><i class="sw " style="background:#2F7A4F"></i>平均滑行距離</span><span><i class="sw " style="background:#E9B872;opacity:.6"></i>多留的 10 公分</span><span><i class="sw " style="background:#1E2A22;border-radius:8px;width:8px;height:8px;opacity:.6"></i>每一次量到的滑行距離</span></div><p class="note plain">20 cm/s 時滑 3.3 公分，40 cm/s 時滑 7.06 公分。我們再多留 10 公分當安全距離，所以三種速度的預警距離是 13.3、14.66、17.06 公分。實驗五-A 就是用這三個數字。</p>
+  </div>
+</section><section id="reflect">
+  <div class="wrap narrow">
+    <div class="eyebrow">我們的實驗後心得</div>
+    
+    <div class="reflect"><p class="open">「物理慣性是真的！車速越快，我們需要的『安全預警距離』就越長！」</p><p><b>速度與煞車距離的正比關係：</b>我們發現當速度從 20 cm/s 提升到 40 cm/s 時，煞車距離直接翻倍來到 7.06 cm！這證明了高速行駛下的物理慣性非常危險。</p><p><b>加上 10 公分「絕對防護罩」：</b>為了讓全生命守護系統達到真正的「零死角」，我們把『平均煞車滑行距離』再加上『10 公分的系統安全緩衝』，得出了最終的『系統建議預警距離』。</p><p><b>確認最終參數：</b>根據實驗四的結果，如果小車最高速設定在 40 cm/s，我們的感測器就必須至少在 17.06 cm 以外提早發現石虎並下達煞車指令！這為我們後續在實驗五-A 的 AI 避障打下了最穩固的安全邊際基礎。</p></div>
+  </div>
+</section><section id="fix" class="alt">
+  <div class="wrap">
+    <div class="eyebrow">失敗與修正</div>
+    <h2>我們怎麼一步一步改</h2>
+    <div class="grid"><div class="card ff"><div><span class="tag exp">5 月</span></div><p class="q"><b>問題：</b>用尺量車子滑了多遠，太慢也不準。</p><p class="a"><b>改法：</b>讓程式自己量：煞車那一刻記一次距離，等 1.5 秒停好再記一次，兩個相減。</p></div><div class="card ff"><div><span class="tag exp">9 月</span></div><p class="q"><b>問題：</b>傳回電腦的數字一大串，看不出哪個是哪個。</p><p class="a"><b>改法：</b>統一成 Speed（速度）、Trig（開始煞車的距離）、Slide（滑了多遠）三種名字。</p></div></div>
+  </div>
+</section><section id="teacher">
+  <div class="wrap">
+    <div class="eyebrow">洪老師問我們</div>
+    <h2>和這個實驗有關的問題</h2>
+    <div class="grid"><div class="qa"><p class="q">實驗四接收到的數據，代表什麼意思？</p><p class="a">--- EXP 4 --- ：實驗四開始了<br>Speed: 150 ：測試的速度（馬達的力氣設成 150）<br>Trig: 14.8 ：雷達看到障礙物、開始煞車那一刻的距離（公分）<br>Slide: 3.2 ：煞車以後，車子因為慣性又往前滑了多遠（公分）</p><p class="d">9/18</p></div><div class="qa"><p class="q">麥昆小車接收程式畫面的英文代表什麼?</p><p class="a">Speed 是小車現在設定的速度，Trig 是開始煞車那一刻的距離，Slide 是煞車以後車子又往前滑了多遠。</p><p class="d">9/16</p></div><div class="qa"><p class="q">秉宸評審問： 「我在做硬體實驗的時候，辛苦幫你量出車子開最快時，煞車會往前滑行 7.06 公分。請問身為軟體工程師，你怎麼把這個數字用在你的程式裡保護大家？</p><p class="a">弟弟量出來的數字超重要！只設定 7.06 公分太危險了，所以我在滑行距離上再加 10 公分的「安全距離」，變成 17.06 公分寫進程式。只要雷達看到障礙物比 17.06 公分還近，大腦就會提早煞車或閃開，這樣就不會撞到了！</p><p class="d">9/14</p></div></div><p style="margin-top:16px"><a href="qa.html">看全部 48 個問題 →</a></p>
+  </div>
+</section><section id="code" class="alt">
+  <div class="wrap">
+    <div class="eyebrow">程式</div>
+    <h2>小車的大腦最重要的地方</h2>
+    <div class="code-note"><pre class="code"><span class="k">if</span> dist &gt; 0 <span class="k">and</span> dist &lt;= brake_distance:
+    maqueenPlusV2.control_motor_stop(maqueenPlusV2.MyEnumMotor.ALL_MOTOR)
+    trigger_dist = dist
+    basic.pause(1500)
+    final_dist = matrixLidarDistance.matrix_point_output(matrixLidarDistance.Addr.ADDR4, 3, 3) / 10
+    slide_dist = trigger_dist - final_dist
+    radio.send_string(<span class="s">&quot;Trig:&quot;</span> + str(trigger_dist))
+    basic.pause(500)
+    radio.send_string(<span class="s">&quot;Slide:&quot;</span> + str(slide_dist))</pre><div><h3>① 煞車，然後量滑了多遠</h3><p class="muted">看到障礙物就停馬達，先記下 trigger_dist。等 1.5 秒車子完全停好，再量 final_dist。兩個相減就是滑行距離 slide_dist。</p></div></div><p><a href="code.html#exp4">看完整程式和每一版怎麼改 →</a></p>
+  </div>
+</section><section id="raw">
+  <div class="wrap">
+    <div class="eyebrow">原始數據</div>
+    <h2>完整紀錄</h2>
+    <p class="muted">數字直接來自我們的實驗數據總表，試算表更新，這裡也會跟著更新。</p>
+<details open><summary>打開表格</summary>
+<div class="scroll"><table id="raw4" data-gid="1383785752" data-fallback="raw4-fb"></table></div></details>
+<script type="application/json" id="raw4-fb">[["測試速度 (cm/s)", "煞車距離 1 (cm)", "煞車距離 2 (cm)", "煞車距離 3 (cm)", "煞車距離 4 (cm)", "煞車距離 5 (cm)", "平均煞車距離 (cm)", "系統建議預警距離 (cm)"], ["20", "3.2", "3.6", "2.9", "3.3", "3.5", "3.3", "13.3"], ["30", "4.4", "4.4", "5.5", "4.4", "4.6", "4.66", "14.66"], ["40", "7.8", "6.8", "7.2", "7", "6.5", "7.06", "17.06"]]</script><h3 style="margin-top:28px">電腦收到的原始數字（截圖）</h3><p class="muted">點圖片可以放大。</p><div class="thumbs"><button type="button" data-full="raw_data_12.jpg" data-cap="實驗四原始數據 1" aria-label="放大：實驗四原始數據 1"><img src="raw_data_12.jpg" alt="實驗四原始數據 1" loading="lazy"></button><button type="button" data-full="raw_data_13.jpg" data-cap="實驗四原始數據 2" aria-label="放大：實驗四原始數據 2"><img src="raw_data_13.jpg" alt="實驗四原始數據 2" loading="lazy"></button><button type="button" data-full="raw_data_14.jpg" data-cap="實驗四原始數據 3" aria-label="放大：實驗四原始數據 3"><img src="raw_data_14.jpg" alt="實驗四原始數據 3" loading="lazy"></button><button type="button" data-full="raw_data_15.jpg" data-cap="實驗四原始數據 4" aria-label="放大：實驗四原始數據 4"><img src="raw_data_15.jpg" alt="實驗四原始數據 4" loading="lazy"></button><button type="button" data-full="raw_data_16.jpg" data-cap="實驗四原始數據 5" aria-label="放大：實驗四原始數據 5"><img src="raw_data_16.jpg" alt="實驗四原始數據 5" loading="lazy"></button></div>
+  </div>
+</section><section><div class="wrap"><div class="pager"><a href="exp3.html"><span>← 上一個</span>實驗三：雷達要裝多高</a><a class="next" href="exp5a.html"><span>下一個 →</span>實驗五-A：窄窄的山路</a></div></div></section>
+
+<footer><div class="wrap">南投縣光華國小　蔡秉澔、蔡秉宸　指導老師：洪瑞成</div></footer>
+
+<script src="site.js"></script>
+
+
+</body>
+</html>

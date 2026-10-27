@@ -176,14 +176,14 @@ footer { padding: 32px 0 48px; font-size: 14px; color: var(--ink-2); }
 
 <nav class="topnav" aria-label="網站導覽">
   <div class="wrap">
-    <span class="brand">零死角全生命守護</span>
-    <a href="#why">為什麼做</a>
-    <a href="#journey">研究旅程</a>
-    <a href="#lessons">失敗與修正</a>
-    <a href="#data">數據中心</a>
-    <a href="#album">相簿</a>
-    <a href="#videos">影片</a>
-    <a href="lab.html">完整研究紀錄</a>
+    <a class="brand" href="index.html" aria-current="page">零死角全生命守護</a>
+    <a href="story.html">研究故事</a>
+    <a href="experiments.html">六個實驗</a>
+    <a href="devlog.html">開發日誌</a>
+    <a href="data.html">數據中心</a>
+    <a href="qa.html">問題與回答</a>
+    <a href="code.html">程式</a>
+    <a href="about.html">關於我們</a>
   </div>
 </nav>
 
@@ -195,7 +195,7 @@ footer { padding: 32px 0 48px; font-size: 14px; color: var(--ink-2); }
         <div class="eyebrow">南投縣光華國小・科展研究</div>
         <h1>零死角全生命守護</h1>
         <p class="lead">車子看不見的地方，可能有一隻石虎、一位行人。<br>我們用一台小車和 8×8 光學雷達，研究怎麼讓自駕車在黑夜和轉彎死角裡「看見並讓路」。</p>
-        <p class="muted" style="color: var(--night-text);">蔡秉澔（六年級・程式）、蔡秉宸（四年級・硬體）　指導老師：洪瑞成</p>
+        <p class="muted" style="color: var(--night-text);">蔡秉澔（六年級）、蔡秉宸（四年級）　指導老師：洪瑞成</p>
         <div class="btns">
           <a class="btn btn-gold" href="#videos">看小車實際測試</a>
           <a class="btn btn-line" href="#journey">看我們怎麼一路走來</a>
@@ -245,6 +245,7 @@ footer { padding: 32px 0 48px; font-size: 14px; color: var(--ink-2); }
         <h3><span class="num">一</span>黑夜和強光，會不會讓雷達看錯距離？</h3>
         <p class="found"><b>發現：</b>正常日光燈、手電筒強光、關燈全黑三種情況，30～150 cm 的平均誤差都在 4.1 cm 以內。</p>
         <p class="next">所以下一步：換一個更難測的目標。</p>
+        <p><a href="exp1.html">看實驗一的完整紀錄 →</a></p>
       </div>
     </article>
 
@@ -255,6 +256,7 @@ footer { padding: 32px 0 48px; font-size: 14px; color: var(--ink-2); }
         <h3><span class="num">二</span>黑色絨毛（像石虎的毛）測得到嗎？</h3>
         <p class="found"><b>發現：</b>超音波在每個距離都量不到黑色絨毛，雷達在 60 cm 以內仍然準確。</p>
         <p class="next">所以下一步：決定用雷達，研究要裝多高。</p>
+        <p><a href="exp2.html">看實驗二的完整紀錄 →</a></p>
       </div>
     </article>
 
@@ -265,6 +267,7 @@ footer { padding: 32px 0 48px; font-size: 14px; color: var(--ink-2); }
         <h3><span class="num">三</span>雷達要裝多高？</h3>
         <p class="found"><b>發現：</b>裝在 10 cm 最穩定；5 cm 太低，光打到地板；15 cm 太高，光從石虎頭頂越過去。</p>
         <p class="next">所以下一步：算出小車要多早開始煞車。</p>
+        <p><a href="exp3.html">看實驗三的完整紀錄 →</a></p>
       </div>
     </article>
 
@@ -275,6 +278,7 @@ footer { padding: 32px 0 48px; font-size: 14px; color: var(--ink-2); }
         <h3><span class="num">四</span>車速多快、要多早煞車？</h3>
         <p class="found"><b>發現：</b>40 cm/s 時平均要滑 7.06 cm 才停下，再加 10 cm 安全距離，預警距離訂為 17.06 cm。</p>
         <p class="next">所以下一步：把這些數字寫進程式，讓小車上路。</p>
+        <p><a href="exp4.html">看實驗四的完整紀錄 →</a></p>
       </div>
     </article>
 
@@ -285,6 +289,7 @@ footer { padding: 32px 0 48px; font-size: 14px; color: var(--ink-2); }
         <h3><span class="num">五-A</span>11 cm 的窄山道，能不能避開石虎？</h3>
         <p class="found"><b>發現：</b>雷達 6 趟全部成功；超音波在 40 cm/s 時會把山壁當成障礙物，煞車和轉向都失敗。</p>
         <p class="next">所以下一步：從一條路走到一整張地圖。</p>
+        <p><a href="exp5a.html">看實驗五-A的完整紀錄 →</a></p>
       </div>
     </article>
 
@@ -295,6 +300,7 @@ footer { padding: 32px 0 48px; font-size: 14px; color: var(--ink-2); }
         <h3><span class="num">五-B</span>在 24 宮格地圖遇到路障，會不會迷路？</h3>
         <p class="found"><b>發現：</b>加上「黑名單記憶」和「足跡懲罰」，小車會記住哪裡走不通，自己退出死胡同。測了 10 次以上，每次都成功。</p>
         <p class="next">所以下一步：轉彎時旁邊的死角怎麼辦？</p>
+        <p><a href="exp5b.html">看實驗五-B的完整紀錄 →</a></p>
       </div>
     </article>
 
@@ -305,6 +311,7 @@ footer { padding: 32px 0 48px; font-size: 14px; color: var(--ink-2); }
         <h3><span class="num">六</span>轉彎時，看得到 A 柱後面的行人嗎？</h3>
         <p class="found"><b>發現：</b>只有前雷達時，小車左轉直接撞上行人；加裝左右 45° 兩顆雷達後，小車會先停下，等行人走過再繼續。三雷達版測了 10 次以上，每次都成功。</p>
         <p class="next">所以下一步：開法要更像真的車。</p>
+        <p><a href="exp6.html">看實驗六的完整紀錄 →</a></p>
       </div>
     </article>
 
@@ -315,6 +322,7 @@ footer { padding: 32px 0 48px; font-size: 14px; color: var(--ink-2); }
         <h3><span class="num">改良</span>五-B、六改成連續前進、弧線轉彎，還能停看聽嗎？</h3>
         <p>洪老師提醒我們：真的車不會每走一格就停一下，也不會原地轉 90 度。我們畫圖討論後，把五-B 和六的程式改成提早一格開始轉彎、外輪快內輪慢地畫弧線，遇到石虎或行人一樣停、看、聽。</p>
         <p class="found"><b>結果：</b>（待測）</p>
+        <p><a href="exp5b.html#fix">看改良版怎麼改 →</a></p>
       </div>
     </article>
   </div>
@@ -364,26 +372,24 @@ footer { padding: 32px 0 48px; font-size: 14px; color: var(--ink-2); }
 <section class="alt">
   <div class="wrap">
     <div class="eyebrow">兩兄弟怎麼合作</div>
-    <h2>一個寫程式，一個做硬體</h2>
+    <h2>一起動手，一起想辦法</h2>
     <div class="team">
       <div class="card member">
         <img src="member_binghao.jpg" alt="哥哥秉澔在搭好的瓦楞板場地旁" loading="lazy" style="object-position: 50% 12%;">
         <div>
           <h3>蔡秉澔・六年級</h3>
-          <div class="role">軟體：程式與演算法</div>
-          <p>寫小車的導航大腦、黑名單記憶、動態禮讓和絕對時間碼表，也負責找出程式的錯誤。</p>
+          <p>比較常寫程式。最後的實驗裡，他拿著鋼彈模型當過馬路的行人。</p>
         </div>
       </div>
       <div class="card member">
         <img src="member_bingchen.jpg" alt="弟弟秉宸在組裝小車" loading="lazy" style="object-position: 50% 10%;">
         <div>
           <h3>蔡秉宸・四年級</h3>
-          <div class="role">硬體：組裝與安裝</div>
-          <p>在小車左右各加一顆雷達，用「外八字」向外約 45 度安裝，模仿真車的盲點偵測；也設定三顆雷達的不同位址。</p>
+          <p>比較常組裝小車和開車。左右兩顆往外轉 45 度的雷達，是他裝上去的。</p>
         </div>
       </div>
     </div>
-    <p class="muted" style="margin-top: 16px;">場地搭建、每一次測量和實驗，都是我們兩個一起動手完成的。</p>
+    <p class="muted" style="margin-top: 16px;">搭場地、組小車、寫程式、每一次測量，都是我們兩個一起完成的；遇到問題的時候，我們會一起想、一起試。<a href="about.html">更多關於我們 →</a></p>
   </div>
 </section>
 
@@ -459,7 +465,7 @@ footer { padding: 32px 0 48px; font-size: 14px; color: var(--ink-2); }
       <h3 class="answer">每次都抵達、0 次碰撞；在空地上，雷達和超音波一樣好</h3>
       <div class="kpis" id="e5b-kpis"></div>
       <p class="note">空地上的路障是正面擺放的，兩種感測器都看得到，所以路線和時間幾乎一樣。兩者真正的差別，在實驗二的黑色絨毛和實驗五-A 的窄山道。</p>
-      <p class="note plain">寫程式的時候，我們已經測試超過 10 次，每次都成功；下面是有完整紀錄的趟次。想看小車一格一格怎麼想，可以到<a href="lab.html">完整研究紀錄</a>的「AI 戰術大腦回放」自己按播放。</p>
+      <p class="note plain">寫程式的時候，我們已經測試超過 10 次，每次都成功；下面是有完整紀錄的趟次。想看小車一格一格怎麼想，可以到<a href="data.html#replay">數據中心的「AI 戰術大腦回放」</a>自己按播放。</p>
       <details open><summary>看完整數據表</summary><div class="scroll" id="e5b-table"></div></details>
       <p class="source">資料來源：實驗數據總表「實驗五-B：開放空地（24 宮格地圖）」・5/24 完成</p>
     </div>
@@ -479,7 +485,7 @@ footer { padding: 32px 0 48px; font-size: 14px; color: var(--ink-2); }
   <div class="wrap">
     <div class="eyebrow">開發日誌相簿</div>
     <h2>我們一路走來的照片</h2>
-    <p class="muted">點照片可以看大圖。每個任務的完整過程在<a href="lab.html">完整研究紀錄</a>的開發日誌裡。</p>
+    <p class="muted">點照片可以看大圖。每個任務的完整過程在<a href="devlog.html">開發日誌</a>裡。</p>
       <div class="album"><div class="album-h"><b>5/9</b> 搭建瓦楞板實驗場地</div><div class="album-row"><a href="photo1.jpg" target="_blank" rel="noopener"><img src="photo1.jpg" alt="搭建瓦楞板實驗場地照片 1" loading="lazy"></a></div></div>
       <div class="album"><div class="album-h"><b>5/10</b> micro:bit 程式練習</div><div class="album-row"><a href="photo2.jpg" target="_blank" rel="noopener"><img src="photo2.jpg" alt="micro:bit 程式練習照片 1" loading="lazy"></a></div></div>
       <div class="album"><div class="album-h"><b>5/13</b> 組裝麥昆 Plus V3 小車</div><div class="album-row"><a href="photo3.jpg" target="_blank" rel="noopener"><img src="photo3.jpg" alt="組裝麥昆 Plus V3 小車照片 1" loading="lazy"></a><a href="photo4.jpg" target="_blank" rel="noopener"><img src="photo4.jpg" alt="組裝麥昆 Plus V3 小車照片 2" loading="lazy"></a></div></div>
@@ -506,7 +512,7 @@ footer { padding: 32px 0 48px; font-size: 14px; color: var(--ink-2); }
       <figure><video src="video11.mp4" controls preload="metadata"></video><figcaption>五-B 原本的版本：每走一格停一下，原地轉 90 度</figcaption></figure>
       <figure><div class="vid-slot"><b>影片準備中</b><span>改良版程式：不再每格停下、轉彎畫弧線，遇到行人一樣停看聽</span></div><figcaption>五-B、六改良：弧線轉彎、連續前進</figcaption></figure>
     </div>
-    <p class="muted" style="margin-top: 16px;">更多影片和照片在<a href="lab.html">完整研究紀錄</a>的開發日誌裡。</p>
+    <p class="muted" style="margin-top: 16px;">每個實驗的影片都放在<a href="experiments.html">各個實驗的頁面</a>裡。</p>
   </div>
 </section>
 
@@ -517,13 +523,13 @@ footer { padding: 32px 0 48px; font-size: 14px; color: var(--ink-2); }
     <h2>所有紀錄都公開</h2>
     <div class="grid evidence">
       <a href="https://docs.google.com/spreadsheets/d/13gkJgF3i0j1yPZTgs6Z5I28JxsanNAGIRpXyR6V_tt8/edit" target="_blank" rel="noopener">實驗數據總表<span>每一次測量的原始數字</span></a>
-      <a href="lab.html">開發日誌<span>從 5/9 搭場地開始，每個任務的照片和過程</span></a>
-      <a href="lab.html">每個實驗的程式<span>MakeCode Python 原始碼和原始數據截圖</span></a>
-      <a href="lab.html">問題與回答<span>我們和洪老師的討論紀錄</span></a>
+      <a href="devlog.html">開發日誌<span>從 5/9 搭場地開始，每個任務的照片和過程</span></a>
+      <a href="code.html">每個實驗的程式<span>MakeCode Python 原始碼，和每一版怎麼改</span></a>
+      <a href="qa.html">問題與回答<span>我們和洪老師的討論紀錄</span></a>
     </div>
     <div style="margin-top: 32px; max-width: 820px;">
       <h3>AI 使用聲明</h3>
-      <p style="color: var(--night-text);">我們依照教育部《國民中小學學生學習評量及作業使用生成式人工智慧注意事項》使用 AI：由爸爸用自己的帳號全程陪伴，我們一起討論、判斷 AI 的回答對不對，並在洪瑞成老師指導下進行。5～9 月使用 Gemini，10 月起使用 Claude，協助我們把想法寫成程式、整理數據和網站。所有實驗、量測和程式邏輯的決定都由我們自己完成。完整說明在<a href="lab.html" style="color: var(--gold);">完整研究紀錄</a>的首頁。</p>
+      <p style="color: var(--night-text);">我們依照教育部《國民中小學學生學習評量及作業使用生成式人工智慧注意事項》使用 AI：由爸爸用自己的帳號全程陪伴，我們一起討論、判斷 AI 的回答對不對，並在洪瑞成老師指導下進行。5～9 月使用 Gemini，10 月起使用 Claude，協助我們把想法寫成程式、整理數據和網站。所有實驗、量測和程式邏輯的決定都由我們自己完成。完整說明在<a href="about.html#ai" style="color: var(--gold);">關於我們</a>。</p>
     </div>
   </div>
 </section>

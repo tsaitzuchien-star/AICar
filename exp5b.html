@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>實驗五-B 24 宮格｜零死角全生命守護</title>
+<meta name="description" content="實驗五-B：在 24 宮格裡，小車用網格記憶記住危險、自己找路。8 趟測試的路線、數據、心得和程式。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="site.css">
+<style>
+.maps { display: grid; gap: 14px; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); }
+.map-card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 14px; }
+.map-card h3 { font-size: 16px; margin-bottom: 4px; }
+.map-card .meta { font-size: 14px; color: var(--ink-2); }
+.map-card svg { width: 100%; height: auto; display: block; margin: 8px 0; }
+.map-card .sensor { display: inline-block; font-size: 12px; padding: 1px 8px; border-radius: 10px; margin-left: 6px; vertical-align: 2px; }
+.sensor.lidar { background: var(--ok-bg); color: var(--ok); }
+.sensor.sonic { background: var(--sky-bg); color: var(--sky); }
+.map-legend { display: flex; flex-wrap: wrap; gap: 8px 18px; font-size: 14px; margin: 4px 0 18px; }
+.map-legend span { display: inline-flex; align-items: center; gap: 6px; }
+.sw { width: 16px; height: 16px; border-radius: 3px; display: inline-block; }
+.pairs { display: grid; gap: 14px; }
+.pair { display: grid; grid-template-columns: 120px minmax(0, 1fr); gap: 4px 12px; align-items: center; }
+.pair .name { font-weight: 700; grid-row: span 2; }
+.pair .row { display: flex; align-items: center; gap: 8px; font-size: 14px; }
+.pair .bar { height: 14px; border-radius: 3px; }
+.pair .bar.l { background: var(--ok); }
+.pair .bar.s { background: var(--sky); }
+#raw-table td:nth-child(8) { min-width: 240px; }
+@media (max-width: 520px) { .pair { grid-template-columns: minmax(0, 1fr); } .pair .name { grid-row: auto; } }
+</style>
+</head>
+<body>
+
+<nav class="topnav" aria-label="網站導覽">
+  <div class="wrap">
+    <a class="brand" href="index.html">零死角全生命守護</a>
+    <a href="story.html">研究故事</a>
+    <a href="experiments.html" aria-current="page">六個實驗</a>
+    <a href="devlog.html">開發日誌</a>
+    <a href="data.html">數據中心</a>
+    <a href="qa.html">問題與回答</a>
+    <a href="code.html">程式</a>
+    <a href="about.html">關於我們</a>
+  </div>
+</nav>
+
+<header class="dark page-head">
+  <div class="wrap">
+    <div class="crumbs"><a href="experiments.html">六個實驗</a> ／ 實驗五-B</div>
+    <div class="eyebrow">實驗五-B・開放空地（24 宮格）</div>
+    <h1>雷達看不到旁邊，小車怎麼記住危險、自己找路？</h1>
+    <p class="lead">我們在地上鋪了 24 個格子，放上石虎、行人和小狗的路障。小車只有前面一顆雷達，轉彎時旁邊都是死角，它要靠「網格記憶」記住哪裡危險，再自己找出一條路。</p>
+    <div class="kpis">
+      <div class="kpi"><b>8 / 8 趟</b><span>都開到終點</span></div>
+      <div class="kpi"><b>0 次</b><span>撞到路障</span></div>
+      <div class="kpi"><b>6～14 格</b><span>每趟走的格數</span></div>
+      <div class="kpi"><b>25.6～45.2 秒</b><span>每趟花的時間</span></div>
+    </div>
+  </div>
+</header>
+
+<div class="wrap"><nav class="toc" aria-label="本頁目錄">
+  <a href="#how">怎麼做</a><a href="#result">8 趟路線</a><a href="#compare">雷達 vs 超音波</a><a href="#reflect">我們的心得</a><a href="#fix">失敗與修正</a><a href="#teacher">老師問我們</a><a href="#code">程式</a><a href="#raw">原始數據</a>
+</nav></div>
+
+<section id="how">
+  <div class="wrap">
+    <div class="eyebrow">怎麼做</div>
+    <h2>24 個格子、3 種路障、2 種感測器</h2>
+    <div class="cols">
+      <ol class="steps">
+        <li>在地上鋪 4 × 6 的格子，一格 10 公分，左下角是 (0,0)。</li>
+        <li>設定起點和終點，在格子上放模擬石虎、行人和小狗的路障。有的路障出發前就告訴小車（像導航知道哪裡在施工），有的要小車自己發現。</li>
+        <li>小車每到一格，先用雷達看前面：9 公分內有東西，就把那一格寫進「黑名單」。</li>
+        <li>再幫每個方向算分數：「這格走過幾次」的扣分，加上「從這格到終點還要走幾步」，選分數最低的方向走。</li>
+        <li>同一張地圖，用光學雷達跑一趟、換超音波再跑一趟，記下走了幾格、花幾秒、有沒有撞到。</li>
+      </ol>
+      <div class="media-grid">
+        <figure><video src="video3.mp4" controls preload="metadata"></video><figcaption>擺路障，一邊調整小車原地轉 90 度的角度</figcaption></figure>
+        <figure><video src="video4.mp4" controls preload="metadata"></video><figcaption>小車在 24 宮格裡連續閃開路障、從死路退出來</figcaption></figure>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="result" class="alt">
+  <div class="wrap">
+    <div class="eyebrow">結果</div>
+    <h2>每一趟小車走了哪條路</h2>
+    <p class="muted">把每一趟記錄下來的座標畫在格子上。小車看到路障的地方會亮一個橘色的點，看到之後它會換方向。</p>
+    <div class="map-legend">
+      <span><i class="sw" style="background:var(--forest)"></i>起點</span>
+      <span><i class="sw" style="background:var(--gold)"></i>終點</span>
+      <span><i class="sw" style="background:var(--bad-bg);border:1.5px solid var(--bad)"></i>路障</span>
+      <span><i class="sw" style="background:#E07B1F;border-radius:8px"></i>在這裡發現路障</span>
+      <span><i class="sw" style="height:4px;background:var(--sky)"></i>小車走的路</span>
+    </div>
+    <div class="maps" id="maps"></div>
+    <p class="note plain">第 3、6 趟最有意思：小車一路往上走到 (3,5)，往左一看是路障；退一格到 (3,4) 往左看，又是路障。它在這裡來回走了兩次，「走過幾次」的扣分越來越高，最後自己往下退到 (3,3)，從中間繞過去，所以走了 14 格。</p>
+  </div>
+</section>
+
+<section id="compare">
+  <div class="wrap">
+    <div class="eyebrow">光學雷達 vs 超音波</div>
+    <h2>在空地上，兩種感測器都過關</h2>
+    <p>同一張地圖各跑一趟，走的路線一模一樣，時間也只差不到 0.2 秒。在開放的空地上，兩邊沒有牆，超音波的聲音不會亂彈，所以表現跟光學雷達差不多。和實驗五-A 窄窄的山路比起來，差很多！</p>
+    <div class="pairs" id="pairs"></div>
+    <div class="map-legend" style="margin-top:14px"><span><i class="sw" style="background:var(--ok)"></i>光學雷達</span><span><i class="sw" style="background:var(--sky)"></i>超音波</span></div>
+  </div>
+</section>
+
+<section id="reflect" class="alt">
+  <div class="wrap narrow">
+    <div class="eyebrow">我們的實驗後心得</div>
+    <div class="reflect">
+      <p class="open">「AI 的記憶學習真的太神奇了！」</p>
+      <p><b>網格記憶與果斷撤退：</b>在遇到連續的「U 型死胡同」時，一開始小車會打轉，但當「足跡懲罰分數」累積超過極限，它就會果斷放棄並向後撤退尋找新路線，完全不需要人為介入！它甚至知道轉彎後就不再查探死胡同，因為黑名單已經記住了！</p>
+    </div>
+  </div>
+</section>
+
+<section id="fix">
+  <div class="wrap">
+    <div class="eyebrow">失敗與修正</div>
+    <h2>我們怎麼一步一步改</h2>
+    <div class="grid">
+      <div class="card ff">
+        <div><span class="tag exp">5 月</span></div>
+        <p class="q"><b>問題：</b>小車原地轉 90 度的時候，如果轉得不準，車身會碰到旁邊的格子和路障。</p>
+        <p class="a"><b>改法：</b>正式測試前一邊擺路障，一邊反覆調整轉彎的時間，讓它轉得剛剛好。</p>
+      </div>
+      <div class="card ff">
+        <div><span class="tag exp">9 月</span></div>
+        <p class="q"><b>問題：</b>一開始用「曼哈頓距離」算離終點多遠，可是它不管中間有沒有路障，小車會被騙進死路。</p>
+        <p class="a"><b>改法：</b>從下一格開始一圈一圈往外找，算出繞過路障「真正要走幾步」。</p>
+      </div>
+      <div class="card ff">
+        <div><span class="tag exp">10 月</span></div>
+        <p class="q"><b>問題：</b>老師說真的車不會每格停、原地轉。我們改成弧線轉彎，第一次測試卻開不到終點。</p>
+        <p class="a"><b>改法：</b>出發前先把整條路線算好，選轉彎最少的路，再校正弧線的角度。正在測試中。</p>
+      </div>
+    </div>
+    <figure style="max-width:300px;margin-top:20px"><video src="video11.mp4" controls preload="metadata"></video><figcaption>原本的開法：每走一格停一下、原地轉 90 度</figcaption></figure>
+  </div>
+</section>
+
+<section id="teacher" class="alt">
+  <div class="wrap">
+    <div class="eyebrow">洪老師問我們</div>
+    <h2>和這個實驗有關的問題</h2>
+    <div class="grid">
+      <div class="qa"><p class="q">可以用網格記憶記住障礙物在哪裡嗎？</p><p class="a">可以！我們把小車的大腦想成有一本「黑名單筆記本」。雷達看到前面有石虎，大腦就把那一格寫進黑名單，像在地圖上畫一個紅色叉叉。每次要走下一步之前都會先翻筆記本，被畫叉叉的格子就不走。</p><p class="d">5/29</p></div>
+      <div class="qa"><p class="q">為什麼不用一般的直線距離來算？</p><p class="a">因為小車只能直走或橫走，不能斜著走，直線距離會算出 4.24 格這種數字。後來我們又發現曼哈頓距離不管有沒有障礙物，所以改成算繞過障礙物真正要走幾步。</p><p class="d">5/28</p></div>
+      <div class="qa"><p class="q">車子開進死路時，為什麼不會一直撞牆，還會自己退出來？</p><p class="a">大腦會算分數，在死路裡一直轉來轉去，分數就會被扣很多，它就知道「退後找別條路」才是最好的選擇。</p><p class="d">9/14（弟弟扮評審問哥哥）</p></div>
+    </div>
+    <p style="margin-top:16px"><a href="qa.html">看全部 48 個問題 →</a></p>
+  </div>
+</section>
+
+<section id="code">
+  <div class="wrap">
+    <div class="eyebrow">程式</div>
+    <h2>小車的大腦最重要的三段</h2>
+    <div class="code-note">
+      <pre class="code"><span class="c"># 黑名單：這一格可以走嗎？</span>
+<span class="k">def</span> is_safe_to_go(test_x, test_y):
+    <span class="k">for</span> i <span class="k">in</span> range(len(bad_x)):
+        <span class="k">if</span> bad_x[i] == test_x <span class="k">and</span> bad_y[i] == test_y:
+            <span class="k">return</span> False
+    <span class="k">return</span> True</pre>
+      <div><h3>① 翻黑名單</h3><p class="muted">bad_x、bad_y 就是黑名單筆記本。要走一格之前，先一個一個對：這格在黑名單裡，就不能走。</p></div>
+    </div>
+    <div class="code-note">
+      <pre class="code">v_count = visited[nx + ny * 4]
+true_dist = get_true_distance(nx, ny, target_x, target_y)
+score = (v_count * 20) + true_dist
+<span class="k">if</span> score &lt; min_score:
+    min_score = score
+    best_dir = d</pre>
+      <div><h3>② 幫每個方向算分數</h3><p class="muted">visited 記住每一格走過幾次，走過一次扣 20 分。再加上「還要走幾步」。分數最低的方向就是要走的路。在死路裡打轉越久，扣分越多，小車就會自己退出來。</p></div>
+    </div>
+    <div class="code-note">
+      <pre class="code"><span class="k">if</span> dist &gt; 0 <span class="k">and</span> dist &lt;= 9:
+    radio.send_string(<span class="s">"Dodge:"</span> + obj_name)
+    bad_x.append(ox); bad_y.append(oy)
+<span class="k">else</span>:
+    move_one_grid()</pre>
+      <div><h3>③ 看到就記下來</h3><p class="muted">雷達在 9 公分內看到東西，就把前面那一格加進黑名單，同時用無線電告訴電腦；沒看到才往前走一格。</p></div>
+    </div>
+    <p><a href="code.html#exp5b">看完整程式和每一版怎麼改 →</a></p>
+  </div>
+</section>
+
+<section id="raw" class="alt">
+  <div class="wrap">
+    <div class="eyebrow">原始數據</div>
+    <h2>8 趟的完整紀錄</h2>
+    <p class="muted">數字直接來自我們的實驗數據總表，試算表更新，這裡也會跟著更新。</p>
+    <details open>
+      <summary>打開表格</summary>
+      <div class="scroll"><table id="raw-table"></table></div>
+    </details>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="pager">
+      <a href="exp5a.html"><span>← 上一個實驗</span>實驗五-A：窄窄的山路</a>
+      <a class="next" href="exp6.html"><span>下一個實驗 →</span>實驗六：三顆雷達和 A 柱死角</a>
+    </div>
+  </div>
+</section>
+
+<footer><div class="wrap">南投縣光華國小　蔡秉澔、蔡秉宸　指導老師：洪瑞成</div></footer>
+
+<script src="site.js"></script>
+<script>
+(function () {
+  var SHEET = 'https://docs.google.com/spreadsheets/d/13gkJgF3i0j1yPZTgs6Z5I28JxsanNAGIRpXyR6V_tt8/export?format=csv&gid=191668304';
+  var FALLBACK = [
+    ['測試編號','感測模式','起點座標 (x, y)','終點座標 (x, y)','障礙盲區位置','實際放置物件','AI 廣播識別','避障實際路徑','行經總格數','繞道總時間 (秒)','是否碰撞障礙','綜合避障結果'],
+    ['1','光學雷達','(3,0)','(0,5)','(3,2),(2,3),(1,3)','石虎,行人,小狗','小狗,小狗,行人','(3,1)(Puppy)(2,1)(2,2)(Puppy)(1,2)(Human)(0,2)(0,3)(0,4)(0,5)','8','27.649','否','成功'],
+    ['2','光學雷達','(3,0)','(0,5)','(3,3),(2,2),(1,2)','石虎,行人,小狗','小狗,小狗,小狗','(3,1)(3,2)(Puppy)(Puppy)(3,1)(2,1)(1,1)(Puppy)(0,1)(0,2)(0,3)(0,4(0,5)','10','31.805','否','成功'],
+    ['3','光學雷達','(3,0)','(0,5)','(2,5),(2,4)','石虎,行人','小狗,小狗','(3,1)(3,2)(3,3)(3,4)(3,5)(Puppy)(3,4)(Puppy)(3,5)(3,4)(3,3)(2,3)(1,3)(1,4)(1,5)(0,5)','14','45.169','否','成功'],
+    ['4','超音波','(3,0)','(0,5)','(3,2),(2,3),(1,3)','石虎,行人,小狗','小狗,小狗,行人','(3,1)(Puppy)(2,1)(2,2)(Puppy)(1,2)(Human)(0,2)(0,3)(0,4)(0,5)','8','27.553','否','成功'],
+    ['5','超音波','(3,0)','(0,5)','(3,3),(2,2),(1,2)','石虎,行人,小狗','小狗,小狗,小狗','(3,1)(3,2)(Puppy)(Puppy)(3,1)(2,1)(1,1)(Puppy)(0,1)(0,2)(0,3)(0,4(0,5)','10','31.693','否','成功'],
+    ['6','超音波','(3,0)','(0,5)','(2,5),(2,4)','石虎,行人','小狗,小狗','(3,1)(3,2)(3,3)(3,4)(3,5)(Puppy)(3,4)(Puppy)(3,5)(3,4)(3,3)(2,3)(1,3)(1,4)(1,5)(0,5)','14','45.081','否','成功'],
+    ['7','光學雷達','(3,3)','(0,0)','(3,1),(2,0),(0,1)','石虎,行人,小狗','小狗,小狗','(3,2)(Puppy)(2,2)(2,1)(Puppy)(1,1)(1,0)(0,0)','6','25.629','否','成功'],
+    ['8','超音波','(3,3)','(0,0)','(3,1),(2,0),(0,1)','石虎,行人,小狗','小狗,小狗','(3,2)(Puppy)(2,2)(2,1)(Puppy)(1,1)(1,0)(0,0)','6','25.581','否','成功']
+  ];
+
+  function pts(s) { var m, r = [], re = /\((\d)\s*,\s*(\d)/g; while ((m = re.exec(s))) r.push([+m[1], +m[2]]); return r; }
+
+  // 把路徑字串拆成：走過的格子，和「在哪一格發現路障」
+  function walk(start, s) {
+    var re = /\((\d)\s*,\s*(\d)|\((Puppy|Human|LeopardCat|Obstacle)\)/g, m, cells = [start], seen = [];
+    while ((m = re.exec(s))) {
+      if (m[3]) seen.push(cells[cells.length - 1]);
+      else cells.push([+m[1], +m[2]]);
+    }
+    return { cells: cells, seen: seen };
+  }
+
+  var C = 34, PAD = 6, W = 4 * C + PAD * 2, H = 6 * C + PAD * 2;
+  function cx(x) { return PAD + x * C + C / 2; }
+  function cy(y) { return PAD + (5 - y) * C + C / 2; }
+
+  function svgMap(row) {
+    var start = pts(row[2])[0], end = pts(row[3])[0], obs = pts(row[4]);
+    var w = walk(start, row[7]);
+    var s = '<svg viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="第 ' + row[0] + ' 趟路線圖">';
+    for (var y = 0; y < 6; y++) for (var x = 0; x < 4; x++) {
+      var fill = '#FBFAF6', stroke = '#E2DCCD';
+      obs.forEach(function (o) { if (o[0] === x && o[1] === y) { fill = '#FBEBEB'; stroke = '#A23B2A'; } });
+      s += '<rect x="' + (PAD + x * C + 1) + '" y="' + (PAD + (5 - y) * C + 1) + '" width="' + (C - 2) + '" height="' + (C - 2) + '" rx="4" fill="' + fill + '" stroke="' + stroke + '"/>';
+    }
+    obs.forEach(function (o) {
+      var a = cx(o[0]), b = cy(o[1]), d = 7;
+      s += '<path d="M' + (a - d) + ' ' + (b - d) + 'L' + (a + d) + ' ' + (b + d) + 'M' + (a + d) + ' ' + (b - d) + 'L' + (a - d) + ' ' + (b + d) + '" stroke="#A23B2A" stroke-width="2.5" stroke-linecap="round"/>';
+    });
+    s += '<rect x="' + (cx(start[0]) - 13) + '" y="' + (cy(start[1]) - 13) + '" width="26" height="26" rx="13" fill="#2F5D46"/>';
+    s += '<rect x="' + (cx(end[0]) - 13) + '" y="' + (cy(end[1]) - 13) + '" width="26" height="26" rx="13" fill="#E9B872"/>';
+    var p = w.cells.map(function (c) { return cx(c[0]) + ',' + cy(c[1]); }).join(' ');
+    s += '<polyline points="' + p + '" fill="none" stroke="#3B5B92" stroke-width="4" stroke-linejoin="round" stroke-linecap="round" opacity=".85"/>';
+    w.seen.forEach(function (c) { s += '<circle cx="' + cx(c[0]) + '" cy="' + cy(c[1]) + '" r="6" fill="#E07B1F" stroke="#fff" stroke-width="2"/>'; });
+    s += '<text x="' + cx(start[0]) + '" y="' + (cy(start[1]) + 5) + '" font-size="13" text-anchor="middle" fill="#fff" font-weight="700">起</text>';
+    s += '<text x="' + cx(end[0]) + '" y="' + (cy(end[1]) + 5) + '" font-size="13" text-anchor="middle" fill="#1E2A22" font-weight="700">終</text>';
+    return s + '</svg>';
+  }
+
+  function esc(t) { return String(t).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+
+  function render(rows) {
+    var head = rows[0], data = rows.slice(1).filter(function (r) { return r[0] && r[7]; });
+    document.getElementById('maps').innerHTML = data.map(function (r) {
+      var lidar = r[1].indexOf('雷達') > -1;
+      return '<div class="map-card"><h3>第 ' + esc(r[0]) + ' 趟<span class="sensor ' + (lidar ? 'lidar' : 'sonic') + '">' + esc(r[1]) + '</span></h3>' +
+        '<div class="meta">' + esc(r[2]) + ' → ' + esc(r[3]) + '</div>' + svgMap(r) +
+        '<div class="meta">走了 <b>' + esc(r[8]) + '</b> 格・<b>' + Number(r[9]).toFixed(1) + '</b> 秒・' + (r[10] === '否' ? '沒有撞到' : '撞到了') + '</div></div>';
+    }).join('');
+
+    // 同一張地圖的兩趟放在一起比
+    var groups = {}, order = [];
+    data.forEach(function (r) { var k = r[2] + r[3] + r[4]; if (!groups[k]) { groups[k] = []; order.push(k); } groups[k].push(r); });
+    var max = Math.max.apply(null, data.map(function (r) { return +r[9]; }));
+    document.getElementById('pairs').innerHTML = order.map(function (k, i) {
+      var g = groups[k];
+      return '<div class="pair"><div class="name">地圖 ' + (i + 1) + '<br><span class="muted" style="font-weight:400;font-size:14px">' + esc(g[0][2]) + ' → ' + esc(g[0][3]) + '</span></div>' +
+        g.map(function (r) {
+          var l = r[1].indexOf('雷達') > -1;
+          return '<div class="row"><span class="bar ' + (l ? 'l' : 's') + '" style="width:' + (+r[9] / max * 70) + '%"></span>' + Number(r[9]).toFixed(1) + ' 秒（' + esc(r[1]) + '，' + esc(r[8]) + ' 格）</div>';
+        }).join('') + '</div>';
+    }).join('');
+
+    var t = '<thead><tr>' + head.map(function (h) { return '<th>' + esc(h) + '</th>'; }).join('') + '</tr></thead><tbody>';
+    data.forEach(function (r) { t += '<tr>' + r.map(function (c) { return '<td>' + esc(c) + '</td>'; }).join('') + '</tr>'; });
+    document.getElementById('raw-table').innerHTML = t + '</tbody>';
+  }
+
+  function parseCSV(text) {
+    var rows = [], row = [], cur = '', q = false;
+    for (var i = 0; i < text.length; i++) {
+      var ch = text[i];
+      if (q) { if (ch === '"') { if (text[i + 1] === '"') { cur += '"'; i++; } else q = false; } else cur += ch; }
+      else if (ch === '"') q = true;
+      else if (ch === ',') { row.push(cur); cur = ''; }
+      else if (ch === '\n') { row.push(cur); rows.push(row); row = []; cur = ''; }
+      else if (ch !== '\r') cur += ch;
+    }
+    if (cur !== '' || row.length) { row.push(cur); rows.push(row); }
+    return rows;
+  }
+
+  render(FALLBACK);
+  fetch(SHEET).then(function (r) { if (!r.ok) throw 0; return r.text(); })
+    .then(function (t) { var rows = parseCSV(t); if (rows.length > 2 && rows[0][7]) render(rows); })
+    .catch(function () {});
+})();
+</script>
+</body>
+</html>

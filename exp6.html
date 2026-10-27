@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>實驗六 三顆雷達和 A 柱死角｜零死角全生命守護</title>
+<meta name="description" content="實驗六：小車加裝左右兩顆雷達，轉彎時看到 A 柱死角裡的行人就停下來禮讓。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="site.css">
+<style>
+.chart { margin: 0; }
+.chart .ct { font-weight: 700; font-size: 16px; color: var(--ink); margin: 0 0 6px; }
+.chart svg { width: 100%; height: auto; display: block; background: var(--card); border: 1px solid var(--line); border-radius: 10px; }
+.chart .cn { font-size: 14px; color: var(--ink-2); margin: 6px 0 0; }
+.chart .cu { font-size: 13px; color: var(--ink-2); margin: 4px 0 0; }
+.charts { display: grid; gap: 18px; grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr)); }
+.charts > *, .ds > *, .game > * { min-width: 0; }
+table.sg { background: var(--card); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+table.sg th, table.sg td { text-align: center; white-space: nowrap; }
+table.sg tbody th { text-align: left; background: var(--card); }
+table.sg td { font-weight: 700; }
+td.ok, .sw.ok { background: var(--ok-bg); color: var(--ok); }
+td.mid, .sw.mid { background: var(--warn-bg); color: var(--warn); }
+td.bad, .sw.bad { background: var(--bad-bg); color: var(--bad); }
+td.na { color: var(--ink-2); font-weight: 400; }
+.map-legend { display: flex; flex-wrap: wrap; gap: 8px 18px; font-size: 14px; margin: 10px 0 0; }
+.map-legend span { display: inline-flex; align-items: center; gap: 6px; }
+.sw { width: 16px; height: 16px; border-radius: 3px; display: inline-block; border: 1px solid var(--line); }
+.media-grid video.tall { aspect-ratio: 9 / 16; max-height: 520px; object-fit: contain; }
+</style>
+</head>
+<body>
+
+<nav class="topnav" aria-label="網站導覽">
+  <div class="wrap">
+    <a class="brand" href="index.html">零死角全生命守護</a>
+    <a href="story.html">研究故事</a><a href="experiments.html" aria-current="page">六個實驗</a><a href="devlog.html">開發日誌</a><a href="data.html">數據中心</a><a href="qa.html">問題與回答</a><a href="code.html">程式</a><a href="about.html">關於我們</a>
+  </div>
+</nav>
+
+<header class="dark page-head">
+  <div class="wrap">
+    <div class="crumbs"><a href="experiments.html">六個實驗</a> ／ 實驗六</div>
+    <div class="eyebrow">實驗六・多雷達融合克服 A 柱死角（8/30 完成）</div>
+    <h1>轉彎時，看得到 A 柱後面的行人嗎？</h1>
+    <p class="lead">汽車轉彎時，擋風玻璃旁邊的 A 柱會擋住行人。我們在小車左右各多裝一顆雷達，讓它轉彎時也看得到旁邊，看到行人就停下來等。</p>
+    <div class="kpis"><div class="kpi"><b>3 顆雷達</b><span>前、左、右</span></div><div class="kpi"><b>約 45°</b><span>左右雷達往外轉</span></div><div class="kpi"><b>停、看、聽</b><span>看到行人就停，走開了再走</span></div></div>
+    
+  </div>
+</header><div class="wrap"><nav class="toc" aria-label="本頁目錄"><a href="#how">怎麼做</a><a href="#result">結果</a><a href="#reflect">我們的心得</a><a href="#fix">失敗與修正</a><a href="#teacher">老師問我們</a><a href="#code">程式</a><a href="#raw">原始數據</a></nav></div><section id="how">
+  <div class="wrap">
+    <div class="eyebrow">怎麼做</div>
+    <h2>我們的做法</h2>
+    <div class="cols"><ol class="steps"><li>在小車前面加裝左、右兩顆光學雷達，用 I2C 指撥開關分配不同位址（ADDR4、ADDR1、ADDR2），三顆才能一起用。</li><li>左右兩顆往外轉大約 45 度，變成「外八字」，像真的車子的盲點偵測。</li><li>在瓦楞板上做「十字路口左轉」，把鋼彈模型放在左轉內側的死角，當作過馬路的行人。</li><li>先只開前面一顆雷達跑一次，再三顆全開跑一次，比比看。</li><li>三顆全開時，看到行人就停車亮紅燈，等行人走開再亮綠燈，把彎轉完。</li></ol><div><div class="media-grid"><figure><video src="video10.mp4" controls preload="metadata"></video><figcaption>三顆雷達：轉彎時看到鋼彈行人，停下來禮讓</figcaption></figure></div><div style="margin-top:14px"><div class="thumbs"><button type="button" data-full="photo27.jpg" data-cap="實驗六：三眼小車" aria-label="放大：實驗六：三眼小車"><img src="photo27.jpg" alt="實驗六：三眼小車" loading="lazy"></button><button type="button" data-full="photo28.jpg" data-cap="實驗六：裝好左右雷達" aria-label="放大：實驗六：裝好左右雷達"><img src="photo28.jpg" alt="實驗六：裝好左右雷達" loading="lazy"></button><button type="button" data-full="photo29.jpg" data-cap="實驗六：鋼彈當作行人" aria-label="放大：實驗六：鋼彈當作行人"><img src="photo29.jpg" alt="實驗六：鋼彈當作行人" loading="lazy"></button><button type="button" data-full="photo30.jpg" data-cap="實驗六：三顆雷達的小車和鋼彈" aria-label="放大：實驗六：三顆雷達的小車和鋼彈"><img src="photo30.jpg" alt="實驗六：三顆雷達的小車和鋼彈" loading="lazy"></button></div></div></div></div>
+  </div>
+</section><section id="result" class="alt">
+  <div class="wrap">
+    <div class="eyebrow">結果</div>
+    <h2>只有前雷達會撞上；三顆雷達會停下來讓路</h2>
+    <div class="grid">
+<div class="card" style="border-color:var(--bad);border-width:2px"><span class="tag fail">只有前面一顆雷達</span><h3>左轉時撞上行人</h3><p class="muted">雷達直視前方，轉向時產生盲區直接撞上行人</p></div>
+<div class="card" style="border-color:var(--ok);border-width:2px"><span class="tag fix">前、左、右三顆雷達</span><h3>停下來，等行人走過再走</h3><p class="muted">左眼雷達提早發現，觸發煞車並「停看聽」等待行人通過後自動續行</p></div>
+</div>
+  </div>
+</section><section id="reflect">
+  <div class="wrap narrow">
+    <div class="eyebrow">我們的實驗後心得</div>
+    
+    <div class="reflect"><p class="open">「將科技結合真實世界的駕駛行為！」</p><p><b>180 度絕對防護罩：</b>成功透過硬體擴充打破單一感測器的物理極限，建立三雷達交叉火網，消滅 A 柱帶來的致命視野死角。</p><p><b>學會「停、看、聽」：</b>透過鎖定迴圈程式邏輯，讓 AI 大腦不僅學會閃避障礙，更具備了耐心等待的「禮讓」能力，實現了最高層次的安全駕駛與全生命守護！</p></div>
+  </div>
+</section><section id="fix" class="alt">
+  <div class="wrap">
+    <div class="eyebrow">失敗與修正</div>
+    <h2>我們怎麼一步一步改</h2>
+    <div class="grid"><div class="card ff"><div><span class="tag exp">8 月</span></div><p class="q"><b>問題：</b>轉彎時行人在斜前方，距離變長，側邊雷達來不及看到。</p><p class="a"><b>改法：</b>轉彎時把側邊的防護範圍放大到 25 公分（前面是 15 公分）。</p></div><div class="card ff"><div><span class="tag exp">8 月</span></div><p class="q"><b>問題：</b>讀雷達要花時間，小車一轉就超過 150 度。</p><p class="a"><b>改法：</b>改用 micro:bit 的 input.running_time() 碼表，只算「馬達真的在轉」的時間，轉滿 1050 毫秒才算轉了 90 度。</p></div><div class="card ff"><div><span class="tag exp">8 月</span></div><p class="q"><b>問題：</b>面板上的跑馬燈文字要跑 1 秒，小車來不及煞車。</p><p class="a"><b>改法：</b>改成瞬間顯示紅燈、綠燈的圖示，看到行人就能馬上停。</p></div><div class="card ff"><div><span class="tag exp">10 月</span></div><p class="q"><b>問題：</b>電池只剩一格，小車只會直走，一路撞上牆壁。</p><p class="a"><b>改法：</b>我們的轉彎和走格子都是靠時間算的，電不夠就全部亂掉。現在每次測試前一定先充飽電。</p></div><div class="card ff"><div><span class="tag exp">10 月</span></div><p class="q"><b>問題：</b>老師說：真的車不會每走一格就停，也不會原地轉 90 度。</p><p class="a"><b>改法：</b>把程式改成提早開始轉彎、外輪快內輪慢地畫弧線，遇到行人一樣停、看、聽。這一版還在校正、測試中。</p></div></div>
+  </div>
+</section><section id="teacher">
+  <div class="wrap">
+    <div class="eyebrow">洪老師問我們</div>
+    <h2>和這個實驗有關的問題</h2>
+    <div class="grid"><div class="qa"><p class="q">目前道路上的駕駛員有很多可能因為前方A柱在轉彎的過程擋到了視野而撞上行人。我們有沒有機會在小車的前方左邊跟右邊各裝一個光學雷達來解決駕駛人A柱擋住的視野死角。</p><p class="a">可以！我們可以在小車前面裝「三顆」光學雷達：正前方一顆是主雷達，左前和右前的 A 柱位置各一顆當輔助雷達。三顆一起看，就像一個 180 度的半圓形防護罩。</p><p class="d">6/7</p></div><div class="qa"><p class="q">秉宸提問哥哥你好，我看到你一開始測試轉彎的時候，車子笨笨的，直接把盲區裡的鋼彈撞飛了！請問你的程式是『卡』在哪裡？後來怎麼修好的？</p><p class="a">評審好！因為原本的程式會讓車子顯示「跑馬燈英文字」，車子的大腦忙著顯示字，動作慢了 1 秒，就來不及煞車撞上去了！後來我把跑馬燈拿掉，改用 micro:bit 的「碼表」來算馬達要轉多久。現在只要一看到鋼彈，車子馬上就會煞車，一點都不會卡了！</p><p class="d">9/14</p></div><div class="qa"><p class="q">秉宸評審問： 「我們的作品叫做『全生命守護』。請問當車子在轉彎死角看到鋼彈路人時，你是怎麼讓它乖乖在原地『等』，而不是永遠停在那邊當機的？</p><p class="a">我寫了一個會「停、看、聽」的程式！車子看到鋼彈會馬上煞車，亮紅燈。這時候車子沒有當機喔，它的雷達還一直在看前面。等鋼彈走過去、完全離開死角了，車子才會亮綠燈，繼續把彎轉完！</p><p class="d">9/14</p></div></div><p style="margin-top:16px"><a href="qa.html">看全部 48 個問題 →</a></p>
+  </div>
+</section><section id="code" class="alt">
+  <div class="wrap">
+    <div class="eyebrow">程式</div>
+    <h2>小車的大腦最重要的地方</h2>
+    <div class="code-note"><pre class="code">now = input.running_time()
+<span class="k">if</span> is_moving:
+    time_run += (now - last_t)
+last_t = now</pre><div><h3>① 碼表：只算馬達真的在轉的時間</h3><p class="muted">停下來等行人的時候，碼表不會跑。所以不管等多久，轉彎都不會轉過頭。</p></div></div><div class="code-note"><pre class="code"><span class="k">if</span> test_mode == 3 <span class="k">and</span> <span class="k">not</span> obstacle:
+    <span class="k">if</span> move_type == <span class="s">&quot;LEFT&quot;</span>:
+        dl = matrixLidarDistance.matrix_point_output(matrixLidarDistance.Addr.ADDR1, 3, 3) / 10
+        <span class="k">if</span> dl &gt; 0 <span class="k">and</span> dl &lt;= safe_dist_side: obstacle = <span class="k">True</span></pre><div><h3>② 往左轉，就多看左邊</h3><p class="muted">三顆雷達全開（test_mode 3）時，往左轉就讀左邊的雷達（ADDR1）。行人在 25 公分內，就當作前面有人。</p></div></div><div class="code-note"><pre class="code"><span class="k">if</span> obstacle:
+    <span class="k">if</span> is_moving:
+        maqueenPlusV2.control_motor_stop(maqueenPlusV2.MyEnumMotor.ALL_MOTOR)
+        is_moving = <span class="k">False</span>
+        basic.show_icon(IconNames.NO)
+    basic.pause(50)
+    last_t = input.running_time()
+<span class="k">else</span>:
+    <span class="k">if</span> <span class="k">not</span> is_moving:
+        basic.show_icon(IconNames.YES)
+        start_motor(move_type)
+        is_moving = <span class="k">True</span>
+        last_t = input.running_time()</pre><div><h3>③ 停、看、聽</h3><p class="muted">看到行人：停馬達、亮紅燈（IconNames.NO），雷達繼續看。行人走開：亮綠燈（IconNames.YES），馬達再開始轉。</p></div></div><p><a href="code.html#exp6">看完整程式和每一版怎麼改 →</a></p>
+  </div>
+</section><section id="raw">
+  <div class="wrap">
+    <div class="eyebrow">原始數據</div>
+    <h2>完整紀錄</h2>
+    <p class="muted">數字直接來自我們的實驗數據總表，試算表更新，這裡也會跟著更新。</p>
+<details open><summary>打開表格</summary>
+<div class="scroll"><table id="raw6" data-gid="1841904194" data-fallback="raw6-fb"></table></div></details>
+<script type="application/json" id="raw6-fb">[["測試情境", "雷達配置", "障礙物位置", "避障策略", "實驗結果", "觀察現象"], ["十字路口左轉", "單顆前向雷達", "A柱死角(左前)", "無", "失敗 (撞擊)", "雷達直視前方，轉向時產生盲區直接撞上行人"], ["十字路口左轉", "三顆融合(左/中/右)", "A柱死角(左前)", "動態禮讓 (等待)", "成功", "左眼雷達提早發現，觸發煞車並「停看聽」等待行人通過後自動續行"]]</script><p class="note plain">寫程式的時候，三顆雷達的版本我們試了超過 10 次都成功；每一趟的詳細紀錄（偵測距離、等了幾秒）正在整理。小車到終點時面板會顯示愛心，代表任務完成。</p>
+  </div>
+</section><section><div class="wrap"><div class="pager"><a href="exp5b.html"><span>← 上一個</span>實驗五-B：24 宮格</a><a class="next" href="story.html"><span>下一個 →</span>研究故事</a></div></div></section>
+
+<footer><div class="wrap">南投縣光華國小　蔡秉澔、蔡秉宸　指導老師：洪瑞成</div></footer>
+
+<script src="site.js"></script>
+
+
+</body>
+</html>

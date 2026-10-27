@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>實驗三 最佳視角測試｜零死角全生命守護</title>
+<meta name="description" content="實驗三：雷達裝在 5、10、15 公分三種高度，哪一個最不會漏看石虎。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="site.css">
+<style>
+.chart { margin: 0; }
+.chart .ct { font-weight: 700; font-size: 16px; color: var(--ink); margin: 0 0 6px; }
+.chart svg { width: 100%; height: auto; display: block; background: var(--card); border: 1px solid var(--line); border-radius: 10px; }
+.chart .cn { font-size: 14px; color: var(--ink-2); margin: 6px 0 0; }
+.chart .cu { font-size: 13px; color: var(--ink-2); margin: 4px 0 0; }
+.charts { display: grid; gap: 18px; grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr)); }
+.charts > *, .ds > *, .game > * { min-width: 0; }
+table.sg { background: var(--card); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+table.sg th, table.sg td { text-align: center; white-space: nowrap; }
+table.sg tbody th { text-align: left; background: var(--card); }
+table.sg td { font-weight: 700; }
+td.ok, .sw.ok { background: var(--ok-bg); color: var(--ok); }
+td.mid, .sw.mid { background: var(--warn-bg); color: var(--warn); }
+td.bad, .sw.bad { background: var(--bad-bg); color: var(--bad); }
+td.na { color: var(--ink-2); font-weight: 400; }
+.map-legend { display: flex; flex-wrap: wrap; gap: 8px 18px; font-size: 14px; margin: 10px 0 0; }
+.map-legend span { display: inline-flex; align-items: center; gap: 6px; }
+.sw { width: 16px; height: 16px; border-radius: 3px; display: inline-block; border: 1px solid var(--line); }
+.media-grid video.tall { aspect-ratio: 9 / 16; max-height: 520px; object-fit: contain; }
+</style>
+</head>
+<body>
+
+<nav class="topnav" aria-label="網站導覽">
+  <div class="wrap">
+    <a class="brand" href="index.html">零死角全生命守護</a>
+    <a href="story.html">研究故事</a><a href="experiments.html" aria-current="page">六個實驗</a><a href="devlog.html">開發日誌</a><a href="data.html">數據中心</a><a href="qa.html">問題與回答</a><a href="code.html">程式</a><a href="about.html">關於我們</a>
+  </div>
+</nav>
+
+<header class="dark page-head">
+  <div class="wrap">
+    <div class="crumbs"><a href="experiments.html">六個實驗</a> ／ 實驗三</div>
+    <div class="eyebrow">實驗三・最佳視角測試（5/17 完成）</div>
+    <h1>雷達要裝多高，才不會漏看石虎？</h1>
+    <p class="lead">雷達裝太高或太低，都可能看不到前面的動物。我們把雷達裝在 5、10、15 公分三種高度，找出最剛好的位置。</p>
+    <div class="kpis"><div class="kpi"><b>10 cm</b><span>最剛好的高度</span></div><div class="kpi"><b>0 / 25 次</b><span>裝 15 cm 時，一次都測不到</span></div><div class="kpi"><b>90 cm 內</b><span>裝 10 cm 時每次都測到</span></div></div>
+    
+  </div>
+</header><div class="wrap"><nav class="toc" aria-label="本頁目錄"><a href="#how">怎麼做</a><a href="#result">結果</a><a href="#reflect">我們的心得</a><a href="#fix">失敗與修正</a><a href="#teacher">老師問我們</a><a href="#code">程式</a><a href="#raw">原始數據</a></nav></div><section id="how">
+  <div class="wrap">
+    <div class="eyebrow">怎麼做</div>
+    <h2>我們的做法</h2>
+    <div class="cols"><ol class="steps"><li>用直尺量好，把雷達裝在 5 公分（低）、10 公分（中）、15 公分（高）。</li><li>目標（模擬石虎，高 11 公分）放在 30～150 公分五個距離。</li><li>每個高度、每個距離量 5 次，記下測到幾次。</li><li>測不到時雷達會出現 400，我們就記成「沒測到」。</li></ol><div><div class="thumbs"><button type="button" data-full="photo11.jpg" data-cap="實驗三：量好雷達高度" aria-label="放大：實驗三：量好雷達高度"><img src="photo11.jpg" alt="實驗三：量好雷達高度" loading="lazy"></button><button type="button" data-full="photo12.jpg" data-cap="實驗三：雷達裝在不同高度" aria-label="放大：實驗三：雷達裝在不同高度"><img src="photo12.jpg" alt="實驗三：雷達裝在不同高度" loading="lazy"></button><button type="button" data-full="photo13.jpg" data-cap="實驗三：雷達裝在不同高度" aria-label="放大：實驗三：雷達裝在不同高度"><img src="photo13.jpg" alt="實驗三：雷達裝在不同高度" loading="lazy"></button><button type="button" data-full="photo14.jpg" data-cap="實驗三：修改程式" aria-label="放大：實驗三：修改程式"><img src="photo14.jpg" alt="實驗三：修改程式" loading="lazy"></button><button type="button" data-full="photo15.jpg" data-cap="實驗三：賽道實測" aria-label="放大：實驗三：賽道實測"><img src="photo15.jpg" alt="實驗三：賽道實測" loading="lazy"></button><button type="button" data-full="photo16.jpg" data-cap="實驗三：盯著數據" aria-label="放大：實驗三：盯著數據"><img src="photo16.jpg" alt="實驗三：盯著數據" loading="lazy"></button><button type="button" data-full="photo17.jpg" data-cap="實驗三：把數據輸入試算表" aria-label="放大：實驗三：把數據輸入試算表"><img src="photo17.jpg" alt="實驗三：把數據輸入試算表" loading="lazy"></button></div></div></div>
+  </div>
+</section><section id="result" class="alt">
+  <div class="wrap">
+    <div class="eyebrow">結果</div>
+    <h2>裝 10 公分最穩定</h2>
+    <figure class="chart"><figcaption class="ct">5 次裡測到幾次（目標高 11 公分）</figcaption><div class="scroll"><table class="sg"><thead><tr><th>雷達高度</th><th>30 cm</th><th>60 cm</th><th>90 cm</th><th>120 cm</th><th>150 cm</th></tr></thead><tbody><tr><th>5 cm（太低）</th><td class="ok">5/5</td><td class="ok">5/5</td><td class="bad">0/5</td><td class="bad">0/5</td><td class="bad">0/5</td></tr><tr><th>10 cm</th><td class="ok">5/5</td><td class="ok">5/5</td><td class="ok">5/5</td><td class="mid">4/5</td><td class="mid">2/5</td></tr><tr><th>15 cm（太高）</th><td class="bad">0/5</td><td class="bad">0/5</td><td class="bad">0/5</td><td class="bad">0/5</td><td class="bad">0/5</td></tr></tbody></table></div></figure><div class="map-legend"><span><i class="sw ok"></i>5 次都測到</span><span><i class="sw mid"></i>有幾次測不到</span><span><i class="sw bad"></i>一次都測不到</span></div><div class="grid" style="margin-top:18px"><div class="card"><h3>5 公分：太低</h3><p class="muted">遠一點，光的下半部就先打到地板，90 公分以後都測不到。</p></div><div class="card"><h3>10 公分：剛好</h3><p class="muted">和石虎差不多高，90 公分內每次都測到。</p></div><div class="card"><h3>15 公分：太高</h3><p class="muted">光從 11 公分高的目標頭上過去，一次都測不到。</p></div></div>
+  </div>
+</section><section id="reflect">
+  <div class="wrap narrow">
+    <div class="eyebrow">我們的實驗後心得</div>
+    
+    <div class="reflect"><p class="open">「真實的數據推翻了我們原本天真的推測！」</p><p><b>越頂盲區的發現：</b>我們原本以為光束會像手電筒一樣大範圍擴散。但我們的程式只讀 8×8 矩陣中的 (3,3) 這一格，視角只有約 7.5°，安裝在 15cm 高度時，這道窄光束直接從 11cm 的目標頭頂越過，完全測不到！（8×8 的正中心落在四格交界，所以 (3,3) 的視線可能略偏離正前方，這點還需要實測確認。）這證實了「垂直死角」的存在。</p><p><b>觸地雜訊的致命傷：</b>當雷達降到 5cm 時，只要距離拉長到 90cm，光束的下半部就會提早打到地面，產生嚴重的「漫反射雜訊」，導致系統提早瞎掉。</p><p><b>發現黃金視角：</b>我們深刻體會到，防撞雷達的安裝高度必須「精準對齊」目標物的平均高度！10cm 的中位才是能避開這兩種垂直死角的完美黃金視角！</p></div>
+  </div>
+</section><section id="fix" class="alt">
+  <div class="wrap">
+    <div class="eyebrow">失敗與修正</div>
+    <h2>我們怎麼一步一步改</h2>
+    <div class="grid"><div class="card ff"><div><span class="tag exp">5 月</span></div><p class="q"><b>問題：</b>AI 用理論猜：雷射光會像手電筒一樣散開，裝在 15 公分也掃得到石虎。</p><p class="a"><b>改法：</b>我們自己量，15 公分高每個距離都是 0 次測到，實驗推翻了猜測。我們學到 AI 只能給建議，答案要靠實驗。</p></div><div class="card ff"><div><span class="tag exp">5 月</span></div><p class="q"><b>問題：</b>實驗一和實驗三的數字傳回電腦，很容易搞混。</p><p class="a"><b>改法：</b>把實驗三傳出去的名字改掉（現在是「--- EXP 3 ---」），一看就知道是哪個實驗。</p></div></div>
+  </div>
+</section><section id="teacher">
+  <div class="wrap">
+    <div class="eyebrow">洪老師問我們</div>
+    <h2>和這個實驗有關的問題</h2>
+    <div class="grid"><div class="qa"><p class="q">光學雷達放在高度 15cm 位置，石虎身高 15.1cm，偵測得到嗎？</p><p class="a">1. 應該測得到，因為石虎的頭剛好碰到雷達看的那條線。不過只碰到一點點，可能一下測得到、一下測不到，我們想之後實際測測看。<br>2. 我們在實驗三發現，雷達裝 15 公分、目標只有 11 公分高時，完全測不到！因為我們讀的那一格只看大約 7.5 度，整個從目標頭上過去了。所以雷達要裝在和動物差不多高的地方，不能只靠運氣。</p><p class="d">5/17</p></div><div class="qa"><p class="q">你的實驗三發現，15公分高的雷達完全照不到 11公分的石虎。可是雷射光不是會擴散嗎？為什麼遠一點還是照不到？</p><p class="a">這是我們最驚訝的發現！我們原本以為光會像手電筒一樣散開，邊邊的光可以掃到石虎。但實驗證明：我們讀的那一格只看大約 7.5 度的小範圍，裝在 15 公分高的時候，整個從 11 公分高的目標頭上過去了（我們叫它「越頂盲區」）；再加上黑色的毛會吸光，就更測不到了。所以一定要降到 10 公分才行！</p><p class="d">5/17</p></div><div class="qa"><p class="q">在你的數據表看到，雷達裝在 5 公分低位的時候，距離 90 公分以後突然全部變成「400 (測不到)」，這是雷達壞掉嗎？</p><p class="a">沒有壞掉喔！400 是雷達「找不到東西」時會出現的數字。雷達裝太低（5 公分）的時候，光越照越遠，還沒照到石虎，下半部就先打到瓦楞紙板地板了。光在地板上亂彈，雷達就量不到了。這也告訴我們，雷達裝太低也很危險！</p><p class="d">5/17</p></div></div><p style="margin-top:16px"><a href="qa.html">看全部 48 個問題 →</a></p>
+  </div>
+</section><section id="code" class="alt">
+  <div class="wrap">
+    <div class="eyebrow">程式</div>
+    <h2>小車的大腦最重要的地方</h2>
+    <div class="code-note"><pre class="code">dist_L3 = matrixLidarDistance.matrix_point_output(matrixLidarDistance.Addr.ADDR4, 3, 3) / 10
+msg = <span class="s">&quot;R&quot;</span> + str(index + 1) + <span class="s">&quot;:&quot;</span> + str(dist_L3)
+radio.send_string(msg)</pre><div><h3>① 只看中間那一格</h3><p class="muted">(3,3) 是 8×8 格子中間的一格，每格大約只看 7.5 度，像一道很窄的光。所以雷達裝太高時，這道光會整個從目標頭上過去。</p></div></div><p><a href="code.html#exp3">看完整程式和每一版怎麼改 →</a></p>
+  </div>
+</section><section id="raw">
+  <div class="wrap">
+    <div class="eyebrow">原始數據</div>
+    <h2>完整紀錄</h2>
+    <p class="muted">數字直接來自我們的實驗數據總表，試算表更新，這裡也會跟著更新。</p>
+<details open><summary>打開表格</summary>
+<div class="scroll"><table id="raw3" data-gid="2010902355" data-fallback="raw3-fb"></table></div></details>
+<script type="application/json" id="raw3-fb">[["測試高度 (cm)", "設定距離 (cm)", "測量值 1 (cm 或 N)", "測量值 2 (cm 或 N)", "測量值 3 (cm 或 N)", "測量值 4 (cm 或 N)", "測量值 5 (cm 或 N)", "成功偵測率 (%)", "測量平均值 (cm)", "備註"], ["低位(5)", "30", "29.9", "30.1", "30", "29.9", "30.1", "100.00%", "30", "距離尚近，光束擴散範圍小，尚未觸及地面，可精準測得距離。"], ["低位(5)", "60", "59.7", "60.4", "60.5", "59.5", "59.6", "100.00%", "59.94", "距離尚近，光束擴散範圍小，尚未觸及地面，可精準測得距離。"], ["低位(5)", "90", "400", "400", "400", "400", "400", "0.00%", "無法偵測", "致命死角出現！光束隨距離擴散且安裝過低，導致雷射光提前『打到地板』產生漫反射雜訊，提早失去偵測能力。"], ["低位(5)", "120", "400", "400", "400", "400", "400", "0.00%", "無法偵測", "致命死角出現！光束隨距離擴散且安裝過低，導致雷射光提前『打到地板』產生漫反射雜訊，提早失去偵測能力。"], ["低位(5)", "150", "400", "400", "400", "400", "400", "0.00%", "無法偵測", "致命死角出現！光束隨距離擴散且安裝過低，導致雷射光提前『打到地板』產生漫反射雜訊，提早失去偵測能力。"], ["中位(10)", "30", "30.3", "30.2", "30.6", "30.4", "30", "100.00%", "30.3", "黃金視角！雷達高度與石虎身高相近，完美避開『越頂』與『觸地』雙重盲區，表現極度穩定。"], ["中位(10)", "60", "59.7", "60.2", "58.9", "59.2", "59.4", "100.00%", "59.48", "黃金視角！雷達高度與石虎身高相近，完美避開『越頂』與『觸地』雙重盲區，表現極度穩定。"], ["中位(10)", "90", "88.1", "91.1", "90.2", "89.1", "90.1", "100.00%", "89.72", "黃金視角！雷達高度與石虎身高相近，完美避開『越頂』與『觸地』雙重盲區，表現極度穩定。"], ["中位(10)", "120", "121.3", "400", "116.3", "118.5", "119.4", "80.00%", "118.875", "達到穩定極限。視角雖正確，但因距離拉長、訊號開始衰減，加上深色絨毛吸光，出現首次偶發性漏測(400)。」"], ["中位(10)", "150", "153", "400", "400", "154.1", "400", "40.00%", "153.55", "逼近物理探測極限。光能量隨距離嚴重衰減，無法克服絨毛材質的吸光特性，導致偵測成功率大幅下降。"], ["高位(15)", "30", "400", "400", "400", "400", "400", "0.00%", "無法偵測", "產生『越頂盲區』！雷達安裝高度(15cm)大於目標物(11cm)，光束完全從石虎頭頂越過，導致全距離皆無法偵測。"], ["高位(15)", "60", "400", "400", "400", "400", "400", "0.00%", "無法偵測", "產生『越頂盲區』！雷達安裝高度(15cm)大於目標物(11cm)，光束完全從石虎頭頂越過，導致全距離皆無法偵測。"], ["高位(15)", "90", "400", "400", "400", "400", "400", "0.00%", "無法偵測", "產生『越頂盲區』！雷達安裝高度(15cm)大於目標物(11cm)，光束完全從石虎頭頂越過，導致全距離皆無法偵測。"], ["高位(15)", "120", "400", "400", "400", "400", "400", "0.00%", "無法偵測", "產生『越頂盲區』！雷達安裝高度(15cm)大於目標物(11cm)，光束完全從石虎頭頂越過，導致全距離皆無法偵測。"], ["高位(15)", "150", "400", "400", "400", "400", "400", "0.00%", "無法偵測", "產生『越頂盲區』！雷達安裝高度(15cm)大於目標物(11cm)，光束完全從石虎頭頂越過，導致全距離皆無法偵測。"]]</script><h3 style="margin-top:28px">電腦收到的原始數字（截圖）</h3><p class="muted">點圖片可以放大。</p><div class="thumbs"><button type="button" data-full="raw_data_4.jpg" data-cap="實驗三原始數據 1" aria-label="放大：實驗三原始數據 1"><img src="raw_data_4.jpg" alt="實驗三原始數據 1" loading="lazy"></button><button type="button" data-full="raw_data_5.jpg" data-cap="實驗三原始數據 2" aria-label="放大：實驗三原始數據 2"><img src="raw_data_5.jpg" alt="實驗三原始數據 2" loading="lazy"></button><button type="button" data-full="raw_data_6.jpg" data-cap="實驗三原始數據 3" aria-label="放大：實驗三原始數據 3"><img src="raw_data_6.jpg" alt="實驗三原始數據 3" loading="lazy"></button></div>
+  </div>
+</section><section><div class="wrap"><div class="pager"><a href="exp2.html"><span>← 上一個</span>實驗二：黑色毛毛的石虎</a><a class="next" href="exp4.html"><span>下一個 →</span>實驗四：要多早煞車</a></div></div></section>
+
+<footer><div class="wrap">南投縣光華國小　蔡秉澔、蔡秉宸　指導老師：洪瑞成</div></footer>
+
+<script src="site.js"></script>
+
+
+</body>
+</html>
