@@ -1,0 +1,970 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>程式｜零死角全生命守護</title>
+<meta name="description" content="零死角全生命守護每個實驗的 MakeCode Python 程式，和每一版的修改。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="site.css">
+<style>
+.prog { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 20px; margin-bottom: 18px; scroll-margin-top: 70px; }
+.prog h3 { font-size: 20px; }
+.prog .meta { font-size: 14px; color: var(--ink-2); margin-bottom: 10px; }
+.prog details summary { color: var(--forest); }
+.prog pre.code { max-height: 560px; }
+.ver { list-style: none; padding: 0; margin: 0; display: grid; gap: 10px; }
+.ver li { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 12px 16px; display: grid; grid-template-columns: 90px minmax(0, 1fr); gap: 4px 14px; }
+.ver b { color: var(--amber); }
+@media (max-width: 520px) { .ver li { grid-template-columns: minmax(0, 1fr); } }
+</style>
+</head>
+<body>
+
+<nav class="topnav" aria-label="網站導覽">
+  <div class="wrap">
+    <a class="brand" href="index.html">零死角全生命守護</a>
+    <a href="story.html">研究故事</a><a href="experiments.html">六個實驗</a><a href="devlog.html">開發日誌</a><a href="data.html">數據中心</a><a href="qa.html">問題與回答</a><a href="code.html" aria-current="page">程式</a><a href="about.html">關於我們</a>
+  </div>
+</nav>
+
+<header class="dark page-head">
+  <div class="wrap">
+    
+    <div class="eyebrow">程式</div>
+    <h1>小車的大腦是怎麼寫的</h1>
+    <p class="lead">我們用 MakeCode 的 Python 寫程式。每個實驗都有自己的程式，下面是 9 月 21 日整理好的最新版，還有我們一版一版怎麼改。</p>
+    <div class="kpis"><div class="kpi"><b>7 支程式</b><span>每個實驗一支</span></div><div class="kpi"><b>MakeCode Python</b><span>寫程式的工具</span></div><div class="kpi"><b>0921 版</b><span>目前正式用的版本</span></div></div>
+    
+  </div>
+</header><div class="wrap"><nav class="toc" aria-label="本頁目錄"><a href="#versions">怎麼一版一版改</a><a href="#exp1">實驗一</a><a href="#exp2">實驗二</a><a href="#exp3">實驗三</a><a href="#exp4">實驗四</a><a href="#exp5a">五-A</a><a href="#exp5b">五-B</a><a href="#exp6">實驗六</a></nav></div><section id="versions">
+  <div class="wrap narrow">
+    <div class="eyebrow">版本演進</div>
+    <h2>我們怎麼一版一版改</h2>
+    <ol class="ver">
+<li><b>5/10</b><span>第一次寫 micro:bit 程式：自己會跑 A～Z 跑馬燈、會發出聲音。</span></li>
+<li><b>5/13</b><span>循線小車：一直調直線和轉彎的速度，找出最快又不會跑出線的數字。</span></li>
+<li><b>5/14～5/17</b><span>實驗一、三：數字變成亂碼，加了 basic.pause(200) 讓資料排隊；實驗三改了傳出去的名字。</span></li>
+<li><b>5/18～5/20</b><span>實驗二：加上超音波，讓兩個感測器輪流量。接在電腦上的基地台程式從頭到尾都不用改。</span></li>
+<li><b>5/21～5/27</b><span>實驗四量煞車距離；實驗五-A 把實驗四的數字寫進程式，三種速度各調一組轉彎時間；實驗五-B 第一版用曼哈頓距離找路。</span></li>
+<li><b>8/30</b><span>實驗六：三顆雷達；拿掉跑馬燈，改用碼表 input.running_time()，做出停、看、聽。</span></li>
+<li><b>9/21</b><span>全部整理成「0921 最新版」：雷達和超音波合成一行傳；五-B 改成算繞過路障的真正步數。這一頁的程式都是這一版。</span></li>
+<li><b>10 月</b><span>老師說真的車不會原地轉。我們開始寫五-B 和六的「流暢弧線版」：提早轉彎、外輪快內輪慢。第一次測試開不到終點，正在校正。</span></li>
+</ol>
+  </div>
+</section><section id="programs" class="alt">
+  <div class="wrap">
+    <div class="eyebrow">每個實驗的程式</div>
+    <h2>0921 最新版</h2>
+    <div class="prog" id="exp1"><h3>實驗一：夜盲症測試</h3><div class="meta">0921 最新版・MakeCode Python　<a href="exp1.html">看實驗 →</a></div><p>量 5 次、算平均，用無線電傳到電腦。</p><ul><li>雷達只讀 8×8 裡的 (3,3) 一格，除以 10 換成公分</li><li>雷達和超音波合成一行「R1:xx U:yy」，每次等 0.5 秒</li><li>號碼牌 is_running：遙控器只舉牌，主迴圈才做實驗</li></ul>
+<details><summary>打開完整程式（75 行）</summary><pre class="code"><span class="c"># 1. 定義全域變數</span>
+total_radar = 0
+total_ultra = 0
+is_running = <span class="k">False</span>
+
+<span class="c"># 2. 將「實驗執行邏輯」獨立出來</span>
+<span class="k">def</span> run_experiment():
+    <span class="k">global</span> total_radar, total_ultra
+    total_radar = 0
+    total_ultra = 0
+    basic.show_icon(IconNames.TARGET)
+
+    <span class="c"># 宣告實驗開始</span>
+    radio.send_string(<span class="s">&quot;--- EXP 1 ---&quot;</span>)
+    basic.pause(500)
+
+    <span class="k">for</span> index <span class="k">in</span> range(5):
+        <span class="c"># 讀取【光學雷達】數據</span>
+        dist_radar = matrixLidarDistance.matrix_point_output(matrixLidarDistance.Addr.ADDR4, 3, 3) / 10
+
+        <span class="c"># 讀取【超音波】數據 (提醒：若數值卡死不動，請將 P13 與 P14 的線對調)</span>
+        dist_ultra = maqueenPlusV2.read_ultrasonic(DigitalPin.P13, DigitalPin.P14)
+
+        <span class="c"># 【神級優化】將雷達與超音波合併成一行發送，絕對不會超過 19 字元極限！</span>
+        msg = <span class="s">&quot;R&quot;</span> + str(index + 1) + <span class="s">&quot;:&quot;</span> + str(dist_radar) + <span class="s">&quot; U:&quot;</span> + str(dist_ultra)
+        radio.send_string(msg)
+        basic.pause(500)
+
+        total_radar += dist_radar
+        total_ultra += dist_ultra
+
+    <span class="c"># 傳送平均值 (合併發送)</span>
+    avg_msg = <span class="s">&quot;RA:&quot;</span> + str(total_radar / 5) + <span class="s">&quot; UA:&quot;</span> + str(total_ultra / 5)
+    radio.send_string(avg_msg)
+    basic.pause(500)
+
+    basic.show_icon(IconNames.YES)
+
+
+<span class="c"># 3. 無線電遙控接收區：只發號碼牌，不直接執行！</span>
+<span class="k">def</span> on_received_string(receivedString):
+    <span class="k">global</span> is_running
+    <span class="k">if</span> receivedString == <span class="s">&quot;GO&quot;</span>:
+        is_running = <span class="k">True</span>
+radio.on_received_string(on_received_string)
+
+
+<span class="c"># 4. 手動按鍵觸發 (一樣發號碼牌，讓流程統一更穩定)</span>
+<span class="k">def</span> on_button_pressed_a():
+    <span class="k">global</span> is_running
+    is_running = <span class="k">True</span>
+input.on_button_pressed(Button.A, on_button_pressed_a)
+
+
+<span class="c"># ==========================================</span>
+<span class="c"># 主迴圈：小車在這邊不斷檢查號碼牌並執行動作</span>
+<span class="c"># ==========================================</span>
+<span class="k">def</span> on_forever():
+    <span class="k">global</span> is_running
+    <span class="c"># 如果看到號碼牌舉起來了，才開始做實驗</span>
+    <span class="k">if</span> is_running == <span class="k">True</span>:
+        run_experiment()
+        is_running = <span class="k">False</span>    <span class="c"># 執行完畢，放下號碼牌</span>
+basic.forever(on_forever)
+
+
+<span class="c"># --- 開機啟動設定 ---</span>
+<span class="c"># 初始化麥昆小車 I2C</span>
+maqueenPlusV2.i2c_init()
+<span class="c"># 初始化光學雷達</span>
+matrixLidarDistance.initialize(matrixLidarDistance.Addr.ADDR4, matrixLidarDistance.Matrix.MAT)
+<span class="c"># 設定廣播頻道為 99</span>
+radio.set_group(99)
+<span class="c"># 顯示笑臉代表開機完成</span>
+basic.show_icon(IconNames.HAPPY)</pre></details></div><div class="prog" id="exp2"><h3>實驗二：材質與超音波</h3><div class="meta">0921 最新版・MakeCode Python　<a href="exp2.html">看實驗 →</a></div><p>和實驗一幾乎一樣，傳出去的名字是「--- EXP 2 ---」。</p><ul><li>量不到時：雷達會出現 400，超音波會卡在 300</li><li>等 0.5 秒讓超音波的聲音散掉，才不會聽到上一次的回音</li></ul>
+<details><summary>打開完整程式（74 行）</summary><pre class="code"><span class="c"># 1. 定義全域變數</span>
+total_radar = 0
+total_ultra = 0
+is_running = <span class="k">False</span>  <span class="c"># 【新增】號碼牌機制</span>
+
+<span class="c"># 2. 將「實驗執行邏輯」獨立出來</span>
+<span class="k">def</span> run_experiment():
+    <span class="k">global</span> total_radar, total_ultra
+    total_radar = 0
+    total_ultra = 0
+    basic.show_icon(IconNames.TARGET)
+
+    <span class="c"># 宣告實驗二開始</span>
+    radio.send_string(<span class="s">&quot;--- EXP 2 ---&quot;</span>)
+    basic.pause(500)
+
+    <span class="k">for</span> index <span class="k">in</span> range(5):
+        <span class="c"># 讀取【光學雷達】數據</span>
+        dist_radar = matrixLidarDistance.matrix_point_output(matrixLidarDistance.Addr.ADDR4, 3, 3) / 10
+        <span class="c"># 讀取【超音波】數據</span>
+        dist_ultra = maqueenPlusV2.read_ultrasonic(DigitalPin.P13, DigitalPin.P14)
+
+        <span class="c"># 【神級優化】將雷達與超音波合併成一行發送，減少塞車且字數安全！</span>
+        msg = <span class="s">&quot;R&quot;</span> + str(index + 1) + <span class="s">&quot;:&quot;</span> + str(dist_radar) + <span class="s">&quot; U:&quot;</span> + str(dist_ultra)
+        radio.send_string(msg)
+        basic.pause(500)
+
+        total_radar += dist_radar
+        total_ultra += dist_ultra
+
+    <span class="c"># 傳送平均值 (合併發送)</span>
+    avg_msg = <span class="s">&quot;RA:&quot;</span> + str(total_radar / 5) + <span class="s">&quot; UA:&quot;</span> + str(total_ultra / 5)
+    radio.send_string(avg_msg)
+    basic.pause(500)
+
+    basic.show_icon(IconNames.YES)
+
+
+<span class="c"># 3. 無線電遙控接收區：只發號碼牌，不直接執行！</span>
+<span class="k">def</span> on_received_string(receivedString):
+    <span class="k">global</span> is_running
+    <span class="k">if</span> receivedString == <span class="s">&quot;GO&quot;</span>:
+        is_running = <span class="k">True</span>
+radio.on_received_string(on_received_string)
+
+
+<span class="c"># 4. 手動按鍵觸發：只發號碼牌</span>
+<span class="k">def</span> on_button_pressed_a():
+    <span class="k">global</span> is_running
+    is_running = <span class="k">True</span>
+input.on_button_pressed(Button.A, on_button_pressed_a)
+
+
+<span class="c"># ==========================================</span>
+<span class="c"># 主迴圈：小車在這邊不斷檢查號碼牌並執行動作</span>
+<span class="c"># ==========================================</span>
+<span class="k">def</span> on_forever():
+    <span class="k">global</span> is_running
+    <span class="c"># 如果看到號碼牌舉起來了，才開始做實驗</span>
+    <span class="k">if</span> is_running == <span class="k">True</span>:
+        run_experiment()
+        is_running = <span class="k">False</span>    <span class="c"># 執行完畢，放下號碼牌</span>
+basic.forever(on_forever)
+
+
+<span class="c"># --- 開機啟動設定 ---</span>
+<span class="c"># 初始化麥昆小車 I2C</span>
+maqueenPlusV2.i2c_init()
+<span class="c"># 初始化光學雷達</span>
+matrixLidarDistance.initialize(matrixLidarDistance.Addr.ADDR4, matrixLidarDistance.Matrix.MAT)
+<span class="c"># 設定廣播頻道為 99</span>
+radio.set_group(99)
+<span class="c"># 顯示笑臉代表開機完成</span>
+basic.show_icon(IconNames.HAPPY)</pre></details></div><div class="prog" id="exp3"><h3>實驗三：最佳視角</h3><div class="meta">0921 最新版・MakeCode Python　<a href="exp3.html">看實驗 →</a></div><p>只用光學雷達，量 5 次再傳平均。</p><ul><li>傳出去的名字改成「--- EXP 3 ---」，和實驗一分得清楚</li><li>平均值也會顯示在小車的面板上</li></ul>
+<details><summary>打開完整程式（74 行）</summary><pre class="code"><span class="c"># 1. 定義全域變數</span>
+total_L3 = 0
+is_running = <span class="k">False</span>  <span class="c"># 【新增】號碼牌機制</span>
+
+<span class="c"># 2. 將「實驗執行邏輯」獨立出來</span>
+<span class="k">def</span> start_scanning_exp3():
+    <span class="k">global</span> total_L3
+    <span class="c"># 每次測量前歸零，確保平均值正確</span>
+    total_L3 = 0
+    basic.show_icon(IconNames.TARGET)
+
+    <span class="c"># 傳送實驗三開始訊號，精簡格式與前兩個實驗統一</span>
+    radio.send_string(<span class="s">&quot;--- EXP 3 ---&quot;</span>)
+    basic.pause(500)
+
+    <span class="k">for</span> index <span class="k">in</span> range(5):
+        <span class="c"># 讀取光學雷達數據並換算為公分</span>
+        dist_L3 = matrixLidarDistance.matrix_point_output(matrixLidarDistance.Addr.ADDR4, 3, 3) / 10
+
+        <span class="c"># 【神級優化】精簡字串，絕對安全不超過 19 字元</span>
+        <span class="c"># 顯示格式會像是 &quot;R1:164.5&quot;</span>
+        msg = <span class="s">&quot;R&quot;</span> + str(index + 1) + <span class="s">&quot;:&quot;</span> + str(dist_L3)
+        radio.send_string(msg)
+        basic.pause(500)
+
+        total_L3 += dist_L3
+
+    <span class="c"># --- 迴圈結束後，計算平均值並廣播 ---</span>
+    average_L3 = total_L3 / 5
+    avg_msg_L3 = <span class="s">&quot;R_AVG:&quot;</span> + str(average_L3)
+
+    <span class="c"># 傳送實驗三平均值</span>
+    radio.send_string(avg_msg_L3)
+    basic.pause(500)
+
+    basic.show_number(average_L3)
+    basic.show_icon(IconNames.YES)
+
+
+<span class="c"># 3. 無線電遙控接收區：只發號碼牌，不直接執行！</span>
+<span class="k">def</span> on_received_string(receivedString):
+    <span class="k">global</span> is_running
+    <span class="k">if</span> receivedString == <span class="s">&quot;GO&quot;</span>:
+        is_running = <span class="k">True</span>
+radio.on_received_string(on_received_string)
+
+
+<span class="c"># 4. 手動按鍵觸發：只發號碼牌</span>
+<span class="k">def</span> on_button_pressed_a():
+    <span class="k">global</span> is_running
+    is_running = <span class="k">True</span>
+input.on_button_pressed(Button.A, on_button_pressed_a)
+
+
+<span class="c"># ==========================================</span>
+<span class="c"># 主迴圈：小車在這邊不斷檢查號碼牌並執行動作</span>
+<span class="c"># ==========================================</span>
+<span class="k">def</span> on_forever():
+    <span class="k">global</span> is_running
+    <span class="k">if</span> is_running == <span class="k">True</span>:
+        start_scanning_exp3()
+        is_running = <span class="k">False</span>    <span class="c"># 執行完畢，把號碼牌放下</span>
+basic.forever(on_forever)
+
+
+<span class="c"># --- 開機啟動設定 ---</span>
+<span class="c"># 雷達開機初始化</span>
+matrixLidarDistance.initialize(matrixLidarDistance.Addr.ADDR4, matrixLidarDistance.Matrix.MAT)
+
+<span class="c"># 設定廣播群組（對講機頻道為 99）</span>
+radio.set_group(99)
+
+<span class="c"># 顯示打勾圖案，代表小車已準備就緒，等待遙控</span>
+basic.show_icon(IconNames.YES)</pre></details></div><div class="prog" id="exp4"><h3>實驗四：生死一瞬間</h3><div class="meta">0921 最新版・MakeCode Python　<a href="exp4.html">看實驗 →</a></div><p>用三種速度往前衝，15 公分內看到障礙物就煞車，量滑了多遠。</p><ul><li>current_speed 改成 150、205、255，就是 20、30、40 cm/s</li><li>煞車那一刻記一次距離，等 1.5 秒再記一次，相減</li><li>傳回 Speed、Trig、Slide 三個數字</li></ul>
+<details><summary>打開完整程式（95 行）</summary><pre class="code"><span class="c"># --- 實驗四：生死一瞬間 (優化統一格式版) ---</span>
+
+<span class="c"># 1. 在這裡設定測試速度的 PWM 值！(150, 205, 或 255)</span>
+current_speed = 150
+
+<span class="c"># 2. 預定緊急煞車的基準線：設定在 15 公分</span>
+brake_distance = 15
+
+<span class="c"># 【新增】號碼牌機制</span>
+is_running = <span class="k">False</span>
+
+<span class="k">def</span> run_braking_test():
+    <span class="k">global</span> current_speed, brake_distance
+
+    basic.show_icon(IconNames.TARGET)
+
+    <span class="c"># 宣告實驗四開始，格式與前三實驗統一</span>
+    radio.send_string(<span class="s">&quot;--- EXP 4 ---&quot;</span>)
+    basic.pause(500)
+
+    <span class="c"># 廣播目前設定的速度 (精簡為 Speed:150)</span>
+    radio.send_string(<span class="s">&quot;Speed:&quot;</span> + str(current_speed))
+    basic.pause(1000) <span class="c"># 給測量者 1 秒鐘的準備時間</span>
+
+    <span class="c"># 【起步】：雙輪同時啟動，以設定速度前進 (ALL_MOTOR 可以簡化程式)</span>
+    maqueenPlusV2.control_motor(maqueenPlusV2.MyEnumMotor.ALL_MOTOR, maqueenPlusV2.MyEnumDir.FORWARD, current_speed)
+
+    <span class="c"># 【自動駕駛監控迴圈】</span>
+    <span class="k">while</span> <span class="k">True</span>:
+        <span class="c"># 讀取光學雷達前方距離</span>
+        dist = matrixLidarDistance.matrix_point_output(matrixLidarDistance.Addr.ADDR4, 3, 3) / 10
+
+        <span class="c"># 煞車判斷：若距離小於等於 15 公分，且大於 0</span>
+        <span class="k">if</span> dist &gt; 0 <span class="k">and</span> dist &lt;= brake_distance:
+            <span class="c"># 1. 瞬間切斷動力</span>
+            maqueenPlusV2.control_motor_stop(maqueenPlusV2.MyEnumMotor.ALL_MOTOR)
+
+            <span class="c"># 2. 記錄煞車瞬間的精準距離</span>
+            trigger_dist = dist
+
+            <span class="c"># 3. 讓車輛因物理慣性滑行 1.5 秒，確保完全靜止</span>
+            basic.pause(1500)
+
+            <span class="c"># 4. 重新讀取完全靜止後的「最終距離」</span>
+            final_dist = matrixLidarDistance.matrix_point_output(matrixLidarDistance.Addr.ADDR4, 3, 3) / 10
+
+            <span class="c"># 5. 計算實際滑行距離</span>
+            slide_dist = trigger_dist - final_dist
+
+            <span class="c"># 6. 【關鍵修改】：改用 send_string，並加入等待時間防塞車</span>
+            radio.send_string(<span class="s">&quot;Trig:&quot;</span> + str(trigger_dist))
+            basic.pause(500)
+            radio.send_string(<span class="s">&quot;Slide:&quot;</span> + str(slide_dist))
+            basic.pause(500)
+
+            basic.show_icon(IconNames.NO)
+            <span class="k">break</span> <span class="c"># 跳出監控，等待下一次測試</span>
+
+        basic.pause(10) <span class="c"># 每 10 毫秒極速監測一次</span>
+
+    basic.pause(2000)
+    basic.show_icon(IconNames.YES)
+
+
+<span class="c"># --- 無線電遙控啟動：只發號碼牌 ---</span>
+<span class="k">def</span> on_received_string(receivedString):
+    <span class="k">global</span> is_running
+    <span class="k">if</span> receivedString == <span class="s">&quot;GO&quot;</span>:
+        is_running = <span class="k">True</span>
+radio.on_received_string(on_received_string)
+
+
+<span class="c"># --- 按鍵 A 手動啟動：只發號碼牌 ---</span>
+<span class="k">def</span> on_button_pressed_a():
+    <span class="k">global</span> is_running
+    is_running = <span class="k">True</span>
+input.on_button_pressed(Button.A, on_button_pressed_a)
+
+
+<span class="c"># ==========================================</span>
+<span class="c"># 主迴圈：小車在這邊不斷檢查號碼牌並執行動作</span>
+<span class="c"># ==========================================</span>
+<span class="k">def</span> on_forever():
+    <span class="k">global</span> is_running
+    <span class="k">if</span> is_running == <span class="k">True</span>:
+        run_braking_test()
+        is_running = <span class="k">False</span>    <span class="c"># 執行完畢，放下號碼牌</span>
+basic.forever(on_forever)
+
+
+<span class="c"># --- 開機啟動設定 ---</span>
+maqueenPlusV2.i2c_init()
+matrixLidarDistance.initialize(matrixLidarDistance.Addr.ADDR4, matrixLidarDistance.Matrix.MAT)
+radio.set_group(99)
+basic.show_icon(IconNames.HAPPY)</pre></details></div><div class="prog" id="exp5a"><h3>實驗五-A：窄山路</h3><div class="meta">0921 最新版（V16 三段變速）・MakeCode Python　<a href="exp5a.html">看實驗 →</a></div><p>看到路障就繞過去；同一支程式可以切換雷達或超音波。</p><ul><li>get_safe_dist()：預警距離用實驗四的數字</li><li>三種速度各有一組後退、轉出、通過、轉回的時間</li><li>遙控器 A 用雷達、B 用超音波</li></ul>
+<details><summary>打開完整程式（135 行）</summary><pre class="code"><span class="c"># --- 實驗五-A：動態轉向閃避版 (V16 三段變速獨立校正版) ---</span>
+
+<span class="c"># 🌟 設定區</span>
+<span class="c"># ==========================================</span>
+<span class="c"># 【請在這裡手動修改 current_speed 進行三種速度測試】</span>
+<span class="c"># 速度 150：約 20cm/s</span>
+<span class="c"># 速度 205：約 30cm/s</span>
+<span class="c"># 速度 255：約 40cm/s</span>
+<span class="c"># ==========================================</span>
+current_speed = 255
+
+sensor_mode = 1      <span class="c"># 1: 光學雷達, 2: 超音波</span>
+is_running = <span class="k">False</span>   <span class="c"># 號碼牌機制</span>
+
+<span class="c"># 🌟 根據實驗數據設定的防護罩</span>
+<span class="k">def</span> get_safe_dist(speed):
+    <span class="k">if</span> speed == 150: <span class="k">return</span> 13.3
+    <span class="k">elif</span> speed == 205: <span class="k">return</span> 14.6
+    <span class="k">else</span>: <span class="k">return</span> 17.0
+
+<span class="c"># 🌟 自動轉向閃避動作 (三段變速獨立校正版)</span>
+<span class="k">def</span> auto_dodge():
+    <span class="k">global</span> is_running
+    radio.send_string(<span class="s">&quot;Action: DODGE!&quot;</span>)
+
+    <span class="c"># === 【關鍵新增】：根據目前速度，自動切換對應的時間參數 ===</span>
+    <span class="c"># 先設定預設變數</span>
+    back_t = 200      <span class="c"># 1. 稍微後退的時間</span>
+    turn_out_t = 200  <span class="c"># 2. 向右轉向閃避的時間</span>
+    pass_t = 900      <span class="c"># 3. 直行越過路障的時間</span>
+    turn_in_t = 100   <span class="c"># 4. 轉回正前方的時間</span>
+    fwd_t = 1000      <span class="c"># 5. 轉正後，往前開的安全時間</span>
+
+    <span class="k">if</span> current_speed == 150:
+        <span class="c"># 🐢 低速參數 (速度慢，需要的時間比較長，請依實際狀況微調)</span>
+        back_t = 200
+        turn_out_t = 360
+        pass_t = 500
+        turn_in_t = 400
+        fwd_t = 1000
+    <span class="k">elif</span> current_speed == 205:
+        <span class="c"># 🚗 中速參數 (你原本設定的預設值)</span>
+        back_t = 200
+        turn_out_t = 280
+        pass_t = 400
+        turn_in_t = 380
+        fwd_t = 800
+    <span class="k">elif</span> current_speed == 255:
+        <span class="c"># 🚀 高速參數 (速度極快，只要轉/走一下下就到了，請依實際狀況微調)</span>
+        back_t = 200
+        turn_out_t = 200
+        pass_t = 300
+        turn_in_t = 280
+        fwd_t = 600
+    <span class="c"># ========================================================</span>
+
+    <span class="c"># 1. 稍微後退 (預防太靠近撞到)</span>
+    maqueenPlusV2.control_motor(maqueenPlusV2.MyEnumMotor.ALL_MOTOR, maqueenPlusV2.MyEnumDir.BACKWARD, current_speed)
+    basic.pause(back_t)
+
+    <span class="c"># 2. 向右轉向閃避 (右馬達減速或反轉)</span>
+    maqueenPlusV2.control_motor(maqueenPlusV2.MyEnumMotor.LEFT_MOTOR, maqueenPlusV2.MyEnumDir.FORWARD, current_speed)
+    maqueenPlusV2.control_motor(maqueenPlusV2.MyEnumMotor.RIGHT_MOTOR, maqueenPlusV2.MyEnumDir.BACKWARD, current_speed)
+    basic.pause(turn_out_t)
+
+    <span class="c"># 3. 直行越過路障</span>
+    maqueenPlusV2.control_motor(maqueenPlusV2.MyEnumMotor.ALL_MOTOR, maqueenPlusV2.MyEnumDir.FORWARD, current_speed)
+    basic.pause(pass_t)
+
+    <span class="c"># 4. 轉回正前方 (向左轉回)</span>
+    maqueenPlusV2.control_motor(maqueenPlusV2.MyEnumMotor.LEFT_MOTOR, maqueenPlusV2.MyEnumDir.BACKWARD, current_speed)
+    maqueenPlusV2.control_motor(maqueenPlusV2.MyEnumMotor.RIGHT_MOTOR, maqueenPlusV2.MyEnumDir.FORWARD, current_speed)
+    basic.pause(turn_in_t)
+
+    <span class="c"># 5. 轉正後，往前開一段「你指定的安全時間」</span>
+    maqueenPlusV2.control_motor(maqueenPlusV2.MyEnumMotor.ALL_MOTOR, maqueenPlusV2.MyEnumDir.FORWARD, current_speed)
+    basic.pause(fwd_t)
+
+    <span class="c"># 6. 安全煞停：時間到了立刻停止馬達，避免掉下桌子！</span>
+    maqueenPlusV2.control_motor_stop(maqueenPlusV2.MyEnumMotor.ALL_MOTOR)
+
+    <span class="c"># 閃避完成後停止實驗，放下號碼牌</span>
+    is_running = <span class="k">False</span>
+    radio.send_string(<span class="s">&quot;Dodge Done!&quot;</span>)
+
+
+<span class="c"># 🌟 無線電接收設定：只負責修改變數與發號碼牌</span>
+<span class="k">def</span> on_received_string(receivedString):
+    <span class="k">global</span> sensor_mode, current_speed, is_running
+
+    <span class="k">if</span> receivedString == <span class="s">&quot;A&quot;</span>: <span class="c"># 雷達模式</span>
+        sensor_mode = 1
+        is_running = <span class="k">True</span>
+        radio.send_string(<span class="s">&quot;--- 5A Lidar ---&quot;</span>)
+    <span class="k">elif</span> receivedString == <span class="s">&quot;B&quot;</span>: <span class="c"># 超音波模式</span>
+        sensor_mode = 2
+        is_running = <span class="k">True</span>
+        radio.send_string(<span class="s">&quot;--- 5A Sonar ---&quot;</span>)
+    <span class="c"># 改變速度</span>
+    <span class="k">elif</span> receivedString == <span class="s">&quot;SPD150&quot;</span>: current_speed = 150
+    <span class="k">elif</span> receivedString == <span class="s">&quot;SPD205&quot;</span>: current_speed = 205
+    <span class="k">elif</span> receivedString == <span class="s">&quot;SPD255&quot;</span>: current_speed = 255
+radio.on_received_string(on_received_string)
+
+<span class="c"># 🌟 主迴圈：小車在這邊不斷檢查號碼牌並執行動作</span>
+<span class="k">def</span> on_forever():
+    <span class="k">global</span> is_running
+
+    <span class="c"># 如果實驗啟動中</span>
+    <span class="k">if</span> is_running == <span class="k">True</span>:
+        safe_dist = get_safe_dist(current_speed)
+        dist = 0
+
+        <span class="c"># 讀取感測距離</span>
+        <span class="k">if</span> sensor_mode == 1:
+            dist = matrixLidarDistance.matrix_point_output(matrixLidarDistance.Addr.ADDR4, 3, 3) / 10
+        <span class="k">else</span>:
+            dist = maqueenPlusV2.read_ultrasonic(DigitalPin.P13, DigitalPin.P14)
+
+        <span class="c"># 邏輯判斷：安全邊際內執行閃避，安全區則全速前進</span>
+        <span class="k">if</span> dist &gt; 0 <span class="k">and</span> dist &lt;= safe_dist:
+            auto_dodge()
+        <span class="k">else</span>:
+            maqueenPlusV2.control_motor(maqueenPlusV2.MyEnumMotor.ALL_MOTOR, maqueenPlusV2.MyEnumDir.FORWARD, current_speed)
+
+        <span class="c"># 給感測器一點喘息時間，防止讀取過快當機</span>
+        basic.pause(10)
+
+basic.forever(on_forever)
+
+<span class="c"># 🌟 開機啟動初始化</span>
+maqueenPlusV2.i2c_init()
+matrixLidarDistance.initialize(matrixLidarDistance.Addr.ADDR4, matrixLidarDistance.Matrix.MAT)
+radio.set_group(99)
+basic.show_icon(IconNames.HAPPY)</pre></details></div><div class="prog" id="exp5b"><h3>實驗五-B：24 宮格</h3><div class="meta">0921 最新版・MakeCode Python　<a href="exp5b.html">看實驗 →</a></div><p>網格記憶加上找真正步數，自己在 24 宮格裡找路。</p><ul><li>bad_x、bad_y 是黑名單；visited 記住每格走過幾次</li><li>get_true_distance()：從下一格一圈一圈往外找，算出繞過路障真正要走幾步</li><li>分數 = 走過次數 × 20 + 真正步數，選最低分的方向</li></ul>
+<details><summary>打開完整程式（262 行）</summary><pre class="code"><span class="c"># --- 實驗五-B：終極 AI 全域導航 (V15 A* 進化版) ---</span>
+
+current_speed = 80
+time_one_grid = 960
+time_turn_90 = 1050
+
+<span class="c"># 🌟 A* 終極大腦設定</span>
+start_x = 0; start_y = 0     <span class="c"># 起點 (0,0)</span>
+target_x = 3; target_y = 4   <span class="c"># 終點 (3,4)</span>
+final_facing = 0
+
+<span class="c"># 🚧 靜態地圖：預知施工座標</span>
+static_bad_x = [0]
+static_bad_y = [3]
+
+current_x = 0; current_y = 0; current_dir = 0; total_grids = 0
+sensor_mode = 1
+
+<span class="c"># 動態黑名單與足跡記憶 (改用安全的初始值)</span>
+bad_x = [-99]
+bad_y = [-99]
+<span class="c"># 解決行 22 報錯：不使用乘法，直接寫滿 24 個 0</span>
+visited = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+
+is_running = <span class="k">False</span>
+command_inbox = <span class="s">&quot;&quot;</span>
+
+<span class="k">def</span> is_safe_to_go(test_x, test_y):
+    <span class="k">for</span> i <span class="k">in</span> range(len(bad_x)):
+        <span class="k">if</span> bad_x[i] == test_x <span class="k">and</span> bad_y[i] == test_y:
+            <span class="k">return</span> <span class="k">False</span>
+    <span class="k">return</span> <span class="k">True</span>
+
+<span class="c"># 🧠 升級核心：真實路徑長度運算 (A-Star 波前尋路大腦)</span>
+<span class="k">def</span> get_true_distance(sx, sy, tx, ty):
+    q_x = [sx]
+    q_y = [sy]
+    q_d = [0]
+    <span class="c"># 解決行 38 報錯：不使用乘法，直接寫滿 24 個 False</span>
+    v_map = [<span class="k">False</span>,<span class="k">False</span>,<span class="k">False</span>,<span class="k">False</span>,<span class="k">False</span>,<span class="k">False</span>,<span class="k">False</span>,<span class="k">False</span>,<span class="k">False</span>,<span class="k">False</span>,<span class="k">False</span>,<span class="k">False</span>,<span class="k">False</span>,<span class="k">False</span>,<span class="k">False</span>,<span class="k">False</span>,<span class="k">False</span>,<span class="k">False</span>,<span class="k">False</span>,<span class="k">False</span>,<span class="k">False</span>,<span class="k">False</span>,<span class="k">False</span>,<span class="k">False</span>]
+    v_map[sx + sy * 4] = <span class="k">True</span>
+    head = 0
+
+    <span class="k">while</span> head &lt; len(q_x):
+        cx = q_x[head]
+        cy = q_y[head]
+        cd = q_d[head]
+        head += 1
+
+        <span class="c"># 找到終點，回傳真實步數</span>
+        <span class="k">if</span> cx == tx <span class="k">and</span> cy == ty:
+            <span class="k">return</span> cd
+
+        <span class="c"># 檢查四個方向 (北東南西) 尋找暢通活路</span>
+        <span class="k">if</span> cy &lt; 5 <span class="k">and</span> <span class="k">not</span> v_map[cx + (cy+1)*4] <span class="k">and</span> is_safe_to_go(cx, cy+1):
+            v_map[cx + (cy+1)*4] = <span class="k">True</span>; q_x.append(cx); q_y.append(cy+1); q_d.append(cd+1)
+        <span class="k">if</span> cx &lt; 3 <span class="k">and</span> <span class="k">not</span> v_map[(cx+1) + cy*4] <span class="k">and</span> is_safe_to_go(cx+1, cy):
+            v_map[(cx+1) + cy*4] = <span class="k">True</span>; q_x.append(cx+1); q_y.append(cy); q_d.append(cd+1)
+        <span class="k">if</span> cy &gt; 0 <span class="k">and</span> <span class="k">not</span> v_map[cx + (cy-1)*4] <span class="k">and</span> is_safe_to_go(cx, cy-1):
+            v_map[cx + (cy-1)*4] = <span class="k">True</span>; q_x.append(cx); q_y.append(cy-1); q_d.append(cd+1)
+        <span class="k">if</span> cx &gt; 0 <span class="k">and</span> <span class="k">not</span> v_map[(cx-1) + cy*4] <span class="k">and</span> is_safe_to_go(cx-1, cy):
+            v_map[(cx-1) + cy*4] = <span class="k">True</span>; q_x.append(cx-1); q_y.append(cy); q_d.append(cd+1)
+
+    <span class="k">return</span> 999 <span class="c"># 如果發現四面都是死路，回傳極大值</span>
+
+<span class="k">def</span> move_one_grid():
+    <span class="k">global</span> current_x, current_y, total_grids, visited
+    maqueenPlusV2.control_motor(maqueenPlusV2.MyEnumMotor.LEFT_MOTOR, maqueenPlusV2.MyEnumDir.FORWARD, current_speed)
+    maqueenPlusV2.control_motor(maqueenPlusV2.MyEnumMotor.RIGHT_MOTOR, maqueenPlusV2.MyEnumDir.FORWARD, current_speed)
+    basic.pause(time_one_grid)
+    maqueenPlusV2.control_motor_stop(maqueenPlusV2.MyEnumMotor.LEFT_MOTOR)
+    maqueenPlusV2.control_motor_stop(maqueenPlusV2.MyEnumMotor.RIGHT_MOTOR)
+
+    <span class="k">if</span> current_dir == 0: current_y += 1
+    <span class="k">elif</span> current_dir == 1: current_x += 1
+    <span class="k">elif</span> current_dir == 2: current_y -= 1
+    <span class="k">elif</span> current_dir == 3: current_x -= 1
+
+    visited[current_x + current_y * 4] += 1
+    total_grids += 1
+    radio.send_string(<span class="s">&quot;Pos: (&quot;</span> + str(current_x) + <span class="s">&quot;,&quot;</span> + str(current_y) + <span class="s">&quot;)&quot;</span>)
+    basic.pause(500)
+
+<span class="k">def</span> turn_left_90():
+    <span class="k">global</span> current_dir
+    maqueenPlusV2.control_motor(maqueenPlusV2.MyEnumMotor.LEFT_MOTOR, maqueenPlusV2.MyEnumDir.BACKWARD, current_speed)
+    maqueenPlusV2.control_motor(maqueenPlusV2.MyEnumMotor.RIGHT_MOTOR, maqueenPlusV2.MyEnumDir.FORWARD, current_speed)
+    basic.pause(time_turn_90)
+    maqueenPlusV2.control_motor_stop(maqueenPlusV2.MyEnumMotor.LEFT_MOTOR)
+    maqueenPlusV2.control_motor_stop(maqueenPlusV2.MyEnumMotor.RIGHT_MOTOR)
+    current_dir = (current_dir + 3) % 4
+    basic.pause(500)
+
+<span class="k">def</span> turn_right_90():
+    <span class="k">global</span> current_dir
+    maqueenPlusV2.control_motor(maqueenPlusV2.MyEnumMotor.LEFT_MOTOR, maqueenPlusV2.MyEnumDir.FORWARD, current_speed)
+    maqueenPlusV2.control_motor(maqueenPlusV2.MyEnumMotor.RIGHT_MOTOR, maqueenPlusV2.MyEnumDir.BACKWARD, current_speed)
+    basic.pause(time_turn_90)
+    maqueenPlusV2.control_motor_stop(maqueenPlusV2.MyEnumMotor.LEFT_MOTOR)
+    maqueenPlusV2.control_motor_stop(maqueenPlusV2.MyEnumMotor.RIGHT_MOTOR)
+    current_dir = (current_dir + 1) % 4
+    basic.pause(500)
+
+<span class="k">def</span> face_direction(target_dir):
+    <span class="k">global</span> current_dir
+    diff = target_dir - current_dir
+    <span class="k">if</span> diff &lt; 0: diff += 4
+    diff = diff % 4
+    <span class="k">if</span> diff == 1: turn_right_90()
+    <span class="k">elif</span> diff == 2: turn_right_90(); turn_right_90()
+    <span class="k">elif</span> diff == 3: turn_left_90()
+
+<span class="k">def</span> run_ai_navigation():
+    <span class="k">global</span> current_x, current_y, current_dir, total_grids
+    <span class="k">global</span> bad_x, bad_y, visited, is_running
+
+    is_running = <span class="k">True</span>
+
+    current_x = start_x; current_y = start_y
+    current_dir = 0; total_grids = 0
+
+    <span class="c"># 🗺️ 載入高精地圖：把預知施工座標放入大腦黑名單</span>
+    bad_x = [-99]
+    bad_y = [-99]
+    <span class="k">for</span> i <span class="k">in</span> range(len(static_bad_x)):
+        bad_x.append(static_bad_x[i])
+        bad_y.append(static_bad_y[i])
+
+    <span class="c"># 解決行 127 報錯：不使用乘法</span>
+    visited = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+    visited[start_x + start_y * 4] = 1
+
+    basic.show_icon(IconNames.TARGET)
+    <span class="k">if</span> sensor_mode == 1: radio.send_string(<span class="s">&quot;--- LiDAR NAV ---&quot;</span>)
+    <span class="k">else</span>: radio.send_string(<span class="s">&quot;--- SONAR NAV ---&quot;</span>)
+
+    start_time = input.running_time()
+
+    <span class="k">while</span> current_x != target_x <span class="k">or</span> current_y != target_y:
+        safe_dirs = []
+        <span class="k">if</span> current_y &lt; 5 <span class="k">and</span> is_safe_to_go(current_x, current_y + 1): safe_dirs.append(0)
+        <span class="k">if</span> current_x &lt; 3 <span class="k">and</span> is_safe_to_go(current_x + 1, current_y): safe_dirs.append(1)
+        <span class="k">if</span> current_y &gt; 0 <span class="k">and</span> is_safe_to_go(current_x, current_y - 1): safe_dirs.append(2)
+        <span class="k">if</span> current_x &gt; 0 <span class="k">and</span> is_safe_to_go(current_x - 1, current_y): safe_dirs.append(3)
+
+        <span class="k">if</span> len(safe_dirs) == 0:
+            radio.send_string(<span class="s">&quot;TRAPPED!&quot;</span>)
+            basic.show_icon(IconNames.SAD)
+            <span class="k">break</span>
+
+        best_dir = -1; min_score = 9999
+
+        <span class="k">for</span> d <span class="k">in</span> safe_dirs:
+            nx = current_x; ny = current_y
+            <span class="k">if</span> d == 0: ny += 1
+            <span class="k">elif</span> d == 1: nx += 1
+            <span class="k">elif</span> d == 2: ny -= 1
+            <span class="k">elif</span> d == 3: nx -= 1
+
+            v_count = visited[nx + ny * 4]
+
+            <span class="c"># 🌟 核心升級：使用 get_true_distance 取代直線距離</span>
+            true_dist = get_true_distance(nx, ny, target_x, target_y)
+            score = (v_count * 20) + true_dist
+
+            <span class="k">if</span> score &lt; min_score:
+                min_score = score
+                best_dir = d
+
+        face_direction(best_dir)
+        <span class="k">if</span> best_dir == 0: basic.show_arrow(ArrowNames.NORTH)
+        <span class="k">elif</span> best_dir == 1: basic.show_arrow(ArrowNames.EAST)
+        <span class="k">elif</span> best_dir == 2: basic.show_arrow(ArrowNames.SOUTH)
+        <span class="k">elif</span> best_dir == 3: basic.show_arrow(ArrowNames.WEST)
+
+        dist = 0
+        <span class="k">if</span> sensor_mode == 1: dist = matrixLidarDistance.matrix_point_output(matrixLidarDistance.Addr.ADDR4, 3, 3) / 10
+        <span class="k">else</span>: dist = maqueenPlusV2.read_ultrasonic(DigitalPin.P13, DigitalPin.P14)
+
+        <span class="c"># 👁️ 感測器即時偵測區</span>
+        <span class="k">if</span> dist &gt; 0 <span class="k">and</span> dist &lt;= 9:
+            ox = current_x; oy = current_y
+            <span class="k">if</span> best_dir == 0: oy += 1
+            <span class="k">elif</span> best_dir == 1: ox += 1
+            <span class="k">elif</span> best_dir == 2: oy -= 1
+            <span class="k">elif</span> best_dir == 3: ox -= 1
+
+            obj_name = <span class="s">&quot;Obstacle&quot;</span>
+            <span class="k">if</span> ox == 1 <span class="k">and</span> oy == 2: obj_name = <span class="s">&quot;LeopardCat&quot;</span>
+
+            radio.send_string(<span class="s">&quot;Dodge:&quot;</span> + obj_name)
+            basic.pause(150)
+
+            bad_x.append(ox); bad_y.append(oy)
+        <span class="k">else</span>:
+            move_one_grid()
+
+    <span class="k">if</span> current_x == target_x <span class="k">and</span> current_y == target_y:
+        face_direction(final_facing)
+
+        end_time = input.running_time()
+        radio.send_string(<span class="s">&quot;Time:&quot;</span> + str((end_time - start_time) / 1000))
+        basic.pause(500)
+        radio.send_string(<span class="s">&quot;Grids:&quot;</span> + str(total_grids))
+        basic.pause(1000)
+
+        maqueenPlusV2.control_motor_stop(maqueenPlusV2.MyEnumMotor.LEFT_MOTOR)
+        maqueenPlusV2.control_motor_stop(maqueenPlusV2.MyEnumMotor.RIGHT_MOTOR)
+
+<span class="k">def</span> on_received_string(receivedString):
+    <span class="k">global</span> command_inbox, is_running
+    <span class="k">if</span> is_running: <span class="k">return</span>
+    <span class="k">if</span> receivedString == <span class="s">&quot;A&quot;</span> <span class="k">or</span> receivedString == <span class="s">&quot;B&quot;</span>:
+        command_inbox = receivedString
+radio.on_received_string(on_received_string)
+
+<span class="k">def</span> on_button_pressed_a():
+    <span class="k">global</span> command_inbox, is_running
+    <span class="k">if</span> <span class="k">not</span> is_running: command_inbox = <span class="s">&quot;A&quot;</span>
+input.on_button_pressed(Button.A, on_button_pressed_a)
+
+<span class="k">def</span> on_button_pressed_b():
+    <span class="k">global</span> command_inbox, is_running
+    <span class="k">if</span> <span class="k">not</span> is_running: command_inbox = <span class="s">&quot;B&quot;</span>
+input.on_button_pressed(Button.B, on_button_pressed_b)
+
+<span class="k">def</span> on_forever():
+    <span class="k">global</span> command_inbox, sensor_mode, is_running
+
+    <span class="k">if</span> command_inbox == <span class="s">&quot;A&quot;</span>:
+        command_inbox = <span class="s">&quot;&quot;</span>
+        sensor_mode = 1
+        basic.show_string(<span class="s">&quot;L&quot;</span>)
+        radio.send_string(<span class="s">&quot;--- SET LiDAR ---&quot;</span>)
+        basic.pause(100)
+        run_ai_navigation()
+
+        basic.pause(1000)
+        command_inbox = <span class="s">&quot;&quot;</span>
+        is_running = <span class="k">False</span>
+        basic.show_icon(IconNames.HAPPY)
+
+    <span class="k">elif</span> command_inbox == <span class="s">&quot;B&quot;</span>:
+        command_inbox = <span class="s">&quot;&quot;</span>
+        sensor_mode = 2
+        basic.show_string(<span class="s">&quot;S&quot;</span>)
+        radio.send_string(<span class="s">&quot;--- SET SONAR ---&quot;</span>)
+        basic.pause(100)
+        run_ai_navigation()
+
+        basic.pause(1000)
+        command_inbox = <span class="s">&quot;&quot;</span>
+        is_running = <span class="k">False</span>
+        basic.show_icon(IconNames.HAPPY)
+
+basic.forever(on_forever)
+
+<span class="c"># 初始化設定</span>
+matrixLidarDistance.initialize(matrixLidarDistance.Addr.ADDR4, matrixLidarDistance.Matrix.MAT)
+radio.set_group(99)
+radio.set_transmit_power(7)
+basic.show_icon(IconNames.HAPPY)</pre></details></div><div class="prog" id="exp6"><h3>實驗六：三顆雷達和停看聽</h3><div class="meta">0921 最新版・MakeCode Python　<a href="exp6.html">看實驗 →</a></div><p>前、左、右三顆雷達，轉彎時看到行人就停下來等。</p><ul><li>三顆雷達的位址：ADDR4（前）、ADDR1（左）、ADDR2（右）</li><li>input.running_time() 碼表：只算馬達真的在轉的時間</li><li>前方 15 公分、側邊 25 公分內看到東西就停，亮紅燈；走開了亮綠燈</li></ul>
+<details><summary>打開完整程式（184 行）</summary><pre class="code"><span class="c"># --- 終極完美神級版：實驗六精準度 + 零延遲動態禮讓 + 終點歸位 ---</span>
+
+current_speed = 80
+time_one_grid = 960   <span class="c"># 走一格的精準時間</span>
+time_turn_90 = 1050    <span class="c"># 轉90度的精準時間</span>
+
+start_x = 0; start_y = 0
+target_x = 3; target_y = 3
+
+safe_dist_front = 15
+safe_dist_side = 25
+
+current_x = 0; current_y = 0; current_dir = 0
+test_mode = 0
+
+<span class="c"># 【新增】號碼牌機制，防當機</span>
+command_inbox = <span class="s">&quot;&quot;</span>
+is_running = <span class="k">False</span>
+
+<span class="c"># --- ⚙️ 馬達啟動引擎 ---</span>
+<span class="k">def</span> start_motor(move_type):
+    <span class="k">if</span> move_type == <span class="s">&quot;STRAIGHT&quot;</span>:
+        maqueenPlusV2.control_motor(maqueenPlusV2.MyEnumMotor.ALL_MOTOR, maqueenPlusV2.MyEnumDir.FORWARD, current_speed)
+    <span class="k">elif</span> move_type == <span class="s">&quot;LEFT&quot;</span>:
+        maqueenPlusV2.control_motor(maqueenPlusV2.MyEnumMotor.LEFT_MOTOR, maqueenPlusV2.MyEnumDir.BACKWARD, current_speed)
+        maqueenPlusV2.control_motor(maqueenPlusV2.MyEnumMotor.RIGHT_MOTOR, maqueenPlusV2.MyEnumDir.FORWARD, current_speed)
+    <span class="k">elif</span> move_type == <span class="s">&quot;RIGHT&quot;</span>:
+        maqueenPlusV2.control_motor(maqueenPlusV2.MyEnumMotor.LEFT_MOTOR, maqueenPlusV2.MyEnumDir.FORWARD, current_speed)
+        maqueenPlusV2.control_motor(maqueenPlusV2.MyEnumMotor.RIGHT_MOTOR, maqueenPlusV2.MyEnumDir.BACKWARD, current_speed)
+
+<span class="c"># --- ⏱️ 絕對時間碼表與情境雷達 (解決爆走的核心) ---</span>
+<span class="k">def</span> do_action(move_type, target_time):
+    time_run = 0
+    is_moving = <span class="k">False</span>
+    last_t = input.running_time()
+
+    <span class="c"># 只有累積「馬達真正運轉的時間」達到目標，才會結束動作</span>
+    <span class="k">while</span> time_run &lt; target_time:
+
+        <span class="c"># 1. 雷達掃描 (情境感知)</span>
+        obstacle = <span class="k">False</span>
+        dc = matrixLidarDistance.matrix_point_output(matrixLidarDistance.Addr.ADDR4, 3, 3) / 10
+        <span class="k">if</span> dc &gt; 0 <span class="k">and</span> dc &lt;= safe_dist_front: obstacle = <span class="k">True</span>
+
+        <span class="k">if</span> test_mode == 3 <span class="k">and</span> <span class="k">not</span> obstacle:
+            <span class="k">if</span> move_type == <span class="s">&quot;LEFT&quot;</span>:
+                dl = matrixLidarDistance.matrix_point_output(matrixLidarDistance.Addr.ADDR1, 3, 3) / 10
+                <span class="k">if</span> dl &gt; 0 <span class="k">and</span> dl &lt;= safe_dist_side: obstacle = <span class="k">True</span>
+            <span class="k">elif</span> move_type == <span class="s">&quot;RIGHT&quot;</span>:
+                dr = matrixLidarDistance.matrix_point_output(matrixLidarDistance.Addr.ADDR2, 3, 3) / 10
+                <span class="k">if</span> dr &gt; 0 <span class="k">and</span> dr &lt;= safe_dist_side: obstacle = <span class="k">True</span>
+
+        <span class="c"># 2. 精準時間累加 (馬達有動才算數)</span>
+        now = input.running_time()
+        <span class="k">if</span> is_moving:
+            time_run += (now - last_t)
+        last_t = now
+
+        <span class="c"># 3. 瞬間反應煞車系統 (零延遲)</span>
+        <span class="k">if</span> obstacle:
+            <span class="k">if</span> is_moving:
+                maqueenPlusV2.control_motor_stop(maqueenPlusV2.MyEnumMotor.ALL_MOTOR)
+                is_moving = <span class="k">False</span>
+                basic.show_icon(IconNames.NO) <span class="c"># 瞬間亮紅燈，絕不浪費時間</span>
+            basic.pause(50)
+            last_t = input.running_time() <span class="c"># 凍結碼表</span>
+        <span class="k">else</span>:
+            <span class="k">if</span> <span class="k">not</span> is_moving:
+                basic.show_icon(IconNames.YES) <span class="c"># 瞬間亮綠燈</span>
+                start_motor(move_type)
+                is_moving = <span class="k">True</span>
+                last_t = input.running_time() <span class="c"># 重啟碼表</span>
+            basic.pause(20) <span class="c"># 讓馬達走一小段再檢查，避免大腦過熱</span>
+
+    <span class="c"># 動作完成，強制煞停</span>
+    maqueenPlusV2.control_motor_stop(maqueenPlusV2.MyEnumMotor.ALL_MOTOR)
+
+<span class="c"># --- 🚗 基礎移動指令 ---</span>
+<span class="k">def</span> move_one_grid():
+    <span class="k">global</span> current_x, current_y
+    do_action(<span class="s">&quot;STRAIGHT&quot;</span>, time_one_grid)
+    <span class="k">if</span> current_dir == 0: current_y += 1
+    <span class="k">elif</span> current_dir == 1: current_x += 1
+    <span class="k">elif</span> current_dir == 2: current_y -= 1
+    <span class="k">elif</span> current_dir == 3: current_x -= 1
+    radio.send_string(<span class="s">&quot;Pos:(&quot;</span> + str(current_x) + <span class="s">&quot;,&quot;</span> + str(current_y) + <span class="s">&quot;)&quot;</span>)
+    basic.pause(500)
+
+<span class="k">def</span> turn_left_90():
+    <span class="k">global</span> current_dir
+    do_action(<span class="s">&quot;LEFT&quot;</span>, time_turn_90)
+    current_dir = (current_dir + 3) % 4
+    basic.pause(500)
+
+<span class="k">def</span> turn_right_90():
+    <span class="k">global</span> current_dir
+    do_action(<span class="s">&quot;RIGHT&quot;</span>, time_turn_90)
+    current_dir = (current_dir + 1) % 4
+    basic.pause(500)
+
+<span class="k">def</span> face_direction(target_dir):
+    diff = (target_dir - current_dir) % 4
+    <span class="k">if</span> diff &lt; 0: diff += 4
+    <span class="k">if</span> diff == 1: turn_right_90()
+    <span class="k">elif</span> diff == 2: turn_right_90(); turn_right_90()
+    <span class="k">elif</span> diff == 3: turn_left_90()
+
+<span class="c"># --- 🧠 網格巡航大腦 ---</span>
+<span class="k">def</span> run_navigation():
+    <span class="k">global</span> current_x, current_y, current_dir
+    current_x = start_x; current_y = start_y; current_dir = 0
+    basic.show_icon(IconNames.TARGET)
+
+    <span class="k">if</span> test_mode == 1: radio.send_string(<span class="s">&quot;--- EXP6: Front ---&quot;</span>)
+    <span class="k">elif</span> test_mode == 3: radio.send_string(<span class="s">&quot;--- EXP6: ALL ---&quot;</span>)
+    basic.pause(500)
+
+    <span class="k">while</span> current_x != target_x <span class="k">or</span> current_y != target_y:
+        <span class="k">if</span> current_y != target_y:
+            <span class="k">if</span> current_y &lt; target_y: face_direction(0)
+            <span class="k">else</span>: face_direction(2)
+            move_one_grid()
+        <span class="k">elif</span> current_x != target_x:
+            <span class="k">if</span> current_x &lt; target_x: face_direction(1)
+            <span class="k">else</span>: face_direction(3)
+            move_one_grid()
+
+    <span class="c"># 🌟 抵達終點後，強制轉向面朝北 (0)</span>
+    face_direction(0)
+
+    <span class="c"># 任務完美結束</span>
+    radio.send_string(<span class="s">&quot;Mission Clear!&quot;</span>)
+    basic.show_icon(IconNames.HEART)
+
+<span class="c"># --- 📡 萬能戰情室遙控接收區 ---</span>
+<span class="k">def</span> on_received_string(receivedString):
+    <span class="k">global</span> command_inbox, is_running
+    <span class="k">if</span> is_running: <span class="k">return</span>
+    <span class="k">if</span> receivedString == <span class="s">&quot;A&quot;</span> <span class="k">or</span> receivedString == <span class="s">&quot;B&quot;</span>:
+        command_inbox = receivedString
+radio.on_received_string(on_received_string)
+
+<span class="k">def</span> on_button_pressed_a():
+    <span class="k">global</span> command_inbox, is_running
+    <span class="k">if</span> <span class="k">not</span> is_running: command_inbox = <span class="s">&quot;A&quot;</span>
+input.on_button_pressed(Button.A, on_button_pressed_a)
+
+<span class="k">def</span> on_button_pressed_b():
+    <span class="k">global</span> command_inbox, is_running
+    <span class="k">if</span> <span class="k">not</span> is_running: command_inbox = <span class="s">&quot;B&quot;</span>
+input.on_button_pressed(Button.B, on_button_pressed_b)
+
+<span class="c"># --- 🔄 主迴圈：處理遙控指令防當機 ---</span>
+<span class="k">def</span> on_forever():
+    <span class="k">global</span> command_inbox, test_mode, is_running
+
+    <span class="k">if</span> command_inbox == <span class="s">&quot;A&quot;</span>:
+        command_inbox = <span class="s">&quot;&quot;</span>
+        is_running = <span class="k">True</span>
+        test_mode = 1 <span class="c"># 前方雷達模式</span>
+        run_navigation()
+        is_running = <span class="k">False</span>
+
+    <span class="k">elif</span> command_inbox == <span class="s">&quot;B&quot;</span>:
+        command_inbox = <span class="s">&quot;&quot;</span>
+        is_running = <span class="k">True</span>
+        test_mode = 3 <span class="c"># 三方雷達全開模式</span>
+        run_navigation()
+        is_running = <span class="k">False</span>
+
+basic.forever(on_forever)
+
+<span class="c"># --- 開機啟動設定 ---</span>
+<span class="c"># 【關鍵新增】喚醒麥昆小車硬體</span>
+maqueenPlusV2.i2c_init()
+
+matrixLidarDistance.initialize(matrixLidarDistance.Addr.ADDR4, matrixLidarDistance.Matrix.MAT)
+matrixLidarDistance.initialize(matrixLidarDistance.Addr.ADDR1, matrixLidarDistance.Matrix.MAT)
+matrixLidarDistance.initialize(matrixLidarDistance.Addr.ADDR2, matrixLidarDistance.Matrix.MAT)
+
+<span class="c"># 【關鍵新增】設定與戰情室相同的廣播頻道</span>
+radio.set_group(99)
+radio.set_transmit_power(7)
+basic.show_icon(IconNames.YES)</pre></details></div>
+  </div>
+</section>
+
+<footer><div class="wrap">南投縣光華國小　蔡秉澔、蔡秉宸　指導老師：洪瑞成</div></footer>
+
+<script src="site.js"></script>
+
+
+</body>
+</html>

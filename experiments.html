@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>六個實驗｜零死角全生命守護</title>
+<meta name="description" content="零死角全生命守護的六個實驗：感測器可靠嗎、怎麼裝最好、上路測試、補上死角。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="site.css">
+<style>
+.exp-list { display: grid; gap: 18px; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); }
+.exp-card { display: flex; flex-direction: column; background: var(--card); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; color: var(--ink); text-decoration: none; }
+.exp-card:hover { border-color: var(--forest); }
+.exp-card img { width: 100%; aspect-ratio: 16 / 10; object-fit: cover; }
+.exp-card .in { padding: 16px 18px 18px; }
+.exp-card .no { font-size: 14px; color: var(--amber); font-weight: 700; }
+.exp-card h3 { font-size: 18px; margin: 4px 0 8px; }
+.exp-card p { color: var(--ink-2); margin: 0; font-size: 15px; }
+.chain { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); counter-reset: k; }
+.chain .card { position: relative; }
+.chain .role { font-size: 13px; color: var(--amber); font-weight: 700; }
+.chain h3 { font-size: 18px; margin: 2px 0 6px; }
+.chain p { font-size: 15px; color: var(--ink-2); margin: 0; }
+.timeline { list-style: none; margin: 0; padding: 0 0 0 22px; border-left: 3px solid var(--line); }
+.timeline li { position: relative; padding: 0 0 22px 16px; }
+.timeline li::before { content: ""; position: absolute; left: -31px; top: 6px; width: 14px; height: 14px; border-radius: 7px; background: var(--gold); border: 3px solid var(--paper); }
+.timeline .d { font-weight: 700; color: var(--amber); }
+.rq { display: grid; gap: 14px; }
+.rq details { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 4px 18px 10px; margin: 0; }
+.rq summary { font-weight: 700; }
+.rq .ans { color: var(--forest); font-weight: 700; }
+.team { display: grid; gap: 18px; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+.team .card { display: flex; gap: 16px; align-items: center; }
+.team img { width: 96px; height: 96px; border-radius: 48px; object-fit: cover; border: 3px solid var(--gold); flex: none; }
+</style>
+</head>
+<body>
+
+<nav class="topnav" aria-label="網站導覽">
+  <div class="wrap">
+    <a class="brand" href="index.html">零死角全生命守護</a>
+    <a href="story.html">研究故事</a><a href="experiments.html" aria-current="page">六個實驗</a><a href="devlog.html">開發日誌</a><a href="data.html">數據中心</a><a href="qa.html">問題與回答</a><a href="code.html">程式</a><a href="about.html">關於我們</a>
+  </div>
+</nav>
+
+<header class="dark page-head">
+  <div class="wrap">
+    
+    <div class="eyebrow">六個實驗</div>
+    <h1>每個實驗，回答上一個留下的問題</h1>
+    <p class="lead">我們先確定感測器可不可靠，再找出怎麼裝最好，然後讓小車真的上路，最後補上轉彎時的死角。</p>
+    <div class="kpis"><div class="kpi"><b>7 個實驗</b><span>實驗五分成 A、B 兩個</span></div><div class="kpi"><b>5/14～8/30</b><span>做實驗的時間</span></div><div class="kpi"><b>每個點 5 次</b><span>每一次都記下來</span></div></div>
+    
+  </div>
+</header><section id="list">
+  <div class="wrap">
+    
+    
+    <div class="exp-list"><a class="exp-card" href="exp1.html"><img src="photo7.jpg" alt="實驗一 夜盲症測試" loading="lazy"><div class="in"><div class="no">實驗一・夜盲症測試</div><h3>黑夜和強光，會不會讓雷達看錯距離？</h3><p>三種光線下，30～150 公分平均最多只差 4.1 公分。</p></div></a><a class="exp-card" href="exp2.html"><img src="photo18.jpg" alt="實驗二 保護色與材質" loading="lazy"><div class="in"><div class="no">實驗二・保護色與材質</div><h3>黑色毛毛的石虎，雷達和超音波量得到嗎？</h3><p>超音波量不到黑色絨毛；雷達在 60 公分內還是很準。</p></div></a><a class="exp-card" href="exp3.html"><img src="photo11.jpg" alt="實驗三 最佳視角" loading="lazy"><div class="in"><div class="no">實驗三・最佳視角</div><h3>雷達要裝多高，才不會漏看石虎？</h3><p>裝 10 公分最穩定；15 公分太高，一次都測不到。</p></div></a><a class="exp-card" href="exp4.html"><img src="photo24.jpg" alt="實驗四 生死一瞬間" loading="lazy"><div class="in"><div class="no">實驗四・生死一瞬間</div><h3>車開越快，要多早開始煞車？</h3><p>40 cm/s 要滑 7.06 公分，所以要在 17.06 公分前煞車。</p></div></a><a class="exp-card" href="exp5a.html"><img src="photo26.jpg" alt="實驗五-A 窄窄的山路" loading="lazy"><div class="in"><div class="no">實驗五-A・窄窄的山路</div><h3>窄山路上，超音波會不會把山壁當成石虎？</h3><p>雷達 6 趟都成功；超音波在 40 cm/s 時煞車和轉彎都失敗。</p></div></a><a class="exp-card" href="exp5b.html"><img src="exp5b_cover.jpg" alt="實驗五-B 24 宮格" loading="lazy"><div class="in"><div class="no">實驗五-B・24 宮格</div><h3>雷達看不到旁邊，小車怎麼記住危險、自己找路？</h3><p>8 趟都到終點、0 次撞到，還會自己從死路退出來。</p></div></a><a class="exp-card" href="exp6.html"><img src="photo30.jpg" alt="實驗六 A 柱死角" loading="lazy"><div class="in"><div class="no">實驗六・A 柱死角</div><h3>轉彎時，看得到 A 柱後面的行人嗎？</h3><p>只有前雷達會撞上；三顆雷達會停下來，等行人走過再走。</p></div></a></div>
+  </div>
+</section><section id="flow" class="alt">
+  <div class="wrap narrow">
+    <div class="eyebrow">實驗的順序</div>
+    <h2>從「感測器可靠嗎」走到「轉彎也看得見」</h2>
+    <ol class="timeline"><li><span class="d">感測器可靠嗎？</span>　實驗一：黑夜和強光，會不會讓雷達看錯距離？</li><li><span class="d">感測器可靠嗎？</span>　實驗二：黑色毛毛的石虎，雷達和超音波量得到嗎？</li><li><span class="d">怎麼裝最好？</span>　實驗三：雷達要裝多高，才不會漏看石虎？</li><li><span class="d">怎麼裝最好？</span>　實驗四：車開越快，要多早開始煞車？</li><li><span class="d">上路測試</span>　實驗五-A：窄山路上，超音波會不會把山壁當成石虎？</li><li><span class="d">上路測試</span>　實驗五-B：雷達看不到旁邊，小車怎麼記住危險、自己找路？</li><li><span class="d">補上死角</span>　實驗六：轉彎時，看得到 A 柱後面的行人嗎？</li></ol>
+  </div>
+</section><section id="control">
+  <div class="wrap">
+    <div class="eyebrow">超音波對照組</div>
+    <h2>為什麼主要在實驗二和五-A 比超音波？</h2>
+    
+<div class="grid">
+<div class="card"><span class="tag">實驗一、三沒有比</span><p>超音波是用聲音量距離，本來就不怕暗。它的聲音像扇子一樣散開，也很難像雷射一樣控制高度，比了意義不大。</p></div>
+<div class="card"><span class="tag">實驗四沒有比</span><p>煞車以後滑多遠，看的是車子的重量和輪胎，跟用哪一種感測器叫它停沒有關係。</p></div>
+<div class="card"><span class="tag fail">實驗二：主戰場</span><p>雷射光怕「黑色吸光」，超音波怕「軟毛吸音」。石虎剛好又黑又毛茸茸，是比賽兩種感測器最好的地方。</p></div>
+<div class="card"><span class="tag fail">實驗五-A：主戰場</span><p>我們的雷達只看中間大約 7.5 度，超音波大約 15 度、像扇子一樣散開。在窄窄的山路上，超音波很容易碰到兩邊的山壁，以為前面有東西。</p></div>
+<div class="card"><span class="tag exp">實驗五-B：也跑了一趟</span><p>在空地上，同一張地圖兩種感測器各跑一次，路線和時間幾乎一樣。這也說明超音波的問題是發生在「黑色毛毛」和「窄路」。</p></div>
+</div>
+  </div>
+</section>
+
+<footer><div class="wrap">南投縣光華國小　蔡秉澔、蔡秉宸　指導老師：洪瑞成</div></footer>
+
+<script src="site.js"></script>
+
+
+</body>
+</html>

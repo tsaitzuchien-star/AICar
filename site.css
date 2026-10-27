@@ -146,6 +146,8 @@ pre.code .s { color: #B5D99C; }
 table { border-collapse: collapse; width: 100%; font-size: 15px; }
 th, td { border-bottom: 1px solid var(--line); padding: 8px 10px; text-align: left; vertical-align: top; }
 th { background: var(--paper-2); font-weight: 700; white-space: nowrap; }
+table[data-gid] td { white-space: nowrap; }
+table[data-gid] td.long { white-space: normal; min-width: 260px; }
 details { margin-top: 18px; }
 summary { cursor: pointer; font-weight: 500; padding: 8px 0; min-height: 44px; display: flex; align-items: center; }
 .note { background: var(--warn-bg); border-radius: 10px; padding: 14px 16px; margin-top: 18px; font-size: 15px; }

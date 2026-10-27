@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>實驗二 保護色與材質｜零死角全生命守護</title>
+<meta name="description" content="實驗二：面對像石虎一樣的黑色絨毛，光學雷達和超音波誰量得到。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="site.css">
+<style>
+.chart { margin: 0; }
+.chart .ct { font-weight: 700; font-size: 16px; color: var(--ink); margin: 0 0 6px; }
+.chart svg { width: 100%; height: auto; display: block; background: var(--card); border: 1px solid var(--line); border-radius: 10px; }
+.chart .cn { font-size: 14px; color: var(--ink-2); margin: 6px 0 0; }
+.chart .cu { font-size: 13px; color: var(--ink-2); margin: 4px 0 0; }
+.charts { display: grid; gap: 18px; grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr)); }
+.charts > *, .ds > *, .game > * { min-width: 0; }
+table.sg { background: var(--card); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+table.sg th, table.sg td { text-align: center; white-space: nowrap; }
+table.sg tbody th { text-align: left; background: var(--card); }
+table.sg td { font-weight: 700; }
+td.ok, .sw.ok { background: var(--ok-bg); color: var(--ok); }
+td.mid, .sw.mid { background: var(--warn-bg); color: var(--warn); }
+td.bad, .sw.bad { background: var(--bad-bg); color: var(--bad); }
+td.na { color: var(--ink-2); font-weight: 400; }
+.map-legend { display: flex; flex-wrap: wrap; gap: 8px 18px; font-size: 14px; margin: 10px 0 0; }
+.map-legend span { display: inline-flex; align-items: center; gap: 6px; }
+.sw { width: 16px; height: 16px; border-radius: 3px; display: inline-block; border: 1px solid var(--line); }
+.media-grid video.tall { aspect-ratio: 9 / 16; max-height: 520px; object-fit: contain; }
+</style>
+</head>
+<body>
+
+<nav class="topnav" aria-label="網站導覽">
+  <div class="wrap">
+    <a class="brand" href="index.html">零死角全生命守護</a>
+    <a href="story.html">研究故事</a><a href="experiments.html" aria-current="page">六個實驗</a><a href="devlog.html">開發日誌</a><a href="data.html">數據中心</a><a href="qa.html">問題與回答</a><a href="code.html">程式</a><a href="about.html">關於我們</a>
+  </div>
+</nav>
+
+<header class="dark page-head">
+  <div class="wrap">
+    <div class="crumbs"><a href="experiments.html">六個實驗</a> ／ 實驗二</div>
+    <div class="eyebrow">實驗二・保護色與材質陷阱（5/20 完成）</div>
+    <h1>黑色毛毛的石虎，雷達和超音波量得到嗎？</h1>
+    <p class="lead">石虎的毛是深色、毛茸茸的。雷射光怕「黑色吸光」，超音波怕「軟毛吸音」。我們把兩種感測器裝在同一台車上，看誰會先看不見。</p>
+    <div class="kpis"><div class="kpi"><b>3 種目標</b><span>白色紙板、棕色紙板、黑色絨毛</span></div><div class="kpi"><b>30 cm</b><span>超音波量黑色絨毛，最近的距離就量不到</span></div><div class="kpi"><b>60 cm 內</b><span>雷達量黑色絨毛還是很準</span></div></div>
+    
+  </div>
+</header><div class="wrap"><nav class="toc" aria-label="本頁目錄"><a href="#how">怎麼做</a><a href="#result">結果</a><a href="#reflect">我們的心得</a><a href="#fix">失敗與修正</a><a href="#teacher">老師問我們</a><a href="#code">程式</a><a href="#raw">原始數據</a></nav></div><section id="how">
+  <div class="wrap">
+    <div class="eyebrow">怎麼做</div>
+    <h2>我們的做法</h2>
+    <div class="cols"><ol class="steps"><li>準備三種目標：白色紙板（亮亮滑滑的）、棕色紙板（霧霧的）、黑色絨毛玩偶（像石虎的毛）。</li><li>把光學雷達和超音波裝在小車同一個位置、同一個高度，公平比賽。</li><li>每種目標放在 30～150 公分五個距離，兩種感測器各量 5 次。</li><li>雷達量不到時會出現 400，超音波量不到會卡在 300，我們都照實記下來。</li></ol><div><div class="thumbs"><button type="button" data-full="photo18.jpg" data-cap="實驗二：三種測試目標" aria-label="放大：實驗二：三種測試目標"><img src="photo18.jpg" alt="實驗二：三種測試目標" loading="lazy"></button><button type="button" data-full="photo19.jpg" data-cap="實驗二：雙感測器小車" aria-label="放大：實驗二：雙感測器小車"><img src="photo19.jpg" alt="實驗二：雙感測器小車" loading="lazy"></button><button type="button" data-full="photo20.jpg" data-cap="實驗二：測量中" aria-label="放大：實驗二：測量中"><img src="photo20.jpg" alt="實驗二：測量中" loading="lazy"></button><button type="button" data-full="photo21.jpg" data-cap="實驗二：盯著電腦上的數字" aria-label="放大：實驗二：盯著電腦上的數字"><img src="photo21.jpg" alt="實驗二：盯著電腦上的數字" loading="lazy"></button><button type="button" data-full="photo22.jpg" data-cap="實驗二：記錄數據" aria-label="放大：實驗二：記錄數據"><img src="photo22.jpg" alt="實驗二：記錄數據" loading="lazy"></button></div></div></div>
+  </div>
+</section><section id="result" class="alt">
+  <div class="wrap">
+    <div class="eyebrow">結果</div>
+    <h2>黑色絨毛：超音波量不到，雷達在 60 公分內還很準</h2>
+    <div class="charts"><figure class="chart"><figcaption class="ct">光學雷達</figcaption><div class="scroll"><table class="sg"><thead><tr><th>目標</th><th>30 cm</th><th>60 cm</th><th>90 cm</th><th>120 cm</th><th>150 cm</th></tr></thead><tbody><tr><th>白色紙板</th><td class="ok">準</td><td class="ok">準</td><td class="ok">準</td><td class="ok">準</td><td class="ok">準</td></tr><tr><th>棕色紙板</th><td class="ok">準</td><td class="ok">準</td><td class="ok">準</td><td class="bad">量不到</td><td class="bad">量不到</td></tr><tr><th>黑色絨毛</th><td class="ok">準</td><td class="ok">準</td><td class="mid">3/5 次</td><td class="mid">1/5 次</td><td class="bad">量不到</td></tr></tbody></table></div></figure><figure class="chart"><figcaption class="ct">超音波</figcaption><div class="scroll"><table class="sg"><thead><tr><th>目標</th><th>30 cm</th><th>60 cm</th><th>90 cm</th><th>120 cm</th><th>150 cm</th></tr></thead><tbody><tr><th>白色紙板</th><td class="ok">準</td><td class="ok">準</td><td class="ok">準</td><td class="ok">準</td><td class="ok">準</td></tr><tr><th>棕色紙板</th><td class="ok">準</td><td class="ok">準</td><td class="ok">準</td><td class="mid">差很多</td><td class="ok">準</td></tr><tr><th>黑色絨毛</th><td class="bad">量不到</td><td class="bad">量不到</td><td class="mid">3/5 次</td><td class="bad">量不到</td><td class="bad">量不到</td></tr></tbody></table></div></figure></div><div class="map-legend"><span><i class="sw ok"></i>準（5 次都量到，平均差 6 公分內）</span><span><i class="sw mid"></i>有時量不到，或數字差很多</span><span><i class="sw bad"></i>5 次都量不到</span></div><p class="note plain">我們也發現：棕色霧面紙板在 120 公分以上，雷達一樣量不到，因為深色會吸收光線。雷達也有它的極限。</p>
+  </div>
+</section><section id="reflect">
+  <div class="wrap narrow">
+    <div class="eyebrow">我們的實驗後心得</div>
+    
+    <div class="reflect"><p class="open">「真實的數據給了我們震撼教育！原來『顏色』和『材質』對感測器的影響這麼大！」</p><p><b>超音波的致命傷 (預測 vs 實際)：</b>我們原本預測超音波是靠聲音反射，應該不會受顏色影響。結果實測發現，面對「黑色絨毛玩偶」時，超音波竟然在 30cm 就徹底瞎掉！這證明了絨毛材質會嚴重「吸收音波」。</p><p><b>雷達的完美救援與物理極限：</b>光學雷達在 30~60cm 的關鍵煞車距離內，精準穿透了黑色絨毛，完勝超音波！但我們也有誠實記錄到，當距離拉遠到 90cm 以上時，雷射光因為「黑色吸光」特性，能量衰減導致數值開始劇烈跳動。</p><p><b>最終結論：</b>這次對決由光學雷達壓倒性獲勝！我們也確立了，未來避障系統的「安全預警距離」必須設定在雷達最穩定的 60cm 以內，才能發揮最好的守護效果。</p></div>
+  </div>
+</section><section id="fix" class="alt">
+  <div class="wrap">
+    <div class="eyebrow">失敗與修正</div>
+    <h2>我們怎麼一步一步改</h2>
+    <div class="grid"><div class="card ff"><div><span class="tag exp">5 月</span></div><p class="q"><b>問題：</b>雷達和超音波一起量，兩個的資料會撞在一起。</p><p class="a"><b>改法：</b>讓兩個感測器「輪流講話」：雷達量一次、等一下，超音波再量一次。</p></div><div class="card ff"><div><span class="tag exp">9 月</span></div><p class="q"><b>問題：</b>輪流傳兩行還是很容易塞車。</p><p class="a"><b>改法：</b>把兩個數字合成一行「R1:雷達 U:超音波」一起傳，再等 0.5 秒，讓超音波的聲音散掉。</p></div></div>
+  </div>
+</section><section id="teacher">
+  <div class="wrap">
+    <div class="eyebrow">洪老師問我們</div>
+    <h2>和這個實驗有關的問題</h2>
+    <div class="grid"><div class="qa"><p class="q">在不同測量距離 (30~150 cm) 下，光學雷達與超音波感測器面對「黑色絨毛材質」時，有效偵測距離 (cm) 與誤差 (cm) 有何差異？</p><p class="a">光學雷達贏了！面對深色毛毛的材質，超音波在 30 公分就因為聲音被吸走而量不到。光學雷達在 30～60 公分這段最重要的煞車距離裡，還是量得很準。</p><p class="d">9/14</p></div><div class="qa"><p class="q">如果沒有光學雷達可以避開障礙物嗎？</p><p class="a">可以！現在很多掃地機器人和避障車，都是用超音波或攝影機。如果是在白天亮亮的教室，或是遇到平平的紙箱，不用光學雷達也能閃得很好。<br>可是我們想保護的是「晚上沒有路燈的山路上、毛是深色的石虎」，這時候另外兩種方法就會有問題：<br>1. 攝影機：山路太黑會看不見；對面來車的遠光燈照過來，又會什麼都看不清楚。我們在實驗一試過，光學雷達不怕黑，也不怕強光。<br>2. 超音波：超音波是聲音，碰到石虎軟軟的毛會被吸走，彈不回來，車子就會撞上去。而且聲音會像扇子一樣散開，在窄窄的山路很容易碰到旁邊的樹或山壁，車子就會亂煞車。</p><p class="d">5/17</p></div><div class="qa"><p class="q">光學雷達跟 超音波有什麼一樣的地方？</p><p class="a">它們都是靠「反射」來算距離！一個用「光」，一個用「聲音」，東西射出去、彈回來，再算花了多少時間，原理是一樣的。</p><p class="d">5/15</p></div></div><p style="margin-top:16px"><a href="qa.html">看全部 48 個問題 →</a></p>
+  </div>
+</section><section id="code" class="alt">
+  <div class="wrap">
+    <div class="eyebrow">程式</div>
+    <h2>小車的大腦最重要的地方</h2>
+    <div class="code-note"><pre class="code">dist_radar = matrixLidarDistance.matrix_point_output(matrixLidarDistance.Addr.ADDR4, 3, 3) / 10
+dist_ultra = maqueenPlusV2.read_ultrasonic(DigitalPin.P13, DigitalPin.P14)
+msg = <span class="s">&quot;R&quot;</span> + str(index + 1) + <span class="s">&quot;:&quot;</span> + str(dist_radar) + <span class="s">&quot; U:&quot;</span> + str(dist_ultra)
+radio.send_string(msg)
+basic.pause(500)</pre><div><h3>① 兩個感測器同時量</h3><p class="muted">一行裡面同時有雷達（R）和超音波（U）的數字，最多 19 個字，無線電才傳得過去。每次等 0.5 秒，讓超音波的聲音散掉，下一次才不會聽到上一次的回音。</p></div></div><p><a href="code.html#exp2">看完整程式和每一版怎麼改 →</a></p>
+  </div>
+</section><section id="raw">
+  <div class="wrap">
+    <div class="eyebrow">原始數據</div>
+    <h2>完整紀錄</h2>
+    <p class="muted">數字直接來自我們的實驗數據總表，試算表更新，這裡也會跟著更新。</p>
+<details open><summary>打開表格</summary>
+<div class="scroll"><table id="raw2" data-gid="568094100" data-fallback="raw2-fb"></table></div></details>
+<script type="application/json" id="raw2-fb">[["測試材質", "顏色/特性", "設定距離(cm)", "雷達測量值 1 (cm)", "雷達測量值 2 (cm)", "雷達測量值 3 (cm)", "雷達測量值 4 (cm)", "雷達測量值 5 (cm)", "雷達平均測距 (cm)", "雷達誤差值 (cm)", "超音波測量值 1 (cm)", "超音波測量值 2 (cm)", "超音波測量值 3 (cm)", "超音波測量值 4 (cm)", "超音波測量值 5 (cm)", "超音波平均測距 (cm)", "超音波誤差值 (cm)", "實驗觀察 (備註)"], ["白色紙板", "淺色 / 平滑 (高反光)", "30", "32.2", "31.8", "31.8", "31.6", "31.9", "31.86", "1.86", "28", "29", "29", "29", "29", "28.8", "-1.2", "作為對照組，雷達與超音波皆能穩定且準確反射，證明感測器運作正常。"], ["白色紙板", "淺色 / 平滑 (高反光)", "60", "60.1", "60.6", "60.6", "60.6", "60.3", "60.44", "0.44", "55", "55", "55", "55", "55", "55", "-5", "作為對照組，雷達與超音波皆能穩定且準確反射，證明感測器運作正常。"], ["白色紙板", "淺色 / 平滑 (高反光)", "90", "89.4", "89.8", "90", "90.1", "90.9", "90.04", "0.04", "84", "84", "84", "84", "84", "84", "-6", "距離拉長後兩者依然穩定，白色平滑表面的高反射率提供了最佳的測試基準"], ["白色紙板", "淺色 / 平滑 (高反光)", "120", "120.9", "121.7", "119.9", "121.9", "121.9", "121.26", "1.26", "115", "115", "115", "115", "115", "115", "-5", "距離拉長後兩者依然穩定，白色平滑表面的高反射率提供了最佳的測試基準"], ["白色紙板", "淺色 / 平滑 (高反光)", "150", "151.1", "150.4", "150.3", "150.1", "148.5", "150.08", "0.08", "147", "147", "147", "146", "146", "146.6", "-3.4", "距離拉長後兩者依然穩定，白色平滑表面的高反射率提供了最佳的測試基準"], ["棕色紙板", "大地色 / 霧面 (漫反射)", "30", "31.4", "31.1", "31.5", "31.3", "31.6", "31.38", "1.38", "29", "28", "28", "28", "28", "28.2", "-1.8", "材質改為霧面深色，雷達些微受影響但仍準確；超音波表現依舊穩定。"], ["棕色紙板", "大地色 / 霧面 (漫反射)", "60", "61", "60.7", "60", "61.4", "59", "60.42", "0.42", "55", "55", "55", "55", "55", "55", "-5", "材質改為霧面深色，雷達些微受影響但仍準確；超音波表現依舊穩定。"], ["棕色紙板", "大地色 / 霧面 (漫反射)", "90", "88.4", "89.2", "93.3", "89", "93.2", "90.62", "0.62", "85", "85", "84", "84", "85", "84.6", "-5.4", "材質改為霧面深色，雷達些微受影響但仍準確；超音波表現依舊穩定。"], ["棕色紙板", "大地色 / 霧面 (漫反射)", "120", "400", "400", "400", "400", "400", "400", "280", "145", "145", "145", "145", "145", "145", "25", "發現雷達極限！因深色霧面會「吸收光線」，雷達光束反射能量不足導致讀取不到 (數值跳至 400)；超音波則不受顏色影響。"], ["棕色紙板", "大地色 / 霧面 (漫反射)", "150", "400", "400", "400", "400", "400", "400", "250", "145", "145", "145", "145", "145", "145", "-5", "發現雷達極限！因深色霧面會「吸收光線」，雷達光束反射能量不足導致讀取不到 (數值跳至 400)；超音波則不受顏色影響。"], ["黑色絨毛玩偶", "黑色 / 粗糙長毛 (極度吸光)", "30", "33.7", "34.1", "34", "34.5", "33.6", "33.98", "3.98", "300", "300", "300", "300", "300", "300", "270", "核心發現：雷達精準穿透！但超音波因「絨毛嚴重吸音」，完全接收不到回波，數值卡在 300 完全失效！"], ["黑色絨毛玩偶", "黑色 / 粗糙長毛 (極度吸光)", "60", "61.1", "61.9", "61.2", "59.5", "56.8", "60.1", "0.1", "300", "300", "300", "300", "300", "300", "240", "核心發現：雷達精準穿透！但超音波因「絨毛嚴重吸音」，完全接收不到回波，數值卡在 300 完全失效！"], ["黑色絨毛玩偶", "黑色 / 粗糙長毛 (極度吸光)", "90", "86.6", "400", "89.7", "400", "93.3", "213.92", "123.92", "300", "300", "263", "263", "263", "277.8", "187.8", "觀察到雷達數值出現「劇烈跳動 (交替出現 400 盲值)」，顯示黑色長毛開始大量吸收雷射光，已達雷達穩定偵測的極限距離。"], ["黑色絨毛玩偶", "黑色 / 粗糙長毛 (極度吸光)", "120", "400", "400", "400", "400", "114.3", "342.86", "222.86", "300", "300", "300", "300", "300", "300", "180", "雙感測器皆失效。黑色長毛同時具備「吸光」與「吸音」特性，已超出雙感測器的物理極限。"], ["黑色絨毛玩偶", "黑色 / 粗糙長毛 (極度吸光)", "150", "400", "400", "400", "400", "400", "400", "250", "300", "300", "300", "300", "300", "300", "150", "雙感測器皆失效。黑色長毛同時具備「吸光」與「吸音」特性，已超出雙感測器的物理極限。"]]</script><h3 style="margin-top:28px">電腦收到的原始數字（截圖）</h3><p class="muted">點圖片可以放大。</p><div class="thumbs"><button type="button" data-full="raw_data_7.jpg" data-cap="實驗二原始數據 1" aria-label="放大：實驗二原始數據 1"><img src="raw_data_7.jpg" alt="實驗二原始數據 1" loading="lazy"></button><button type="button" data-full="raw_data_8.jpg" data-cap="實驗二原始數據 2" aria-label="放大：實驗二原始數據 2"><img src="raw_data_8.jpg" alt="實驗二原始數據 2" loading="lazy"></button><button type="button" data-full="raw_data_9.jpg" data-cap="實驗二原始數據 3" aria-label="放大：實驗二原始數據 3"><img src="raw_data_9.jpg" alt="實驗二原始數據 3" loading="lazy"></button><button type="button" data-full="raw_data_10.jpg" data-cap="實驗二原始數據 4" aria-label="放大：實驗二原始數據 4"><img src="raw_data_10.jpg" alt="實驗二原始數據 4" loading="lazy"></button><button type="button" data-full="raw_data_11.jpg" data-cap="實驗二原始數據 5" aria-label="放大：實驗二原始數據 5"><img src="raw_data_11.jpg" alt="實驗二原始數據 5" loading="lazy"></button></div>
+  </div>
+</section><section><div class="wrap"><div class="pager"><a href="exp1.html"><span>← 上一個</span>實驗一：黑夜和強光</a><a class="next" href="exp3.html"><span>下一個 →</span>實驗三：雷達要裝多高</a></div></div></section>
+
+<footer><div class="wrap">南投縣光華國小　蔡秉澔、蔡秉宸　指導老師：洪瑞成</div></footer>
+
+<script src="site.js"></script>
+
+
+</body>
+</html>

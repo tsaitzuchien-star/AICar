@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>關於我們｜零死角全生命守護</title>
+<meta name="description" content="蔡秉澔、蔡秉宸兩兄弟的科展研究：成員、器材、AI 使用聲明和所有紀錄。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="site.css">
+<style>
+.exp-list { display: grid; gap: 18px; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); }
+.exp-card { display: flex; flex-direction: column; background: var(--card); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; color: var(--ink); text-decoration: none; }
+.exp-card:hover { border-color: var(--forest); }
+.exp-card img { width: 100%; aspect-ratio: 16 / 10; object-fit: cover; }
+.exp-card .in { padding: 16px 18px 18px; }
+.exp-card .no { font-size: 14px; color: var(--amber); font-weight: 700; }
+.exp-card h3 { font-size: 18px; margin: 4px 0 8px; }
+.exp-card p { color: var(--ink-2); margin: 0; font-size: 15px; }
+.chain { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); counter-reset: k; }
+.chain .card { position: relative; }
+.chain .role { font-size: 13px; color: var(--amber); font-weight: 700; }
+.chain h3 { font-size: 18px; margin: 2px 0 6px; }
+.chain p { font-size: 15px; color: var(--ink-2); margin: 0; }
+.timeline { list-style: none; margin: 0; padding: 0 0 0 22px; border-left: 3px solid var(--line); }
+.timeline li { position: relative; padding: 0 0 22px 16px; }
+.timeline li::before { content: ""; position: absolute; left: -31px; top: 6px; width: 14px; height: 14px; border-radius: 7px; background: var(--gold); border: 3px solid var(--paper); }
+.timeline .d { font-weight: 700; color: var(--amber); }
+.rq { display: grid; gap: 14px; }
+.rq details { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 4px 18px 10px; margin: 0; }
+.rq summary { font-weight: 700; }
+.rq .ans { color: var(--forest); font-weight: 700; }
+.team { display: grid; gap: 18px; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+.team .card { display: flex; gap: 16px; align-items: center; }
+.team img { width: 96px; height: 96px; border-radius: 48px; object-fit: cover; border: 3px solid var(--gold); flex: none; }
+</style>
+</head>
+<body>
+
+<nav class="topnav" aria-label="網站導覽">
+  <div class="wrap">
+    <a class="brand" href="index.html">零死角全生命守護</a>
+    <a href="story.html">研究故事</a><a href="experiments.html">六個實驗</a><a href="devlog.html">開發日誌</a><a href="data.html">數據中心</a><a href="qa.html">問題與回答</a><a href="code.html">程式</a><a href="about.html" aria-current="page">關於我們</a>
+  </div>
+</nav>
+
+<header class="dark page-head">
+  <div class="wrap">
+    
+    <div class="eyebrow">關於我們</div>
+    <h1>兩兄弟的科展研究</h1>
+    <p class="lead">南投縣光華國小　蔡秉澔、蔡秉宸　指導老師：洪瑞成</p>
+    
+    
+  </div>
+</header><section id="team">
+  <div class="wrap narrow">
+    <div class="eyebrow">我們</div>
+    <h2>一起完成的研究</h2>
+    <div class="team">
+<div class="card"><img src="member_binghao.jpg" alt="蔡秉澔"><div><h3>蔡秉澔</h3><p class="muted">南投縣光華國小六年級</p></div></div>
+<div class="card"><img src="member_bingchen.jpg" alt="蔡秉宸"><div><h3>蔡秉宸</h3><p class="muted">南投縣光華國小四年級</p></div></div>
+</div>
+<div class="reflect" style="margin-top:20px"><p>這個研究從搭場地、組小車、寫程式，到每一次測量，都是我們兩個一起做的。弟弟比較常動手組裝和開車，哥哥比較常寫程式，但遇到問題的時候，我們會一起想、一起試。</p>
+<p>指導老師：<b>洪瑞成</b> 老師　研究科別：生活應用科學類</p></div>
+  </div>
+</section><section id="gear" class="alt">
+  <div class="wrap narrow">
+    <div class="eyebrow">器材</div>
+    <h2>我們用了哪些東西</h2>
+    <div class="scroll"><table><thead><tr><th>器材</th><th>用來做什麼</th></tr></thead><tbody><tr><td>micro:bit（兩塊）</td><td>一塊是小車的大腦，一塊接電腦收數據、當遙控器</td></tr><tr><td>DFRobot 麥昆 Plus V3 小車</td><td>實驗用的小車</td></tr><tr><td>DFRobot SEN0628 8×8 光學雷達（三顆）</td><td>量距離的眼睛；實驗六裝了前、左、右三顆</td></tr><tr><td>HC-SR04P 超音波感測器</td><td>和光學雷達比賽的對照組</td></tr><tr><td>瓦楞板</td><td>搭實驗場地、11 公分窄山路、24 宮格地圖（一格 10 公分）</td></tr><tr><td>黑色絨毛玩偶、白色和棕色紙板</td><td>模擬石虎和不同材質的目標</td></tr><tr><td>鋼彈模型</td><td>模擬過馬路的行人</td></tr><tr><td>MakeCode（Python）</td><td>寫小車的程式</td></tr></tbody></table></div>
+  </div>
+</section><section id="ai">
+  <div class="wrap narrow">
+    <div class="eyebrow">AI 使用聲明</div>
+    <h2>我們怎麼使用 AI</h2>
+    <div class="reflect">
+<p>我們依照教育部《中小學數位教學指引3.0》（國家教育研究院，2024）和《國民中小學學生學習評量及作業使用生成式人工智慧注意事項》（114 年 3 月 3 日臺教授國部字第 1145500214 號函）使用 AI。</p>
+<p><b>爸爸陪著用：</b>指引提醒 13 歲以下最好不要自己用 AI，國小要在老師引導下使用。所以我們沒有自己註冊或自己操作 AI，而是爸爸用他的帳號、全程陪在旁邊。我們一起討論問題、判斷 AI 說得對不對，並在洪瑞成老師的指導下進行。</p>
+<p><b>AI 是教練，不是代寫：</b>5～9 月用 Gemini，10 月起用 Claude。AI 幫我們把想好的方法變成程式、把燒錄檔還原成看得懂的程式碼、整理數據和網站。</p>
+<p><b>我們自己做的：</b>所有的實驗、搭場地、量雷達高度，都是我們兩個動手做的。程式要怎麼判斷也是我們決定的，例如發現資料會塞車，是我們決定每次排隊等 0.2 秒。</p>
+<p><b>實驗推翻了 AI：</b>AI 一開始用理論猜「雷射光會像手電筒一樣散開，裝 15 公分也掃得到目標」，可是我們自己量，15 公分一次都測不到。我們學到：AI 只能給建議，答案要靠實驗。</p>
+<p><b>留下紀錄：</b>我們會標示哪些地方有 AI 幫忙、用的是哪一個 AI，並保存對話紀錄，讓老師和評審可以檢查。</p>
+<p class="open" style="margin:14px 0 0">「老師引導方向，爸爸陪伴把關，AI 當學習教練，做實驗的是我們。」</p>
+</div>
+  </div>
+</section><section id="records" class="alt">
+  <div class="wrap">
+    <div class="eyebrow">可以檢查的紀錄</div>
+    <h2>所有紀錄都公開</h2>
+    <div class="grid">
+<a class="card" href="https://docs.google.com/spreadsheets/d/13gkJgF3i0j1yPZTgs6Z5I28JxsanNAGIRpXyR6V_tt8/edit" style="text-decoration:none;color:var(--ink)"><h3>實驗數據總表</h3><p class="muted">每一次測量的原始數字</p></a>
+<a class="card" href="devlog.html" style="text-decoration:none;color:var(--ink)"><h3>開發日誌</h3><p class="muted">從 5/9 搭場地開始的照片和過程</p></a>
+<a class="card" href="code.html" style="text-decoration:none;color:var(--ink)"><h3>程式</h3><p class="muted">每個實驗的程式，和每一版怎麼改</p></a>
+<a class="card" href="qa.html" style="text-decoration:none;color:var(--ink)"><h3>問題與回答</h3><p class="muted">我們和洪老師的討論紀錄</p></a>
+<a class="card" href="lab.html" style="text-decoration:none;color:var(--ink)"><h3>舊版研究網站</h3><p class="muted">5 月開始做的第一版網站，留著當紀錄</p></a>
+</div>
+  </div>
+</section>
+
+<footer><div class="wrap">南投縣光華國小　蔡秉澔、蔡秉宸　指導老師：洪瑞成</div></footer>
+
+<script src="site.js"></script>
+
+
+</body>
+</html>
