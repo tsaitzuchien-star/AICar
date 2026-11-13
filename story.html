@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>研究故事｜零死角全生命守護</title>
-<meta name="description" content="零死角全生命守護的研究動機、研究方向的改變、六個關鍵字和四個研究問題。">
+<meta name="description" content="零死角全生命守護的研究動機、研究方向的改變、六個關鍵字和四個研究問題、研究目的和參考文獻。">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@700;900&display=swap" rel="stylesheet">
@@ -34,6 +34,12 @@
 .team { display: grid; gap: 18px; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
 .team .card { display: flex; gap: 16px; align-items: center; }
 .team img { width: 96px; height: 96px; border-radius: 48px; object-fit: cover; border: 3px solid var(--gold); flex: none; }
+.cite { color: var(--ink-2); font-size: .92em; }
+ol.goals { margin: 8px 0 0; padding-left: 1.8em; line-height: 1.9; }
+ol.goals li { margin-bottom: 8px; }
+ol.goals .exp { display: inline-block; font-size: 12px; line-height: 1.6; background: var(--paper-2); border: 1px solid var(--line); border-radius: 6px; padding: 0 6px; margin-left: 6px; white-space: nowrap; }
+.refs p { padding-left: 2em; text-indent: -2em; margin: 0 0 12px; overflow-wrap: anywhere; line-height: 1.8; }
+.refs a { color: inherit; }
 </style>
 </head>
 <body>
@@ -54,7 +60,7 @@
     
     
   </div>
-</header><div class="wrap"><nav class="toc" aria-label="本頁目錄"><a href="#why">研究動機</a><a href="#turns">方向怎麼改變</a><a href="#keywords">六個關鍵字</a><a href="#questions">四個研究問題</a><a href="#purpose">研究目的</a><a href="#limits">小車和真車差多少</a><a href="#future">以後想做的</a></nav></div><section id="why">
+</header><div class="wrap"><nav class="toc" aria-label="本頁目錄"><a href="#why">研究動機</a><a href="#turns">方向怎麼改變</a><a href="#keywords">六個關鍵字</a><a href="#questions">四個研究問題</a><a href="#purpose">研究目的</a><a href="#limits">小車和真車差多少</a><a href="#future">以後想做的</a><a href="#refs">參考文獻</a></nav></div><section id="why">
   <div class="wrap">
     <div class="eyebrow">研究動機</div>
     <h2>為什麼做這個研究</h2>
@@ -64,8 +70,9 @@
 <div class="card"><span class="tag">老師提醒</span><p>汽車轉彎時，擋風玻璃旁邊的 A 柱會擋住行人，駕駛看不到。</p></div>
 <div class="card" style="border-color:var(--forest);border-width:2px"><span class="tag fix">我們的問題</span><p>小車能不能在黑夜、在轉彎的死角裡，也看見生命並停下來讓路？</p></div>
 </div>
-<div class="reflect" style="margin-top:22px"><p>我們讀了一些文章，發現自動駕駛最重要的感測器是「光學雷達」，就決定用它來研究，再找一台可以裝雷達的「麥昆小車」來做實驗。</p>
-<p>可是測試的時候，我們發現一個大問題：車子轉彎時，前面那顆雷達只能看前面，車子旁邊就有看不到的「視野死角」。我們住在南投，第一個想到的就是常被車撞的石虎。洪老師又提醒我們，真的馬路上，駕駛也常因為「A 柱」擋住而撞到行人，建議我們試試看多裝幾顆雷達。</p>
+<div class="reflect" style="margin-top:22px"><p>我們讀了一些文章，發現自動駕駛最重要的感測器是「光學雷達」，就決定用它來研究，再找一台可以裝雷達的「麥昆小車」來做實驗。我們用的光學雷達是 DFRobot SEN0628，它會發出看不見的紅外線雷射光，算光碰到東西再彈回來要花多少時間，就知道東西有多遠；它把前方 60 度的範圍分成 8×8 共 64 個小格子來量距離<span class="cite">（DFRobot, n.d.）</span>。</p>
+<p>可是測試的時候，我們發現一個大問題：車子轉彎時，前面那顆雷達只能看前面，車子旁邊就有看不到的「視野死角」。我們住在南投，第一個想到的就是常被車撞的石虎。2022 年全台灣有 31 隻石虎被車撞死，其中南投就有 14 隻，第一次超過苗栗<span class="cite">（林健生、彭煥羣，2023）</span>。</p>
+<p>洪老師又提醒我們，真的馬路上，駕駛也常因為「A 柱」擋住而撞到行人，建議我們試試看多裝幾顆雷達。台北市警察的統計發現，行人走斑馬線被轉彎車撞的事故裡，左轉車的肇事率是右轉車的 6 倍<span class="cite">（黃麗芸，2017）</span>；美國的研究也發現，駕駛座這一邊看不到的地方越大，左轉時撞到行人的風險就高出 70%<span class="cite">（Insurance Institute for Highway Safety [IIHS], 2025）</span>。</p>
 <p>所以我們用兩個方法來解決死角：程式上，做一個會記住危險、自己繞路的「網格記憶」大腦；硬體上，在車頭裝前、左、右三顆雷達，做出 180 度的防護罩。最後再讓小車學會考駕照時的「停、看、聽」，看到行人就停下來等。</p></div>
   </div>
 </section><section id="turns" class="alt">
@@ -97,8 +104,8 @@
 </section><section id="purpose">
   <div class="wrap narrow">
     <div class="eyebrow">研究目的</div>
-    <h2>每個實驗要做什麼</h2>
-    <ol class="steps"><li><b>實驗一</b>：看看黑夜和強光，會不會讓雷達量錯距離。</li><li><b>實驗二</b>：看看深色、毛毛的材質，會不會讓雷達和超音波看不見。</li><li><b>實驗三</b>：找出雷達最好的高度，不要讓光從頭上飛過去，也不要打到地板。</li><li><b>實驗四</b>：量出不同速度要滑多遠，算出要多早開始煞車。</li><li><b>實驗五</b>：讓小車在窄山路和 24 宮格裡，靠網格記憶自己閃開、自己找路。</li><li><b>實驗六</b>：多裝兩顆雷達，做出 180 度的防護罩，學會停、看、聽。</li></ol>
+    <h2>我們想研究的八件事</h2>
+    <ol class="goals"><li>探討光線強弱（日光燈、手電筒強光、關燈全黑）對光學雷達測量距離的影響。<span class="exp">實驗一</span></li><li>比較光學雷達與超音波感測器，面對不同顏色與材質（白色紙板、棕色紙板、黑色絨毛）時的測距表現。<span class="exp">實驗二</span></li><li>探討光學雷達的安裝高度（5、10、15 公分）對偵測石虎模型的影響，找出最適合的高度。<span class="exp">實驗三</span></li><li>探討車速（20、30、40 cm/s）對煞車滑行距離的影響，並算出安全的預警距離。<span class="exp">實驗四</span></li><li>比較光學雷達與超音波感測器在狹窄山路中的避障成功率。<span class="exp">實驗五-A</span></li><li>設計「網格記憶」導航程式，探討小車在 24 宮格地圖遇到路障時，能不能記住危險、自己繞路到終點。<span class="exp">實驗五-B</span></li><li>探討加裝左、右兩顆光學雷達後，小車轉彎時能不能發現 A 柱死角裡的行人，並做到「停、看、聽」禮讓。<span class="exp">實驗六</span></li><li>探討把「每走一格停一下、原地轉 90 度」改成連續前進、弧線轉彎後，小車是否仍然能避開路障並禮讓行人。<span class="exp">五-B、六改良（進行中）</span></li></ol>
   </div>
 </section><section id="limits" class="alt">
   <div class="wrap narrow">
@@ -119,6 +126,17 @@
 <div class="card"><h3>戰爭迷霧</h3><p class="muted">幫小車記住「還沒看過的格子」，要走過去之前先轉頭看一下，就更接近零死角。</p></div>
 <div class="card"><h3>自動轉向閃避</h3><p class="muted">東西在 15 公分內突然從死角衝出來、煞車來不及時，讓車子自己轉方向閃開。這個還沒寫進程式。</p></div>
 </div>
+  </div>
+</section><section id="refs" class="alt">
+  <div class="wrap narrow">
+    <div class="eyebrow">參考文獻</div>
+    <h2>我們讀過的資料</h2>
+    <div class="refs">
+<p>林健生、彭煥羣（2023年1月12日）。<i>去年石虎路殺共31件 特生中心：與族群擴張有關</i>。公視新聞網。<a href="https://news.pts.org.tw/article/618618" target="_blank" rel="noopener">https://news.pts.org.tw/article/618618</a></p>
+<p>黃麗芸（2017年12月3日）。<i>北市公車撞死祖孫 警籲行人注意左轉車</i>。中央通訊社。<a href="https://www.cna.com.tw/news/asoc/201712030067.aspx" target="_blank" rel="noopener">https://www.cna.com.tw/news/asoc/201712030067.aspx</a></p>
+<p>DFRobot. (n.d.). <i>Gravity: RP2040 8x8 matrix LiDAR ranging sensor (SEN0628)</i>. DFRobot Wiki. Retrieved November 13, 2026, from <a href="https://wiki.dfrobot.com/sen0628/" target="_blank" rel="noopener">https://wiki.dfrobot.com/sen0628/</a></p>
+<p>Insurance Institute for Highway Safety. (2025, November 19). <i>Vehicles with big blind zones spell danger to pedestrians during left turns</i> [Press release]. <a href="https://www.iihs.org/news/detail/vehicles-with-big-blind-zones-spell-danger-to-pedestrians-during-left-turns" target="_blank" rel="noopener">https://www.iihs.org/news/detail/vehicles-with-big-blind-zones-spell-danger-to-pedestrians-during-left-turns</a></p>
+    </div>
   </div>
 </section><section><div class="wrap"><div class="pager"><a href="index.html"><span>← 上一個</span>首頁</a><a class="next" href="experiments.html"><span>下一個 →</span>六個實驗</a></div></div></section>
 
