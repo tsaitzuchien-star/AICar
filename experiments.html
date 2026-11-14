@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>六個實驗｜零死角全生命守護</title>
+<title>研究實驗｜零死角全生命守護</title>
 <meta name="description" content="零死角全生命守護的六個實驗：感測器可靠嗎、怎麼裝最好、上路測試、補上死角。">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -34,6 +34,11 @@
 .team { display: grid; gap: 18px; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
 .team .card { display: flex; gap: 16px; align-items: center; }
 .team img { width: 96px; height: 96px; border-radius: 48px; object-fit: cover; border: 3px solid var(--gold); flex: none; }
+.parts { display: grid; gap: 44px; }
+.part-head { display: flex; gap: 16px; align-items: flex-start; margin-bottom: 16px; }
+.part-head h2 { margin: 0 0 4px; }
+.part-no { flex: none; background: var(--forest); color: #fff; font-weight: 700; font-size: 14px; border-radius: 6px; padding: 4px 10px; margin-top: 6px; }
+.zero-img svg { width: 100%; height: auto; display: block; aspect-ratio: 16 / 10; }
 </style>
 </head>
 <body>
@@ -41,7 +46,7 @@
 <nav class="topnav" aria-label="網站導覽">
   <div class="wrap">
     <a class="brand" href="index.html">零死角全生命守護</a>
-    <a href="story.html">研究故事</a><a href="experiments.html" aria-current="page">六個實驗</a><a href="devlog.html">開發日誌</a><a href="data.html">數據中心</a><a href="qa.html">問題與回答</a><a href="code.html">程式</a><a href="about.html">關於我們</a>
+    <a href="story.html">研究故事</a><a href="plan.html">研究架構</a><a href="experiments.html" aria-current="page">六個實驗</a><a href="devlog.html">開發日誌</a><a href="data.html">數據中心</a><a href="qa.html">問題與回答</a><a href="code.html">程式</a><a href="about.html">關於我們</a>
   </div>
 </nav>
 
@@ -49,22 +54,22 @@
   <div class="wrap">
     
     <div class="eyebrow">六個實驗</div>
-    <h1>每個實驗，回答上一個留下的問題</h1>
-    <p class="lead">我們先確定感測器可不可靠，再找出怎麼裝最好，然後讓小車真的上路，最後補上轉彎時的死角。</p>
-    <div class="kpis"><div class="kpi"><b>7 個實驗</b><span>實驗五分成 A、B 兩個</span></div><div class="kpi"><b>5/14～8/30</b><span>做實驗的時間</span></div><div class="kpi"><b>每個點 5 次</b><span>每一次都記下來</span></div></div>
+    <h1>轉彎時，A 柱後面的人看得見嗎？</h1>
+    <p class="lead">我們的研究分成三個部分：先找出 A 柱擋住哪裡，再打造看得見死角的「眼睛」，最後讓小車轉彎時把死角補起來。</p>
+    <div class="kpis"><div class="kpi"><b>3 個部分</b><span>找出死角、打造眼睛、補上死角</span></div><div class="kpi"><b>5/14～8/30</b><span>做實驗的時間</span></div><div class="kpi"><b>實驗一～四每點 5 次</b><span>五-A、五-B、六正在補測</span></div></div>
     
   </div>
 </header><section id="list">
   <div class="wrap">
     
     
-    <div class="exp-list"><a class="exp-card" href="exp1.html"><img src="photo7.jpg" alt="實驗一 夜盲症測試" loading="lazy"><div class="in"><div class="no">實驗一・夜盲症測試</div><h3>黑夜和強光，會不會讓雷達看錯距離？</h3><p>三種光線下，30～150 公分平均最多只差 4.1 公分。</p></div></a><a class="exp-card" href="exp2.html"><img src="photo18.jpg" alt="實驗二 保護色與材質" loading="lazy"><div class="in"><div class="no">實驗二・保護色與材質</div><h3>黑色毛毛的石虎，雷達和超音波量得到嗎？</h3><p>超音波量不到黑色絨毛；雷達在 60 公分內還是很準。</p></div></a><a class="exp-card" href="exp3.html"><img src="photo11.jpg" alt="實驗三 最佳視角" loading="lazy"><div class="in"><div class="no">實驗三・最佳視角</div><h3>雷達要裝多高，才不會漏看石虎？</h3><p>裝 10 公分最穩定；15 公分太高，一次都測不到。</p></div></a><a class="exp-card" href="exp4.html"><img src="photo24.jpg" alt="實驗四 生死一瞬間" loading="lazy"><div class="in"><div class="no">實驗四・生死一瞬間</div><h3>車開越快，要多早開始煞車？</h3><p>40 cm/s 要滑 7.06 公分，所以要在 17.06 公分前煞車。</p></div></a><a class="exp-card" href="exp5a.html"><img src="photo26.jpg" alt="實驗五-A 窄窄的山路" loading="lazy"><div class="in"><div class="no">實驗五-A・窄窄的山路</div><h3>窄山路上，超音波會不會把山壁當成石虎？</h3><p>雷達 6 趟都成功；超音波在 40 cm/s 時煞車和轉彎都失敗。</p></div></a><a class="exp-card" href="exp5b.html"><img src="exp5b_cover.jpg" alt="實驗五-B 24 宮格" loading="lazy"><div class="in"><div class="no">實驗五-B・24 宮格</div><h3>雷達看不到旁邊，小車怎麼記住危險、自己找路？</h3><p>8 趟都到終點、0 次撞到，還會自己從死路退出來。</p></div></a><a class="exp-card" href="exp6.html"><img src="photo30.jpg" alt="實驗六 A 柱死角" loading="lazy"><div class="in"><div class="no">實驗六・A 柱死角</div><h3>轉彎時，看得到 A 柱後面的行人嗎？</h3><p>只有前雷達會撞上；三顆雷達會停下來，等行人走過再走。</p></div></a></div>
+    <div class="parts"><div class="part"><div class="part-head"><span class="part-no">第一部分</span><div><h2>找出死角</h2><p class="muted">先在真的車上量清楚：司機轉彎時，A 柱到底擋住了哪裡。</p></div></div><div class="exp-list"><a class="exp-card" href="plan.html#exp0"><div class="zero-img" aria-hidden="true"><svg viewBox="0 0 320 200"><rect width="320" height="200" fill="#EFEADF"/><polygon points="150,150 70,10 30,10 146,152" fill="rgba(162,59,42,.22)" stroke="#A23B2A" stroke-width="1.5"/><polygon points="176,146 320,70 320,100 180,154" fill="rgba(162,59,42,.22)" stroke="#A23B2A" stroke-width="1.5"/><rect x="138" y="130" width="50" height="80" rx="10" fill="#9fb0b6"/><circle cx="152" cy="170" r="4" fill="#3B5B92"/><circle cx="90" cy="70" r="8" fill="#A23B2A"/></svg></div><div class="in"><div class="no">實驗零・真車 A 柱死角地圖（新增，待測）</div><h3>坐在駕駛座，A 柱到底擋住哪裡？</h3><p>在真的車上量出 A 柱擋住的角度和範圍，再縮小 39 倍畫到小車的場地上。</p></div></a></div></div><div class="part"><div class="part-head"><span class="part-no">第二部分</span><div><h2>打造看得見死角的眼睛</h2><p class="muted">要看見死角裡的人和動物，感測器要夠準、裝對高度，還要算出多早煞車才來得及。</p></div></div><div class="exp-list"><a class="exp-card" href="exp1.html"><img src="photo7.jpg" alt="實驗一 夜盲症測試" loading="lazy"><div class="in"><div class="no">實驗一・夜盲症測試</div><h3>黑夜和強光，會不會讓雷達看錯距離？</h3><p>三種光線下，30～150 公分平均最多只差 4.1 公分。</p></div></a><a class="exp-card" href="exp2.html"><img src="photo18.jpg" alt="實驗二 保護色與材質" loading="lazy"><div class="in"><div class="no">實驗二・保護色與材質</div><h3>黑色毛毛的石虎，雷達和超音波量得到嗎？</h3><p>超音波量不到黑色絨毛；雷達在 60 公分內還是很準。</p></div></a><a class="exp-card" href="exp3.html"><img src="photo11.jpg" alt="實驗三 最佳視角" loading="lazy"><div class="in"><div class="no">實驗三・最佳視角</div><h3>雷達要裝多高，才不會漏看石虎？</h3><p>裝 10 公分最穩定；15 公分太高，一次都測不到。</p></div></a><a class="exp-card" href="exp4.html"><img src="photo24.jpg" alt="實驗四 生死一瞬間" loading="lazy"><div class="in"><div class="no">實驗四・生死一瞬間</div><h3>車開越快，要多早開始煞車？</h3><p>40 cm/s 要滑 7.06 公分，所以要在 17.06 公分前煞車。</p></div></a></div></div><div class="part"><div class="part-head"><span class="part-no">第三部分</span><div><h2>補上死角</h2><p class="muted">讓小車真的上路，最後在十字路口轉彎，看三顆雷達能不能補上 A 柱死角。</p></div></div><div class="exp-list"><a class="exp-card" href="exp5a.html"><img src="photo26.jpg" alt="實驗五-A 窄窄的山路" loading="lazy"><div class="in"><div class="no">實驗五-A・窄窄的山路</div><h3>窄山路上，超音波會不會把山壁當成石虎？</h3><p>雷達 6 趟都成功；超音波在 40 cm/s 時煞車和轉彎都失敗。</p></div></a><a class="exp-card" href="exp5b.html"><img src="exp5b_cover.jpg" alt="實驗五-B 24 宮格" loading="lazy"><div class="in"><div class="no">實驗五-B・24 宮格</div><h3>雷達看不到旁邊，小車怎麼記住危險、自己找路？</h3><p>8 趟都到終點、0 次撞到，還會自己從死路退出來。</p></div></a><a class="exp-card" href="exp6.html"><img src="photo30.jpg" alt="實驗六 A 柱死角" loading="lazy"><div class="in"><div class="no">實驗六・A 柱死角</div><h3>轉彎時，看得到 A 柱後面的行人嗎？</h3><p>只有前雷達會撞上；三顆雷達會停下來，等行人走過再走。</p></div></a></div></div></div>
   </div>
 </section><section id="flow" class="alt">
   <div class="wrap narrow">
     <div class="eyebrow">實驗的順序</div>
-    <h2>從「感測器可靠嗎」走到「轉彎也看得見」</h2>
-    <ol class="timeline"><li><span class="d">感測器可靠嗎？</span>　實驗一：黑夜和強光，會不會讓雷達看錯距離？</li><li><span class="d">感測器可靠嗎？</span>　實驗二：黑色毛毛的石虎，雷達和超音波量得到嗎？</li><li><span class="d">怎麼裝最好？</span>　實驗三：雷達要裝多高，才不會漏看石虎？</li><li><span class="d">怎麼裝最好？</span>　實驗四：車開越快，要多早開始煞車？</li><li><span class="d">上路測試</span>　實驗五-A：窄山路上，超音波會不會把山壁當成石虎？</li><li><span class="d">上路測試</span>　實驗五-B：雷達看不到旁邊，小車怎麼記住危險、自己找路？</li><li><span class="d">補上死角</span>　實驗六：轉彎時，看得到 A 柱後面的行人嗎？</li></ol>
+    <h2>從「死角在哪裡」走到「轉彎也看得見」</h2>
+    <ol class="timeline"><li><span class="d">找出死角</span>　實驗零：坐在駕駛座，A 柱到底擋住哪裡？（新增，待測）</li><li><span class="d">打造眼睛</span>　實驗一：黑夜和強光，會不會讓雷達看錯距離？</li><li><span class="d">打造眼睛</span>　實驗二：黑色毛毛的石虎，雷達和超音波量得到嗎？</li><li><span class="d">打造眼睛</span>　實驗三：雷達要裝多高，才不會漏看石虎？</li><li><span class="d">打造眼睛</span>　實驗四：車開越快，要多早開始煞車？</li><li><span class="d">補上死角</span>　實驗五-A：窄山路上，超音波會不會把山壁當成石虎？</li><li><span class="d">補上死角</span>　實驗五-B：雷達看不到旁邊，小車怎麼記住危險、自己找路？</li><li><span class="d">補上死角</span>　實驗六：轉彎時，看得到 A 柱後面的行人嗎？</li></ol>
   </div>
 </section><section id="control">
   <div class="wrap">

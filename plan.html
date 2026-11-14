@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>研究架構｜零死角全生命守護</title>
+<meta name="description" content="我們的研究主角：轉彎時 A 柱擋住的行人。三個部分的研究架構、實驗零的做法、接下來要補的實驗。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="site.css">
+<style>
+.parts3 { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+.parts3 .card { display: flex; flex-direction: column; gap: 6px; }
+.parts3 .pno { font-size: 14px; font-weight: 700; color: var(--amber); }
+.parts3 ul { margin: 4px 0 0; padding-left: 20px; color: var(--ink-2); font-size: 15px; }
+.parts3 .hl { border: 2px solid var(--forest); }
+figure.dia { margin: 22px 0; }
+figure.dia svg { width: 100%; height: auto; display: block; background: #EFEADF; border-radius: 10px; }
+figure.dia figcaption { font-size: 14px; color: var(--ink-2); margin-top: 6px; }
+.badge { display: inline-block; font-size: 12px; font-weight: 700; color: var(--bad); border: 1.5px solid var(--bad); border-radius: 4px; padding: 0 6px; margin-left: 6px; }
+.tools { display: grid; gap: 10px; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); }
+.tools .card { padding: 12px 14px; }
+.tools b { display: block; }
+.tools span { font-size: 15px; color: var(--ink-2); }
+.safety { border: 2px solid var(--bad); border-radius: 12px; padding: 14px 18px; background: var(--card); margin-top: 18px; }
+.safety ul { margin: 6px 0 0; padding-left: 20px; }
+table.rec td, table.rec th { text-align: center; border: 1px solid var(--line); }
+table.rec td.b { height: 30px; min-width: 64px; }
+.todo { display: grid; gap: 12px; }
+.todo .card { display: grid; grid-template-columns: auto 1fr; gap: 14px; align-items: start; }
+.todo .box { width: 22px; height: 22px; border: 2px solid var(--forest); border-radius: 5px; margin-top: 4px; }
+.todo h3 { margin: 0 0 4px; }
+.todo p { margin: 0; color: var(--ink-2); font-size: 15px; }
+.lvl { font-size: 12px; font-weight: 700; padding: 1px 8px; border-radius: 10px; margin-left: 6px; vertical-align: 2px; }
+.lvl.must { background: var(--bad-bg); color: var(--bad); }
+.lvl.good { background: var(--sky-bg); color: var(--sky); }
+.src { font-size: 13px; color: var(--ink-2); }
+</style>
+</head>
+<body>
+
+<nav class="topnav" aria-label="網站導覽">
+  <div class="wrap">
+    <a class="brand" href="index.html">零死角全生命守護</a>
+    <a href="story.html">研究故事</a><a href="plan.html" aria-current="page">研究架構</a><a href="experiments.html">六個實驗</a><a href="devlog.html">開發日誌</a><a href="data.html">數據中心</a><a href="qa.html">問題與回答</a><a href="code.html">程式</a><a href="about.html">關於我們</a>
+  </div>
+</nav>
+
+<header class="dark page-head">
+  <div class="wrap">
+    <div class="eyebrow">研究架構（2026 年 11 月更新）</div>
+    <h1>我們的研究主角：轉彎時，被 A 柱擋住的人</h1>
+    <p class="lead">A 柱是汽車擋風玻璃左右兩邊的柱子。車子轉彎時，它剛好可能把過馬路的人擋住。我們想讓車子在轉彎時自己「看見」這個死角，不管是人還是動物，都先停下來讓他過。</p>
+    <div class="kpis"><div class="kpi"><b>3 個部分</b><span>找出死角、打造眼睛、補上死角</span></div><div class="kpi"><b>3 顆雷達</b><span>正前方、左前、右前</span></div><div class="kpi"><b>實驗零</b><span>新增：到真車上量 A 柱死角</span></div></div>
+  </div>
+</header>
+
+<div class="wrap"><nav class="toc" aria-label="本頁目錄"><a href="#why">為什麼是 A 柱</a><a href="#parts">三個部分</a><a href="#exp0">實驗零怎麼做</a><a href="#todo">接下來要補的</a><a href="#ai">AI 預測 vs 實測</a><a href="#cross">路口觀察</a></nav></div>
+
+<section id="why">
+  <div class="wrap">
+    <div class="eyebrow">為什麼是 A 柱</div>
+    <h2>從石虎開始，最後想保護每一個人</h2>
+    <div class="grid">
+      <div class="card"><span class="tag star">故事的開始</span><p>我們住在南投，常常聽到石虎被車撞。2022 年全台灣有 31 隻石虎被車撞死，南投就有 14 隻。</p></div>
+      <div class="card"><span class="tag star">老師的提醒</span><p>洪老師說，真的在路上遇到石虎的機會很少，但每天都有很多人過馬路。所以我們把主角換成轉彎時被 A 柱擋住的行人。</p></div>
+      <div class="card"><span class="tag fail">左轉特別危險</span><p>新聞說，台灣左轉的車出事的機會是右轉的 6 倍，A 柱擋住視線是原因之一。</p></div>
+      <div class="card"><span class="tag fail">死角越大越危險</span><p>美國的研究發現，駕駛座那一邊死角比較大的車，左轉時撞到行人的風險多了大約 70%。</p></div>
+    </div>
+    <p class="src" style="margin-top:14px">資料來源：公視新聞網（2023）石虎路殺報導；中央社（2017）左轉肇事報導；IIHS 研究（Hu &amp; Cicchino, 2026, <i>Journal of Safety Research</i>），<a href="https://www.repairerdrivennews.com/2025/11/21/iihs-large-driver-side-blind-zone-raises-pedestrian-crash-risk-by-70-in-left-turns/" target="_blank" rel="noopener">報導連結</a>。</p>
+  </div>
+</section>
+
+<section id="parts" class="alt">
+  <div class="wrap">
+    <div class="eyebrow">研究的三個部分</div>
+    <h2>先找出死角，再打造眼睛，最後補上死角</h2>
+    <div class="parts3">
+      <div class="card"><span class="pno">第一部分</span><h3>找出死角</h3><p class="muted">司機轉彎時，A 柱到底擋住了哪裡？</p><ul><li><a href="#exp0">實驗零：真車 A 柱死角地圖</a>（新增，待測）</li></ul></div>
+      <div class="card"><span class="pno">第二部分</span><h3>打造看得見死角的眼睛</h3><p class="muted">感測器要夠準、裝對高度，還要算出多早煞車。</p><ul><li><a href="exp1.html">實驗一：雷達怕黑、怕強光嗎？</a></li><li><a href="exp2.html">實驗二：為什麼不用超音波（黑色毛毛量不到）</a></li><li><a href="exp3.html">實驗三：雷達要裝多高？</a></li><li><a href="exp4.html">實驗四：多快來得及停？</a></li></ul></div>
+      <div class="card hl"><span class="pno">第三部分</span><h3>補上死角</h3><p class="muted">讓小車真的上路，最後在路口轉彎。</p><ul><li><a href="exp5a.html">實驗五-A：窄窄的山路</a></li><li><a href="exp5b.html">實驗五-B：24 宮格自己找路</a></li><li><a href="exp6.html"><b>實驗六：A 柱死角與停、看、聽</b></a>：一顆雷達會撞上，三顆雷達會停下來禮讓。</li></ul></div>
+    </div>
+  </div>
+</section>
+
+<section id="exp0">
+  <div class="wrap narrow">
+    <div class="eyebrow">第一部分・實驗零（新增）</div>
+    <h2>真車 A 柱死角地圖：坐在駕駛座，看不到哪裡？</h2>
+    <p>我們要找的答案：大人坐在駕駛座、頭不動，往前看的時候，<b>車頭前面哪些地方站著一個小朋友，會被 A 柱整個擋住？</b>台灣的車駕駛座在左邊，所以左 A 柱離眼睛比較近，擋住的範圍可能比較大。</p>
+
+    <figure class="dia">
+      <svg viewBox="0 0 600 540" role="img" aria-label="從上面看的車子，兩根 A 柱後面各有一塊扇形死角">
+        <polygon points="258.4,457.8 90,40 11,40 253.5,460.2" fill="rgba(162,59,42,.2)" stroke="#A23B2A" stroke-width="1.5"/>
+        <polygon points="344.7,438 600,239 600,305 351.8,448.5" fill="rgba(162,59,42,.2)" stroke="#A23B2A" stroke-width="1.5"/>
+        <rect x="246" y="380" width="108" height="170" rx="18" fill="#9fb0b6"/>
+        <polygon points="252,440 348,440 340,478 260,478" fill="#cfe3ea"/>
+        <rect x="262" y="484" width="26" height="30" rx="5" fill="#5f747c"/>
+        <circle cx="256" cy="459" r="5" fill="#5f747c"/><circle cx="348" cy="443" r="5" fill="#5f747c"/>
+        <circle cx="273" cy="494" r="6" fill="#3B5B92"/>
+        <text x="196" y="520" font-size="15" fill="#1E2A22">眼睛</text>
+        <line x1="273" y1="494" x2="300" y2="262" stroke="#3B5B92" stroke-width="2" stroke-dasharray="6 5"/>
+        <line x1="273" y1="494" x2="163" y2="275" stroke="#3B5B92" stroke-width="2" stroke-dasharray="6 5"/>
+        <g transform="translate(300,250)" fill="#2F7A4F"><circle r="11" cy="-14"/><rect x="-9" y="-2" width="18" height="26" rx="6"/></g>
+        <text x="318" y="246" font-size="16" fill="#5C665E">○ 看得到</text>
+        <g transform="translate(163,263)" fill="#A23B2A"><circle r="11" cy="-14"/><rect x="-9" y="-2" width="18" height="26" rx="6"/></g>
+        <text x="40" y="300" font-size="16" fill="#5C665E">× 被左 A 柱擋住</text>
+        <text x="20" y="28" font-size="17" font-weight="700" fill="#A23B2A">左 A 柱死角</text>
+        <text x="470" y="226" font-size="17" font-weight="700" fill="#A23B2A">右 A 柱死角</text>
+        <text x="308" y="345" font-size="14" fill="#5C665E">前進方向 ↑</text>
+      </svg>
+      <figcaption>從天空往下看。紅色區域就是死角，小朋友站在裡面，駕駛的眼睛會被 A 柱擋住。我們要把這兩塊的形狀量出來。<span class="badge">示意圖</span></figcaption>
+    </figure>
+
+    <h3>準備工具</h3>
+    <div class="tools">
+      <div class="card"><b>捲尺（5 公尺）</b><span>量距離、畫線</span></div>
+      <div class="card"><b>粉筆或紙膠帶</b><span>在地上畫 5 條橫線和刻度</span></div>
+      <div class="card"><b>小朋友標示桿</b><span>120 公分長的竿子（掃把柄、PVC 管），最上面貼一張畫好的臉，大約是一年級小朋友的身高</span></div>
+      <div class="card"><b>細繩＋螺帽</b><span>做鉛垂線，找到眼睛正下方在地上的位置</span></div>
+      <div class="card"><b>記錄表、筆、墊板</b><span>用這一頁下面的表格</span></div>
+      <div class="card"><b>手機</b><span>從駕駛座拍「臉不見了」的照片</span></div>
+      <div class="card"><b>方格紙、尺、量角器</b><span>回家畫死角地圖</span></div>
+      <div class="card"><b>加分：40 公分「石虎桿」</b><span>石虎、小狗差不多這麼高</span></div>
+    </div>
+    <div class="safety"><b>安全規則</b><ul><li>車子一定要熄火、拉手煞車，鑰匙交給大人保管。</li><li>選白天、沒有其他車進出的空曠停車場。</li><li>全程有大人在旁邊。</li></ul></div>
+
+    <h3 style="margin-top:28px">三個人分工</h3>
+    <div class="grid">
+      <div class="card"><b>觀察員（大人）</b><p class="muted">坐駕駛座、像平常開車一樣坐好，頭靠頭枕不動，負責喊「不見了」和「出現了」。</p></div>
+      <div class="card"><b>走線員</b><p class="muted">拿著標示桿，沿著地上的線慢慢橫著走，桿子保持直直的。</p></div>
+      <div class="card"><b>記錄員</b><p class="muted">聽到喊聲，看桿子站在哪個刻度，寫進記錄表。我們兩個輪流當走線員和記錄員。</p></div>
+    </div>
+
+    <h3 style="margin-top:28px">步驟</h3>
+    <ol class="steps">
+      <li><b>記下車子資料。</b>寫下車子型號、觀察員身高。觀察員坐好後，從車窗垂下綁螺帽的細繩貼在眼睛旁邊，螺帽碰地的點畫 X。量：① X 到保險桿的距離 ② X 到車子正中間的距離 ③ 地面到眼睛的高度。</li>
+      <li><b>畫 5 條橫線。</b>從保險桿往前 1、2、3、4、5 公尺各畫一條和車頭平行的線，每條從中心往左右各 4 公尺，每 50 公分一個刻度。中心是 0，左邊寫負的，右邊寫正的。</li>
+      <li><b>沿著線走、喊聲音。</b>走線員從最左邊（-400）慢慢往右走，一步約 10 公分。桿子上的臉完全被 A 柱擋住時，觀察員喊「不見了！」；臉又露出來時喊「出現了！」。記錄員寫下刻度。</li>
+      <li><b>每條線走 3 次。</b>其中一次從右往左走，三次取平均。</li>
+      <li><b>拍「消失照片」。</b>走線員停在死角中間，觀察員把手機放在眼睛的位置拍：看得到 A 柱，看不到臉。</li>
+      <li><b>加分：石虎桿。</b>換 40 公分的桿子，再走 1、2、3 公尺線。矮的東西還可能被引擎蓋擋住。</li>
+      <li><b>畫成地圖。</b>方格紙 1 格＝50 公分，畫出車頭、5 條線和眼睛，把平均位置點上去連起來。用量角器從眼睛量：正前方是 0 度，左、右 A 柱死角各是幾度到幾度？</li>
+      <li><b>縮小到小車場地。</b>小車是真車的 1/39：長度都除以 39，角度不用改。1 公尺＝2.6 公分、2 公尺＝5.1、3 公尺＝7.7、4 公尺＝10.3、5 公尺＝12.8 公分。</li>
+    </ol>
+
+    <figure class="dia">
+      <svg viewBox="0 0 640 470" role="img" aria-label="車頭前面五條橫線，走線員拿桿子沿著線走">
+        <g stroke="#8e9a94" stroke-width="2"><line x1="120" y1="310" x2="520" y2="310"/><line x1="120" y1="260" x2="520" y2="260"/><line x1="120" y1="210" x2="520" y2="210"/><line x1="120" y1="160" x2="520" y2="160"/><line x1="120" y1="110" x2="520" y2="110"/></g>
+        <g id="ticks" stroke="#8e9a94" stroke-width="1.5"></g>
+        <g font-size="15" fill="#1E2A22"><text x="56" y="315">1 公尺</text><text x="56" y="265">2 公尺</text><text x="56" y="215">3 公尺</text><text x="56" y="165">4 公尺</text><text x="56" y="115">5 公尺</text></g>
+        <g font-size="12" fill="#5C665E" text-anchor="middle"><text x="120" y="96">-400</text><text x="170" y="96">-300</text><text x="220" y="96">-200</text><text x="270" y="96">-100</text><text x="320" y="96">0</text><text x="370" y="96">100</text><text x="420" y="96">200</text><text x="470" y="96">300</text><text x="520" y="96">400</text></g>
+        <text x="320" y="70" font-size="14" text-anchor="middle" fill="#5C665E">刻度（公分）：中心 0，左負右正</text>
+        <rect x="275" y="360" width="90" height="140" rx="16" fill="#9fb0b6"/><polygon points="280,410 360,410 353,440 287,440" fill="#cfe3ea"/><circle cx="298" cy="452" r="5" fill="#3B5B92"/>
+        <line x1="560" y1="360" x2="560" y2="310" stroke="#3B5B92" stroke-width="2"/><text x="568" y="340" font-size="14" fill="#3B5B92">1 m</text>
+        <g transform="translate(176,210)" fill="#2F7A4F"><circle r="9" cy="-26"/><rect x="-3" y="-17" width="6" height="17"/></g>
+        <line x1="196" y1="226" x2="262" y2="226" stroke="#3B5B92" stroke-width="3"/><polyline points="252,219 264,226 252,233" stroke="#3B5B92" stroke-width="3" fill="none"/>
+        <text x="150" y="250" font-size="14" fill="#2F7A4F">走線員慢慢往右走</text>
+        <text x="380" y="462" font-size="14" fill="#5C665E">觀察員坐駕駛座</text>
+      </svg>
+      <figcaption>從上面看的場地佈置，每條線都要走。</figcaption>
+    </figure>
+
+    <h3>記錄表</h3>
+    <div class="scroll"><table class="rec">
+      <thead><tr><th rowspan="2">線</th><th rowspan="2">第幾次</th><th colspan="2">左 A 柱（公分）</th><th colspan="2">右 A 柱（公分）</th></tr><tr><th>不見了</th><th>出現了</th><th>不見了</th><th>出現了</th></tr></thead>
+      <tbody id="rows"></tbody>
+    </table></div>
+    <p class="muted" style="margin-top:10px">量完之後，把死角畫到小車場地上，把鋼彈一格一格放進死角，分別用一顆雷達和三顆雷達測：偵測得到塗綠色，偵測不到塗紅色。兩張圖一比，就知道三顆雷達補上了多少。</p>
+  </div>
+</section>
+
+<section id="todo" class="alt">
+  <div class="wrap narrow">
+    <div class="eyebrow">接下來要補的</div>
+    <h2>我們的補測清單</h2>
+    <p>五-A、五-B、六以前每種情況只跑一趟，現在要補到每種情況 5 趟，失敗的也照實記下來。</p>
+    <div class="todo">
+      <div class="card"><span class="box" aria-hidden="true"></span><div><h3>實驗六：每種情況跑 5 趟<span class="lvl must">最重要</span></h3><p>一顆雷達、三顆雷達 × 左轉死角、右轉死角，共 4 組，每組 5 趟。記下哪顆雷達煞車、偵測距離、禮讓幾次。</p></div></div>
+      <div class="card"><span class="box" aria-hidden="true"></span><div><h3>鋼彈偵測距離<span class="lvl must">一定要做</span></h3><p>鋼彈放在正前方 10～100 公分，每個距離量 5 次，找出雷達最遠在哪裡看得到行人。</p></div></div>
+      <div class="card"><span class="box" aria-hidden="true"></span><div><h3>實驗零：真車 A 柱死角地圖<span class="lvl must">一定要做</span></h3><p>照上面的步驟量，最好量 2～3 台不同的車（例如轎車和休旅車），比較死角大小。B 柱可以順便量一次做比較。</p></div></div>
+      <div class="card"><span class="box" aria-hidden="true"></span><div><h3>實驗五-A、五-B：每種情況跑 5 趟<span class="lvl must">一定要做</span></h3><p>五-A 共 12 組（兩種感測器 × 三種速度 × 煞車或轉向），五-B 的 M1、M2 地圖都補到 5 趟。</p></div></div>
+      <div class="card"><span class="box" aria-hidden="true"></span><div><h3>實驗二補測：是顏色還是毛？<span class="lvl good">加分</span></h3><p>黑色硬紙板、白色硬紙板、黑色毛、白色毛、棉衣，分開測超音波和雷達。</p></div></div>
+      <div class="card"><span class="box" aria-hidden="true"></span><div><h3>左右雷達斜放的角度<span class="lvl good">加分</span></h3><p>兩邊雷達斜 30°、45°、60°，看哪個角度最能蓋住實驗零量到的死角。</p></div></div>
+      <div class="card"><span class="box" aria-hidden="true"></span><div><h3>弧線轉彎版實測<span class="lvl good">加分</span></h3><p>弧線轉彎程式調整好之後，跑 10 次。</p></div></div>
+    </div>
+    <p style="margin-top:14px"><a href="https://docs.google.com/spreadsheets/d/13gkJgF3i0j1yPZTgs6Z5I28JxsanNAGIRpXyR6V_tt8/edit#gid=61026" target="_blank" rel="noopener">打開實驗數據總表（重複測試分頁）→</a></p>
+  </div>
+</section>
+
+<section id="ai">
+  <div class="wrap narrow">
+    <div class="eyebrow">AI 預測 vs 我們實測</div>
+    <h2>先讓 AI 猜，再用實驗檢查它猜得準不準</h2>
+    <p>現在很多智慧車都會先用電腦模擬、預測，再用真的車測試。我們也想試試看：先請 AI 根據我們已經有的數據，猜補測的結果，再自己做實驗，看看 AI 猜對幾項、差最多的是哪一項、為什麼。</p>
+    <div class="scroll"><table>
+      <thead><tr><th>實驗</th><th>情況</th><th>AI 預測</th><th>我們實測</th></tr></thead>
+      <tbody>
+        <tr><td>五-A</td><td>雷達・煞車・40 cm/s</td><td>5/5 成功，停下時還離障礙物約 10 公分</td><td>待測</td></tr>
+        <tr><td>五-A</td><td>超音波・煞車・40 cm/s</td><td>多數失敗（把山壁當成障礙物）</td><td>待測</td></tr>
+        <tr><td>五-B</td><td>M2 地圖・第 4、5 趟</td><td>不會撞到，時間約「走的格數 × 3.2～3.5 秒」</td><td>待測</td></tr>
+        <tr><td>六</td><td>一顆雷達・左轉死角</td><td>5 趟都撞上</td><td>待測</td></tr>
+        <tr><td>六</td><td>三顆雷達・左轉死角</td><td>5/5 成功，左雷達煞車，禮讓約 2 次</td><td>待測</td></tr>
+        <tr><td>鋼彈</td><td>正前方 10～100 公分</td><td>60 公分內都準，70～90 公分開始偶爾看不到，100 公分大多看不到</td><td>待測</td></tr>
+      </tbody>
+    </table></div>
+    <p class="muted" style="margin-top:10px">完整的 27 項預測在實驗數據總表的「AI預測表_待驗證_1114」分頁。預測只是猜的，真正的數字要等我們做完實驗才算數。</p>
+  </div>
+</section>
+
+<section id="cross" class="alt">
+  <div class="wrap narrow">
+    <div class="eyebrow">真實世界的觀察</div>
+    <h2>到學校附近的路口看一看</h2>
+    <p>我們想知道：車子轉彎的時候，斑馬線上常常有人嗎？車子會先停下來讓行人嗎？</p>
+    <ol class="steps">
+      <li><b>固定時間：</b>放學時間在同一個路口觀察 30 分鐘，做 3 天；再找一天非尖峰時間比較。</li>
+      <li><b>先講好怎麼算：</b>每有一台車轉彎就畫一筆，記下左轉或右轉、斑馬線上有沒有行人、車子有沒有先停下來。「沒有禮讓」是指行人已經走上斑馬線，車子沒停就先過去。</li>
+      <li><b>注意安全：</b>大人陪著，站在人行道上、離轉角遠一點。不拍清楚的人臉和車牌。</li>
+      <li><b>誠實寫限制：</b>站在路邊看不出司機是不是被 A 柱擋住，所以我們只記「發生了什麼」，不說「一定是 A 柱造成的」。</li>
+    </ol>
+    <div class="scroll" style="margin-top:16px"><table class="rec">
+      <thead><tr><th>日期／時間</th><th>左轉車數</th><th>右轉車數</th><th>轉彎時斑馬線上有人</th><th>車子先停下禮讓</th><th>沒有禮讓</th></tr></thead>
+      <tbody><tr><td class="b"></td><td class="b"></td><td class="b"></td><td class="b"></td><td class="b"></td><td class="b"></td></tr><tr><td class="b"></td><td class="b"></td><td class="b"></td><td class="b"></td><td class="b"></td><td class="b"></td></tr><tr><td class="b"></td><td class="b"></td><td class="b"></td><td class="b"></td><td class="b"></td><td class="b"></td></tr></tbody>
+    </table></div>
+  </div>
+</section>
+
+<footer><div class="wrap">南投縣光華國小　蔡秉澔、蔡秉宸　指導老師：洪瑞成</div></footer>
+
+<script src="site.js"></script>
+<script>
+(function () {
+  var NS = 'http://www.w3.org/2000/svg';
+  var t = document.getElementById('ticks');
+  if (t) [310, 260, 210, 160, 110].forEach(function (y) {
+    for (var x = 120; x <= 520; x += 25) {
+      var l = document.createElementNS(NS, 'line'), big = (x - 120) % 50 === 0;
+      l.setAttribute('x1', x); l.setAttribute('x2', x); l.setAttribute('y1', y - (big ? 8 : 5)); l.setAttribute('y2', y + (big ? 8 : 5));
+      t.appendChild(l);
+    }
+  });
+  var tb = document.getElementById('rows'), h = '';
+  if (tb) {
+    for (var m = 1; m <= 5; m++) {
+      for (var k = 1; k <= 3; k++) h += '<tr>' + (k === 1 ? '<th rowspan="4">' + m + ' 公尺</th>' : '') + '<td>' + k + '</td><td class="b"></td><td class="b"></td><td class="b"></td><td class="b"></td></tr>';
+      h += '<tr><td><b>平均</b></td><td class="b"></td><td class="b"></td><td class="b"></td><td class="b"></td></tr>';
+    }
+    tb.innerHTML = h;
+  }
+})();
+</script>
+</body>
+</html>
