@@ -36,7 +36,7 @@
     <div class="eyebrow">程式</div>
     <h1>小車的大腦是怎麼寫的</h1>
     <p class="lead">我們用 MakeCode 的 Python 寫程式。每個實驗都有自己的程式，下面是 9 月 21 日整理好的最新版，還有我們一版一版怎麼改。</p>
-    <div class="kpis"><div class="kpi"><b>7 支程式</b><span>每個實驗一支</span></div><div class="kpi"><b>MakeCode Python</b><span>寫程式的工具</span></div><div class="kpi"><b>0921 版</b><span>目前正式用的版本</span></div></div>
+    <div class="kpis"><div class="kpi"><b>7 支程式</b><span>每個實驗一支</span></div><div class="kpi"><b>MakeCode Python</b><span>寫程式的工具</span></div><div class="kpi"><b>正式版 1.0</b><span>9/21 整理好、目前正式用的版本</span></div></div>
     
   </div>
 </header><div class="wrap"><nav class="toc" aria-label="本頁目錄"><a href="#versions">怎麼一版一版改</a><a href="#exp1">實驗一</a><a href="#exp2">實驗二</a><a href="#exp3">實驗三</a><a href="#exp4">實驗四</a><a href="#exp5a">五-A</a><a href="#exp5b">五-B</a><a href="#exp6">實驗六</a></nav></div><section id="versions">
@@ -50,15 +50,16 @@
 <li><b>5/18～5/20</b><span>實驗二：加上超音波，讓兩個感測器輪流量。接在電腦上的基地台程式從頭到尾都不用改。</span></li>
 <li><b>5/21～5/27</b><span>實驗四量煞車距離；實驗五-A 把實驗四的數字寫進程式，三種速度各調一組轉彎時間；實驗五-B 第一版用曼哈頓距離找路。</span></li>
 <li><b>8/30</b><span>實驗六：三顆雷達；拿掉跑馬燈，改用碼表 input.running_time()，做出停、看、聽。</span></li>
-<li><b>9/21</b><span>全部整理成「0921 最新版」：雷達和超音波合成一行傳；五-B 改成算繞過路障的真正步數。這一頁的程式都是這一版。</span></li>
+<li><b>9/21</b><span>全部整理成「正式版 1.0」：雷達和超音波合成一行傳；五-B 改成算繞過路障的真正步數。這一頁的程式都是這一版。</span></li>
 <li><b>10 月</b><span>老師說真的車不會原地轉。我們開始寫五-B 和六的「流暢弧線版」：提早轉彎、外輪快內輪慢。第一次測試開不到終點，正在校正。</span></li>
+<li><b>11/18</b><span>五-A 每種情況跑 5 趟，發現光學雷達只看中間一格會漏看矮盒子，寫了改良版（看中間 4 格）。這些改良版測完以後，會整理成「正式版 1.1」。</span></li>
 </ol>
   </div>
 </section><section id="programs" class="alt">
   <div class="wrap">
     <div class="eyebrow">每個實驗的程式</div>
-    <h2>0921 最新版</h2>
-    <div class="prog" id="exp1"><h3>實驗一：夜盲症測試</h3><div class="meta">0921 最新版・MakeCode Python　<a href="exp1.html">看實驗 →</a></div><p>量 5 次、算平均，用無線電傳到電腦。</p><ul><li>雷達只讀 8×8 裡的 (3,3) 一格，除以 10 換成公分</li><li>雷達和超音波合成一行「R1:xx U:yy」，每次等 0.5 秒</li><li>號碼牌 is_running：遙控器只舉牌，主迴圈才做實驗</li></ul>
+    <h2>正式版 1.0（9/21 整理）</h2>
+    <div class="prog" id="exp1"><h3>實驗一：夜盲症測試</h3><div class="meta">正式版 1.0・MakeCode Python　<a href="exp1.html">看實驗 →</a></div><p>量 5 次、算平均，用無線電傳到電腦。</p><ul><li>雷達只讀 8×8 裡的 (3,3) 一格，除以 10 換成公分</li><li>雷達和超音波合成一行「R1:xx U:yy」，每次等 0.5 秒</li><li>號碼牌 is_running：遙控器只舉牌，主迴圈才做實驗</li></ul>
 <details><summary>打開完整程式（75 行）</summary><pre class="code"><span class="c"># 1. 定義全域變數</span>
 total_radar = 0
 total_ultra = 0
@@ -133,7 +134,7 @@ matrixLidarDistance.initialize(matrixLidarDistance.Addr.ADDR4, matrixLidarDistan
 <span class="c"># 設定廣播頻道為 99</span>
 radio.set_group(99)
 <span class="c"># 顯示笑臉代表開機完成</span>
-basic.show_icon(IconNames.HAPPY)</pre></details></div><div class="prog" id="exp2"><h3>實驗二：材質與超音波</h3><div class="meta">0921 最新版・MakeCode Python　<a href="exp2.html">看實驗 →</a></div><p>和實驗一幾乎一樣，傳出去的名字是「--- EXP 2 ---」。</p><ul><li>量不到時：雷達會出現 400，超音波會卡在 300</li><li>等 0.5 秒讓超音波的聲音散掉，才不會聽到上一次的回音</li></ul>
+basic.show_icon(IconNames.HAPPY)</pre></details></div><div class="prog" id="exp2"><h3>實驗二：材質與超音波</h3><div class="meta">正式版 1.0・MakeCode Python　<a href="exp2.html">看實驗 →</a></div><p>和實驗一幾乎一樣，傳出去的名字是「--- EXP 2 ---」。</p><ul><li>量不到時：雷達會出現 400，超音波會卡在 300</li><li>等 0.5 秒讓超音波的聲音散掉，才不會聽到上一次的回音</li></ul>
 <details><summary>打開完整程式（74 行）</summary><pre class="code"><span class="c"># 1. 定義全域變數</span>
 total_radar = 0
 total_ultra = 0
@@ -207,7 +208,7 @@ matrixLidarDistance.initialize(matrixLidarDistance.Addr.ADDR4, matrixLidarDistan
 <span class="c"># 設定廣播頻道為 99</span>
 radio.set_group(99)
 <span class="c"># 顯示笑臉代表開機完成</span>
-basic.show_icon(IconNames.HAPPY)</pre></details></div><div class="prog" id="exp3"><h3>實驗三：最佳視角</h3><div class="meta">0921 最新版・MakeCode Python　<a href="exp3.html">看實驗 →</a></div><p>只用光學雷達，量 5 次再傳平均。</p><ul><li>傳出去的名字改成「--- EXP 3 ---」，和實驗一分得清楚</li><li>平均值也會顯示在小車的面板上</li></ul>
+basic.show_icon(IconNames.HAPPY)</pre></details></div><div class="prog" id="exp3"><h3>實驗三：最佳視角</h3><div class="meta">正式版 1.0・MakeCode Python　<a href="exp3.html">看實驗 →</a></div><p>只用光學雷達，量 5 次再傳平均。</p><ul><li>傳出去的名字改成「--- EXP 3 ---」，和實驗一分得清楚</li><li>平均值也會顯示在小車的面板上</li></ul>
 <details><summary>打開完整程式（74 行）</summary><pre class="code"><span class="c"># 1. 定義全域變數</span>
 total_L3 = 0
 is_running = <span class="k">False</span>  <span class="c"># 【新增】號碼牌機制</span>
@@ -281,7 +282,7 @@ matrixLidarDistance.initialize(matrixLidarDistance.Addr.ADDR4, matrixLidarDistan
 radio.set_group(99)
 
 <span class="c"># 顯示打勾圖案，代表小車已準備就緒，等待遙控</span>
-basic.show_icon(IconNames.YES)</pre></details></div><div class="prog" id="exp4"><h3>實驗四：生死一瞬間</h3><div class="meta">0921 最新版・MakeCode Python　<a href="exp4.html">看實驗 →</a></div><p>用三種速度往前衝，15 公分內看到障礙物就煞車，量滑了多遠。</p><ul><li>current_speed 改成 150、205、255，就是 20、30、40 cm/s</li><li>煞車那一刻記一次距離，等 1.5 秒再記一次，相減</li><li>傳回 Speed、Trig、Slide 三個數字</li></ul>
+basic.show_icon(IconNames.YES)</pre></details></div><div class="prog" id="exp4"><h3>實驗四：生死一瞬間</h3><div class="meta">正式版 1.0・MakeCode Python　<a href="exp4.html">看實驗 →</a></div><p>用三種速度往前衝，15 公分內看到障礙物就煞車，量滑了多遠。</p><ul><li>current_speed 改成 150、205、255，就是 20、30、40 cm/s</li><li>煞車那一刻記一次距離，等 1.5 秒再記一次，相減</li><li>傳回 Speed、Trig、Slide 三個數字</li></ul>
 <details><summary>打開完整程式（95 行）</summary><pre class="code"><span class="c"># --- 實驗四：生死一瞬間 (優化統一格式版) ---</span>
 
 <span class="c"># 1. 在這裡設定測試速度的 PWM 值！(150, 205, 或 255)</span>
@@ -376,7 +377,7 @@ basic.forever(on_forever)
 maqueenPlusV2.i2c_init()
 matrixLidarDistance.initialize(matrixLidarDistance.Addr.ADDR4, matrixLidarDistance.Matrix.MAT)
 radio.set_group(99)
-basic.show_icon(IconNames.HAPPY)</pre></details></div><div class="prog" id="exp5a"><h3>實驗五-A：窄山路</h3><div class="meta">0921 最新版（V16 三段變速）・MakeCode Python　<a href="exp5a.html">看實驗 →</a></div><p>看到路障就繞過去；同一支程式可以切換雷達或超音波。</p><ul><li>get_safe_dist()：預警距離用實驗四的數字</li><li>三種速度各有一組後退、轉出、通過、轉回的時間</li><li>遙控器 A 用雷達、B 用超音波</li></ul>
+basic.show_icon(IconNames.HAPPY)</pre></details></div><div class="prog" id="exp5a"><h3>實驗五-A：窄山路</h3><div class="meta">正式版 1.0（V16 三段變速）・MakeCode Python　<a href="exp5a.html">看實驗 →</a></div><p>看到路障就繞過去；同一支程式可以切換雷達或超音波。</p><ul><li>get_safe_dist()：預警距離用實驗四的數字</li><li>三種速度各有一組後退、轉出、通過、轉回的時間</li><li>遙控器 A 用雷達、B 用超音波</li></ul>
 <details><summary>打開完整程式（135 行）</summary><pre class="code"><span class="c"># --- 實驗五-A：動態轉向閃避版 (V16 三段變速獨立校正版) ---</span>
 
 <span class="c"># 🌟 設定區</span>
@@ -511,7 +512,7 @@ basic.forever(on_forever)
 maqueenPlusV2.i2c_init()
 matrixLidarDistance.initialize(matrixLidarDistance.Addr.ADDR4, matrixLidarDistance.Matrix.MAT)
 radio.set_group(99)
-basic.show_icon(IconNames.HAPPY)</pre></details></div><div class="prog" id="exp5b"><h3>實驗五-B：24 宮格</h3><div class="meta">0921 最新版・MakeCode Python　<a href="exp5b.html">看實驗 →</a></div><p>網格記憶加上找真正步數，自己在 24 宮格裡找路。</p><ul><li>bad_x、bad_y 是黑名單；visited 記住每格走過幾次</li><li>get_true_distance()：從下一格一圈一圈往外找，算出繞過路障真正要走幾步</li><li>分數 = 走過次數 × 20 + 真正步數，選最低分的方向</li></ul>
+basic.show_icon(IconNames.HAPPY)</pre></details></div><div class="prog" id="exp5b"><h3>實驗五-B：24 宮格</h3><div class="meta">正式版 1.0・MakeCode Python　<a href="exp5b.html">看實驗 →</a></div><p>網格記憶加上找真正步數，自己在 24 宮格裡找路。</p><ul><li>bad_x、bad_y 是黑名單；visited 記住每格走過幾次</li><li>get_true_distance()：從下一格一圈一圈往外找，算出繞過路障真正要走幾步</li><li>分數 = 走過次數 × 20 + 真正步數，選最低分的方向</li></ul>
 <details><summary>打開完整程式（262 行）</summary><pre class="code"><span class="c"># --- 實驗五-B：終極 AI 全域導航 (V15 A* 進化版) ---</span>
 
 current_speed = 80
@@ -773,7 +774,7 @@ basic.forever(on_forever)
 matrixLidarDistance.initialize(matrixLidarDistance.Addr.ADDR4, matrixLidarDistance.Matrix.MAT)
 radio.set_group(99)
 radio.set_transmit_power(7)
-basic.show_icon(IconNames.HAPPY)</pre></details></div><div class="prog" id="exp6"><h3>實驗六：三顆雷達和停看聽</h3><div class="meta">0921 最新版・MakeCode Python　<a href="exp6.html">看實驗 →</a></div><p>前、左、右三顆雷達，轉彎時看到行人就停下來等。</p><ul><li>三顆雷達的位址：ADDR4（前）、ADDR1（左）、ADDR2（右）</li><li>input.running_time() 碼表：只算馬達真的在轉的時間</li><li>前方 15 公分、側邊 25 公分內看到東西就停，亮紅燈；走開了亮綠燈</li></ul>
+basic.show_icon(IconNames.HAPPY)</pre></details></div><div class="prog" id="exp6"><h3>實驗六：三顆雷達和停看聽</h3><div class="meta">正式版 1.0・MakeCode Python　<a href="exp6.html">看實驗 →</a></div><p>前、左、右三顆雷達，轉彎時看到行人就停下來等。</p><ul><li>三顆雷達的位址：ADDR4（前）、ADDR1（左）、ADDR2（右）</li><li>input.running_time() 碼表：只算馬達真的在轉的時間</li><li>前方 15 公分、側邊 25 公分內看到東西就停，亮紅燈；走開了亮綠燈</li></ul>
 <details><summary>打開完整程式（184 行）</summary><pre class="code"><span class="c"># --- 終極完美神級版：實驗六精準度 + 零延遲動態禮讓 + 終點歸位 ---</span>
 
 current_speed = 80
