@@ -194,7 +194,7 @@ footer { padding: 32px 0 48px; font-size: 14px; color: var(--ink-2); }
       <div class="hero-text">
         <div class="eyebrow">南投縣光華國小・科展研究</div>
         <h1>零死角全生命守護</h1>
-        <p class="lead">車子看不見的地方，可能有一隻石虎、一位行人。<br>我們用一台小車和 8×8 光學雷達，研究怎麼讓自駕車在黑夜和轉彎死角裡「看見並讓路」。</p>
+        <p class="lead">車子轉彎的時候，擋風玻璃旁邊的 A 柱會擋住司機的眼睛，柱子後面可能正站著一位行人。<br>我們用一台小車和三顆 8×8 光學雷達，研究怎麼讓車子在轉彎的死角裡「看見並讓路」。</p>
         <p class="muted" style="color: var(--night-text);">蔡秉澔（六年級）、蔡秉宸（四年級）　指導老師：洪瑞成</p>
         <div class="btns">
           <a class="btn btn-gold" href="#videos">看小車實際測試</a>
@@ -207,10 +207,10 @@ footer { padding: 32px 0 48px; font-size: 14px; color: var(--ink-2); }
       </figure>
     </div>
     <div class="stats">
-      <div class="stat"><b>6 組實驗</b><span>每個實驗回答上一個留下的問題</span></div>
-      <div class="stat"><b>4.1 cm</b><span>全黑、強光下，雷達平均誤差最大值</span></div>
-      <div class="stat"><b>17.06 cm</b><span>從煞車實驗算出的預警距離</span></div>
-      <div class="stat"><b>3 顆雷達</b><span>補上轉彎時的 A 柱死角</span></div>
+      <div class="stat"><b>0 / 10</b><span>只開前雷達轉彎，10 趟都撞到 A 柱死角的行人</span></div>
+      <div class="stat"><b>10 / 10</b><span>三顆雷達轉彎，10 趟都停下來讓路</span></div>
+      <div class="stat"><b>14 cm</b><span>改良版提早停下來的平均距離（原本只有 2.4 cm）</span></div>
+      <div class="stat"><b>約 8 個車長</b><span>真的汽車開時速 50 公里，一般人要這麼遠才停得住（計算）</span></div>
     </div>
   </div>
 </section>
@@ -219,12 +219,12 @@ footer { padding: 32px 0 48px; font-size: 14px; color: var(--ink-2); }
 <section id="why">
   <div class="wrap">
     <div class="eyebrow">為什麼做這個研究</div>
-    <h2>從餐廳的送餐機器人，想到家鄉的石虎</h2>
+    <h2>轉彎時，A 柱後面的行人，司機看得見嗎？</h2>
     <div class="grid">
-      <div class="card"><h3>看見</h3><p class="muted">餐廳的送餐機器人遇到人會自己停下、繞路。它是怎麼「看」的？</p></div>
-      <div class="card"><h3>想到</h3><p class="muted">南投山路常有石虎被車撞。石虎毛色深、常在晚上出沒，車子很難看見。</p></div>
-      <div class="card"><h3>老師提醒</h3><p class="muted">汽車轉彎時，前擋風玻璃旁的 A 柱會擋住行人，駕駛看不到。</p></div>
-      <div class="card" style="background: var(--forest); color: #F6F3EC; border-color: var(--forest);"><h3>我們的問題</h3><p>小車能不能在黑夜、在轉彎的死角裡，也看見生命並停下來讓路？</p></div>
+      <div class="card"><h3>最危險的地方</h3><p class="muted">汽車轉彎時，前擋風玻璃旁的 A 柱會擋住正在過馬路的人。洪老師提醒我們，很多行人就是這樣被撞到的。</p></div>
+      <div class="card"><h3>我們的起點</h3><p class="muted">一開始，我們看到餐廳的送餐機器人遇到人會自己停下、繞路，也想到南投山路上常被車撞的石虎。</p></div>
+      <div class="card"><h3>小車也有死角</h3><p class="muted">我們的小車只有前面一顆雷達。轉彎的時候，旁邊的人它一樣看不到，跟真的車一模一樣。</p></div>
+      <div class="card" style="background: var(--forest); color: #F6F3EC; border-color: var(--forest);"><h3>我們的問題</h3><p>先找出 A 柱擋住哪裡，再讓小車在轉彎時也看得見行人（還有黑夜裡的石虎），並且停下來讓路。</p></div>
     </div>
   </div>
 </section>
@@ -233,15 +233,26 @@ footer { padding: 32px 0 48px; font-size: 14px; color: var(--ink-2); }
 <section id="journey" class="alt">
   <div class="wrap">
     <div class="eyebrow">研究旅程</div>
-    <h2>從「感測器可靠嗎」走到「像真車一樣開」</h2>
+    <h2>先找出死角，再打造眼睛，最後補上死角</h2>
     <div class="timeline" aria-label="時間軸">
-      <span>5/9 搭好瓦楞板場地</span><span>5/13 組好麥昆小車</span><span>5/14 實驗一</span><span>5/17 實驗三</span><span>5/20 實驗二</span><span>5/21 實驗四</span><span>5/24 實驗五-B</span><span>5/27 實驗五-A</span><span>8/30 實驗六</span><span>10 月 五-B、六改良</span>
+      <span>5/9 搭好瓦楞板場地</span><span>5/13 組好麥昆小車</span><span>5/14 實驗一</span><span>5/17 實驗三</span><span>5/20 實驗二</span><span>5/21 實驗四</span><span>5/24 實驗五-B</span><span>5/27 實驗五-A</span><span>8/30 實驗六</span><span>10 月 五-B、六改良</span><span>11/18 五-A 重複 60 趟</span><span>11/19 實驗六、五-B 重複測試</span><span>週末 實驗零（真車）</span>
     </div>
+
+    <article class="card exp">
+      <div class="exp-media"><svg viewBox="0 0 400 300" role="img" aria-label="從上面往下看：司機的視線被左邊 A 柱擋住，柱子後面站著一位行人" style="width:100%;aspect-ratio:4/3;border-radius:8px;background:#EFEADF;display:block"><rect x="0" y="0" width="400" height="300" fill="#EFEADF"/><g stroke="#FFFFFF" stroke-width="6"><line x1="20" y1="40" x2="20" y2="140"/><line x1="50" y1="40" x2="50" y2="140"/><line x1="80" y1="40" x2="80" y2="140"/><line x1="110" y1="40" x2="110" y2="140"/></g><polygon points="232,186 84,0 208,0 246,174" fill="#1E2A22" fill-opacity=".28"/><rect x="226" y="150" width="88" height="140" rx="16" fill="#2F7A4F"/><path d="M234 186 Q270 168 306 186 L300 205 Q270 192 240 205 Z" fill="#E6ECF6"/><rect x="229" y="176" width="12" height="16" rx="3" fill="#1E2A22" transform="rotate(-38 235 184)"/><circle cx="255" cy="222" r="7" fill="#E9B872" stroke="#1E2A22" stroke-width="2"/><circle cx="180" cy="78" r="11" fill="#A23B2A"/><rect x="172" y="90" width="16" height="26" rx="6" fill="#A23B2A"/><text x="200" y="128" font-size="15" fill="#1E2A22" font-weight="700">行人</text><text x="96" y="30" font-size="15" fill="#1E2A22" font-weight="700">A 柱擋住的地方</text><text x="268" y="250" font-size="14" fill="#F6F3EC" font-weight="700">司機</text><path d="M214 270 Q190 250 196 214" fill="none" stroke="#9A520B" stroke-width="3" marker-end="url(#ah)"/><defs><marker id="ah" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 Z" fill="#9A520B"/></marker></defs><text x="120" y="262" font-size="13" fill="#9A520B" font-weight="700">準備左轉</text></svg></div>
+      <div class="exp-body">
+        <span class="tag">找出死角</span>
+        <h3><span class="num">零</span>坐在駕駛座，A 柱到底擋住哪裡？</h3>
+        <p>我們要坐進真的汽車，請一個人拿著標示牌沿著車頭慢慢走，量出司機看不到的角度和範圍，再照 1:39 縮小，畫成小車場地上的「A 柱死角地圖」。實驗六的行人就要站在這個死角裡。</p>
+        <p class="found"><b>結果：</b>待測（這個週末白天做）</p>
+        <p><a href="plan.html#exp0">看實驗零的步驟 →</a></p>
+      </div>
+    </article>
 
     <article class="card exp">
       <div class="exp-media"><img src="photo7.jpg" alt="實驗一：在電腦前寫測距程式" loading="lazy"></div>
       <div class="exp-body">
-        <span class="tag">感測器可靠嗎？</span>
+        <span class="tag">打造眼睛</span>
         <h3><span class="num">一</span>黑夜和強光，會不會讓雷達看錯距離？</h3>
         <p class="found"><b>發現：</b>正常日光燈、手電筒強光、關燈全黑三種情況，30～150 cm 的平均誤差都在 4.1 cm 以內。</p>
         <p class="next">所以下一步：換一個更難測的目標。</p>
@@ -252,7 +263,7 @@ footer { padding: 32px 0 48px; font-size: 14px; color: var(--ink-2); }
     <article class="card exp">
       <div class="exp-media"><img src="photo18.jpg" alt="實驗二的三種材質：白色紙板、棕色紙板、黑色絨毛" loading="lazy"></div>
       <div class="exp-body">
-        <span class="tag">感測器可靠嗎？</span>
+        <span class="tag">打造眼睛</span>
         <h3><span class="num">二</span>黑色絨毛（像石虎的毛）測得到嗎？</h3>
         <p class="found"><b>發現：</b>超音波在每個距離都量不到黑色絨毛，雷達在 60 cm 以內仍然準確。</p>
         <p class="next">所以下一步：決定用雷達，研究要裝多高。</p>
@@ -263,7 +274,7 @@ footer { padding: 32px 0 48px; font-size: 14px; color: var(--ink-2); }
     <article class="card exp">
       <div class="exp-media"><img src="photo11.jpg" alt="實驗三：用尺量雷達的安裝高度" loading="lazy"></div>
       <div class="exp-body">
-        <span class="tag">怎麼裝最好？</span>
+        <span class="tag">打造眼睛</span>
         <h3><span class="num">三</span>雷達要裝多高？</h3>
         <p class="found"><b>發現：</b>裝在 10 cm 最穩定；5 cm 太低，光打到地板；15 cm 太高，光從石虎頭頂越過去。</p>
         <p class="next">所以下一步：算出小車要多早開始煞車。</p>
@@ -274,9 +285,9 @@ footer { padding: 32px 0 48px; font-size: 14px; color: var(--ink-2); }
     <article class="card exp">
       <div class="exp-media"><img src="photo24.jpg" alt="實驗四：小車在起跑線上準備衝刺" loading="lazy"></div>
       <div class="exp-body">
-        <span class="tag">怎麼裝最好？</span>
+        <span class="tag">打造眼睛</span>
         <h3><span class="num">四</span>車速多快、要多早煞車？</h3>
-        <p class="found"><b>發現：</b>40 cm/s 時平均要滑 7.06 cm 才停下，再加 10 cm 安全距離，預警距離訂為 17.06 cm。</p>
+        <p class="found"><b>發現：</b>40 cm/s 時平均要滑 7.06 cm 才停下，再加 10 cm 安全距離，預警距離訂為 17.06 cm。我們也用公式算了真的汽車：小車煞車不到 1 個車身，真車加上人的反應要 4～9 個車身。</p>
         <p class="next">所以下一步：把這些數字寫進程式，讓小車上路。</p>
         <p><a href="exp4.html">看實驗四的完整紀錄 →</a></p>
       </div>
@@ -285,9 +296,9 @@ footer { padding: 32px 0 48px; font-size: 14px; color: var(--ink-2); }
     <article class="card exp">
       <div class="exp-media"><img src="photo26.jpg" alt="實驗五-A：狹窄山道避障測試" loading="lazy"></div>
       <div class="exp-body">
-        <span class="tag">上路測試</span>
+        <span class="tag">補上死角</span>
         <h3><span class="num">五-A</span>11 cm 的窄山道，能不能避開石虎？</h3>
-        <p class="found"><b>發現：</b>雷達 6 趟全部成功；超音波在 40 cm/s 時會把山壁當成障礙物，煞車和轉向都失敗。</p>
+        <p class="found"><b>發現：</b>雷達 6 趟全部成功；超音波在 40 cm/s 時會把山壁當成障礙物，煞車和轉向都失敗。11/18 每種情況再跑 5 趟，一共 60 趟。</p>
         <p class="next">所以下一步：從一條路走到一整張地圖。</p>
         <p><a href="exp5a.html">看實驗五-A的完整紀錄 →</a></p>
       </div>
@@ -296,9 +307,9 @@ footer { padding: 32px 0 48px; font-size: 14px; color: var(--ink-2); }
     <article class="card exp">
       <div class="exp-media"><video src="video4.mp4" controls preload="metadata" aria-label="實驗五-B：24 宮格戰術大腦實際上路避障"></video></div>
       <div class="exp-body">
-        <span class="tag">上路測試</span>
+        <span class="tag">補上死角</span>
         <h3><span class="num">五-B</span>在 24 宮格地圖遇到路障，會不會迷路？</h3>
-        <p class="found"><b>發現：</b>加上「黑名單記憶」和「足跡懲罰」，小車會記住哪裡走不通，自己退出死胡同。測了 10 次以上，每次都成功。</p>
+        <p class="found"><b>發現：</b>加上「黑名單記憶」和「足跡懲罰」，小車會記住哪裡走不通，自己退出死胡同。11/19 再跑 14 趟：光學雷達 7 趟都躲開，超音波有 2 趟沒看到鋼彈（行人）直接撞上。</p>
         <p class="next">所以下一步：轉彎時旁邊的死角怎麼辦？</p>
         <p><a href="exp5b.html">看實驗五-B的完整紀錄 →</a></p>
       </div>
@@ -309,8 +320,8 @@ footer { padding: 32px 0 48px; font-size: 14px; color: var(--ink-2); }
       <div class="exp-body">
         <span class="tag">補上死角</span>
         <h3><span class="num">六</span>轉彎時，看得到 A 柱後面的行人嗎？</h3>
-        <p class="found"><b>發現：</b>只有前雷達時，小車左轉直接撞上行人；加裝左右 45° 兩顆雷達後，小車會先停下，等行人走過再繼續。三雷達版測了 10 次以上，每次都成功。</p>
-        <p class="next">所以下一步：開法要更像真的車。</p>
+        <p class="found"><b>發現：</b>11/19 每種情況跑 5 趟：只開前雷達，左轉、右轉 10 趟都撞到行人；三顆雷達 10 趟都停下來讓路。改良版提早打開旁邊的雷達，停下來的距離從平均 2.4 cm 變成 14 cm。</p>
+        <p class="next">所以下一步：開法要更像真的車，也要用實驗零的死角地圖來擺行人。</p>
         <p><a href="exp6.html">看實驗六的完整紀錄 →</a></p>
       </div>
     </article>
@@ -462,18 +473,18 @@ footer { padding: 32px 0 48px; font-size: 14px; color: var(--ink-2); }
     </div>
 
     <div class="card panel" id="p5b" role="tabpanel" aria-labelledby="t5b">
-      <h3 class="answer">每次都抵達、0 次碰撞；在空地上，雷達和超音波一樣好</h3>
+      <h3 class="answer">5/24 每次都抵達；11/19 再跑 14 趟，光學雷達 7/7 躲開，超音波 5/7</h3>
       <div class="kpis" id="e5b-kpis"></div>
-      <p class="note">空地上的路障是正面擺放的，兩種感測器都看得到，所以路線和時間幾乎一樣。兩者真正的差別，在實驗二的黑色絨毛和實驗五-A 的窄山道。</p>
-      <p class="note plain">寫程式的時候，我們已經測試超過 10 次，每次都成功；下面是有完整紀錄的趟次。想看小車一格一格怎麼想，可以到<a href="data.html#replay">數據中心的「AI 戰術大腦回放」</a>自己按播放。</p>
+      <p class="note">5/24 空地上的路障是正面擺放的，兩種感測器都看得到。11/19 換成鋼彈當行人，超音波有 2 趟沒看到，原因還在找。</p>
+      <p class="note plain">11/19 補跑的 14 趟和「站著不動的超音波測試」，在<a href="exp5b.html#retest">實驗五-B 頁</a>。下面是 5/24 有完整紀錄的趟次。想看小車一格一格怎麼想，可以到<a href="data.html#replay">數據中心的「AI 戰術大腦回放」</a>自己按播放。</p>
       <details open><summary>看完整數據表</summary><div class="scroll" id="e5b-table"></div></details>
       <p class="source">資料來源：實驗數據總表「實驗五-B：開放空地（24 宮格地圖）」・5/24 完成</p>
     </div>
 
     <div class="card panel" id="p6" role="tabpanel" aria-labelledby="t6">
-      <h3 class="answer">只有前雷達會撞上 A 柱死角的行人；三顆雷達會停下來讓路</h3>
+      <h3 class="answer">只開前雷達 0/10 躲開 A 柱死角的行人；三顆雷達 10/10 停下來讓路</h3>
       <div class="grid" id="e6-cards"></div>
-      <p class="note plain">寫程式的時候，三雷達版已經測試超過 10 次，每次都成功；逐趟紀錄整理中。</p>
+      <p class="note plain">11/19 我們每種情況跑 5 趟，一共 30 趟（含改良版），影片和表格在<a href="exp6.html#retest">實驗六頁</a>。下面是 8/30 第一次的紀錄。</p>
       <details><summary>看完整數據表</summary><div class="scroll" id="e6-table"></div></details>
       <p class="source">資料來源：實驗數據總表「實驗六：A柱死角與動態禮讓測試」・8/30 完成</p>
     </div>
