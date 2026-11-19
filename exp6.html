@@ -43,13 +43,13 @@ td.na { color: var(--ink-2); font-weight: 400; }
 <header class="dark page-head">
   <div class="wrap">
     <div class="crumbs"><a href="experiments.html">六個實驗</a> ／ 實驗六</div>
-    <div class="eyebrow">實驗六・多雷達融合克服 A 柱死角（8/30 完成）</div>
+    <div class="eyebrow">實驗六・多雷達融合克服 A 柱死角（8/30 第一次，11/19 每種跑 5 趟）</div>
     <h1>轉彎時，看得到 A 柱後面的行人嗎？</h1>
     <p class="lead">汽車轉彎時，擋風玻璃旁邊的 A 柱會擋住行人。我們在小車左右各多裝一顆雷達，讓它轉彎時也看得到旁邊，看到行人就停下來等。</p>
-    <div class="kpis"><div class="kpi"><b>3 顆雷達</b><span>前、左、右</span></div><div class="kpi"><b>約 45°</b><span>左右雷達往外轉</span></div><div class="kpi"><b>停、看、聽</b><span>看到行人就停，走開了再走</span></div></div>
+    <div class="kpis"><div class="kpi"><b>3 顆雷達</b><span>前、左、右</span></div><div class="kpi"><b>約 45°</b><span>左右雷達往外轉</span></div><div class="kpi"><b>停、看、聽</b><span>看到行人就停，走開了再走</span></div><div class="kpi"><b>10 / 10 趟</b><span>11/19 三顆雷達都沒撞到</span></div></div>
     
   </div>
-</header><div class="wrap"><nav class="toc" aria-label="本頁目錄"><a href="#how">怎麼做</a><a href="#result">結果</a><a href="#reflect">我們的心得</a><a href="#fix">失敗與修正</a><a href="#teacher">老師問我們</a><a href="#code">程式</a><a href="#raw">原始數據</a></nav></div><section id="how">
+</header><div class="wrap"><nav class="toc" aria-label="本頁目錄"><a href="#how">怎麼做</a><a href="#result">8/30 第一次</a><a href="#retest">11/19 跑 5 趟</a><a href="#reflect">我們的心得</a><a href="#fix">失敗與修正</a><a href="#teacher">老師問我們</a><a href="#code">程式</a><a href="#raw">原始數據</a></nav></div><section id="how">
   <div class="wrap">
     <div class="eyebrow">怎麼做</div>
     <h2>我們的做法</h2>
@@ -58,11 +58,20 @@ td.na { color: var(--ink-2); font-weight: 400; }
 </section><section id="result" class="alt">
   <div class="wrap">
     <div class="eyebrow">結果</div>
-    <h2>只有前雷達會撞上；三顆雷達會停下來讓路</h2>
+    <h2>8/30 第一次（只跑一趟）：只有前雷達會撞上；三顆雷達會停下來讓路</h2>
     <div class="grid">
 <div class="card" style="border-color:var(--bad);border-width:2px"><span class="tag fail">只有前面一顆雷達</span><h3>左轉時撞上行人</h3><p class="muted">雷達直視前方，轉向時產生盲區直接撞上行人</p></div>
 <div class="card" style="border-color:var(--ok);border-width:2px"><span class="tag fix">前、左、右三顆雷達</span><h3>停下來，等行人走過再走</h3><p class="muted">左眼雷達提早發現，觸發煞車並「停看聽」等待行人通過後自動續行</p></div>
 </div>
+  </div>
+</section><section id="retest">
+  <div class="wrap">
+    <div class="eyebrow">11/19 重複測試</div>
+    <h2>每種情況跑 5 趟：只開前雷達 10 趟全撞，三顆雷達 10 趟全停住</h2>
+    <p>8/30 每種情況只跑一趟。11/19 我們把 24 宮格印出來拼好，鋼彈站在轉彎點旁邊的死角。左轉、右轉，只開前雷達、三顆全開，每種都跑 5 趟，一共 20 趟。小車停下來以後，我們用手拿著鋼彈沿著車子旁邊走開，每一趟都用一樣的方法。</p>
+    <div class="charts"><figure class="chart"><figcaption class="ct">有沒有撞到鋼彈（沒撞的趟數）</figcaption><div class="scroll"><table class="sg"><thead><tr><th>雷達</th><th>左轉</th><th>右轉</th></tr></thead><tbody><tr><th>只開前雷達</th><td class="bad">0 / 5</td><td class="bad">0 / 5</td></tr><tr><th>三顆雷達</th><td class="ok">5 / 5</td><td class="ok">5 / 5</td></tr><tr><th>三顆雷達改良版</th><td class="ok">5 / 5</td><td class="ok">5 / 5</td></tr></tbody></table></div><p class="cn">右轉只開前雷達有 1 趟鋼彈放太左邊、中間移動過，不算，另外重跑。</p></figure><figure class="chart"><figcaption class="ct">第一次停下來時，離鋼彈多遠（平均）</figcaption><div class="scroll"><table class="sg"><thead><tr><th>雷達</th><th>左轉</th><th>右轉</th></tr></thead><tbody><tr><th>三顆雷達</th><td class="bad">2.4 cm</td><td class="mid">4.8 cm</td></tr><tr><th>三顆雷達改良版</th><td class="ok">14.1 cm</td><td class="ok">13.9 cm</td></tr></tbody></table></div><p class="cn">左轉三顆雷達最近只差 1.8 公分，差一點點就撞到。</p></figure><figure class="chart"><figcaption class="ct">鋼彈站在正前方多遠，雷達看得到（5 次裡看到幾次）</figcaption><div class="scroll"><table class="sg"><thead><tr><th>10～60 cm</th><th>70 cm</th><th>80 cm</th><th>90 cm</th><th>100 cm</th></tr></thead><tbody><tr><td class="ok">5 / 5</td><td class="bad">1 / 5</td><td class="bad">0 / 5</td><td class="bad">0 / 5</td><td class="bad">0 / 5</td></tr></tbody></table></div><p class="cn">60 公分以內，量到的距離和捲尺差不到 4 公分。</p></figure></div>
+    <div class="note plain"><p style="margin:0 0 8px"><b>我們發現了什麼？</b></p><ol style="margin:0;padding-left:20px"><li>只開前雷達，左轉、右轉 10 趟都撞到鋼彈。前雷達要到 2～10 公分才看到，車子已經碰到了。這就是 A 柱死角：行人在旁邊，前面的眼睛看不到。</li><li>三顆雷達 10 趟都沒撞到，可是左轉要到 1.8～3.3 公分才停下來，太驚險了。原因是旁邊的雷達原本只有「正在轉彎」的時候才打開，也只看中間一格。</li><li>我們做了改良版：雷達改看中間 4 格、取最近的數字，而且在轉彎前一格就先打開旁邊的雷達。左轉 5 趟有 4 趟還沒開始轉彎就看到鋼彈，第一次停下來的距離平均變成 14 公分。</li><li>改良版每趟停的距離差很多（3.4～22.2 公分）。我們覺得是因為雷達大約 0.1 秒才更新一次，車子的位置每次也差一點，光打到鋼彈的地方也不一樣（手、腳或身體）。</li><li>鋼彈只有 7 公分寬，60 公分以內每次都看得到，70 公分以上幾乎都看不到。</li><li>還沒找到原因：右轉三顆全開時，每次都是前雷達先停下來，不是右雷達。</li></ol></div>
+    <h3 style="margin-top:22px">11/19 的影片</h3><div class="media-grid"><figure><video class="tall" src="exp6_1119_left_front.mp4" poster="exp6_1119_left_front_poster.jpg" controls preload="metadata" playsinline muted></video><figcaption>左轉・只開前雷達：車頭撞到鋼彈</figcaption></figure><figure><video class="tall" src="exp6_1119_left_all.mp4" poster="exp6_1119_left_all_poster.jpg" controls preload="metadata" playsinline muted></video><figcaption>左轉・三顆雷達：轉彎時停下來，但離鋼彈很近</figcaption></figure><figure><video class="tall" src="exp6_1119_left_v19.mp4" poster="exp6_1119_left_v19_poster.jpg" controls preload="metadata" playsinline muted></video><figcaption>左轉・改良版：還沒轉彎就先停下來</figcaption></figure><figure><video class="tall" src="exp6_1119_right_front.mp4" poster="exp6_1119_right_front_poster.jpg" controls preload="metadata" playsinline muted></video><figcaption>右轉・只開前雷達：車頭右前角撞到鋼彈</figcaption></figure><figure><video class="tall" src="exp6_1119_right_all.mp4" poster="exp6_1119_right_all_poster.jpg" controls preload="metadata" playsinline muted></video><figcaption>右轉・三顆雷達：在鋼彈前面停下來</figcaption></figure><figure><video class="tall" src="exp6_1119_right_v19.mp4" poster="exp6_1119_right_v19_poster.jpg" controls preload="metadata" playsinline muted></video><figcaption>右轉・改良版：離鋼彈還有一段距離就停</figcaption></figure></div><div class="thumbs" style="margin-top:14px"><button type="button" data-full="exp6_1119_gundam_dist1.jpg" data-cap="量鋼彈多遠看得到：用捲尺量距離" aria-label="放大：量鋼彈多遠看得到：用捲尺量距離"><img src="exp6_1119_gundam_dist1.jpg" alt="量鋼彈多遠看得到：用捲尺量距離" loading="lazy"></button><button type="button" data-full="exp6_1119_gundam_dist2.jpg" data-cap="量鋼彈多遠看得到：鋼彈站在正前方" aria-label="放大：量鋼彈多遠看得到：鋼彈站在正前方"><img src="exp6_1119_gundam_dist2.jpg" alt="量鋼彈多遠看得到：鋼彈站在正前方" loading="lazy"></button><button type="button" data-full="exp6_1119_log.png" data-cap="電腦收到小車傳回來的紀錄（左轉・三顆雷達第 1 趟）" aria-label="放大：電腦收到小車傳回來的紀錄（左轉・三顆雷達第 1 趟）"><img src="exp6_1119_log.png" alt="電腦收到小車傳回來的紀錄（左轉・三顆雷達第 1 趟）" loading="lazy"></button></div><p style="margin-top:14px"><a href="https://docs.google.com/spreadsheets/d/13gkJgF3i0j1yPZTgs6Z5I28JxsanNAGIRpXyR6V_tt8/edit" target="_blank" rel="noopener">看 30 趟的完整紀錄（實驗數據總表）→</a></p>
   </div>
 </section><section id="reflect">
   <div class="wrap narrow">
@@ -74,7 +83,7 @@ td.na { color: var(--ink-2); font-weight: 400; }
   <div class="wrap">
     <div class="eyebrow">失敗與修正</div>
     <h2>我們怎麼一步一步改</h2>
-    <div class="grid"><div class="card ff"><div><span class="tag exp">8 月</span></div><p class="q"><b>問題：</b>轉彎時行人在斜前方，距離變長，側邊雷達來不及看到。</p><p class="a"><b>改法：</b>轉彎時把側邊的防護範圍放大到 25 公分（前面是 15 公分）。</p></div><div class="card ff"><div><span class="tag exp">8 月</span></div><p class="q"><b>問題：</b>讀雷達要花時間，小車一轉就超過 150 度。</p><p class="a"><b>改法：</b>改用 micro:bit 的 input.running_time() 碼表，只算「馬達真的在轉」的時間，轉滿 1050 毫秒才算轉了 90 度。</p></div><div class="card ff"><div><span class="tag exp">8 月</span></div><p class="q"><b>問題：</b>面板上的跑馬燈文字要跑 1 秒，小車來不及煞車。</p><p class="a"><b>改法：</b>改成瞬間顯示紅燈、綠燈的圖示，看到行人就能馬上停。</p></div><div class="card ff"><div><span class="tag exp">10 月</span></div><p class="q"><b>問題：</b>電池只剩一格，小車只會直走，一路撞上牆壁。</p><p class="a"><b>改法：</b>我們的轉彎和走格子都是靠時間算的，電不夠就全部亂掉。現在每次測試前一定先充飽電。</p></div><div class="card ff"><div><span class="tag exp">10 月</span></div><p class="q"><b>問題：</b>老師說：真的車不會每走一格就停，也不會原地轉 90 度。</p><p class="a"><b>改法：</b>把程式改成提早開始轉彎、外輪快內輪慢地畫弧線，遇到行人一樣停、看、聽。這一版還在校正、測試中。</p></div></div>
+    <div class="grid"><div class="card ff"><div><span class="tag exp">8 月</span></div><p class="q"><b>問題：</b>轉彎時行人在斜前方，距離變長，側邊雷達來不及看到。</p><p class="a"><b>改法：</b>轉彎時把側邊的防護範圍放大到 25 公分（前面是 15 公分）。</p></div><div class="card ff"><div><span class="tag exp">8 月</span></div><p class="q"><b>問題：</b>讀雷達要花時間，小車一轉就超過 150 度。</p><p class="a"><b>改法：</b>改用 micro:bit 的 input.running_time() 碼表，只算「馬達真的在轉」的時間，轉滿 1050 毫秒才算轉了 90 度。</p></div><div class="card ff"><div><span class="tag exp">8 月</span></div><p class="q"><b>問題：</b>面板上的跑馬燈文字要跑 1 秒，小車來不及煞車。</p><p class="a"><b>改法：</b>改成瞬間顯示紅燈、綠燈的圖示，看到行人就能馬上停。</p></div><div class="card ff"><div><span class="tag exp">10 月</span></div><p class="q"><b>問題：</b>電池只剩一格，小車只會直走，一路撞上牆壁。</p><p class="a"><b>改法：</b>我們的轉彎和走格子都是靠時間算的，電不夠就全部亂掉。現在每次測試前一定先充飽電。</p></div><div class="card ff"><div><span class="tag exp">10 月</span></div><p class="q"><b>問題：</b>老師說：真的車不會每走一格就停，也不會原地轉 90 度。</p><p class="a"><b>改法：</b>把程式改成提早開始轉彎、外輪快內輪慢地畫弧線，遇到行人一樣停、看、聽。這一版還在校正、測試中。</p></div><div class="card ff"><div><span class="tag exp">11/19</span></div><p class="q"><b>問題：</b>三顆雷達雖然都沒撞到，但左轉要到 2 公分左右才停，差一點點就撞上。</p><p class="a"><b>改法：</b>雷達改看中間 4 格、取最近的數字，轉彎前一格就先打開旁邊的雷達（改良版程式19）。第一次停下來的距離從平均 2.4 公分變成 14.1 公分。</p></div></div>
   </div>
 </section><section id="teacher">
   <div class="wrap">
