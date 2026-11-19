@@ -35,6 +35,9 @@ table.rec td.b { height: 30px; min-width: 64px; }
 .lvl { font-size: 12px; font-weight: 700; padding: 1px 8px; border-radius: 10px; margin-left: 6px; vertical-align: 2px; }
 .lvl.must { background: var(--bad-bg); color: var(--bad); }
 .lvl.good { background: var(--sky-bg); color: var(--sky); }
+.todo .box.done { background: var(--forest); }
+.todo .box.half { background: linear-gradient(135deg, var(--forest) 50%, transparent 50%); }
+.st { display: block; margin-top: 6px; font-size: 14px; font-weight: 700; color: var(--forest); }
 .src { font-size: 13px; color: var(--ink-2); }
 </style>
 </head>
@@ -56,7 +59,7 @@ table.rec td.b { height: 30px; min-width: 64px; }
   </div>
 </header>
 
-<div class="wrap"><nav class="toc" aria-label="本頁目錄"><a href="#why">為什麼是 A 柱</a><a href="#parts">三個部分</a><a href="#exp0">實驗零怎麼做</a><a href="#todo">接下來要補的</a><a href="#ai">AI 預測 vs 實測</a><a href="#cross">路口觀察</a></nav></div>
+<div class="wrap"><nav class="toc" aria-label="本頁目錄"><a href="#why">為什麼是 A 柱</a><a href="#compare">別人做過什麼</a><a href="#parts">三個部分</a><a href="#exp0">實驗零怎麼做</a><a href="#todo">接下來要補的</a><a href="#ai">AI 預測 vs 實測</a><a href="#cross">路口觀察</a></nav></div>
 
 <section id="why">
   <div class="wrap">
@@ -69,6 +72,25 @@ table.rec td.b { height: 30px; min-width: 64px; }
       <div class="card"><span class="tag fail">死角越大越危險</span><p>美國的研究發現，駕駛座那一邊死角比較大的車，左轉時撞到行人的風險多了大約 70%。</p></div>
     </div>
     <p class="src" style="margin-top:14px">資料來源：公視新聞網（2023）石虎路殺報導；中央社（2017）左轉肇事報導；IIHS 研究（Hu &amp; Cicchino, 2026, <i>Journal of Safety Research</i>），<a href="https://www.repairerdrivennews.com/2025/11/21/iihs-large-driver-side-blind-zone-raises-pedestrian-crash-risk-by-70-in-left-turns/" target="_blank" rel="noopener">報導連結</a>。</p>
+  </div>
+</section>
+
+<section id="compare">
+  <div class="wrap">
+    <div class="eyebrow">別人做過什麼</div>
+    <h2>歷屆全國科展，有沒有人做過一樣的題目？</h2>
+    <p>我們在國立臺灣科學教育館的網站，用「自走車、避障、超音波、光學雷達、死角、內輪差、A 柱、行人」這些關鍵字找，打開最接近的作品說明書來看。下面是和我們最像的幾件：</p>
+    <div class="scroll"><table>
+      <thead><tr><th>作品</th><th>屆別・組別</th><th>他們做了什麼</th><th>和我們不一樣的地方</th></tr></thead>
+      <tbody>
+        <tr><td><a href="https://twsf.ntsec.gov.tw/activity/race-1/61/pdf/NPHSF2021-032808.pdf" target="_blank" rel="noopener">智慧影像「One」視平安</a></td><td>61 屆・國中・佳作</td><td>大客車模型加鏡頭，找出轉彎「內輪差」裡的行人</td><td>看的是大車內輪差，不是 A 柱；只用一個鏡頭</td></tr>
+        <tr><td><a href="https://twsf.ntsec.gov.tw/activity/race-1/62/pdf/NPHSF2022-052507.pdf" target="_blank" rel="noopener">它罩得住我</a></td><td>62 屆・高中・第一名</td><td>安全帽裝兩顆光學雷達，提醒機車騎士大車轉彎的內輪差</td><td>保護的是機車騎士；沒有 A 柱</td></tr>
+        <tr><td><a href="https://twsf.ntsec.gov.tw/activity/race-1/54/pdf/030411.pdf" target="_blank" rel="noopener">危險的距離—死神的區域內輪差</a></td><td>54 屆・國中</td><td>用數學算出行人要離大車多遠才安全</td><td>只有計算，沒有偵測的裝置</td></tr>
+        <tr><td><a href="https://twsf.ntsec.gov.tw/activity/race-1/62/pdf/NPHSF2022-082815.pdf" target="_blank" rel="noopener">我的交通安全好幫手</a></td><td>62 屆・國小</td><td>超音波裝在書包上，人車靠近就亮燈；認為顏色不影響超音波</td><td>裝在行人身上；沒有測毛皮，也沒有轉彎死角</td></tr>
+        <tr><td><a href="https://twsf.ntsec.gov.tw/activity/race-1/61/pdf/NPHSF2021-082804.pdf" target="_blank" rel="noopener">虎媽保護你—智慧型 AI 導護桿</a></td><td>61 屆・國小</td><td>路口裝超音波和 AI 鏡頭，判斷有沒有人</td><td>裝在路口，不是車上；沒有處理轉彎的車</td></tr>
+      </tbody>
+    </table></div>
+    <div class="card" style="margin-top:18px;border-color:var(--forest);border-width:2px"><span class="tag fix">我們不一樣的地方</span><p>在我們找到的作品裡，轉彎安全的作品都在講大車的「內輪差」，還沒有看到有人研究「小汽車轉彎時，A 柱擋住了誰」，也還沒看到有人比較「一顆雷達和三顆雷達」補死角的差別，或是量出超音波量不到毛皮、光學雷達量得到。全國科展的作品很多，我們不敢說一件都沒有，所以也請洪老師幫我們再看看。</p></div>
   </div>
 </section>
 
@@ -175,12 +197,12 @@ table.rec td.b { height: 30px; min-width: 64px; }
   <div class="wrap narrow">
     <div class="eyebrow">接下來要補的</div>
     <h2>我們的補測清單</h2>
-    <p>五-A、五-B、六以前每種情況只跑一趟，現在要補到每種情況 5 趟，失敗的也照實記下來。</p>
+    <p>五-A、五-B、六以前每種情況只跑一趟，現在要補到每種情況 5 趟，失敗的也照實記下來。方格塗滿是做完了，塗一半是做了一部分。</p>
     <div class="todo">
-      <div class="card"><span class="box" aria-hidden="true"></span><div><h3>實驗六：每種情況跑 5 趟<span class="lvl must">最重要</span></h3><p>一顆雷達、三顆雷達 × 左轉死角、右轉死角，共 4 組，每組 5 趟。記下哪顆雷達煞車、偵測距離、禮讓幾次。</p></div></div>
-      <div class="card"><span class="box" aria-hidden="true"></span><div><h3>鋼彈偵測距離<span class="lvl must">一定要做</span></h3><p>鋼彈放在正前方 10～100 公分，每個距離量 5 次，找出雷達最遠在哪裡看得到行人。</p></div></div>
-      <div class="card"><span class="box" aria-hidden="true"></span><div><h3>實驗零：真車 A 柱死角地圖<span class="lvl must">一定要做</span></h3><p>照上面的步驟量，最好量 2～3 台不同的車（例如轎車和休旅車），比較死角大小。B 柱可以順便量一次做比較。</p></div></div>
-      <div class="card"><span class="box" aria-hidden="true"></span><div><h3>實驗五-A、五-B：每種情況跑 5 趟<span class="lvl must">一定要做</span></h3><p>五-A 共 12 組（兩種感測器 × 三種速度 × 煞車或轉向），五-B 的 M1、M2 地圖都補到 5 趟。</p></div></div>
+      <div class="card"><span class="box" aria-hidden="true"></span><div><h3>實驗六：每種情況跑 5 趟<span class="lvl must">最重要</span></h3><p>一顆雷達、三顆雷達 × 左轉死角、右轉死角，共 4 組，每組 5 趟。記下哪顆雷達煞車、偵測距離、禮讓幾次。</p><span class="st">進度：11/18 開始，鋼彈放錯位置，3 趟都不算。要把 24 宮格拼好再從第 1 趟重跑。</span></div></div>
+      <div class="card"><span class="box" aria-hidden="true"></span><div><h3>鋼彈偵測距離<span class="lvl must">一定要做</span></h3><p>鋼彈放在正前方 10～100 公分，每個距離量 5 次，找出雷達最遠在哪裡看得到行人。</p><span class="st">進度：待做</span></div></div>
+      <div class="card"><span class="box" aria-hidden="true"></span><div><h3>實驗零：真車 A 柱死角地圖<span class="lvl must">一定要做</span></h3><p>照上面的步驟量，最好量 2～3 台不同的車（例如轎車和休旅車），比較死角大小。B 柱可以順便量一次做比較。</p><span class="st">進度：待做</span></div></div>
+      <div class="card"><span class="box half" aria-hidden="true"></span><div><h3>實驗五-A、五-B：每種情況跑 5 趟<span class="lvl must">一定要做</span></h3><p>五-A 共 12 組（兩種感測器 × 三種速度 × 煞車或轉向），五-B 的 M1、M2 地圖都補到 5 趟。</p><span class="st">進度：五-A 60 趟 11/18 做完了（<a href="exp5a.html#retest">看結果</a>），還做了光學雷達轉向的改良版。五-B 待做。</span></div></div>
       <div class="card"><span class="box" aria-hidden="true"></span><div><h3>實驗二補測：是顏色還是毛？<span class="lvl good">加分</span></h3><p>黑色硬紙板、白色硬紙板、黑色毛、白色毛、棉衣，分開測超音波和雷達。</p></div></div>
       <div class="card"><span class="box" aria-hidden="true"></span><div><h3>左右雷達斜放的角度<span class="lvl good">加分</span></h3><p>兩邊雷達斜 30°、45°、60°，看哪個角度最能蓋住實驗零量到的死角。</p></div></div>
       <div class="card"><span class="box" aria-hidden="true"></span><div><h3>弧線轉彎版實測<span class="lvl good">加分</span></h3><p>弧線轉彎程式調整好之後，跑 10 次。</p></div></div>
@@ -197,14 +219,15 @@ table.rec td.b { height: 30px; min-width: 64px; }
     <div class="scroll"><table>
       <thead><tr><th>實驗</th><th>情況</th><th>AI 預測</th><th>我們實測</th></tr></thead>
       <tbody>
-        <tr><td>五-A</td><td>雷達・煞車・40 cm/s</td><td>5/5 成功，停下時還離障礙物約 10 公分</td><td>待測</td></tr>
-        <tr><td>五-A</td><td>超音波・煞車・40 cm/s</td><td>多數失敗（把山壁當成障礙物）</td><td>待測</td></tr>
+        <tr><td>五-A</td><td>雷達・煞車・40 cm/s</td><td>5/5 成功，停下時還離障礙物約 10 公分</td><td>5/5 成功，停下時離障礙物平均 7.8 公分</td></tr>
+        <tr><td>五-A</td><td>超音波・煞車・40 cm/s</td><td>多數失敗（把山壁當成障礙物）</td><td>5/5 成功，沒有把山壁當成障礙物</td></tr>
         <tr><td>五-B</td><td>M2 地圖・第 4、5 趟</td><td>不會撞到，時間約「走的格數 × 3.2～3.5 秒」</td><td>待測</td></tr>
         <tr><td>六</td><td>一顆雷達・左轉死角</td><td>5 趟都撞上</td><td>待測</td></tr>
         <tr><td>六</td><td>三顆雷達・左轉死角</td><td>5/5 成功，左雷達煞車，禮讓約 2 次</td><td>待測</td></tr>
         <tr><td>鋼彈</td><td>正前方 10～100 公分</td><td>60 公分內都準，70～90 公分開始偶爾看不到，100 公分大多看不到</td><td>待測</td></tr>
       </tbody>
     </table></div>
+    <p style="margin-top:10px">五-A 做完以後，AI 猜錯了 4 項：它猜超音波 40 cm/s 煞車和轉向會失敗，結果都成功；它猜光學雷達轉向會成功，結果一直撞到矮盒子。</p>
     <p class="muted" style="margin-top:10px">完整的 27 項預測在實驗數據總表的「AI預測表_待驗證_1114」分頁。預測只是猜的，真正的數字要等我們做完實驗才算數。</p>
   </div>
 </section>
