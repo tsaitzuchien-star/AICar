@@ -46,7 +46,7 @@ table.rec td.b { height: 30px; min-width: 64px; }
 <nav class="topnav" aria-label="網站導覽">
   <div class="wrap">
     <a class="brand" href="index.html">零死角全生命守護</a>
-    <a href="story.html">研究故事</a><a href="plan.html" aria-current="page">研究架構</a><a href="experiments.html">六個實驗</a><a href="devlog.html">開發日誌</a><a href="data.html">數據中心</a><a href="qa.html">問題與回答</a><a href="code.html">程式</a><a href="about.html">關於我們</a>
+    <a href="story.html">研究故事</a><a href="plan.html" aria-current="page">研究架構</a><a href="experiments.html">全部實驗</a><a href="devlog.html">開發日誌</a><a href="data.html">數據中心</a><a href="qa.html">問題與回答</a><a href="code.html">程式</a><a href="about.html">關於我們</a>
   </div>
 </nav>
 
@@ -59,7 +59,7 @@ table.rec td.b { height: 30px; min-width: 64px; }
   </div>
 </header>
 
-<div class="wrap"><nav class="toc" aria-label="本頁目錄"><a href="#why">為什麼是 A 柱</a><a href="#compare">別人做過什麼</a><a href="#parts">三個部分</a><a href="#exp0">實驗零怎麼做</a><a href="#todo">接下來要補的</a><a href="#ai">AI 預測 vs 實測</a><a href="#cross">路口觀察</a></nav></div>
+<div class="wrap"><nav class="toc" aria-label="本頁目錄"><a href="#why">為什麼是 A 柱</a><a href="#compare">別人做過什麼</a><a href="#parts">三個部分</a><a href="#exp0">實驗零怎麼做</a><a href="#todo">補做的實驗</a><a href="#future">以後想做</a><a href="#ai">AI 預測 vs 實測</a></nav></div>
 
 <section id="why">
   <div class="wrap">
@@ -108,106 +108,34 @@ table.rec td.b { height: 30px; min-width: 64px; }
 
 <section id="exp0">
   <div class="wrap narrow">
-    <div class="eyebrow">第一部分・實驗零（11/21 已經做完，<a href="exp0.html">看結果</a>，<a href="exp0.html#protect">看保護石虎怎麼串起來</a>）</div>
-    <h2>真車 A 柱死角地圖：坐在駕駛座，看不到哪裡？</h2>
-    <p>我們要找的答案：大人坐在駕駛座、頭不動，往前看的時候，<b>車頭前面哪些地方站著一個小朋友，會被 A 柱整個擋住？</b>台灣的車駕駛座在左邊，所以左 A 柱離眼睛比較近，擋住的範圍可能比較大。</p>
-
-    <figure class="dia">
-      <svg viewBox="0 0 600 540" role="img" aria-label="從上面看的車子，兩根 A 柱後面各有一塊扇形死角">
-        <polygon points="258.4,457.8 90,40 11,40 253.5,460.2" fill="rgba(162,59,42,.2)" stroke="#A23B2A" stroke-width="1.5"/>
-        <polygon points="344.7,438 600,239 600,305 351.8,448.5" fill="rgba(162,59,42,.2)" stroke="#A23B2A" stroke-width="1.5"/>
-        <rect x="246" y="380" width="108" height="170" rx="18" fill="#9fb0b6"/>
-        <polygon points="252,440 348,440 340,478 260,478" fill="#cfe3ea"/>
-        <rect x="262" y="484" width="26" height="30" rx="5" fill="#5f747c"/>
-        <circle cx="256" cy="459" r="5" fill="#5f747c"/><circle cx="348" cy="443" r="5" fill="#5f747c"/>
-        <circle cx="273" cy="494" r="6" fill="#3B5B92"/>
-        <text x="196" y="520" font-size="15" fill="#1E2A22">眼睛</text>
-        <line x1="273" y1="494" x2="300" y2="262" stroke="#3B5B92" stroke-width="2" stroke-dasharray="6 5"/>
-        <line x1="273" y1="494" x2="163" y2="275" stroke="#3B5B92" stroke-width="2" stroke-dasharray="6 5"/>
-        <g transform="translate(300,250)" fill="#2F7A4F"><circle r="11" cy="-14"/><rect x="-9" y="-2" width="18" height="26" rx="6"/></g>
-        <text x="318" y="246" font-size="16" fill="#5C665E">○ 看得到</text>
-        <g transform="translate(163,263)" fill="#A23B2A"><circle r="11" cy="-14"/><rect x="-9" y="-2" width="18" height="26" rx="6"/></g>
-        <text x="40" y="300" font-size="16" fill="#5C665E">× 被左 A 柱擋住</text>
-        <text x="20" y="28" font-size="17" font-weight="700" fill="#A23B2A">左 A 柱死角</text>
-        <text x="470" y="226" font-size="17" font-weight="700" fill="#A23B2A">右 A 柱死角</text>
-        <text x="308" y="345" font-size="14" fill="#5C665E">前進方向 ↑</text>
-      </svg>
-      <figcaption>從天空往下看。紅色區域就是死角，小朋友站在裡面，駕駛的眼睛會被 A 柱擋住。我們要把這兩塊的形狀量出來。<span class="badge">示意圖</span></figcaption>
-    </figure>
-
-    <h3>準備工具</h3>
-    <div class="tools">
-      <div class="card"><b>捲尺（5 公尺）</b><span>量距離、畫線</span></div>
-      <div class="card"><b>粉筆或紙膠帶</b><span>在地上畫 5 條橫線和刻度</span></div>
-      <div class="card"><b>小朋友標示桿</b><span>120 公分長的竿子（掃把柄、PVC 管），最上面貼一張畫好的臉，大約是一年級小朋友的身高</span></div>
-      <div class="card"><b>細繩＋螺帽</b><span>做鉛垂線，找到眼睛正下方在地上的位置</span></div>
-      <div class="card"><b>記錄表、筆、墊板</b><span>用這一頁下面的表格</span></div>
-      <div class="card"><b>手機</b><span>從駕駛座拍「臉不見了」的照片</span></div>
-      <div class="card"><b>方格紙、尺、量角器</b><span>回家畫死角地圖</span></div>
-      <div class="card"><b>加分：40 公分「石虎桿」</b><span>石虎、小狗差不多這麼高</span></div>
-    </div>
-    <div class="safety"><b>安全規則</b><ul><li>車子一定要熄火、拉手煞車，鑰匙交給大人保管。</li><li>選白天、沒有其他車進出的空曠停車場。</li><li>全程有大人在旁邊。</li></ul></div>
-
-    <h3 style="margin-top:28px">三個人分工</h3>
-    <div class="grid">
-      <div class="card"><b>觀察員（大人）</b><p class="muted">坐駕駛座、像平常開車一樣坐好，頭靠頭枕不動，負責喊「不見了」和「出現了」。</p></div>
-      <div class="card"><b>走線員</b><p class="muted">拿著標示桿，沿著地上的線慢慢橫著走，桿子保持直直的。</p></div>
-      <div class="card"><b>記錄員</b><p class="muted">聽到喊聲，看桿子站在哪個刻度，寫進記錄表。我們兩個輪流當走線員和記錄員。</p></div>
-    </div>
-
-    <h3 style="margin-top:28px">步驟</h3>
-    <ol class="steps">
-      <li><b>記下車子資料。</b>寫下車子型號、觀察員身高。觀察員坐好後，從車窗垂下綁螺帽的細繩貼在眼睛旁邊，螺帽碰地的點畫 X。量：① X 到保險桿的距離 ② X 到車子正中間的距離 ③ 地面到眼睛的高度。</li>
-      <li><b>畫 5 條橫線。</b>從保險桿往前 1、2、3、4、5 公尺各畫一條和車頭平行的線，每條從中心往左右各 4 公尺，每 50 公分一個刻度。中心是 0，左邊寫負的，右邊寫正的。</li>
-      <li><b>沿著線走、喊聲音。</b>走線員從最左邊（-400）慢慢往右走，一步約 10 公分。桿子上的臉完全被 A 柱擋住時，觀察員喊「不見了！」；臉又露出來時喊「出現了！」。記錄員寫下刻度。</li>
-      <li><b>每條線走 3 次。</b>其中一次從右往左走，三次取平均。</li>
-      <li><b>拍「消失照片」。</b>走線員停在死角中間，觀察員把手機放在眼睛的位置拍：看得到 A 柱，看不到臉。</li>
-      <li><b>加分：石虎桿。</b>換 40 公分的桿子，再走 1、2、3 公尺線。矮的東西還可能被引擎蓋擋住。</li>
-      <li><b>畫成地圖。</b>方格紙 1 格＝50 公分，畫出車頭、5 條線和眼睛，把平均位置點上去連起來。用量角器從眼睛量：正前方是 0 度，左、右 A 柱死角各是幾度到幾度？</li>
-      <li><b>縮小到小車場地。</b>小車是真車的 1/39：長度都除以 39，角度不用改。1 公尺＝2.6 公分、2 公尺＝5.1、3 公尺＝7.7、4 公尺＝10.3、5 公尺＝12.8 公分。</li>
-    </ol>
-
-    <figure class="dia">
-      <svg viewBox="0 0 640 470" role="img" aria-label="車頭前面五條橫線，走線員拿桿子沿著線走">
-        <g stroke="#8e9a94" stroke-width="2"><line x1="120" y1="310" x2="520" y2="310"/><line x1="120" y1="260" x2="520" y2="260"/><line x1="120" y1="210" x2="520" y2="210"/><line x1="120" y1="160" x2="520" y2="160"/><line x1="120" y1="110" x2="520" y2="110"/></g>
-        <g id="ticks" stroke="#8e9a94" stroke-width="1.5"></g>
-        <g font-size="15" fill="#1E2A22"><text x="56" y="315">1 公尺</text><text x="56" y="265">2 公尺</text><text x="56" y="215">3 公尺</text><text x="56" y="165">4 公尺</text><text x="56" y="115">5 公尺</text></g>
-        <g font-size="12" fill="#5C665E" text-anchor="middle"><text x="120" y="96">-400</text><text x="170" y="96">-300</text><text x="220" y="96">-200</text><text x="270" y="96">-100</text><text x="320" y="96">0</text><text x="370" y="96">100</text><text x="420" y="96">200</text><text x="470" y="96">300</text><text x="520" y="96">400</text></g>
-        <text x="320" y="70" font-size="14" text-anchor="middle" fill="#5C665E">刻度（公分）：中心 0，左負右正</text>
-        <rect x="275" y="360" width="90" height="140" rx="16" fill="#9fb0b6"/><polygon points="280,410 360,410 353,440 287,440" fill="#cfe3ea"/><circle cx="298" cy="452" r="5" fill="#3B5B92"/>
-        <line x1="560" y1="360" x2="560" y2="310" stroke="#3B5B92" stroke-width="2"/><text x="568" y="340" font-size="14" fill="#3B5B92">1 m</text>
-        <g transform="translate(176,210)" fill="#2F7A4F"><circle r="9" cy="-26"/><rect x="-3" y="-17" width="6" height="17"/></g>
-        <line x1="196" y1="226" x2="262" y2="226" stroke="#3B5B92" stroke-width="3"/><polyline points="252,219 264,226 252,233" stroke="#3B5B92" stroke-width="3" fill="none"/>
-        <text x="150" y="250" font-size="14" fill="#2F7A4F">走線員慢慢往右走</text>
-        <text x="380" y="462" font-size="14" fill="#5C665E">觀察員坐駕駛座</text>
-      </svg>
-      <figcaption>從上面看的場地佈置，每條線都要走。</figcaption>
-    </figure>
-
-    <h3>記錄表</h3>
-    <div class="scroll"><table class="rec">
-      <thead><tr><th rowspan="2">線</th><th rowspan="2">第幾次</th><th colspan="2">左 A 柱（公分）</th><th colspan="2">右 A 柱（公分）</th></tr><tr><th>不見了</th><th>出現了</th><th>不見了</th><th>出現了</th></tr></thead>
-      <tbody id="rows"></tbody>
-    </table></div>
-    <p class="muted" style="margin-top:10px">量完之後，把死角畫到小車場地上，把鋼彈一格一格放進死角，分別用一顆雷達和三顆雷達測：偵測得到塗綠色，偵測不到塗紅色。兩張圖一比，就知道三顆雷達補上了多少。</p>
+    <div class="eyebrow">第一部分・實驗零（11/21 完成）</div>
+    <h2>真車 A 柱死角地圖：我們實際怎麼做</h2>
+    <p>本來想沿著 1～5 公尺的線，拿標示桿慢慢走、量「臉不見了」的位置。到了現場，我們改成更清楚的做法：在車頭前面用粉筆畫 16 欄 × 6 排的格子（每格 50 公分），一個人站在每一格的正中間，駕駛喊看得到（O）、看一半（△）、看不到（X）。</p>
+    <ul>
+      <li>爸爸、媽媽、哥哥、弟弟四個人輪流坐駕駛座，先量好眼睛的位置。</li>
+      <li>車子左邊再畫 2 欄 × 8 格，看後照鏡和 B 柱旁邊。</li>
+      <li>加做：身體往前探頭、21 公分高的罐子當假石虎。</li>
+    </ul>
+    <p style="margin-top:14px"><a href="exp0.html">看實驗零的死角地圖和結果 →</a></p>
   </div>
 </section>
 
 <section id="todo" class="alt">
   <div class="wrap narrow">
-    <div class="eyebrow">接下來要補的</div>
-    <h2>我們的補測清單</h2>
-    <p>五-A、五-B、六以前每種情況只跑一趟，現在要補到每種情況 5 趟，失敗的也照實記下來。方格塗滿是做完了，塗一半是做了一部分。</p>
+    <div class="eyebrow">補測清單</div>
+    <h2>我們補做了哪些實驗</h2>
+    <p>五-A、五-B、六以前每種情況只跑一趟，我們補到每種情況 5 趟，失敗的也照實記下來，還到真的車上做了實驗零。方格塗滿是做完了，塗一半是還在進行。</p>
     <div class="todo">
       <div class="card"><span class="box done" aria-hidden="true"></span><div><h3>實驗六：每種情況跑 5 趟<span class="lvl must">最重要</span></h3><p>一顆雷達、三顆雷達 × 左轉死角、右轉死角，共 4 組，每組 5 趟。記下哪顆雷達煞車、偵測距離、禮讓幾次。</p><span class="st">進度：11/19 做完了，20 趟（<a href="exp6.html#retest">看結果</a>）。只開前雷達 10 趟全撞，三顆雷達 10 趟全停住；還做了改良版，再跑 10 趟。</span></div></div>
       <div class="card"><span class="box done" aria-hidden="true"></span><div><h3>鋼彈偵測距離<span class="lvl must">一定要做</span></h3><p>鋼彈放在正前方 10～100 公分，每個距離量 5 次，找出雷達最遠在哪裡看得到行人。</p><span class="st">進度：11/19 做完了。60 公分以內 5 次都看得到，70 公分只看到 1 次，80 公分以上都看不到。</span></div></div>
       <div class="card"><span class="box done" aria-hidden="true"></span><div><h3>實驗零：真車 A 柱死角地圖<span class="lvl must">一定要做</span></h3><p>坐進真的車，一格一格量出 A 柱擋住哪裡，B 柱旁邊（車子左邊後區）也一起量。</p><span class="st">進度：11/21 做完了，四位駕駛 × 96 格，還加做車子旁邊、探頭和假石虎（<a href="exp0.html">看結果</a>）。</span></div></div>
       <div class="card"><span class="box done" aria-hidden="true"></span><div><h3>實驗五-A、五-B：每種情況跑 5 趟<span class="lvl must">一定要做</span></h3><p>五-A 共 12 組（兩種感測器 × 三種速度 × 煞車或轉向），五-B 的 M1、M2 地圖都補到 5 趟。</p><span class="st">進度：五-A 60 趟 11/18 做完了（<a href="exp5a.html#retest">看結果</a>），還做了光學雷達轉向的改良版。五-B 11/19 補了 14 趟（<a href="exp5b.html#retest">看結果</a>）。</span></div></div>
-      <div class="card"><span class="box" aria-hidden="true"></span><div><h3>超音波跑的時候為什麼看不到鋼彈？<span class="lvl must">一定要做</span></h3><p>五-B 地圖 M1 超音波有 2 趟沒看到鋼彈就撞上去，可是小車站著不動時每次都看得到。用「邊跑邊記錄」的程式重跑，配影片找出是哪一步漏掉。</p><span class="st">進度：程式寫好了，待做</span></div></div><div class="card"><span class="box" aria-hidden="true"></span><div><h3>實驗二補測：是顏色還是毛？<span class="lvl good">加分</span></h3><p>黑色硬紙板、白色硬紙板、黑色毛、白色毛、棉衣，分開測超音波和雷達。</p></div></div>
-      <div class="card"><span class="box" aria-hidden="true"></span><div><h3>左右雷達斜放的角度<span class="lvl good">加分</span></h3><p>兩邊雷達斜 30°、45°、60°，看哪個角度最能蓋住實驗零量到的死角。</p></div></div>
-      <div class="card"><span class="box" aria-hidden="true"></span><div><h3>弧線轉彎版實測<span class="lvl good">加分</span></h3><p>弧線轉彎程式調整好之後，跑 10 次。</p></div></div>
+      <div class="card"><span class="box half" aria-hidden="true"></span><div><h3>弧線轉彎版<span class="lvl good">加分</span></h3><p>五-B、六改成連續前進、弧線轉彎，遇到行人一樣停、看、聽。</p><span class="st">進度：進行中，程式寫好了，正在校正。</span></div></div>
     </div>
     <p style="margin-top:14px"><a href="https://docs.google.com/spreadsheets/d/13gkJgF3i0j1yPZTgs6Z5I28JxsanNAGIRpXyR6V_tt8/edit#gid=61026" target="_blank" rel="noopener">打開實驗數據總表（重複測試分頁）→</a></p>
+    <h3 id="future" style="margin-top:32px">以後想做</h3>
+    <p class="muted">這次科展的實驗做到這裡。下面是我們還想知道、以後可以繼續做的事。</p>
+    <div class="grid"><div class="card"><h3>超音波跑的時候為什麼看不到鋼彈？</h3><p class="muted">五-B 地圖 M1 超音波有 2 趟沒看到鋼彈就撞上去，可是小車站著不動時每次都看得到。用「邊跑邊記錄」的程式重跑，配影片找出是哪一步漏掉。</p></div><div class="card"><h3>實驗二補測：是顏色還是毛？</h3><p class="muted">黑色硬紙板、白色硬紙板、黑色毛、白色毛、棉衣，分開測超音波和雷達。</p></div><div class="card"><h3>左右雷達斜放的角度</h3><p class="muted">兩邊雷達斜 30°、45°、60°，看哪個角度最能蓋住實驗零量到的死角。</p></div><div class="card"><h3>換一台轎車量死角</h3><p class="muted">實驗零只量了休旅車。轎車比較矮、引擎蓋形狀不一樣，死角會不會也不一樣？</p></div><div class="card"><h3>到學校附近的路口觀察</h3><p class="muted">放學時間在同一個路口看 30 分鐘，記下車子轉彎時斑馬線上有沒有人、車子有沒有先停下來讓行人。</p></div></div>
   </div>
 </section>
 
@@ -232,23 +160,7 @@ table.rec td.b { height: 30px; min-width: 64px; }
   </div>
 </section>
 
-<section id="cross" class="alt">
-  <div class="wrap narrow">
-    <div class="eyebrow">真實世界的觀察</div>
-    <h2>到學校附近的路口看一看</h2>
-    <p>我們想知道：車子轉彎的時候，斑馬線上常常有人嗎？車子會先停下來讓行人嗎？</p>
-    <ol class="steps">
-      <li><b>固定時間：</b>放學時間在同一個路口觀察 30 分鐘，做 3 天；再找一天非尖峰時間比較。</li>
-      <li><b>先講好怎麼算：</b>每有一台車轉彎就畫一筆，記下左轉或右轉、斑馬線上有沒有行人、車子有沒有先停下來。「沒有禮讓」是指行人已經走上斑馬線，車子沒停就先過去。</li>
-      <li><b>注意安全：</b>大人陪著，站在人行道上、離轉角遠一點。不拍清楚的人臉和車牌。</li>
-      <li><b>誠實寫限制：</b>站在路邊看不出司機是不是被 A 柱擋住，所以我們只記「發生了什麼」，不說「一定是 A 柱造成的」。</li>
-    </ol>
-    <div class="scroll" style="margin-top:16px"><table class="rec">
-      <thead><tr><th>日期／時間</th><th>左轉車數</th><th>右轉車數</th><th>轉彎時斑馬線上有人</th><th>車子先停下禮讓</th><th>沒有禮讓</th></tr></thead>
-      <tbody><tr><td class="b"></td><td class="b"></td><td class="b"></td><td class="b"></td><td class="b"></td><td class="b"></td></tr><tr><td class="b"></td><td class="b"></td><td class="b"></td><td class="b"></td><td class="b"></td><td class="b"></td></tr><tr><td class="b"></td><td class="b"></td><td class="b"></td><td class="b"></td><td class="b"></td><td class="b"></td></tr></tbody>
-    </table></div>
-  </div>
-</section>
+
 
 <footer><div class="wrap">南投縣光華國小　蔡秉澔、蔡秉宸　指導老師：洪瑞成</div></footer>
 

@@ -36,13 +36,13 @@ td.na { color: var(--ink-2); font-weight: 400; }
 <nav class="topnav" aria-label="網站導覽">
   <div class="wrap">
     <a class="brand" href="index.html">零死角全生命守護</a>
-    <a href="story.html">研究故事</a><a href="plan.html">研究架構</a><a href="experiments.html" aria-current="page">六個實驗</a><a href="devlog.html">開發日誌</a><a href="data.html">數據中心</a><a href="qa.html">問題與回答</a><a href="code.html">程式</a><a href="about.html">關於我們</a>
+    <a href="story.html">研究故事</a><a href="plan.html">研究架構</a><a href="experiments.html" aria-current="page">全部實驗</a><a href="devlog.html">開發日誌</a><a href="data.html">數據中心</a><a href="qa.html">問題與回答</a><a href="code.html">程式</a><a href="about.html">關於我們</a>
   </div>
 </nav>
 
 <header class="dark page-head">
   <div class="wrap">
-    <div class="crumbs"><a href="experiments.html">六個實驗</a> ／ 實驗六</div>
+    <div class="crumbs"><a href="experiments.html">全部實驗</a> ／ 實驗六</div>
     <div class="eyebrow">實驗六・多雷達融合克服 A 柱死角（8/30 第一次，11/19 每種跑 5 趟）</div>
     <h1>轉彎時，看得到 A 柱後面的行人嗎？</h1>
     <p class="lead">汽車轉彎時，擋風玻璃旁邊的 A 柱會擋住行人。我們在小車左右各多裝一顆雷達，讓它轉彎時也看得到旁邊，看到行人就停下來等。</p>
@@ -122,7 +122,7 @@ last_t = now</pre><div><h3>① 碼表：只算馬達真的在轉的時間</h3><p
     <p class="muted">數字直接來自我們的實驗數據總表，試算表更新，這裡也會跟著更新。</p>
 <details open><summary>打開表格</summary>
 <div class="scroll"><table id="raw6" data-gid="1841904194" data-fallback="raw6-fb"></table></div></details>
-<script type="application/json" id="raw6-fb">[["測試情境", "雷達配置", "障礙物位置", "避障策略", "實驗結果", "觀察現象"], ["十字路口左轉", "單顆前向雷達", "A柱死角(左前)", "無", "失敗 (撞擊)", "雷達直視前方，轉向時產生盲區直接撞上行人"], ["十字路口左轉", "三顆融合(左/中/右)", "A柱死角(左前)", "動態禮讓 (等待)", "成功", "左眼雷達提早發現，觸發煞車並「停看聽」等待行人通過後自動續行"]]</script><p class="note plain">寫程式的時候，三顆雷達的版本我們試了超過 10 次都成功；每一趟的詳細紀錄（偵測距離、等了幾秒）正在整理。小車到終點時面板會顯示愛心，代表任務完成。</p>
+<script type="application/json" id="raw6-fb">[["測試情境", "雷達配置", "障礙物位置", "避障策略", "實驗結果", "觀察現象"], ["十字路口左轉", "單顆前向雷達", "A柱死角(左前)", "無", "失敗 (撞擊)", "雷達直視前方，轉向時產生盲區直接撞上行人"], ["十字路口左轉", "三顆融合(左/中/右)", "A柱死角(左前)", "動態禮讓 (等待)", "成功", "左眼雷達提早發現，觸發煞車並「停看聽」等待行人通過後自動續行"]]</script><p class="note plain">寫程式的時候，三顆雷達的版本我們試了超過 10 次都成功；每種情況跑 5 趟的完整紀錄，在上面的<a href="#retest">11/19 重複測試</a>。小車到終點時面板會顯示愛心，代表任務完成。</p>
   </div>
 </section><section><div class="wrap"><div class="pager"><a href="exp5b.html"><span>← 上一個</span>實驗五-B：24 宮格</a><a class="next" href="story.html"><span>下一個 →</span>研究故事</a></div></div></section>
 
