@@ -39,7 +39,7 @@
   <div class="wrap">
     <a class="brand" href="index.html">零死角全生命守護</a>
     <a href="story.html">研究故事</a><a href="plan.html">研究架構</a>
-    <a href="experiments.html">六個實驗</a>
+    <a href="experiments.html">全部實驗</a>
     <a href="devlog.html" aria-current="page">開發日誌</a>
     <a href="data.html">數據中心</a>
     <a href="qa.html">問題與回答</a>
@@ -52,7 +52,7 @@
   <div class="wrap">
     <div class="eyebrow">開發日誌</div>
     <h1>從搭場地開始，一步一步做出來</h1>
-    <p class="lead">5 月 9 日我們用瓦楞板搭出第一條車道，之後組小車、寫程式、做了六個實驗。成功的、失敗的，我們都記下來了。</p>
+    <p class="lead">5 月 9 日我們用瓦楞板搭出第一條車道，之後組小車、寫程式、做了實驗零到實驗六。成功的、失敗的，我們都記下來了。</p>
     <div class="kpis">
       <div class="kpi"><b>15 個任務</b><span>5/9 到 10 月</span></div>
       <div class="kpi"><b>30 張照片</b><span>11 支影片</span></div>
@@ -89,9 +89,9 @@
 <li class="ev task" data-tags="exp6"><div class="when">8/30</div><div class="card"><div><span class="tag exp">實驗六</span></div><h3>任務十一：完成實驗六（三顆雷達和 A 柱死角）</h3><p>8 月 30 日，我們完成了最帥的壓軸關卡「A 柱死角防護與動態禮讓」！小車升級成有 180 度防護網的「三眼戰車」。</p><p>🛠️ 硬體改裝：我們在小車左右兩邊各多裝一顆光學雷達，用 I2C 指撥開關分配不同位址（ADDR4、ADDR1、ADDR2），還把左右雷達往外轉大約 45 度，變成「外八字」。</p><p>🤖 實測分工：弟弟負責啟動和控制小車，哥哥拿鋼彈模型當過馬路的行人。</p><p>🚦 結果：只有一顆雷達時，車子左轉直接撞上死角裡的行人。三顆雷達時，車子轉彎一開始就用左眼看到行人，馬上煞車亮紅燈；行人走開後亮綠燈，繼續轉彎開到終點 (3,3)。</p><div class="thumbs"><button type="button" data-full="photo27.jpg" data-cap="三眼戰車"><img src="photo27.jpg" alt="三眼戰車" loading="lazy"></button><button type="button" data-full="photo28.jpg" data-cap="安裝左右雷達"><img src="photo28.jpg" alt="安裝左右雷達" loading="lazy"></button><button type="button" data-full="photo29.jpg" data-cap="三顆雷達"><img src="photo29.jpg" alt="三顆雷達" loading="lazy"></button><button type="button" data-full="photo30.jpg" data-cap="鋼彈行人"><img src="photo30.jpg" alt="鋼彈行人" loading="lazy"></button></div><div class="media-grid" style="margin-top:12px"><figure><video src="video10.mp4" controls preload="none"></video><figcaption>兄弟合作！A 柱死角動態禮讓實測</figcaption></figure></div></div></li>
 <li class="ev fail" data-tags="fail"><div class="when">8/30</div><div class="card"><div><span class="tag fail">失敗與修正</span></div><h3>轉彎轉過頭、跑馬燈害車子煞不住</h3><p>遇到的問題 1：讀雷達要花時間，轉彎算不準，結果轉到超過 150 度。改法：用 input.running_time() 這個「碼表」算馬達轉多久，就轉得準了。</p><p>遇到的問題 2：車子顯示跑馬燈英文字時會卡大約 1 秒，看到行人卻來不及煞車，直接撞上。改法：拿掉跑馬燈，改成一下就顯示完的圖示。</p><p>遇到的問題 3：轉彎時行人是斜的，距離變遠了，雷達看不到。改法：轉彎時把側邊雷達的煞車距離加大到 25 公分。</p></div></li>
 <li class="ev task" data-tags="prep"><div class="when">9/21</div><div class="card"><div><span class="tag ">準備與整理</span></div><h3>把所有程式整理成最新版</h3><p>我們把每個實驗的程式都整理好，存成「正式版 1.0」，網站上的程式也全部換成這一版。</p></div></li>
-<li class="ev turn" data-tags="turn"><div class="when">9/30</div><div class="card"><div><span class="tag star">轉折點</span></div><h3>老師的三個新問題</h3><p>雷達在幾公分會看到鋼彈小人？有效距離是幾公分？小車和真的車差多少？前兩題我們正在用鋼彈實際量，量完會補上真正的數字。</p></div></li>
+<li class="ev turn" data-tags="turn"><div class="when">9/30</div><div class="card"><div><span class="tag star">轉折點</span></div><h3>老師的三個新問題</h3><p>雷達在幾公分會看到鋼彈小人？有效距離是幾公分？小車和真的車差多少？前兩題我們後來用鋼彈實際量了：11/19 量到 60 公分以內每次都看得到，70 公分只看到 1 次，80 公分以上都看不到。</p></div></li>
 <li class="ev task" data-tags="exp5b exp6"><div class="when">10 月</div><div class="card"><div><span class="tag exp">實驗五-B</span><span class="tag exp">實驗六</span></div><h3>改成像真車一樣開：連續前進、弧線轉彎</h3><p>洪老師提醒我們：真的車不會每走一格就停一下，也不會原地轉 90 度。我們把五-B 和六的程式改成不停車、轉彎畫弧線，遇到行人一樣停、看、聽。</p><div class="media-grid" style="margin-top:12px"><figure><video src="video11.mp4" controls preload="none"></video><figcaption>原本的開法：每格停一下、原地轉</figcaption></figure></div></div></li>
-<li class="ev fail" data-tags="fail"><div class="when">10/27</div><div class="card"><div><span class="tag fail">失敗與修正</span></div><h3>弧線版第一次測試：開不到終點</h3><p>遇到的問題：五-B 弧線版畫完一個右彎，又要停下來原地左轉，轉一次歪一點，最後開不到 (3,4)。</p><p>改法：出發前先把整條路線算好，選轉彎最少的路；再用車上的按鈕校正弧線轉 90 度要多久。正在測試中。</p></div></li>
+<li class="ev fail" data-tags="fail"><div class="when">10/27</div><div class="card"><div><span class="tag fail">失敗與修正</span></div><h3>弧線版第一次測試：開不到終點</h3><p>遇到的問題：五-B 弧線版畫完一個右彎，又要停下來原地左轉，轉一次歪一點，最後開不到 (3,4)。</p><p>改法：出發前先把整條路線算好，選轉彎最少的路；再用車上的按鈕校正弧線轉 90 度要多久。校正到一半，沒有正式測完。</p></div></li>
 <li class="ev turn" data-tags="turn"><div class="when">11 月</div><div class="card"><div><span class="tag star">轉折點</span></div><h3>研究主角改成 A 柱死角和行人</h3><p>老師提醒我們：真的遇到石虎的機會很少，但每天都有很多人過馬路。我們決定把實驗六的「A 柱死角」當成主角，還要到真的車上量 A 柱到底擋住多大的範圍（實驗零），也要把每種情況多跑幾次。</p></div></li>
 <li class="ev task" data-tags="exp4"><div class="when">11/17</div><div class="card"><div><span class="tag exp">實驗四</span></div><h3>算算看：小車和真的汽車，煞車差多少？</h3><p>洪老師要我們比一比小車和真車的煞車。真車不能拿來撞，所以我們用交通安全書上的公式來算：小車煞車只滑 0.3～0.6 個車身；真車加上一般人 1.6 秒的反應時間，要 4～9 個車身才停得住。轉彎時車速慢，最大的一塊是「還沒踩煞車就跑掉的距離」，雷達可以把這一塊變得很小。</p><p><a href="exp4.html#realcar">看小車 vs 真車 →</a></p></div></li>
 <li class="ev task" data-tags="exp5a"><div class="when">11/18</div><div class="card"><div><span class="tag exp">實驗五-A</span></div><h3>五-A 每種情況跑 5 趟，一共 60 趟</h3><p>我們把五-A 的 12 種情況每種都跑 5 趟。緊急煞車 30 趟全部停住；超音波轉向 15 趟全部成功；光學雷達轉向卻一直撞到盒子。我們也讓小車站著不動，用捲尺放在 10、15、20、25、30 公分量雷達，誤差都不到 0.6 公分。</p></div></li>
@@ -100,7 +100,7 @@
 <li class="ev task" data-tags="exp6"><div class="when">11/19</div><div class="card"><div><span class="tag exp">實驗六</span></div><h3>實驗六每種情況跑 5 趟：只開前雷達 10 趟全撞</h3><p>我們把 24 宮格拼好，鋼彈站在轉彎點旁邊的死角。左轉、右轉各跑 5 趟：只開前雷達 10 趟都撞到鋼彈；三顆雷達全開 10 趟都停住、沒撞到。可是三顆雷達左轉要到 1.8～3.3 公分才停，非常驚險。</p></div></li>
 <li class="ev task" data-tags="exp6"><div class="when">11/19</div><div class="card"><div><span class="tag exp">實驗六</span></div><h3>鋼彈站多遠，雷達看得到？</h3><p>我們把鋼彈放在小車正前方 10～100 公分，每個距離量 5 次。60 公分以內每次都看得到，誤差不到 4 公分；70 公分只看到 1 次，80 公分以上都看不到。鋼彈只有 7 公分寬，太遠就只佔雷達的一小格。</p></div></li>
 <li class="ev fail" data-tags="fail exp6"><div class="when">11/19</div><div class="card"><div><span class="tag fail">失敗與修正</span></div><h3>三顆雷達太晚才停：改成轉彎前就先看旁邊</h3><p>遇到的問題：三顆雷達雖然沒撞，但旁邊的雷達只有在轉彎的時候才打開，而且只看中間一格，所以 2 公分左右才停。</p><p>改法：雷達改看中間 4 格、取最近的數字，轉彎前一格就先打開旁邊的雷達（改良版程式19）。左轉、右轉各 5 趟都沒撞，第一次停下來的距離平均變成 14 公分。</p></div></li>
-<li class="ev task" data-tags="exp5b"><div class="when">11/19</div><div class="card"><div><span class="tag exp">實驗五-B</span></div><h3>五-B 地圖 M1、M2 補跑：超音波沒看到鋼彈</h3><p>我們把地圖 M1 跑了 10 趟、M2 補了 4 趟，每種路障擺法光學雷達和超音波各跑一次。光學雷達每趟都躲開了。超音波有 2 趟完全沒看到鋼彈，直接撞上去，還有 1 趟撞到圓圓的白罐，換成紙盒就躲開了。我們本來猜是形狀害的，就讓小車站著不動，把紙盒、白罐、鐵罐、鋼彈一個一個放在前面量，結果超音波每次都看得到。所以不是形狀的關係，原因還在找。</p></div></li>
+<li class="ev task" data-tags="exp5b"><div class="when">11/19</div><div class="card"><div><span class="tag exp">實驗五-B</span></div><h3>五-B 地圖 M1、M2 補跑：超音波沒看到鋼彈</h3><p>我們把地圖 M1 跑了 10 趟、M2 補了 4 趟，每種路障擺法光學雷達和超音波各跑一次。光學雷達每趟都躲開了。超音波有 2 趟完全沒看到鋼彈，直接撞上去，還有 1 趟撞到圓圓的白罐，換成紙盒就躲開了。我們本來猜是形狀害的，就讓小車站著不動，把紙盒、白罐、鐵罐、鋼彈一個一個放在前面量，結果超音波每次都看得到。所以不是形狀的關係。跑起來為什麼會漏看，我們沒有找到原因。</p></div></li>
 <li class="ev task" data-tags="exp0"><div class="when">11/21</div><div class="card"><div><span class="tag exp">實驗零</span></div><h3>坐進真的車，畫出 A 柱死角地圖</h3><p>下午 1 點半到 3 點 41 分，我們在停車場用粉筆畫了 16 × 6 個大格子（每格 50 公分），爸爸、媽媽、哥哥、弟弟輪流坐駕駛座，另一個人一格一格站過去。看不到的格子連成一條斜斜的帶子，就在左邊 A 柱後面。F2、E2、D3、B4、A16 這 5 格四個人都看不到；坐得越低，看不清楚的格子越多。車子旁邊的後照鏡也會把人擋住。</p><div class="media-grid" style="margin-top:12px"><figure><img src="exp0_1121_d2_outside.jpg" alt="從外面看弟弟站在 D2" loading="lazy"><figcaption>從外面看：弟弟站在 D2</figcaption></figure><figure><img src="exp0_1121_d2_mom_eye.jpg" alt="從媽媽眼睛的位置看，弟弟躲在 A 柱後面" loading="lazy"><figcaption>從媽媽的眼睛看：弟弟整個躲在 A 柱後面</figcaption></figure></div><p style="margin-top:10px"><a href="exp0.html">看實驗零的死角地圖 →</a></p></div></li>
 <li class="ev turn" data-tags="exp0 turn"><div class="when">11/21</div><div class="card"><div><span class="tag star">轉折點</span><span class="tag exp">實驗零</span></div><h3>21 公分的假石虎，要 6 公尺外才看得到</h3><p>我們把 21 公分高的藍色罐子放在車頭正前方，從 0 到 300 公分的 6 格，媽媽全部看不到。拿捲尺往前拉，到大約 6 公尺才看得到。我們只用引擎蓋前緣算，以為 4 公尺就看得到，結果差了 2 公尺。媽媽往前探頭 10～20 公分，D2、E2、D3 三格裡有兩格變成看得到。原來石虎這麼矮，司機真的很難看到，小車的雷達才更重要。</p><p><a href="exp0.html#cat">看假石虎的側面圖 →</a></p></div></li>
 

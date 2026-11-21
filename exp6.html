@@ -36,13 +36,13 @@ td.na { color: var(--ink-2); font-weight: 400; }
 <nav class="topnav" aria-label="網站導覽">
   <div class="wrap">
     <a class="brand" href="index.html">零死角全生命守護</a>
-    <a href="story.html">研究故事</a><a href="plan.html">研究架構</a><a href="experiments.html" aria-current="page">六個實驗</a><a href="devlog.html">開發日誌</a><a href="data.html">數據中心</a><a href="qa.html">問題與回答</a><a href="code.html">程式</a><a href="about.html">關於我們</a>
+    <a href="story.html">研究故事</a><a href="plan.html">研究架構</a><a href="experiments.html" aria-current="page">全部實驗</a><a href="devlog.html">開發日誌</a><a href="data.html">數據中心</a><a href="qa.html">問題與回答</a><a href="code.html">程式</a><a href="about.html">關於我們</a>
   </div>
 </nav>
 
 <header class="dark page-head">
   <div class="wrap">
-    <div class="crumbs"><a href="experiments.html">六個實驗</a> ／ 實驗六</div>
+    <div class="crumbs"><a href="experiments.html">全部實驗</a> ／ 實驗六</div>
     <div class="eyebrow">實驗六・多雷達融合克服 A 柱死角（8/30 第一次，11/19 每種跑 5 趟）</div>
     <h1>轉彎時，看得到 A 柱後面的行人嗎？</h1>
     <p class="lead">汽車轉彎時，擋風玻璃旁邊的 A 柱會擋住行人。我們在小車左右各多裝一顆雷達，讓它轉彎時也看得到旁邊，看到行人就停下來等。</p>
@@ -83,7 +83,7 @@ td.na { color: var(--ink-2); font-weight: 400; }
   <div class="wrap">
     <div class="eyebrow">失敗與修正</div>
     <h2>我們怎麼一步一步改</h2>
-    <div class="grid"><div class="card ff"><div><span class="tag exp">8 月</span></div><p class="q"><b>問題：</b>轉彎時行人在斜前方，距離變長，側邊雷達來不及看到。</p><p class="a"><b>改法：</b>轉彎時把側邊的防護範圍放大到 25 公分（前面是 15 公分）。</p></div><div class="card ff"><div><span class="tag exp">8 月</span></div><p class="q"><b>問題：</b>讀雷達要花時間，小車一轉就超過 150 度。</p><p class="a"><b>改法：</b>改用 micro:bit 的 input.running_time() 碼表，只算「馬達真的在轉」的時間，轉滿 1050 毫秒才算轉了 90 度。</p></div><div class="card ff"><div><span class="tag exp">8 月</span></div><p class="q"><b>問題：</b>面板上的跑馬燈文字要跑 1 秒，小車來不及煞車。</p><p class="a"><b>改法：</b>改成瞬間顯示紅燈、綠燈的圖示，看到行人就能馬上停。</p></div><div class="card ff"><div><span class="tag exp">10 月</span></div><p class="q"><b>問題：</b>電池只剩一格，小車只會直走，一路撞上牆壁。</p><p class="a"><b>改法：</b>我們的轉彎和走格子都是靠時間算的，電不夠就全部亂掉。現在每次測試前一定先充飽電。</p></div><div class="card ff"><div><span class="tag exp">10 月</span></div><p class="q"><b>問題：</b>老師說：真的車不會每走一格就停，也不會原地轉 90 度。</p><p class="a"><b>改法：</b>把程式改成提早開始轉彎、外輪快內輪慢地畫弧線，遇到行人一樣停、看、聽。這一版還在校正、測試中。</p></div><div class="card ff"><div><span class="tag exp">11/19</span></div><p class="q"><b>問題：</b>三顆雷達雖然都沒撞到，但左轉要到 2 公分左右才停，差一點點就撞上。</p><p class="a"><b>改法：</b>雷達改看中間 4 格、取最近的數字，轉彎前一格就先打開旁邊的雷達（改良版程式19）。第一次停下來的距離從平均 2.4 公分變成 14.1 公分。</p></div></div>
+    <div class="grid"><div class="card ff"><div><span class="tag exp">8 月</span></div><p class="q"><b>問題：</b>轉彎時行人在斜前方，距離變長，側邊雷達來不及看到。</p><p class="a"><b>改法：</b>轉彎時把側邊的防護範圍放大到 25 公分（前面是 15 公分）。</p></div><div class="card ff"><div><span class="tag exp">8 月</span></div><p class="q"><b>問題：</b>讀雷達要花時間，小車一轉就超過 150 度。</p><p class="a"><b>改法：</b>改用 micro:bit 的 input.running_time() 碼表，只算「馬達真的在轉」的時間，轉滿 1050 毫秒才算轉了 90 度。</p></div><div class="card ff"><div><span class="tag exp">8 月</span></div><p class="q"><b>問題：</b>面板上的跑馬燈文字要跑 1 秒，小車來不及煞車。</p><p class="a"><b>改法：</b>改成瞬間顯示紅燈、綠燈的圖示，看到行人就能馬上停。</p></div><div class="card ff"><div><span class="tag exp">10 月</span></div><p class="q"><b>問題：</b>電池只剩一格，小車只會直走，一路撞上牆壁。</p><p class="a"><b>改法：</b>我們的轉彎和走格子都是靠時間算的，電不夠就全部亂掉。現在每次測試前一定先充飽電。</p></div><div class="card ff"><div><span class="tag exp">10 月</span></div><p class="q"><b>問題：</b>老師說：真的車不會每走一格就停，也不會原地轉 90 度。</p><p class="a"><b>改法：</b>把程式改成提早開始轉彎、外輪快內輪慢地畫弧線，遇到行人一樣停、看、聽。這一版校正到一半，沒有正式測完，放到以後想做。</p></div><div class="card ff"><div><span class="tag exp">11/19</span></div><p class="q"><b>問題：</b>三顆雷達雖然都沒撞到，但左轉要到 2 公分左右才停，差一點點就撞上。</p><p class="a"><b>改法：</b>雷達改看中間 4 格、取最近的數字，轉彎前一格就先打開旁邊的雷達（改良版程式19）。第一次停下來的距離從平均 2.4 公分變成 14.1 公分。</p></div></div>
   </div>
 </section><section id="teacher">
   <div class="wrap">
@@ -122,7 +122,7 @@ last_t = now</pre><div><h3>① 碼表：只算馬達真的在轉的時間</h3><p
     <p class="muted">數字直接來自我們的實驗數據總表，試算表更新，這裡也會跟著更新。</p>
 <details open><summary>打開表格</summary>
 <div class="scroll"><table id="raw6" data-gid="1841904194" data-fallback="raw6-fb"></table></div></details>
-<script type="application/json" id="raw6-fb">[["測試情境", "雷達配置", "障礙物位置", "避障策略", "實驗結果", "觀察現象"], ["十字路口左轉", "單顆前向雷達", "A柱死角(左前)", "無", "失敗 (撞擊)", "雷達直視前方，轉向時產生盲區直接撞上行人"], ["十字路口左轉", "三顆融合(左/中/右)", "A柱死角(左前)", "動態禮讓 (等待)", "成功", "左眼雷達提早發現，觸發煞車並「停看聽」等待行人通過後自動續行"]]</script><p class="note plain">寫程式的時候，三顆雷達的版本我們試了超過 10 次都成功；每一趟的詳細紀錄（偵測距離、等了幾秒）正在整理。小車到終點時面板會顯示愛心，代表任務完成。</p>
+<script type="application/json" id="raw6-fb">[["測試情境", "雷達配置", "障礙物位置", "避障策略", "實驗結果", "觀察現象"], ["十字路口左轉", "單顆前向雷達", "A柱死角(左前)", "無", "失敗 (撞擊)", "雷達直視前方，轉向時產生盲區直接撞上行人"], ["十字路口左轉", "三顆融合(左/中/右)", "A柱死角(左前)", "動態禮讓 (等待)", "成功", "左眼雷達提早發現，觸發煞車並「停看聽」等待行人通過後自動續行"]]</script><p class="note plain">寫程式的時候，三顆雷達的版本我們試了超過 10 次都成功；每種情況跑 5 趟的完整紀錄，在上面的<a href="#retest">11/19 重複測試</a>。小車到終點時面板會顯示愛心，代表任務完成。</p>
   </div>
 </section><section><div class="wrap"><div class="pager"><a href="exp5b.html"><span>← 上一個</span>實驗五-B：24 宮格</a><a class="next" href="story.html"><span>下一個 →</span>研究故事</a></div></div></section>
 

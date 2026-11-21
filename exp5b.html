@@ -55,7 +55,7 @@ td.na { color: var(--ink-2); font-weight: 400; }
   <div class="wrap">
     <a class="brand" href="index.html">零死角全生命守護</a>
     <a href="story.html">研究故事</a><a href="plan.html">研究架構</a>
-    <a href="experiments.html" aria-current="page">六個實驗</a>
+    <a href="experiments.html" aria-current="page">全部實驗</a>
     <a href="devlog.html">開發日誌</a>
     <a href="data.html">數據中心</a>
     <a href="qa.html">問題與回答</a>
@@ -66,7 +66,7 @@ td.na { color: var(--ink-2); font-weight: 400; }
 
 <header class="dark page-head">
   <div class="wrap">
-    <div class="crumbs"><a href="experiments.html">六個實驗</a> ／ 實驗五-B</div>
+    <div class="crumbs"><a href="experiments.html">全部實驗</a> ／ 實驗五-B</div>
     <div class="eyebrow">實驗五-B・開放空地（24 宮格）（5 月第一次，11/19 補跑 14 趟）</div>
     <h1>雷達看不到旁邊，小車怎麼記住危險、自己找路？</h1>
     <p class="lead">我們在地上鋪了 24 個格子，放上石虎、行人和小狗的路障。小車只有前面一顆雷達，轉彎時旁邊都是死角，它要靠「網格記憶」記住哪裡危險，再自己找出一條路。</p>
@@ -136,7 +136,7 @@ td.na { color: var(--ink-2); font-weight: 400; }
     <h2>再跑 14 趟：光學雷達每趟都躲開，超音波撞到 2 次</h2>
     <p>以前每張地圖只跑幾趟。11/19 我們把地圖 M1（起點 (0,0)、終點 (3,4)、(0,3) 是施工）跑了 10 趟，地圖 M2（起點 (3,0)、終點 (0,5)）補了 4 趟。每一種路障擺法，光學雷達和超音波各跑一次。路障一定要放在格子正中間，壓到線的那幾趟我們重跑，舊的不算。</p>
     <div class="charts"><figure class="chart"><figcaption class="ct">有沒有撞到（沒撞的趟數）</figcaption><div class="scroll"><table class="sg"><thead><tr><th>感測器</th><th>地圖 M1</th><th>地圖 M2</th></tr></thead><tbody><tr><th>光學雷達</th><td class="ok">5 / 5</td><td class="ok">2 / 2</td></tr><tr><th>超音波</th><td class="mid">3 / 5</td><td class="ok">2 / 2</td></tr></tbody></table></div><p class="cn">超音波在 M1 有 2 趟沒看到鋼彈（行人），直接撞上去。另外多跑的一趟撞到白罐，石虎換成紙盒才躲開，這趟我們也記下來了。</p></figure><figure class="chart"><figcaption class="ct">躲開時離路障多近（D，公分）</figcaption><div class="scroll"><table class="sg"><thead><tr><th>感測器</th><th>最近</th><th>最遠</th></tr></thead><tbody><tr><th>光學雷達</th><td class="ok">4.4</td><td class="ok">8.8</td></tr><tr><th>超音波</th><td class="bad">2</td><td class="mid">7</td></tr></tbody></table></div><p class="cn">超音波常常剩 2～3 公分才躲，差一點點就撞到。</p></figure></div>
-    <div class="note plain"><p style="margin:0 0 8px"><b>我們發現了什麼？</b></p><ol style="margin:0;padding-left:20px"><li>光學雷達 7 趟都躲開了，地圖 M1 的 5 趟路線跟 AI 事先預測的一模一樣。</li><li>超音波有 2 趟完全沒看到鋼彈。我們本來猜是鋼彈的形狀害的，就讓小車站著不動，把紙盒、白罐、鐵罐、鋼彈（正面、側面、放偏 3 公分、1～10 公分）一個一個放在前面量。結果超音波每一次都看得到！所以不是形狀的關係。我們現在猜跟「車子在動」有關，還在找原因。</li><li>量的時候要注意後面不能有牆。有一次超音波讀到 16 公分，其實是後面的牆，不是鋼彈。</li><li>小車要等路障進到 9 公分內才會躲，它記錄的路障格子有時候會差一格，因為小車以為自己在的格子跟真的位置差一點。</li></ol></div>
+    <div class="note plain"><p style="margin:0 0 8px"><b>我們發現了什麼？</b></p><ol style="margin:0;padding-left:20px"><li>光學雷達 7 趟都躲開了，地圖 M1 的 5 趟路線跟 AI 事先預測的一模一樣。</li><li>超音波有 2 趟完全沒看到鋼彈。我們本來猜是鋼彈的形狀害的，就讓小車站著不動，把紙盒、白罐、鐵罐、鋼彈（正面、側面、放偏 3 公分、1～10 公分）一個一個放在前面量。結果超音波每一次都看得到！所以不是形狀的關係。我們猜跟「車子在動」有關，可是沒有找到真正的原因，寫在研究的限制裡。</li><li>量的時候要注意後面不能有牆。有一次超音波讀到 16 公分，其實是後面的牆，不是鋼彈。</li><li>小車要等路障進到 9 公分內才會躲，它記錄的路障格子有時候會差一格，因為小車以為自己在的格子跟真的位置差一點。</li></ol></div>
     <div class="media-grid" style="margin-top:16px"><figure><video class="tall" src="exp5b_1119_m2_lidar.mp4" poster="exp5b_1119_m2_lidar_poster.jpg" controls preload="metadata" playsinline muted></video><figcaption>地圖 M2・光學雷達：躲開石虎和行人，從小狗盒子旁邊擦過去</figcaption></figure></div>
     <div class="thumbs" style="margin-top:14px"><button type="button" data-full="exp5b_1119_m1_setup.jpg" data-cap="地圖 M1 第 1 組路障：石虎 (1,1)、行人 (1,3)" aria-label="放大：地圖 M1 第 1 組路障"><img src="exp5b_1119_m1_setup.jpg" alt="地圖 M1 第 1 組路障" loading="lazy"></button><button type="button" data-full="exp5b_1119_m2_setup.jpg" data-cap="地圖 M2 第 5 組路障：石虎 (3,1)、行人 (1,1)、小狗 (1,4)" aria-label="放大：地圖 M2 第 5 組路障"><img src="exp5b_1119_m2_setup.jpg" alt="地圖 M2 第 5 組路障" loading="lazy"></button></div>
     <p style="margin-top:14px"><a href="https://docs.google.com/spreadsheets/d/13gkJgF3i0j1yPZTgs6Z5I28JxsanNAGIRpXyR6V_tt8/edit" target="_blank" rel="noopener">看完整紀錄和站著不動的測試（實驗數據總表）→</a></p>
@@ -171,7 +171,7 @@ td.na { color: var(--ink-2); font-weight: 400; }
       <div class="card ff">
         <div><span class="tag exp">10 月</span></div>
         <p class="q"><b>問題：</b>老師說真的車不會每格停、原地轉。我們改成弧線轉彎，第一次測試卻開不到終點。</p>
-        <p class="a"><b>改法：</b>出發前先把整條路線算好，選轉彎最少的路，再校正弧線的角度。正在測試中。</p>
+        <p class="a"><b>改法：</b>出發前先把整條路線算好，選轉彎最少的路，再校正弧線的角度。校正到一半，沒有正式測完，放到以後想做。</p>
       </div>
     </div>
     <figure style="max-width:300px;margin-top:20px"><video src="video11.mp4" controls preload="metadata"></video><figcaption>原本的開法：每走一格停一下、原地轉 90 度</figcaption></figure>
