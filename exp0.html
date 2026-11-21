@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>實驗零 真車 A 柱死角地圖｜零死角全生命守護</title>
+<meta name="description" content="實驗零：四個人輪流坐進真的車，量出 A 柱和後照鏡擋住的地方，還有 21 公分高的假石虎要多遠才看得到。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="site.css">
+<style>
+.hero-photo { margin-top: 28px; }
+.hero-photo img { width: 100%; max-height: 420px; object-fit: cover; border-radius: 12px; }
+.hero-photo figcaption { font-size: 14px; color: var(--night-text); margin-top: 6px; }
+.spec { display: grid; gap: 8px 18px; grid-template-columns: repeat(auto-fit, minmax(min(170px, 100%), 1fr)); background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 14px 18px; }
+.spec b { display: block; font-size: 13px; color: var(--ink-2); font-weight: 500; }
+.spec span { font-weight: 700; }
+table.t { width: 100%; border-collapse: collapse; background: var(--card); border-radius: 10px; overflow: hidden; font-size: 15px; }
+table.t th, table.t td { border: 1px solid var(--line); padding: 6px 10px; text-align: center; white-space: nowrap; }
+table.t th { background: var(--paper-2); font-weight: 500; color: var(--ink-2); font-size: 14px; }
+table.t td:first-child { text-align: left; font-weight: 700; }
+/* 死角地圖 */
+.picker { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 14px; }
+.picker button { font: inherit; font-size: 16px; padding: 8px 16px; border-radius: 22px; border: 1.5px solid var(--line); background: var(--card); color: var(--ink); cursor: pointer; }
+.picker button[aria-pressed="true"] { background: var(--night); border-color: var(--night); color: #F6F3EC; }
+.picker button small { font-size: 13px; opacity: .75; }
+.mapbox { display: grid; gap: 22px; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); align-items: start; }
+@media (max-width: 860px) { .mapbox { grid-template-columns: 1fr; } }
+.mapsvg { width: 100%; height: auto; display: block; background: var(--card); border: 1px solid var(--line); border-radius: 12px; touch-action: manipulation; }
+.mapsvg text { font-family: "Noto Sans TC", sans-serif; }
+.side h3 { font-size: 22px; margin-bottom: 4px; }
+.counts { display: flex; gap: 10px; flex-wrap: wrap; margin: 10px 0 14px; }
+.counts div { flex: 1 1 80px; text-align: center; border-radius: 10px; padding: 8px 4px; }
+.counts b { display: block; font-size: 28px; line-height: 1.2; }
+.counts span { font-size: 13px; }
+.c-x { background: var(--bad); color: #fff; } .c-t { background: var(--warn-bg); color: var(--warn); } .c-o { background: var(--ok-bg); color: var(--ok); }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: 14px; margin: 10px 0 0; }
+.legend span { display: inline-flex; align-items: center; gap: 6px; }
+.sw { width: 20px; height: 20px; border-radius: 4px; display: inline-grid; place-items: center; font-size: 13px; font-weight: 700; border: 1px solid var(--line); }
+.sw.o { background: var(--ok-bg); color: var(--ok); } .sw.t { background: var(--warn-bg); color: var(--warn); } .sw.x { background: var(--bad); color: #fff; border-color: var(--bad); }
+.lean { display: flex; align-items: center; gap: 10px; background: var(--sky-bg); border-radius: 10px; padding: 10px 14px; margin-top: 12px; font-size: 15px; cursor: pointer; }
+.lean input { width: 22px; height: 22px; accent-color: var(--sky); flex: none; }
+.lean[hidden] { display: none; }
+.cellinfo { min-height: 26px; font-size: 15px; color: var(--ink-2); margin-top: 8px; }
+/* 比一比 */
+.bars { display: grid; gap: 12px; }
+.bar-row { display: grid; grid-template-columns: 112px 1fr; gap: 10px; align-items: center; }
+.bar-row .who { font-weight: 700; line-height: 1.3; }
+.bar-row .who small { display: block; font-weight: 400; font-size: 13px; color: var(--ink-2); }
+.bar { display: flex; height: 34px; background: var(--paper-2); border-radius: 6px; overflow: hidden; }
+.bar i { display: flex; align-items: center; justify-content: center; font-style: normal; font-weight: 700; font-size: 14px; min-width: 0; }
+.bar i.x { background: var(--bad); color: #fff; } .bar i.t { background: var(--gold); color: var(--ink); }
+/* 後區 */
+.backs { display: grid; gap: 14px; grid-template-columns: repeat(4, minmax(0, 1fr)); }
+@media (max-width: 700px) { .backs { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.back { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 12px; text-align: center; }
+.back h3 { font-size: 17px; margin: 0; }
+.back .who { font-size: 13px; color: var(--ink-2); margin-bottom: 6px; }
+.back table { width: auto; margin: 0 auto; border-collapse: separate; border-spacing: 3px; background: none; border: 0; }
+.back th { font-size: 12px; color: var(--ink-2); font-weight: 500; padding: 0 3px; background: none; border: 0; width: auto; }
+.back td { width: 38px; height: 26px; padding: 0; border: 0; text-align: center; vertical-align: middle; border-radius: 4px; font-weight: 700; font-size: 14px; }
+.back td.o { background: var(--ok-bg); color: var(--ok); } .back td.t { background: var(--warn-bg); color: var(--warn); } .back td.x { background: var(--bad); color: #fff; }
+.back td.carside { width: 16px; background: #c9d2d6; border-radius: 0 6px 6px 0; }
+/* 照片對照 */
+.pair { display: grid; gap: 12px; grid-template-columns: repeat(2, minmax(0, 1fr)); background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 14px; }
+@media (max-width: 640px) { .pair { grid-template-columns: 1fr; } }
+.pair + .pair { margin-top: 18px; }
+.pair .ph { position: relative; }
+.pair button { padding: 0; border: 0; background: none; cursor: zoom-in; width: 100%; display: block; }
+.pair img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 8px; }
+.pair .lab { position: absolute; left: 8px; top: 8px; background: rgba(30, 42, 34, .82); color: #fff; font-size: 14px; padding: 2px 10px; border-radius: 12px; }
+.pair .lab.bad { background: var(--bad); }
+.pair .lab.ok { background: var(--ok); }
+.pair figcaption { grid-column: 1 / -1; font-size: 15px; }
+.tall-grid { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(min(200px, 100%), 1fr)); }
+.tall-grid button { padding: 0; border: 0; background: none; cursor: zoom-in; display: block; width: 100%; }
+.tall-grid img { width: 100%; aspect-ratio: 3 / 4; object-fit: cover; border-radius: 8px; }
+.tall-grid figcaption { font-size: 14px; color: var(--ink-2); margin-top: 4px; }
+.found-list { counter-reset: f; list-style: none; padding: 0; margin: 0; display: grid; gap: 12px; }
+.found-list li { counter-increment: f; background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px 14px 58px; position: relative; }
+.found-list li::before { content: counter(f); position: absolute; left: 14px; top: 13px; width: 32px; height: 32px; border-radius: 16px; background: var(--bad); color: #fff; font-weight: 700; text-align: center; line-height: 32px; }
+.pend { color: var(--ink-2); border: 1px dashed var(--line); border-radius: 4px; padding: 0 5px; font-size: .92em; }
+</style>
+</head>
+<body>
+
+<nav class="topnav" aria-label="網站導覽">
+  <div class="wrap">
+    <a class="brand" href="index.html">零死角全生命守護</a>
+    <a href="story.html">研究故事</a><a href="plan.html">研究架構</a><a href="experiments.html" aria-current="page">六個實驗</a><a href="devlog.html">開發日誌</a><a href="data.html">數據中心</a><a href="qa.html">問題與回答</a><a href="code.html">程式</a><a href="about.html">關於我們</a>
+  </div>
+</nav>
+
+<header class="dark page-head">
+  <div class="wrap">
+    <div class="crumbs"><a href="experiments.html">六個實驗</a> ／ 實驗零</div>
+    <div class="eyebrow">實驗零・真車 A 柱死角地圖（2026/11/21 實測）</div>
+    <h1>坐在駕駛座，A 柱到底擋住哪裡？</h1>
+    <p class="lead">我們在停車場用粉筆畫了 50 公分的大格子，四個人輪流坐進真的車，另一個人一格一格站過去，駕駛喊「看得到」「看一半」還是「看不到」。兩個多小時，我們把真車的死角畫出來了。</p>
+    <div class="kpis"><div class="kpi"><b>4 位駕駛</b><span>爸爸、媽媽，還有我們兩個（參考）</span></div><div class="kpi"><b>96 格 × 4</b><span>車頭前面 8 公尺寬、3 公尺深</span></div><div class="kpi"><b>5 格</b><span>四個人都完全看不到</span></div><div class="kpi"><b>約 6 公尺</b><span>21 公分的假石虎，要這麼遠才看得到</span></div></div>
+    <figure class="hero-photo"><button type="button" data-full="exp0_1121_team.jpg" data-cap="實驗零的場地：停車場上的粉筆格子和我們的車" aria-label="放大：實驗零的場地" style="padding:0;border:0;background:none;cursor:zoom-in;width:100%"><img src="exp0_1121_team.jpg" alt="停車場地上畫滿粉筆格子，我們站在車子前面" loading="eager"></button><figcaption>11/21 下午，停車場上的粉筆格子和我們的車（Luxgen 7 休旅車）。</figcaption></figure>
+  </div>
+</header>
+<div class="wrap"><nav class="toc" aria-label="本頁目錄"><a href="#how">怎麼做</a><a href="#map">死角地圖</a><a href="#compare">四個人比一比</a><a href="#back">車子旁邊</a><a href="#lean">往前探頭</a><a href="#cat">假石虎</a><a href="#photos">照片證據</a><a href="#found">我們發現</a><a href="#next">接下來</a><a href="#raw">原始紀錄</a></nav></div>
+
+<section id="how">
+  <div class="wrap">
+    <div class="eyebrow">怎麼做</div>
+    <h2>我們的做法</h2>
+    <div class="cols">
+      <ol class="steps">
+        <li>在車頭前面用粉筆畫 16 欄 × 6 排的格子，每格 50 × 50 公分。靠車頭那排是 A，最遠是 F；第 8、9 欄中間對準車子正中間。</li>
+        <li>駕駛坐好、頭不動，先量眼睛在哪裡：離保險桿多遠、離中線多遠、離地多高。</li>
+        <li>一個人站到格子正中間，駕駛喊：O 看得到整張臉、△ 只看到一部分、X 完全被擋住，我們記在紀錄紙上。</li>
+        <li>爸爸、媽媽、哥哥、弟弟輪流當駕駛。我們兩個還不會開車，所以我們的結果只當作「坐得比較低的駕駛」參考。</li>
+        <li>再量車子左邊的「後區」、身體往前探頭會不會比較好，最後用 21 公分高的藍色罐子當假石虎。</li>
+      </ol>
+      <div>
+        <div class="spec">
+          <div><b>日期・時間</b><span>11/21（六）13:30–15:41</span></div>
+          <div><b>天氣</b><span>多雲</span></div>
+          <div><b>車子</b><span>Luxgen 7 休旅車</span></div>
+          <div><b>車寬・車長</b><span>193 cm・480 cm</span></div>
+          <div><b>A 柱外側寬</b><span>14 cm</span></div>
+          <div><b>引擎蓋前緣離地</b><span>95 cm</span></div>
+          <div><b>駕駛車窗下緣離地</b><span>118 cm</span></div>
+          <div><b>車窗</b><span>駕駛座車窗全程打開</span></div>
+        </div>
+        <h3 style="margin-top:20px">駕駛的眼睛在哪裡</h3>
+        <div class="scroll"><table class="t">
+          <tr><th>駕駛</th><th>身高</th><th>離保險桿（往後）</th><th>離中線（往左）</th><th>離地</th></tr>
+          <tr><td>爸爸</td><td>175</td><td>219</td><td>50</td><td>142</td></tr>
+          <tr><td>媽媽</td><td>152</td><td>214</td><td>43</td><td>134</td></tr>
+          <tr><td>哥哥（參考）</td><td>145</td><td>210</td><td>40</td><td>131</td></tr>
+          <tr><td>弟弟（參考）</td><td>137</td><td>210</td><td>38</td><td>128</td></tr>
+        </table></div>
+        <p class="muted" style="font-size:14px;margin-top:6px">單位都是公分。媽媽離中線是分兩段量的：80 減 37＝43。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="map" class="alt">
+  <div class="wrap">
+    <div class="eyebrow">死角地圖（可以點）</div>
+    <h2>從天空往下看：每位駕駛看不到哪裡？</h2>
+    <p>下面的圖是照真的大小畫的：灰色是車子，藍點是駕駛的眼睛，格子是我們畫在地上的粉筆格。紅色的扇形是從眼睛看出去，被擋住的 X 格子所在的方向。點上面的按鈕換駕駛，也可以點格子看是哪一格。</p>
+    <div class="picker" role="group" aria-label="選駕駛">
+      <button type="button" data-who="dad" aria-pressed="false">爸爸</button>
+      <button type="button" data-who="mom" aria-pressed="true">媽媽</button>
+      <button type="button" data-who="big" aria-pressed="false">哥哥 <small>參考</small></button>
+      <button type="button" data-who="small" aria-pressed="false">弟弟 <small>參考</small></button>
+      <button type="button" data-who="sum" aria-pressed="false">四個人疊起來</button>
+    </div>
+    <div class="mapbox">
+      <div>
+        <svg class="mapsvg" id="topmap" viewBox="-440 -350 880 880" role="img" aria-label="從上面看的車子和前方格子，顯示駕駛看得到和看不到的格子"></svg>
+        <div class="legend" id="legend"></div>
+      </div>
+      <div class="side">
+        <h3 id="who-title">媽媽駕駛</h3>
+        <p class="muted" id="who-sub"></p>
+        <div class="counts" id="counts"></div>
+        <p id="who-text"></p>
+        <label class="lean" id="lean-toggle"><input type="checkbox" id="lean-cb"> 媽媽身體往前探頭 10–20 公分（只重看了 D2、E2、D3）</label>
+        <p class="cellinfo" id="cellinfo" aria-live="polite">點一個格子看看。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="compare">
+  <div class="wrap">
+    <div class="eyebrow">四個人比一比</div>
+    <h2>坐得越低，看不清楚的格子越多</h2>
+    <p>前方一共 96 格。紅色是完全看不到（X），黃色是只看到一部分（△），兩個加起來就是「看不清楚」。</p>
+    <div class="bars" id="bars"></div>
+    <div class="note plain">爸爸最高，可是 X 最多（14 格），因為他的眼睛比較靠左（離中線 50 公分），整條死角帶往左移了大約一欄，剛好壓到最左邊的格子。坐得低的我們，X 比較少，但是 △ 多很多：很多格子只看得到頭頂。</div>
+  </div>
+</section>
+
+<section id="back" class="alt">
+  <div class="wrap">
+    <div class="eyebrow">車子旁邊（B 柱加做區）</div>
+    <h2>車頭旁邊的人，連後照鏡都會擋住</h2>
+    <p>我們在車子左邊再畫兩欄（第 5、6 欄），從車頭往後量 8 格。後1 到後4 是駕駛直接往左前方看，後5 到後8 是看後照鏡再轉頭。</p>
+    <div class="backs" id="backs"></div>
+    <p class="note">最靠近車頭的後1 到後3，四個人都有看不清楚的格子。弟弟坐駕駛座時我們有補拍照片：哥哥站在後2-5，頭和臉全被左邊的後照鏡擋住，這格應該是 X。後照鏡本身也是一個死角！</p>
+  </div>
+</section>
+
+<section id="lean">
+  <div class="wrap narrow">
+    <div class="eyebrow">往前探頭</div>
+    <h2>身體往前傾一點，死角就變小</h2>
+    <p>媽媽坐好時看不到 D2、E2、D3。我們請媽媽身體往前探 10 到 20 公分，再看一次：</p>
+    <div class="scroll"><table class="t" style="max-width:460px">
+      <tr><th>格子</th><th>坐好</th><th>往前探頭</th></tr>
+      <tr><td>D2</td><td><span class="sw x">X</span></td><td><span class="sw t">△</span> 看到一部分</td></tr>
+      <tr><td>E2</td><td><span class="sw x">X</span></td><td><span class="sw o">O</span> 看得到</td></tr>
+      <tr><td>D3</td><td><span class="sw x">X</span></td><td><span class="sw o">O</span> 看得到</td></tr>
+    </table></div>
+    <p style="margin-top:14px">3 格裡有 2 格變成看得到。因為頭移動了，A 柱擋住的方向也跟著變。所以轉彎前「往前探頭、多看一眼」真的有用。在上面的死角地圖選「媽媽」，勾「往前探頭」就看得到變化。</p>
+    <figure class="pair" style="margin-top:18px">
+      <div class="ph"><button type="button" data-full="exp0_1121_lean_outside.jpg" data-cap="探頭測試：弟弟站在格子裡，媽媽坐在駕駛座" aria-label="放大：探頭測試，從外面看"><img src="exp0_1121_lean_outside.jpg" alt="弟弟站在格子裡，媽媽坐在駕駛座" loading="lazy"></button><span class="lab">從外面看</span></div>
+      <div class="ph"><button type="button" data-full="exp0_1121_lean_mom.jpg" data-cap="媽媽身體往前探，從 A 柱旁邊看出去" aria-label="放大：媽媽往前探頭"><img src="exp0_1121_lean_mom.jpg" alt="媽媽身體往前探，看向車子左前方" loading="lazy"></button><span class="lab ok">媽媽往前探頭</span></div>
+      <figcaption>媽媽身體往前傾，從 A 柱旁邊看出去。</figcaption>
+    </figure>
+  </div>
+</section>
+
+<section id="cat" class="alt">
+  <div class="wrap">
+    <div class="eyebrow">假石虎</div>
+    <h2>21 公分高的罐子，要離車頭 6 公尺才看得到</h2>
+    <p>我們用一個 21 公分高的藍色罐子當作石虎（比我們的石虎模型還高），放在第 8 欄，也就是車頭正前方，媽媽坐在駕駛座看。</p>
+    <figure style="margin:18px 0 0">
+      <svg class="mapsvg" id="sideview" viewBox="-300 -200 1000 250" role="img" aria-label="從側面看：駕駛眼睛的視線越過引擎蓋，車頭前面 0 到 300 公分的罐子都看不到，大約 600 公分才看得到"></svg>
+      <figcaption class="muted" style="font-size:14px;margin-top:6px">從旁邊看（照真的比例畫，上下和左右一樣大）。車子的形狀是示意，眼睛位置、引擎蓋前緣 95 公分、罐子 21 公分和 600 公分都是實際量的。</figcaption>
+    </figure>
+    <div class="grid" style="margin-top:20px">
+      <div class="card"><span class="tag fail">A8 到 F8</span><h3>0–300 公分：6 格全部 X</h3><p class="muted">罐子放在車頭正前方，從最近一格到最遠一格，媽媽都完全看不到。</p></div>
+      <div class="card"><span class="tag fix">拿捲尺往前</span><h3>大約 600 公分才看得到</h3><p class="muted">我們拿捲尺慢慢往前拉，罐子要到離車頭大約 6 公尺，媽媽才開始看得到。</p></div>
+      <div class="card"><span class="tag star">算的和量的不一樣</span><h3>只算引擎蓋前緣：大約 4 公尺</h3><p class="muted">從眼睛（134 公分高）畫一條線經過引擎蓋前緣（95 公分高），大約 4 公尺就會碰到 21 公分高的罐子頂。可是實際要 6 公尺，所以我們猜引擎蓋越往後越高，擋住更多。</p></div>
+    </div>
+    <div class="tall-grid" style="margin-top:20px">
+      <figure><button type="button" data-full="exp0_1121_can.jpg" data-cap="21 公分高的藍色罐子，當作石虎" aria-label="放大：藍色罐子"><img src="exp0_1121_can.jpg" alt="藍色罐子" loading="lazy"></button><figcaption>21 公分高的藍色罐子。</figcaption></figure>
+      <figure><button type="button" data-full="exp0_1121_can_col8.jpg" data-cap="罐子放在第 8 欄，車頭正前方" aria-label="放大：罐子放在第 8 欄"><img src="exp0_1121_can_col8.jpg" alt="罐子放在車頭正前方的格子裡" loading="lazy"></button><figcaption>放在第 8 欄，車頭正前方。</figcaption></figure>
+      <figure><button type="button" data-full="exp0_1121_tape_6m.jpg" data-cap="用捲尺往前量，大約 6 公尺才看得到" aria-label="放大：捲尺量到 6 公尺"><img src="exp0_1121_tape_6m.jpg" alt="捲尺從車頭拉到罐子" loading="lazy"></button><figcaption>用捲尺往前量到大約 6 公尺。</figcaption></figure>
+      <figure><button type="button" data-full="exp0_1121_crouch.jpg" data-cap="弟弟蹲下來當石虎，媽媽也看不到" aria-label="放大：弟弟蹲下"><img src="exp0_1121_crouch.jpg" alt="弟弟蹲在車子左前方的格子裡" loading="lazy" style="object-position:0% 60%"></button><figcaption>弟弟蹲在左前方，媽媽也看不到（X）。那一格是哪一格<span class="pend">待確認</span></figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<section id="photos">
+  <div class="wrap">
+    <div class="eyebrow">照片證據</div>
+    <h2>從外面看 vs. 從駕駛的眼睛看</h2>
+    <p>我們把手機放在駕駛眼睛的位置拍照，跟從外面拍的照片放在一起比。點照片可以放大。</p>
+    <figure class="pair">
+      <div class="ph"><button type="button" data-full="exp0_1121_d2_outside.jpg" data-cap="從外面看：弟弟站在 D2" aria-label="放大：從外面看 D2"><img src="exp0_1121_d2_outside.jpg" alt="弟弟站在車子左前方的格子裡" loading="lazy"></button><span class="lab">從外面看</span></div>
+      <div class="ph"><button type="button" data-full="exp0_1121_d2_mom_eye.jpg" data-cap="從媽媽眼睛的位置看：弟弟整個躲在 A 柱後面" aria-label="放大：媽媽眼睛位置看 D2"><img src="exp0_1121_d2_mom_eye.jpg" alt="從駕駛座看出去，左邊 A 柱擋住，看不到弟弟" loading="lazy"></button><span class="lab bad">媽媽的眼睛：看不到</span></div>
+      <figcaption><b>D2：</b>弟弟明明站在車子左前方，從媽媽眼睛的位置看，他整個人躲在左邊 A 柱後面。</figcaption>
+    </figure>
+    <figure class="pair">
+      <div class="ph"><button type="button" data-full="exp0_1121_back25_outside.jpg" data-cap="後2-5：弟弟站在車頭左邊" aria-label="放大：後2-5 第一張"><img src="exp0_1121_back25_outside.jpg" alt="從駕駛座看左邊，後照鏡擋住弟弟的臉" loading="lazy"></button><span class="lab">後2-5</span></div>
+      <div class="ph"><button type="button" data-full="exp0_1121_back25_mom_eye.jpg" data-cap="後2-5：弟弟的臉被後照鏡擋住一半" aria-label="放大：後2-5 第二張"><img src="exp0_1121_back25_mom_eye.jpg" alt="後照鏡擋住弟弟的臉" loading="lazy"></button><span class="lab bad">臉被後照鏡擋住</span></div>
+      <figcaption><b>後2-5（媽媽的眼睛位置）：</b>弟弟站在車頭左邊，臉被左邊的後照鏡擋住一半。</figcaption>
+    </figure>
+    <h3 style="margin-top:28px">弟弟坐駕駛座：哥哥被後照鏡擋住</h3>
+    <div class="thumbs" style="grid-template-columns:repeat(auto-fill,minmax(min(220px,100%),1fr))">
+      <button type="button" data-full="exp0_1121_kid_eye_1.jpg" data-cap="弟弟眼睛的位置往左前看 1" aria-label="放大：弟弟眼睛位置 1"><img src="exp0_1121_kid_eye_1.jpg" alt="從弟弟眼睛的位置看左前方" loading="lazy" style="aspect-ratio:4/3"></button>
+      <button type="button" data-full="exp0_1121_kid_eye_2.jpg" data-cap="弟弟眼睛的位置往左前看 2" aria-label="放大：弟弟眼睛位置 2"><img src="exp0_1121_kid_eye_2.jpg" alt="從弟弟眼睛的位置看左前方" loading="lazy" style="aspect-ratio:4/3"></button>
+      <button type="button" data-full="exp0_1121_kid_eye_3.jpg" data-cap="弟弟眼睛的位置往左前看 3" aria-label="放大：弟弟眼睛位置 3"><img src="exp0_1121_kid_eye_3.jpg" alt="從弟弟眼睛的位置看左前方" loading="lazy" style="aspect-ratio:4/3"></button>
+      <button type="button" data-full="exp0_1121_kid_eye_4.jpg" data-cap="弟弟眼睛的位置往左前看 4" aria-label="放大：弟弟眼睛位置 4"><img src="exp0_1121_kid_eye_4.jpg" alt="從弟弟眼睛的位置看左前方" loading="lazy" style="aspect-ratio:4/3"></button>
+    </div>
+    <p class="muted" style="margin-top:8px">坐得低，眼睛剛好和後照鏡差不多高。站在車頭左邊的哥哥，幾乎整個被後照鏡擋住。</p>
+  </div>
+</section>
+
+<section id="found" class="alt">
+  <div class="wrap narrow">
+    <div class="eyebrow">我們發現</div>
+    <h2>實驗零告訴我們的事</h2>
+    <ol class="found-list">
+      <li><b>死角是一條斜斜的帶子。</b>前方看不到的 X 格子排成一條，從車頭左邊往左前方延伸，剛好是左邊 A 柱擋住的方向。站在這條帶子裡的人，不管離車子 50 公分還是 3 公尺都可能看不到。</li>
+      <li><b>有 5 格四個人都看不到：</b><span id="allx">F2、E2、D3、B4、A16</span>。A16 在車頭右邊，是右邊 A 柱擋住的。</li>
+      <li><b>坐得越低，看不清楚越多。</b>△ 的格子：爸爸 8 格、媽媽 3 格、哥哥 15 格、弟弟 19 格。</li>
+      <li><b>眼睛的位置會讓死角整條移動。</b>爸爸的眼睛比較靠左，他的死角帶往左移了大約一欄。</li>
+      <li><b>後照鏡也會擋人。</b>車頭旁邊的後1 到後3，四個人都有看不清楚的格子。</li>
+      <li><b>往前探頭有用。</b>媽媽往前探頭 10–20 公分，D2、E2、D3 三格裡有兩格變成看得到。</li>
+      <li><b>矮的動物在車頭正前方很難看到。</b>21 公分高的罐子放在車頭前 3 公尺內都看不到，要大約 6 公尺才看得到。石虎這麼矮，司機很可能根本看不到牠。</li>
+    </ol>
+  </div>
+</section>
+
+<section id="next">
+  <div class="wrap narrow">
+    <div class="eyebrow">接下來</div>
+    <h2>把真車的死角，搬到小車的場地上</h2>
+    <div class="reflect">
+      <p class="open">「原來死角不是一個點，是一整條帶子。」</p>
+      <p><b>實驗六的行人要站哪裡：</b>我們要把四個人都看不到的格子，照比例縮小畫到小車的 24 宮格上，讓鋼彈行人站在真正的死角裡，再看三顆雷達能不能發現。</p>
+      <p><b>小車的雷達要看哪裡：</b>死角帶在眼睛左前方的方向，左邊雷達斜放的角度也可以照這個方向來調。</p>
+      <p><b>還想再量：</b>換一台轎車比比看、量弟弟蹲下那一格的位置和高度<span class="pend">待測</span>。</p>
+    </div>
+  </div>
+</section>
+
+<section id="raw" class="alt">
+  <div class="wrap">
+    <div class="eyebrow">原始紀錄</div>
+    <h2>手寫紀錄和數據表</h2>
+    <p>每一格的 O、△、X 都整理在我們的實驗數據總表「實驗零_1121」分頁裡。手寫紀錄沒寫 X 或 △ 的格子，都當作 O。</p>
+    <p><a href="https://docs.google.com/spreadsheets/d/13gkJgF3i0j1yPZTgs6Z5I28JxsanNAGIRpXyR6V_tt8/edit#gid=1006097473" target="_blank" rel="noopener">打開實驗零的數據表 →</a></p>
+    <div class="tall-grid" style="max-width:520px;margin-top:16px">
+      <figure><button type="button" data-full="exp0_1121_kid_sheet.jpg" data-cap="弟弟駕駛時的後區手寫紀錄" aria-label="放大：手寫紀錄"><img src="exp0_1121_kid_sheet.jpg" alt="手寫的 O 和三角形紀錄" loading="lazy"></button><figcaption>弟弟駕駛時的後區手寫紀錄。</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<section><div class="wrap"><div class="pager"><a href="experiments.html"><span>← 回到</span>六個實驗</a><a class="next" href="exp1.html"><span>下一個 →</span>實驗一：夜盲症測試</a></div></div></section>
+
+<footer><div class="wrap">南投縣光華國小　蔡秉澔、蔡秉宸　指導老師：洪瑞成</div></footer>
+
+<script src="site.js"></script>
+<script>
+(function () {
+  var NS = 'http://www.w3.org/2000/svg';
+  var ROWS = 'ABCDEF';
+  // 實測資料（11/21 紀錄紙，沒寫 X 或 △ 的格子都當 O）
+  var D = {
+    dad:   { name: '爸爸', h: 175, back: 219, left: 50, eye: 142, walker: '弟弟',
+             X: 'F1 F2 E1 E2 D1 D2 D3 C2 C3 C4 B3 B4 A5 A16', T: 'F3 E3 C1 B2 B5 A3 A4 A15',
+             bX: '後1-5 後1-6 後2-5 後2-6 後7-5', bT: '後3-6 後6-5' },
+    mom:   { name: '媽媽', h: 152, back: 214, left: 43, eye: 134, walker: '弟弟',
+             X: 'A4 A5 B4 C3 C4 D2 D3 E2 E3 F1 F2 A16', T: 'B5 A15 B16',
+             bX: '後1-6 後7-5 後8-5', bT: '後2-5 後2-6 後3-6' },
+    big:   { name: '哥哥', ref: 1, h: 145, back: 210, left: 40, eye: 131, walker: '弟弟',
+             X: 'F1 F2 E2 E3 D2 D3 C3 B4 A4 A16', T: 'F3 E1 D1 D4 C1 C2 C4 B1 B2 B3 A1 A2 A3 A5 A15',
+             bX: '後1-6', bT: '後1-5 後2-5 後2-6 後3-6 後7-5' },
+    small: { name: '弟弟', ref: 1, h: 137, back: 210, left: 38, eye: 128, walker: '哥哥',
+             X: 'F2 F3 E2 E3 D3 C4 B4 A16', T: 'F1 E1 E4 D1 D2 D4 C1 C2 C3 C5 B1 B2 B3 B16 A2 A3 A4 A5 A6',
+             bX: '', bT: '後1-5 後1-6 後2-5 後2-6 後3-6' }
+  };
+  var ORDER = ['dad', 'mom', 'big', 'small'];
+  var LEAN = { D2: 'T', E2: 'O', D3: 'O' };
+  function set(s) { var o = {}; (s ? s.split(' ') : []).forEach(function (k) { o[k] = 1; }); return o; }
+  ORDER.forEach(function (k) { var d = D[k]; d.xs = set(d.X); d.ts = set(d.T); d.bxs = set(d.bX); d.bts = set(d.bT); });
+  function state(d, key, lean) {
+    if (lean && LEAN[key]) return LEAN[key];
+    return d.xs[key] ? 'X' : d.ts[key] ? 'T' : 'O';
+  }
+  // 位置（公分）：x 往右為正、0＝車子中線；f 往前為正、0＝保險桿
+  function cellCenter(r, c) { return { x: (c - 8.5) * 50, f: (r + 0.5) * 50 }; }
+  function eyePos(d) { return { x: -d.left, f: -d.back }; }
+  function angleLeft(d, r, c) { var p = cellCenter(r, c), e = eyePos(d); return Math.atan2(e.x - p.x, p.f - e.f) * 180 / Math.PI; }
+
+  function el(name, attrs, parent, text) {
+    var n = document.createElementNS(NS, name);
+    for (var a in attrs) n.setAttribute(a, attrs[a]);
+    if (text != null) n.textContent = text;
+    if (parent) parent.appendChild(n);
+    return n;
+  }
+  var COL = { O: ['#E5F4E4', '#2F7A4F'], T: ['#F9EEDA', '#8A5A00'], X: ['#A23B2A', '#FFFFFF'] };
+  var HEAT = ['#FFFFFF', '#F6D9D2', '#E7A596', '#C8644F', '#A23B2A'];
+  var SYM = { O: 'O', T: '△', X: 'X' };
+
+  var svg = document.getElementById('topmap');
+  var cur = 'mom', lean = false;
+  var info = document.getElementById('cellinfo');
+
+  function drawMap() {
+    while (svg.firstChild) svg.removeChild(svg.firstChild);
+    var d = D[cur], sum = cur === 'sum';
+    // 地面
+    el('rect', { x: -440, y: -350, width: 880, height: 880, fill: '#F1EEE6' }, svg);
+    // 前方格子
+    var g = el('g', {}, svg);
+    for (var r = 0; r < 6; r++) for (var c = 1; c <= 16; c++) {
+      var key = ROWS[r] + c, x = (c - 9) * 50, y = -(r + 1) * 50, fill, tc, txt;
+      if (sum) {
+        var n = 0; ORDER.forEach(function (o) { if (D[o].xs[key]) n++; });
+        fill = HEAT[n]; tc = n > 2 ? '#fff' : '#1E2A22'; txt = n ? String(n) : '';
+      } else {
+        var s = state(d, key, lean && cur === 'mom'); fill = COL[s][0]; tc = COL[s][1]; txt = SYM[s];
+      }
+      var cell = el('g', { 'data-key': key, style: 'cursor:pointer' }, g);
+      el('rect', { x: x + 1.5, y: y + 1.5, width: 47, height: 47, rx: 4, fill: fill, stroke: '#D8D1C2', 'stroke-width': 1 }, cell);
+      el('text', { x: x + 25, y: y + 33, 'text-anchor': 'middle', 'font-size': 22, 'font-weight': 700, fill: tc }, cell, txt);
+    }
+    // 欄號和排名
+    for (c = 1; c <= 16; c++) el('text', { x: (c - 9) * 50 + 25, y: -312, 'text-anchor': 'middle', 'font-size': 15, fill: '#5C665E' }, svg, c);
+    for (r = 0; r < 6; r++) el('text', { x: -422, y: -(r + 1) * 50 + 31, 'text-anchor': 'middle', 'font-size': 17, 'font-weight': 700, fill: '#5C665E' }, svg, ROWS[r]);
+    el('text', { x: 432, y: -312, 'text-anchor': 'end', 'font-size': 13, fill: '#5C665E' }, svg, '欄');
+    // 中線
+    el('line', { x1: 0, y1: -330, x2: 0, y2: 0, stroke: '#9A520B', 'stroke-width': 2, 'stroke-dasharray': '8 6' }, svg);
+    // 後區格子（左邊第 5、6 欄）
+    for (var k = 1; k <= 8; k++) for (c = 5; c <= 6; c++) {
+      var bk = '後' + k + '-' + c, bx = (c - 9) * 50, by = (k - 1) * 50, bf, bt, btx;
+      if (sum) {
+        var m = 0; ORDER.forEach(function (o) { if (D[o].bxs[bk]) m++; });
+        bf = HEAT[m]; bt = m > 2 ? '#fff' : '#1E2A22'; btx = m ? String(m) : '';
+      } else {
+        var bs = d.bxs[bk] ? 'X' : d.bts[bk] ? 'T' : 'O'; bf = COL[bs][0]; bt = COL[bs][1]; btx = SYM[bs];
+      }
+      var bc = el('g', { 'data-key': bk, style: 'cursor:pointer' }, svg);
+      el('rect', { x: bx + 1.5, y: by + 1.5, width: 47, height: 47, rx: 4, fill: bf, stroke: '#D8D1C2' }, bc);
+      el('text', { x: bx + 25, y: by + 33, 'text-anchor': 'middle', 'font-size': 20, 'font-weight': 700, fill: bt }, bc, btx);
+    }
+    for (k = 1; k <= 8; k++) el('text', { x: -212, y: (k - 1) * 50 + 31, 'text-anchor': 'end', 'font-size': 14, fill: '#5C665E' }, svg, '後' + k);
+    // 車子
+    el('rect', { x: -96.5, y: 0, width: 193, height: 480, rx: 34, fill: '#B9C4C9', stroke: '#7C8B94', 'stroke-width': 3 }, svg);
+    el('path', { d: 'M -80 150 L 80 150 L 66 205 L -66 205 Z', fill: '#DCEBF1', stroke: '#7C8B94', 'stroke-width': 2 }, svg);
+    el('text', { x: 0, y: 90, 'text-anchor': 'middle', 'font-size': 18, fill: '#4F5E66' }, svg, '引擎蓋');
+    el('text', { x: 0, y: 400, 'text-anchor': 'middle', 'font-size': 16, fill: '#4F5E66' }, svg, '車長 480・寬 193');
+    el('text', { x: 140, y: 30, 'font-size': 15, fill: '#5C665E' }, svg, '↑ 車頭往前');
+    // 眼睛和扇形（被擋住的方向）
+    var wedges = el('g', { 'pointer-events': 'none' }, svg);
+    var who = sum ? ORDER : [cur];
+    who.forEach(function (o) {
+      var dd = D[o], e = eyePos(dd), ex = e.x, ey = -e.f;
+      if (!sum) {
+        var L = [], R = [];
+        for (var r2 = 0; r2 < 6; r2++) for (var c2 = 1; c2 <= 16; c2++) {
+          var kk = ROWS[r2] + c2;
+          if (state(dd, kk, lean && o === 'mom') !== 'X') continue;
+          var a = angleLeft(dd, r2, c2);
+          (cellCenter(r2, c2).x < 0 ? L : R).push(a);
+        }
+        dd.lmin = L.length ? Math.min.apply(null, L) : null; dd.lmax = L.length ? Math.max.apply(null, L) : null;
+        dd.rang = R.length ? -Math.max.apply(null, R) : null;
+        var RAD = 760;
+        function pt(deg) { var t = deg * Math.PI / 180; return [ex - RAD * Math.sin(t), ey - RAD * Math.cos(t)]; }
+        if (L.length) {
+          var p1 = pt(dd.lmin - 2.5), p2 = pt(dd.lmax + 2.5);
+          el('path', { d: 'M ' + ex + ' ' + ey + ' L ' + p1.join(' ') + ' L ' + p2.join(' ') + ' Z', fill: 'rgba(162,59,42,.16)', stroke: '#A23B2A', 'stroke-width': 1.5, 'stroke-dasharray': '6 5' }, wedges);
+        }
+        if (R.length) {
+          var q = pt(-dd.rang);
+          el('line', { x1: ex, y1: ey, x2: q[0], y2: q[1], stroke: '#A23B2A', 'stroke-width': 2, 'stroke-dasharray': '6 5' }, wedges);
+        }
+      }
+      el('circle', { cx: ex, cy: ey, r: sum ? 7 : 10, fill: '#3B5B92', stroke: '#fff', 'stroke-width': 3 }, svg);
+      if (!sum) el('text', { x: ex - 16, y: ey + 6, 'text-anchor': 'end', 'font-size': 17, 'font-weight': 700, fill: '#3B5B92' }, svg, '眼睛');
+    });
+    if (sum) el('text', { x: -60, y: 250, 'text-anchor': 'end', 'font-size': 15, fill: '#3B5B92' }, svg, '四個人的眼睛');
+    updateSide();
+  }
+
+  function cnt(d, l) {
+    var x = 0, t = 0;
+    for (var r = 0; r < 6; r++) for (var c = 1; c <= 16; c++) { var s = state(d, ROWS[r] + c, l); if (s === 'X') x++; else if (s === 'T') t++; }
+    return { x: x, t: t, o: 96 - x - t };
+  }
+  function allX() {
+    var out = [];
+    for (var r = 5; r >= 0; r--) for (var c = 1; c <= 16; c++) {
+      var k = ROWS[r] + c; if (ORDER.every(function (o) { return D[o].xs[k]; })) out.push(k);
+    }
+    return out;
+  }
+
+  function updateSide() {
+    var title = document.getElementById('who-title'), sub = document.getElementById('who-sub'),
+        counts = document.getElementById('counts'), text = document.getElementById('who-text'),
+        leg = document.getElementById('legend');
+    document.getElementById('lean-toggle').hidden = cur !== 'mom';
+    if (cur === 'sum') {
+      var ax = allX();
+      title.textContent = '四個人疊起來';
+      sub.textContent = '格子裡的數字＝四個人裡面有幾個人完全看不到（X）。';
+      counts.innerHTML = '<div class="c-x"><b>' + ax.length + '</b><span>四個人都 X</span></div>';
+      text.innerHTML = '顏色越深，越多人看不到。四個人都看不到的格子是 <b>' + ax.join('、') + '</b>。左邊的格子連成一條斜線，就是左 A 柱的死角帶；A16 是右 A 柱。';
+      leg.innerHTML = '<span>幾個人看不到：</span>' + [1, 2, 3, 4].map(function (n) { return '<span><span class="sw" style="background:' + HEAT[n] + ';color:' + (n > 2 ? '#fff' : '#1E2A22') + '">' + n + '</span>' + n + ' 人</span>'; }).join('') + '<span style="color:#9A520B">－－ 車子中線</span>';
+      return;
+    }
+    var d = D[cur], l = lean && cur === 'mom', n = cnt(d, l);
+    title.textContent = d.name + '駕駛' + (d.ref ? '（參考）' : '');
+    sub.textContent = '身高 ' + d.h + ' 公分，眼睛離地 ' + d.eye + ' 公分、在保險桿後面 ' + d.back + ' 公分、中線左邊 ' + d.left + ' 公分。';
+    counts.innerHTML = '<div class="c-x"><b>' + n.x + '</b><span>X 看不到</span></div><div class="c-t"><b>' + n.t + '</b><span>△ 看一半</span></div><div class="c-o"><b>' + n.o + '</b><span>O 看得到</span></div>';
+    var s = '';
+    if (d.lmin != null) s += '左邊的 X 格子，都在眼睛往左前方大約 <b>' + Math.round(d.lmin) + '° 到 ' + Math.round(d.lmax) + '°</b> 之間（正前方是 0°），這就是左 A 柱擋住的方向。';
+    if (d.rang != null) s += '右邊的 A16 在右前方大約 <b>' + Math.round(d.rang) + '°</b>，是右 A 柱擋住的。';
+    if (d.ref) s += '<br><span class="muted">我們兩個還不會開車，這是「坐得比較低的駕駛」參考。</span>';
+    text.innerHTML = s;
+    leg.innerHTML = '<span><span class="sw o">O</span>看得到</span><span><span class="sw t">△</span>只看到一部分</span><span><span class="sw x">X</span>完全看不到</span><span style="color:#A23B2A">紅色扇形＝被擋住的方向</span><span style="color:#9A520B">－－ 車子中線</span>';
+  }
+
+  document.querySelectorAll('.picker button').forEach(function (b) {
+    b.addEventListener('click', function () {
+      cur = b.getAttribute('data-who');
+      document.querySelectorAll('.picker button').forEach(function (x) { x.setAttribute('aria-pressed', x === b ? 'true' : 'false'); });
+      info.textContent = '點一個格子看看。';
+      drawMap();
+    });
+  });
+  document.getElementById('lean-cb').addEventListener('change', function (e) { lean = e.target.checked; drawMap(); });
+  svg.addEventListener('click', function (e) {
+    var g = e.target.closest('[data-key]'); if (!g) return;
+    var key = g.getAttribute('data-key'), back = key.charAt(0) === '後';
+    var where;
+    if (back) { var p = key.slice(1).split('-'); where = '車子左邊，從車頭往後第 ' + p[0] + ' 格（第 ' + p[1] + ' 欄）'; }
+    else { var r = ROWS.indexOf(key[0]); where = '離車頭 ' + (r * 50) + '–' + ((r + 1) * 50) + ' 公分，第 ' + key.slice(1) + ' 欄'; }
+    var parts = ORDER.map(function (o) {
+      var d = D[o], s = back ? (d.bxs[key] ? 'X' : d.bts[key] ? 'T' : 'O') : state(d, key, false);
+      return d.name + ' ' + SYM[s];
+    });
+    info.innerHTML = '<b>' + key + '</b>：' + where + '。<br>' + parts.join('、') + (LEAN[key] ? '；媽媽探頭後 ' + SYM[LEAN[key]] : '');
+  });
+  drawMap();
+
+  // 比一比長條圖
+  var bars = '';
+  ORDER.forEach(function (o) {
+    var d = D[o], n = cnt(d, false);
+    bars += '<div class="bar-row"><div class="who">' + d.name + (d.ref ? '（參考）' : '') + '<small>身高 ' + d.h + '・眼睛 ' + d.eye + '</small></div>' +
+      '<div><div class="bar" role="img" aria-label="' + d.name + '：X ' + n.x + ' 格，△ ' + n.t + ' 格">' +
+      '<i class="x" style="width:' + (n.x / 30 * 100) + '%">X ' + n.x + '</i><i class="t" style="width:' + (n.t / 30 * 100) + '%">△ ' + n.t + '</i></div>' +
+      '<div class="muted" style="font-size:13px">看不清楚一共 ' + (n.x + n.t) + ' 格</div></div></div>';
+  });
+  document.getElementById('bars').innerHTML = bars;
+  document.getElementById('allx').textContent = allX().join('、');
+
+  // 後區小圖
+  var bh = '';
+  ORDER.forEach(function (o) {
+    var d = D[o], nx = 0, nt = 0;
+    var t = '<div class="back"><h3>' + d.name + '駕駛' + (d.ref ? '（參考）' : '') + '</h3><div class="who">站格子的人：' + d.walker + '</div><table><tr><th></th><th>5</th><th>6</th><th></th></tr>';
+    for (var k = 1; k <= 8; k++) {
+      t += '<tr><th>後' + k + '</th>';
+      for (var c = 5; c <= 6; c++) {
+        var key = '後' + k + '-' + c, s = d.bxs[key] ? 'x' : d.bts[key] ? 't' : 'o';
+        if (s === 'x') nx++; if (s === 't') nt++;
+        t += '<td class="' + s + '">' + (s === 'x' ? 'X' : s === 't' ? '△' : 'O') + '</td>';
+      }
+      t += (k === 1 ? '<td class="carside" rowspan="8" title="車子左側"></td>' : '') + '</tr>';
+    }
+    t += '</table><div class="muted" style="font-size:13px;margin-top:4px">X ' + nx + '・△ ' + nt + '（灰色＝車身）</div></div>';
+    bh += t;
+  });
+  document.getElementById('backs').innerHTML = bh;
+
+  // 側面圖：假石虎（媽媽）
+  var sv = document.getElementById('sideview');
+  var EYE = { x: -214, y: 134 }, HOOD = { x: 0, y: 95 }, CAN = 21, SEEN = 600;
+  function Y(h) { return -h; }
+  el('rect', { x: -300, y: -200, width: 1000, height: 250, fill: '#F7F4EC' }, sv);
+  el('rect', { x: -300, y: 0, width: 1000, height: 50, fill: '#D9D4C7' }, sv);
+  // 看不到的區域（實際）
+  var realSlope = (EYE.y - CAN) / (SEEN - EYE.x);
+  var hAt0 = EYE.y - realSlope * (0 - EYE.x);
+  el('path', { d: 'M 0 0 L 0 ' + Y(hAt0) + ' L ' + SEEN + ' ' + Y(CAN) + ' L ' + SEEN + ' 0 Z', fill: 'rgba(162,59,42,.12)' }, sv);
+  // 車子（示意）
+  el('path', { d: 'M 0 -30 L 0 -95 L -120 -120 L -170 -124 L -290 -172 L -480 -174 L -480 -30 Z', fill: '#B9C4C9', stroke: '#7C8B94', 'stroke-width': 2 }, sv);
+  el('circle', { cx: -60, cy: -28, r: 28, fill: '#4F5E66' }, sv);
+  el('text', { x: 6, y: -98, 'font-size': 14, fill: '#4F5E66' }, sv, '引擎蓋前緣 95');
+  // 預估線（只算引擎蓋前緣）
+  var estSlope = (EYE.y - HOOD.y) / (0 - EYE.x), estX = (HOOD.y - CAN) / estSlope;
+  el('line', { x1: EYE.x, y1: Y(EYE.y), x2: estX, y2: Y(CAN), stroke: '#9A520B', 'stroke-width': 2.5, 'stroke-dasharray': '9 6' }, sv);
+  // 實際線
+  el('line', { x1: EYE.x, y1: Y(EYE.y), x2: SEEN, y2: Y(CAN), stroke: '#2F7A4F', 'stroke-width': 3 }, sv);
+  el('circle', { cx: EYE.x, cy: Y(EYE.y), r: 7, fill: '#3B5B92', stroke: '#fff', 'stroke-width': 2 }, sv);
+  el('text', { x: EYE.x - 60, y: Y(EYE.y) - 52, 'text-anchor': 'start', 'font-size': 15, 'font-weight': 700, fill: '#3B5B92' }, sv, '媽媽的眼睛 134');
+  // 罐子 A8–F8（0–300 cm）
+  for (var i = 0; i < 6; i++) {
+    var cx = 25 + i * 50;
+    el('rect', { x: cx - 6, y: -CAN, width: 12, height: CAN, rx: 2, fill: '#3B5B92' }, sv);
+    el('text', { x: cx, y: -CAN - 6, 'text-anchor': 'middle', 'font-size': 14, 'font-weight': 700, fill: '#A23B2A' }, sv, 'X');
+  }
+  el('rect', { x: SEEN - 6, y: -CAN, width: 12, height: CAN, rx: 2, fill: '#3B5B92' }, sv);
+  el('text', { x: SEEN, y: -CAN - 8, 'text-anchor': 'middle', 'font-size': 15, 'font-weight': 700, fill: '#2F7A4F' }, sv, '看得到');
+  // 距離刻度
+  [0, 100, 200, 300, 400, 500, 600].forEach(function (m) {
+    el('line', { x1: m, y1: 0, x2: m, y2: 8, stroke: '#5C665E' }, sv);
+    el('text', { x: m, y: 26, 'text-anchor': 'middle', 'font-size': 14, fill: '#5C665E' }, sv, m === 0 ? '車頭 0' : (m / 100) + ' m');
+  });
+  el('text', { x: 150, y: 44, 'text-anchor': 'middle', 'font-size': 13, fill: '#A23B2A' }, sv, 'A8～F8：全部看不到');
+  el('text', { x: estX + 12, y: -6, 'font-size': 14, fill: '#9A520B' }, sv, '只算引擎蓋前緣：約 ' + Math.round(estX / 10) / 10 + ' m');
+  el('text', { x: 470, y: -95, 'font-size': 14, fill: '#2F7A4F' }, sv, '實際量到：約 6 m');
+  el('text', { x: 470, y: -78, 'font-size': 13, fill: '#5C665E' }, sv, '淡紅色＝21 公分的東西看不到');
+})();
+</script>
+</body>
+</html>
