@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>實驗七 低處光學雷達看石虎｜零死角全生命守護</title>
+<meta name="description" content="實驗七：把光學雷達放低，看矮矮的石虎。原本的位置從石虎頭上飛過去，放低以後 20、60、80 公分都量得準。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="site.css">
+<style>
+.chart { margin: 0; }
+.chart .ct { font-weight: 700; font-size: 16px; color: var(--ink); margin: 0 0 6px; }
+.chart svg { width: 100%; height: auto; display: block; background: var(--card); border: 1px solid var(--line); border-radius: 10px; }
+.chart .cn { font-size: 14px; color: var(--ink-2); margin: 6px 0 0; }
+.chart .cu { font-size: 13px; color: var(--ink-2); margin: 4px 0 0; }
+.charts { display: grid; gap: 18px; grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr)); }
+.charts > *, .ds > *, .game > * { min-width: 0; }
+table.sg { background: var(--card); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+table.sg th, table.sg td { text-align: center; white-space: nowrap; }
+table.sg tbody th { text-align: left; background: var(--card); }
+table.sg td { font-weight: 700; }
+td.ok, .sw.ok { background: var(--ok-bg); color: var(--ok); }
+td.mid, .sw.mid { background: var(--warn-bg); color: var(--warn); }
+td.bad, .sw.bad { background: var(--bad-bg); color: var(--bad); }
+td.na { color: var(--ink-2); font-weight: 400; }
+.map-legend { display: flex; flex-wrap: wrap; gap: 8px 18px; font-size: 14px; margin: 10px 0 0; }
+.map-legend span { display: inline-flex; align-items: center; gap: 6px; }
+.sw { width: 16px; height: 16px; border-radius: 3px; display: inline-block; border: 1px solid var(--line); }
+.media-grid video.tall { aspect-ratio: 9 / 16; max-height: 520px; object-fit: contain; }
+
+.media-grid img{width:100%;border-radius:10px}
+</style>
+</head>
+<body>
+
+<nav class="topnav" aria-label="網站導覽">
+  <div class="wrap">
+    <a class="brand" href="index.html">零死角全生命守護</a>
+    <a href="story.html">研究故事</a><a href="plan.html">研究架構</a><a href="experiments.html" aria-current="page">全部實驗</a><a href="devlog.html">開發日誌</a><a href="data.html">數據中心</a><a href="qa.html">問題與回答</a><a href="code.html">程式</a><a href="about.html">關於我們</a>
+  </div>
+</nav>
+
+<header class="dark page-head">
+  <div class="wrap">
+    <div class="crumbs"><a href="experiments.html">全部實驗</a> ／ 實驗七</div>
+    <div class="eyebrow">實驗七・低處光學雷達看石虎（11/25 實測）</div>
+    <h1>雷達放低一點，看得到矮矮的石虎嗎？</h1>
+    <p class="lead">實驗零發現，司機坐在車上，21 公分的東西要離車頭大約 6 公尺才看得到。石虎比這個還矮。所以我們想知道：把光學雷達裝低一點，是不是就能看到石虎？</p>
+    <div class="kpis"><div class="kpi"><b>10.5～11 公分</b><span>水豚玩偶當石虎</span></div><div class="kpi"><b>10 vs 1.5 公分</b><span>雷達原位置 vs 低處</span></div><div class="kpi"><b>0 次</b><span>原本程式那一排，20～80 公分都沒看到</span></div><div class="kpi"><b>20、60、80 公分</b><span>放低以後都量得準</span></div></div>
+  </div>
+</header><div class="wrap"><nav class="toc" aria-label="本頁目錄"><a href="#how">怎麼做</a><a href="#result">結果</a><a href="#reflect">我們的發現</a><a href="#limit">還不穩的地方</a><a href="#raw">原始數據</a></nav></div><section id="how">
+  <div class="wrap">
+    <div class="eyebrow">怎麼做</div>
+    <h2>我們的做法</h2>
+    <div class="cols"><ol class="steps"><li>用咖啡色水豚絨毛玩偶當石虎，量起來高 10.5～11 公分。</li><li>同一顆前面的光學雷達，比兩個位置：原本的位置（鏡頭離地約 10 公分，裝在車子最上面），和低處（鏡頭離地約 1.5 公分，裝在車頭下面，倒過來裝讓鏡頭更貼近地面）。</li><li>小車不動，把石虎放在車頭正前方 20、40、60、80 公分，用捲尺量好。</li><li>光學雷達有 8×8＝64 個格子。我們改了一個「一次看 8 排」的程式，每一排都把最近的距離傳回電腦，看看是哪幾排看到石虎。</li><li>先把前面清空測 5 次，確定放低以後不會一直把地板當成障礙物。</li></ol><div><div class="thumbs"><button type="button" data-full="exp7_high.jpg" data-cap="原位置：前雷達裝在車子最上面，鏡頭離地約 10 公分" aria-label="放大：原位置：前雷達裝在車子最上面，鏡頭離地約 10 公分"><img src="exp7_high.jpg" alt="原位置：前雷達裝在車子最上面，鏡頭離地約 10 公分" loading="lazy"></button><button type="button" data-full="exp7_low.jpg" data-cap="低處：前雷達裝在車頭下面，鏡頭離地約 1.5 公分" aria-label="放大：低處：前雷達裝在車頭下面，鏡頭離地約 1.5 公分"><img src="exp7_low.jpg" alt="低處：前雷達裝在車頭下面，鏡頭離地約 1.5 公分" loading="lazy"></button><button type="button" data-full="exp7_capybara.jpg" data-cap="水豚玩偶當石虎，用尺量高度 10.5～11 公分" aria-label="放大：水豚玩偶當石虎，用尺量高度 10.5～11 公分"><img src="exp7_capybara.jpg" alt="水豚玩偶當石虎，用尺量高度 10.5～11 公分" loading="lazy"></button><button type="button" data-full="exp7_tape.jpg" data-cap="用捲尺量石虎離車頭多遠" aria-label="放大：用捲尺量石虎離車頭多遠"><img src="exp7_tape.jpg" alt="用捲尺量石虎離車頭多遠" loading="lazy"></button><button type="button" data-full="exp7_near.jpg" data-cap="石虎放在車頭正前方" aria-label="放大：石虎放在車頭正前方"><img src="exp7_near.jpg" alt="石虎放在車頭正前方" loading="lazy"></button></div></div></div>
+  </div>
+</section><section id="result" class="alt">
+  <div class="wrap">
+    <div class="eyebrow">結果</div>
+    <h2>原本的那一排，一直從石虎頭上飛過去</h2>
+    <p>我們以前的程式只看中間那一格 (3,3)。雷達裝在原位置時，這一格的光往上斜，20 到 80 公分都從石虎頭上飛過去，讀到的是房間後面 170～190 公分的東西，<b>一次都沒看到石虎</b>。</p>
+    <div class="scroll"><table class="sg"><thead><tr><th>石虎距離</th><th>原位置・原本程式那一排</th><th>原位置・看得到石虎的排</th><th>低處・第 4 排</th></tr></thead><tbody>
+    <tr><th>20 公分</th><td class="bad">沒看到（約 170）</td><td class="ok">4 排</td><td class="ok">看到（約 20）</td></tr>
+    <tr><th>40 公分</th><td class="bad">沒看到（176～190）</td><td class="ok">3 排</td><td class="mid">不穩</td></tr>
+    <tr><th>60 公分</th><td class="bad">沒看到（約 180）</td><td class="mid">2 排</td><td class="ok">看到（約 61）</td></tr>
+    <tr><th>80 公分</th><td class="bad">沒看到（約 185）</td><td class="bad">只剩 1 排</td><td class="ok">看到（約 81）</td></tr>
+    <tr><th>前面沒東西</th><td class="na">—</td><td class="na">—</td><td class="ok">5 次都不亂報</td></tr>
+    </tbody></table></div>
+    <div class="map-legend"><span><i class="sw ok"></i>看到了</span><span><i class="sw mid"></i>不穩／變少</span><span><i class="sw bad"></i>沒看到／快看不到</span></div>
+    <div style="margin-top:22px;max-width:560px"><figure class="chart"><p class="ct">雷達在原位置：看得到石虎的排數</p><svg viewBox="0 0 520 250" role="img" aria-label="雷達裝在原位置時，看得到石虎的排數：20 公分 4 排、40 公分 3 排、60 公分 2 排、80 公分 1 排"><line x1="50" x2="510" y1="200" y2="200" stroke="#E2DCCD"/><text x="40" y="205" text-anchor="end" font-size="14" fill="#5C665E">0</text><line x1="50" x2="510" y1="160" y2="160" stroke="#E2DCCD"/><text x="40" y="165" text-anchor="end" font-size="14" fill="#5C665E">1</text><line x1="50" x2="510" y1="120" y2="120" stroke="#E2DCCD"/><text x="40" y="125" text-anchor="end" font-size="14" fill="#5C665E">2</text><line x1="50" x2="510" y1="80" y2="80" stroke="#E2DCCD"/><text x="40" y="85" text-anchor="end" font-size="14" fill="#5C665E">3</text><line x1="50" x2="510" y1="40" y2="40" stroke="#E2DCCD"/><text x="40" y="45" text-anchor="end" font-size="14" fill="#5C665E">4</text><rect x="80" y="40" width="70" height="160" rx="4" fill="#2F7A4F"/><text x="115.0" y="32" text-anchor="middle" font-size="16" font-weight="700" fill="#1E2A22">4 排</text><text x="115.0" y="224" text-anchor="middle" font-size="14" fill="#1E2A22">20 公分</text><rect x="190" y="80" width="70" height="120" rx="4" fill="#2F7A4F"/><text x="225.0" y="72" text-anchor="middle" font-size="16" font-weight="700" fill="#1E2A22">3 排</text><text x="225.0" y="224" text-anchor="middle" font-size="14" fill="#1E2A22">40 公分</text><rect x="300" y="120" width="70" height="80" rx="4" fill="#2F7A4F"/><text x="335.0" y="112" text-anchor="middle" font-size="16" font-weight="700" fill="#1E2A22">2 排</text><text x="335.0" y="224" text-anchor="middle" font-size="14" fill="#1E2A22">60 公分</text><rect x="410" y="160" width="70" height="40" rx="4" fill="#2F7A4F"/><text x="445.0" y="152" text-anchor="middle" font-size="16" font-weight="700" fill="#1E2A22">1 排</text><text x="445.0" y="224" text-anchor="middle" font-size="14" fill="#1E2A22">80 公分</text><text x="260.0" y="246" text-anchor="middle" font-size="13" fill="#5C665E">石虎離車頭多遠</text></svg><p class="cn">石虎越遠，看得到它的排越少，80 公分只剩 1 排。</p></figure></div>
+  </div>
+</section><section id="reflect">
+  <div class="wrap narrow">
+    <div class="eyebrow">我們的發現</div>
+    <h2>矮的動物，雷達要放低</h2>
+    <div class="reflect">
+    <p>雷達裝高的時候，往前看的光會越來越高，矮矮的石虎在遠一點的地方就被「漏掉」了。這和實驗三「15 公分太高、一次都測不到」是同一個道理。</p>
+    <p>雷達放低到 1.5 公分以後，同一排從 20 公分到 80 公分都看得到石虎，而且量得很準（差不到 3 公分）。</p>
+    <p>放低以後，最下面兩排會看到地板（約 3～5 公分），所以程式要改成看上面一點的排，不然會把地板當成石虎。前面清空測 5 次，都沒有亂報。</p>
+    <p>真的車子也一樣：司機看不到車頭前面矮矮的東西（實驗零），如果在保險桿下面裝一顆往前看的光學雷達，就有機會看到石虎、小朋友或掉在路上的東西。</p>
+    </div>
+  </div>
+</section><section id="limit" class="alt">
+  <div class="wrap narrow">
+    <div class="eyebrow">還不穩的地方</div>
+    <h2>40 公分量了 3 輪都不穩</h2>
+    <p>低處的 40 公分我們重測了 3 輪，讀到的數字有時是 41～43，有時跳到 13～30。換了位置還是一樣，所以不只是場地紙邊緣的問題。我們猜可能是地板和石虎剛好落在同一格裡，雷達把兩個混在一起。這一點我們寫進研究限制，之後要再查。</p>
+    <p class="muted">另外，我們這次每個距離大多只量 3 次，小車是停著的，還沒有在小車開動的時候測。</p>
+  </div>
+</section><section id="raw">
+  <div class="wrap">
+    <div class="eyebrow">原始數據</div>
+    <h2>完整紀錄</h2>
+    <p class="muted">每一次的數字（包括每一排讀到多少）都記在我們的實驗數據總表「低處雷達_石虎_1123」分頁。</p>
+    <p><a href="https://docs.google.com/spreadsheets/d/13gkJgF3i0j1yPZTgs6Z5I28JxsanNAGIRpXyR6V_tt8/edit#gid=11123" target="_blank" rel="noopener">打開實驗七的完整紀錄（實驗數據總表）→</a></p>
+  </div>
+</section><section><div class="wrap"><div class="pager"><a href="exp6.html"><span>← 上一個</span>實驗六：A 柱死角</a><a class="next" href="demo.html"><span>下一個 →</span>會場展示：十字路口六個情境</a></div></div></section>
+
+<footer><div class="wrap">南投縣光華國小　蔡秉澔、蔡秉宸　指導老師：洪瑞成</div></footer>
+
+<script src="site.js"></script>
+
+</body>
+</html>

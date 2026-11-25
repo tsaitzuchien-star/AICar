@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>會場展示 十字路口六個情境｜零死角全生命守護</title>
+<meta name="description" content="會場展示：70×60 公分十字路口，同一支程式切換 6 個情境，比較只有前雷達和三顆雷達、光學雷達和人類司機。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="site.css">
+<style>
+.chart { margin: 0; }
+.chart .ct { font-weight: 700; font-size: 16px; color: var(--ink); margin: 0 0 6px; }
+.chart svg { width: 100%; height: auto; display: block; background: var(--card); border: 1px solid var(--line); border-radius: 10px; }
+.chart .cn { font-size: 14px; color: var(--ink-2); margin: 6px 0 0; }
+.chart .cu { font-size: 13px; color: var(--ink-2); margin: 4px 0 0; }
+.charts { display: grid; gap: 18px; grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr)); }
+.charts > *, .ds > *, .game > * { min-width: 0; }
+table.sg { background: var(--card); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+table.sg th, table.sg td { text-align: center; white-space: nowrap; }
+table.sg tbody th { text-align: left; background: var(--card); }
+table.sg td { font-weight: 700; }
+td.ok, .sw.ok { background: var(--ok-bg); color: var(--ok); }
+td.mid, .sw.mid { background: var(--warn-bg); color: var(--warn); }
+td.bad, .sw.bad { background: var(--bad-bg); color: var(--bad); }
+td.na { color: var(--ink-2); font-weight: 400; }
+.map-legend { display: flex; flex-wrap: wrap; gap: 8px 18px; font-size: 14px; margin: 10px 0 0; }
+.map-legend span { display: inline-flex; align-items: center; gap: 6px; }
+.sw { width: 16px; height: 16px; border-radius: 3px; display: inline-block; border: 1px solid var(--line); }
+.media-grid video.tall { aspect-ratio: 9 / 16; max-height: 520px; object-fit: contain; }
+</style>
+</head>
+<body>
+
+<nav class="topnav" aria-label="網站導覽">
+  <div class="wrap">
+    <a class="brand" href="index.html">零死角全生命守護</a>
+    <a href="story.html">研究故事</a><a href="plan.html">研究架構</a><a href="experiments.html" aria-current="page">全部實驗</a><a href="devlog.html">開發日誌</a><a href="data.html">數據中心</a><a href="qa.html">問題與回答</a><a href="code.html">程式</a><a href="about.html">關於我們</a>
+  </div>
+</nav>
+
+<header class="dark page-head">
+  <div class="wrap">
+    <div class="crumbs"><a href="experiments.html">全部實驗</a> ／ 會場展示</div>
+    <div class="eyebrow">會場展示・70×60 公分十字路口（11/25 實測）</div>
+    <h1>在十字路口，一次看懂我們的研究</h1>
+    <p class="lead">科展會場只能放 70×60 公分的桌面展示。我們把實驗零的 A 柱死角畫進十字路口場地，讓小車用流暢的弧線轉彎，用同一支程式切換 6 個情境，比較「只有前雷達」和「三顆雷達」、「光學雷達」和「人類司機」。</p>
+    <div class="kpis"><div class="kpi"><b>6 個情境</b><span>同一支程式，按鍵切換</span></div><div class="kpi"><b>3 / 3 撞倒</b><span>左轉只有前雷達</span></div><div class="kpi"><b>3 / 3 禮讓</b><span>左轉三顆雷達</span></div><div class="kpi"><b>3 / 3 煞停</b><span>直走光學雷達；人類 1.6 秒 3/3 撞到</span></div></div>
+  </div>
+</header><div class="wrap"><nav class="toc" aria-label="本頁目錄"><a href="#field">場地和程式</a><a href="#result">六個情境的結果</a><a href="#video">影片</a><a href="#reflect">我們的發現</a><a href="#raw">原始數據</a></nav></div><section id="field">
+  <div class="wrap">
+    <div class="eyebrow">場地和程式</div>
+    <h2>不停車的弧線轉彎</h2>
+    <ol class="steps"><li>場地是十字路口，有斑馬線、停止線，左轉的地方畫了 A 柱死角（實驗零量到的大約 27°～39°）。</li><li>小車從「起點」出發，直走、左轉或右轉，最後停在紅色「左」、藍色「右」或綠色「直」圓圈上。</li><li>第一版每走一段就停一下，看起來走走停停。我們改成段和段之間不停車，轉彎用弧線。</li><li>左轉試了 4 個版本（弧線太大、太小），右轉試了 3 個版本，調好以後正式各跑 3 趟，都停在圓圈上，全程不停。</li><li>鋼彈當行人、水豚玩偶當石虎，放在圓圈上，每個情境跑 2～3 趟。</li></ol>
+  </div>
+</section><section id="result" class="alt">
+  <div class="wrap">
+    <div class="eyebrow">結果</div>
+    <h2>六個情境的結果</h2>
+    <div class="scroll"><table class="sg"><thead><tr><th>情境</th><th>方向</th><th>用什麼看</th><th>擺放</th><th>結果</th></tr></thead><tbody><tr><th>情境 1</th><td class="na">左轉</td><td class="na">只有前雷達</td><td class="na">鋼彈放在紅色「左」圓圈（A 柱死角）</td><td class="bad">3 / 3 撞倒鋼彈</td></tr><tr><th>情境 2</th><td class="na">左轉</td><td class="na">三顆雷達</td><td class="na">鋼彈放在紅色「左」圓圈</td><td class="ok">3 / 3 轉到一半停下來禮讓</td></tr><tr><th>情境 3</th><td class="na">右轉</td><td class="na">只有前雷達</td><td class="na">鋼彈放在藍色「右」圓圈</td><td class="bad">2 / 2 碰到鋼彈才停</td></tr><tr><th>情境 4</th><td class="na">右轉</td><td class="na">三顆雷達</td><td class="na">鋼彈放在藍色「右」圓圈</td><td class="ok">3 / 3 還沒轉彎就先停</td></tr><tr><th>情境 5</th><td class="na">直走</td><td class="na">光學雷達一看到就煞車</td><td class="na">石虎玩偶放在綠色「直」圓圈</td><td class="ok">3 / 3 煞停沒撞到</td></tr><tr><th>情境 6</th><td class="na">直走</td><td class="na">模擬人類司機：看到後等 1.6 秒才煞車</td><td class="na">石虎玩偶放在綠色「直」圓圈</td><td class="bad">3 / 3 撞到石虎</td></tr></tbody></table></div>
+    <div class="map-legend"><span><i class="sw ok"></i>沒撞到</span><span><i class="sw bad"></i>撞到／碰到</span></div>
+  </div>
+</section><section id="video">
+  <div class="wrap">
+    <div class="eyebrow">影片</div>
+    <h2>每個情境一段影片</h2>
+    <div class="media-grid"><figure><video src="demo1125_s1.mp4" poster="demo1125_s1_poster.jpg" controls preload="metadata" playsinline muted></video><figcaption>情境 1・左轉只有前雷達：撞倒鋼彈</figcaption></figure><figure><video src="demo1125_s2.mp4" poster="demo1125_s2_poster.jpg" controls preload="metadata" playsinline muted></video><figcaption>情境 2・左轉三顆雷達：轉到一半停下來，鋼彈走開才繼續</figcaption></figure><figure><video src="demo1125_s3.mp4" poster="demo1125_s3_poster.jpg" controls preload="metadata" playsinline muted></video><figcaption>情境 3・右轉只有前雷達：碰到鋼彈才停</figcaption></figure><figure><video src="demo1125_s4.mp4" poster="demo1125_s4_poster.jpg" controls preload="metadata" playsinline muted></video><figcaption>情境 4・右轉三顆雷達：還沒轉彎就先停</figcaption></figure><figure><video src="demo1125_s5.mp4" poster="demo1125_s5_poster.jpg" controls preload="metadata" playsinline muted></video><figcaption>情境 5・直走，光學雷達：看到石虎馬上煞停</figcaption></figure><figure><video src="demo1125_s6.mp4" poster="demo1125_s6_poster.jpg" controls preload="metadata" playsinline muted></video><figcaption>情境 6・直走，模擬人類 1.6 秒：來不及，撞到石虎</figcaption></figure></div>
+  </div>
+</section><section id="reflect" class="alt">
+  <div class="wrap narrow">
+    <div class="eyebrow">我們的發現</div>
+    <h2>同一支程式，只差眼睛</h2>
+    <div class="reflect">
+    <p>左轉時，鋼彈站在 A 柱死角裡，只有前雷達的小車看不到，3 趟都撞倒；加開左右雷達，3 趟都在轉彎中停下來，等鋼彈走開才繼續。這和實驗六的結果一樣。</p>
+    <p>右轉彎很小，只靠前雷達要轉到一半才看到鋼彈，2 趟都碰到；三顆雷達時，右雷達在還沒轉彎前就看到，停得比較早。</p>
+    <p>直走時，兩個情境都用同一顆前雷達。光學雷達一看到石虎就煞車，3 趟都停住；模擬人類司機看到後等 1.6 秒才煞車，3 趟都撞到。這就是實驗四算的「反應時間」。</p>
+    </div>
+  </div>
+</section><section id="raw">
+  <div class="wrap">
+    <div class="eyebrow">原始數據</div>
+    <h2>完整紀錄</h2>
+    <p class="muted">每一趟的影片編號、停的時間和備註，都記在實驗數據總表「展示場地_流暢左轉_1125」分頁。</p>
+    <p><a href="https://docs.google.com/spreadsheets/d/13gkJgF3i0j1yPZTgs6Z5I28JxsanNAGIRpXyR6V_tt8/edit#gid=111251" target="_blank" rel="noopener">打開會場展示的完整紀錄（實驗數據總表）→</a></p>
+  </div>
+</section><section><div class="wrap"><div class="pager"><a href="exp7.html"><span>← 上一個</span>實驗七：低處光學雷達</a><a class="next" href="story.html"><span>下一個 →</span>研究故事</a></div></div></section>
+
+<footer><div class="wrap">南投縣光華國小　蔡秉澔、蔡秉宸　指導老師：洪瑞成</div></footer>
+
+<script src="site.js"></script>
+
+</body>
+</html>
