@@ -235,7 +235,7 @@ footer { padding: 32px 0 48px; font-size: 14px; color: var(--ink-2); }
     <div class="eyebrow">研究旅程</div>
     <h2>先找出死角，再打造眼睛，最後補上死角</h2>
     <div class="timeline" aria-label="時間軸">
-      <span>5/9 搭好瓦楞板場地</span><span>5/13 組好麥昆小車</span><span>5/14 實驗一</span><span>5/17 實驗三</span><span>5/20 實驗二</span><span>5/21 實驗四</span><span>5/24 實驗五-B</span><span>5/27 實驗五-A</span><span>8/30 實驗六</span><span>10 月 五-B、六改良</span><span>11/18 五-A 重複 60 趟</span><span>11/19 實驗六、五-B 重複測試</span><span>11/21 實驗零（真車）</span>
+      <span>5/9 搭好瓦楞板場地</span><span>5/13 組好麥昆小車</span><span>5/14 實驗一</span><span>5/17 實驗三</span><span>5/20 實驗二</span><span>5/21 實驗四</span><span>5/24 實驗五-B</span><span>5/27 實驗五-A</span><span>8/30 實驗六</span><span>10 月 五-B、六改良</span><span>11/18 五-A 重複 60 趟</span><span>11/19 實驗六、五-B 重複測試</span><span>11/21 實驗零（真車）</span><span>11/25 實驗七（低處雷達）</span><span>11/25 會場展示</span>
     </div>
 
     <article class="card exp">
@@ -298,7 +298,7 @@ footer { padding: 32px 0 48px; font-size: 14px; color: var(--ink-2); }
       <div class="exp-body">
         <span class="tag">補上死角</span>
         <h3><span class="num">五-A</span>11 cm 的窄山道，能不能避開石虎？</h3>
-        <p class="found"><b>發現：</b>雷達 6 趟全部成功；超音波在 40 cm/s 時會把山壁當成障礙物，煞車和轉向都失敗。11/18 每種情況再跑 5 趟，一共 60 趟。</p>
+        <p class="found"><b>發現：</b>5/27 第一次每種只跑一趟，超音波在 40 cm/s 好像把山壁當成障礙物。11/18 每種情況跑 5 趟，一共 60 趟：煞車 30/30 都停住；超音波轉向這次沒有再看錯山壁；光學雷達轉向原本常撞，改良後 13/15 成功。</p>
         <p class="next">所以下一步：從一條路走到一整張地圖。</p>
         <p><a href="exp5a.html">看實驗五-A的完整紀錄 →</a></p>
       </div>
@@ -327,13 +327,24 @@ footer { padding: 32px 0 48px; font-size: 14px; color: var(--ink-2); }
     </article>
 
     <article class="card exp">
-      <div class="exp-media"><img src="photo29.jpg" alt="裝好三顆光學雷達的小車" loading="lazy"></div>
+      <div class="exp-media"><img src="exp7_low.jpg" alt="實驗七：光學雷達倒過來裝在小車低處，前面是當作石虎的水豚玩偶" loading="lazy"></div>
       <div class="exp-body">
-        <span class="tag">像真車一樣開（進行中）</span>
-        <h3><span class="num">改良</span>五-B、六改成連續前進、弧線轉彎，還能停看聽嗎？</h3>
-        <p>洪老師提醒我們：真的車不會每走一格就停一下，也不會原地轉 90 度。我們畫圖討論後，把五-B 和六的程式改成提早一格開始轉彎、外輪快內輪慢地畫弧線，遇到石虎或行人一樣停、看、聽。</p>
-        <p class="found"><b>結果：</b>進行中：程式寫好了，正在校正弧線轉彎。</p>
-        <p><a href="exp5b.html#fix">看改良版怎麼改 →</a></p>
+        <span class="tag">守護石虎</span>
+        <h3><span class="num">七</span>把雷達放低，看得到矮矮的石虎嗎？</h3>
+        <p class="found"><b>發現：</b>11/25 用咖啡色水豚玩偶（高約 11 公分）當石虎。雷達在原來的位置（離地約 10 公分），以前程式看的那一格在 20～80 公分都從牠頭頂飛過去；放到低處（離地約 1.5 公分），20、60、80 公分都量得準，40 公分還不穩。</p>
+        <p class="next">所以下一步：把研究搬到十字路口，做成會場展示。</p>
+        <p><a href="exp7.html">看實驗七的完整紀錄 →</a></p>
+      </div>
+    </article>
+
+    <article class="card exp">
+      <div class="exp-media"><video src="demo1125_s2.mp4" poster="demo1125_s2_poster.jpg" controls preload="metadata" playsinline muted aria-label="會場展示：左轉三顆雷達，轉到一半停下來禮讓鋼彈"></video></div>
+      <div class="exp-body">
+        <span class="tag">像真車一樣開</span>
+        <h3><span class="num">展示</span>十字路口不停車、畫弧線轉彎，還能停看聽嗎？</h3>
+        <p>洪老師提醒我們：真的車不會每走一格就停一下，也不會原地轉 90 度。我們把程式改成段和段之間不停車，轉彎畫弧線，同一支程式用按鍵切換六個情境。</p>
+        <p class="found"><b>結果：</b>11/25 左轉只開前雷達 3 趟都撞倒鋼彈，三顆雷達 3 趟都停下來讓路；右轉三顆雷達還沒轉彎就先停；直走時光學雷達 3 趟都在水豚君（石虎）前停住，模擬人類等 1.6 秒才煞車，3 趟都撞到。</p>
+        <p><a href="demo.html">看會場展示的完整紀錄 →</a></p>
       </div>
     </article>
   </div>
@@ -372,8 +383,8 @@ footer { padding: 32px 0 48px; font-size: 14px; color: var(--ink-2); }
       </div>
       <div class="card fail">
         <div class="q">老師的挑戰</div><p>「真的車不會原地轉 90 度，也不會每格都停。」</p>
-        <div class="a">我們怎麼改</div><p>畫圖討論後，把五-B 和六改成連續前進、弧線轉彎的版本。</p>
-        <div class="when">五-B、六改良</div>
+        <div class="a">我們怎麼改</div><p>畫圖討論後，改成段和段之間不停車、轉彎畫弧線。左轉試了 4 個版本、右轉試了 3 個版本，才每次都停在圓圈上。</p>
+        <div class="when">會場展示</div>
       </div>
     </div>
   </div>
@@ -517,11 +528,11 @@ footer { padding: 32px 0 48px; font-size: 14px; color: var(--ink-2); }
     <h2>看小車實際怎麼做</h2>
     <div class="vids">
       <figure><video src="video7.mp4" controls preload="metadata"></video><figcaption>實驗五-A：光學雷達 40 cm/s 動態轉向成功</figcaption></figure>
-      <figure><video src="video8.mp4" controls preload="metadata"></video><figcaption>實驗五-A：超音波 40 cm/s 誤判山壁，提前轉向撞牆</figcaption></figure>
+      <figure><video src="video8.mp4" controls preload="metadata"></video><figcaption>實驗五-A（5/27 第一次）：超音波 40 cm/s 好像把山壁當成障礙物，提前轉向撞牆</figcaption></figure>
       <figure><video src="video3.mp4" controls preload="metadata"></video><figcaption>實驗五-B：路障擺設與迴轉路徑調校</figcaption></figure>
       <figure><video src="video10.mp4" controls preload="metadata"></video><figcaption>實驗六：三雷達轉彎時遇到鋼彈行人，停下來禮讓</figcaption></figure>
       <figure><video src="video11.mp4" controls preload="metadata"></video><figcaption>五-B 原本的版本：每走一格停一下，原地轉 90 度</figcaption></figure>
-      <figure><div class="vid-slot"><b>影片準備中</b><span>改良版程式：不再每格停下、轉彎畫弧線，遇到行人一樣停看聽</span></div><figcaption>五-B、六改良：弧線轉彎、連續前進</figcaption></figure>
+      <figure><video src="demo1125_s2.mp4" poster="demo1125_s2_poster.jpg" controls preload="metadata" playsinline muted></video><figcaption>會場展示：不停車、畫弧線左轉，三顆雷達看到鋼彈就停下來讓路</figcaption></figure>
     </div>
     <p class="muted" style="margin-top: 16px;">每個實驗的影片都放在<a href="experiments.html">各個實驗的頁面</a>裡。</p>
   </div>
