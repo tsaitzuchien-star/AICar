@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>研究故事｜零死角全生命守護</title>
-<meta name="description" content="零死角全生命守護的研究動機、研究方向的改變、六個關鍵字和四個研究問題、研究目的和參考文獻。">
+<meta name="description" content="零死角全生命守護的研究動機、研究方向的改變、六個關鍵字和六個研究問題、研究目的和參考文獻。">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@700;900&display=swap" rel="stylesheet">
@@ -60,7 +60,7 @@ ol.goals .exp { display: inline-block; font-size: 12px; line-height: 1.6; backgr
     
     
   </div>
-</header><div class="wrap"><nav class="toc" aria-label="本頁目錄"><a href="#why">研究動機</a><a href="#turns">方向怎麼改變</a><a href="#keywords">六個關鍵字</a><a href="#questions">四個研究問題</a><a href="#purpose">研究目的</a><a href="#benefit">預期效益</a><a href="#limits">小車和真車差多少</a><a href="#future">以後想做的</a><a href="#refs">參考文獻</a></nav></div><section id="why">
+</header><div class="wrap"><nav class="toc" aria-label="本頁目錄"><a href="#why">研究動機</a><a href="#turns">方向怎麼改變</a><a href="#keywords">六個關鍵字</a><a href="#questions">六個研究問題</a><a href="#purpose">研究目的</a><a href="#benefit">預期效益</a><a href="#limits">小車和真車差多少</a><a href="#future">以後想做的</a><a href="#refs">參考文獻</a></nav></div><section id="why">
   <div class="wrap">
     <div class="eyebrow">研究動機</div>
     <h2>為什麼做這個研究</h2>
@@ -101,8 +101,8 @@ ol.goals .exp { display: inline-block; font-size: 12px; line-height: 1.6; backgr
 </section><section id="questions" class="alt">
   <div class="wrap narrow">
     <div class="eyebrow">研究問題</div>
-    <h2>我們想回答的四個問題</h2>
-    <div class="rq"><details open><summary>問題 1：光學雷達和超音波，誰比較能在黑夜裡，或是遇到「黑色毛皮的石虎」時看得最清楚？</summary><p class="ans">光學雷達完勝！</p><p>實驗一發現，就算關燈全黑，光學雷達還是量得很準，完全不怕黑。實驗二對決的時候，面對模擬石虎的「黑色絨毛玩偶」，超音波因為絨毛會「吸收聲音」，在 30 公分就量不到了！但是光學雷達在 30 到 60 公分這段最重要的煞車距離裡，還是量得很準。</p><p><a href="exp1.html">看實驗一、二 →</a></p></details><details><summary>問題 2：雷達要裝多高才不會漏看東西？車子開越快，需要提早多遠煞車才安全？</summary><p class="ans">雷達最好裝 10 公分高；車速開到最快的 40 cm/s，要在 17.06 公分外就開始煞車！</p><p>實驗三告訴我們，雷達裝 15 公分高時，光會直接從目標頭頂飛過去（越頂盲區）；裝太低在 5 公分，光又會太早打到地板（觸地雜訊），所以對齊目標的 10 公分最剛好。實驗四發現，速度到 40 cm/s 時，煞車會往前滑 7.06 公分。為了更安全，我們再多加 10 公分的緩衝，算出至少要在 17.06 公分外就開始煞車。</p><p><a href="exp3.html">看實驗三、四 →</a></p></details><details><summary>問題 3：遇到「走不通的死路」時，怎麼讓小車的大腦記住危險，自己找出「最短又安全」的路線？</summary><p class="ans">靠我們寫的「網格記憶」和找路的方法！</p><p>在實驗五-B 的 24 宮格裡，程式用 visited 陣列記住走過的地方，遇到危險就寫進黑名單。大腦會把「走過太多次的扣分」加上「離終點還要走幾步」一起算（一開始用曼哈頓距離，後來升級成繞過障礙物的真正步數）。當它發現在原地打轉的分數太高，就知道「退後找新路」才是最好的選擇，自己退出來，再找出新的最短路線！</p><p><a href="exp5b.html">看實驗五-B →</a></p></details><details><summary>問題 4：轉彎時怎麼消除可怕的「A柱死角」？怎麼讓車子看見鋼彈行人時，能自己學會「停、看、聽」禮讓他們？</summary><p class="ans">硬體上我們裝了「外八字三眼雷達」，程式上我們用「碼表」來做動態禮讓！</p><p>實驗六裡，弟弟把左、右兩顆雷達往外轉大約 45 度，做出 180 度的防護罩，A 柱死角就看得到了。哥哥為了不讓程式卡住、來不及煞車，改用 micro:bit 的 input.running_time() 碼表來算時間。只要雷達在死角看到鋼彈，車子就馬上煞車亮紅燈，停在那裡「停、看、聽」，等鋼彈走開了才亮綠燈繼續轉彎！</p><p><a href="exp6.html">看實驗六 →</a></p></details></div>
+    <h2>我們想回答的六個問題</h2>
+    <div class="rq"><details><summary>問題 0：真的汽車轉彎時，A 柱到底擋住哪裡？</summary><p class="ans">左前方大約 27°～40° 的一條斜帶子。</p><p>實驗零我們在停車場畫了 96 格，爸爸、媽媽和我們兩兄弟輪流坐駕駛座，有 5 格四個人都看不到。坐得越低，看不清楚的格子越多。（<a href="exp0.html">看實驗零</a>）</p></details><details open><summary>問題 1：光學雷達和超音波，誰比較能在黑夜裡，或是遇到「黑色毛皮的石虎」時看得最清楚？</summary><p class="ans">光學雷達完勝！</p><p>實驗一發現，就算關燈全黑，光學雷達還是量得很準，完全不怕黑。實驗二對決的時候，面對模擬石虎的「黑色絨毛玩偶」，超音波因為絨毛會「吸收聲音」，在 30 公分就量不到了！但是光學雷達在 30 到 60 公分這段最重要的煞車距離裡，還是量得很準。</p><p><a href="exp1.html">看實驗一、二 →</a></p></details><details><summary>問題 2：雷達要裝多高才不會漏看東西？車子開越快，需要提早多遠煞車才安全？</summary><p class="ans">雷達最好裝 10 公分高；車速開到最快的 40 cm/s，要在 17.06 公分外就開始煞車！</p><p>實驗三告訴我們，雷達裝 15 公分高時，光會直接從目標頭頂飛過去（越頂盲區）；裝太低在 5 公分，光又會太早打到地板（觸地雜訊），所以對齊目標的 10 公分最剛好。實驗四發現，速度到 40 cm/s 時，煞車會往前滑 7.06 公分。為了更安全，我們再多加 10 公分的緩衝，算出至少要在 17.06 公分外就開始煞車。</p><p><a href="exp3.html">看實驗三、四 →</a></p></details><details><summary>問題 3：遇到「走不通的死路」時，怎麼讓小車的大腦記住危險，自己找出「最短又安全」的路線？</summary><p class="ans">靠我們寫的「網格記憶」和找路的方法！</p><p>在實驗五-B 的 24 宮格裡，程式用 visited 陣列記住走過的地方，遇到危險就寫進黑名單。大腦會把「走過太多次的扣分」加上「離終點還要走幾步」一起算（一開始用曼哈頓距離，後來升級成繞過障礙物的真正步數）。當它發現在原地打轉的分數太高，就知道「退後找新路」才是最好的選擇，自己退出來，再找出新的最短路線！</p><p><a href="exp5b.html">看實驗五-B →</a></p></details><details><summary>問題 4：轉彎時怎麼消除可怕的「A柱死角」？怎麼讓車子看見鋼彈行人時，能自己學會「停、看、聽」禮讓他們？</summary><p class="ans">硬體上我們裝了「外八字三眼雷達」，程式上我們用「碼表」來做動態禮讓！</p><p>實驗六裡，弟弟把左、右兩顆雷達往外轉大約 45 度，做出 180 度的防護罩，A 柱死角就看得到了。哥哥為了不讓程式卡住、來不及煞車，改用 micro:bit 的 input.running_time() 碼表來算時間。只要雷達在死角看到鋼彈，車子就馬上煞車亮紅燈，停在那裡「停、看、聽」，等鋼彈走開了才亮綠燈繼續轉彎！</p><p><a href="exp6.html">看實驗六 →</a></p></details><details><summary>問題 5：雷達放低，能不能看到矮矮的石虎？</summary><p class="ans">放低以後 20、60、80 公分都量得準，40 公分還不穩。</p><p>實驗七我們用水豚玩偶（高約 11 公分）當石虎。雷達在原來的位置（離地約 10 公分），以前程式看的那一格都從牠頭頂飛過去；倒過來裝在離地約 1.5 公分的地方，才看得到。（<a href="exp7.html">看實驗七</a>）</p></details></div>
   </div>
 </section><section id="purpose">
   <div class="wrap narrow">
@@ -131,7 +131,7 @@ ol.goals .exp { display: inline-block; font-size: 12px; line-height: 1.6; backgr
       <h3 style="margin-top:24px">還有這些我們沒有做到</h3>
     <ul>
       <li>超音波站著不動時每次都看得到鋼彈，跑起來卻有 2 趟漏看，問題出在車子在動的時候。</li>
-      <li>實驗四量的是斷電以後滑多遠，小車自己的反應距離沒有量。</li>
+      <li>實驗四量的是斷電以後滑多遠。小車自己的反應距離是後來從五-A 的紀錄算出來的（光學雷達大約 1～2.6 公分），沒有另外專門量。</li><li>實驗七的低處雷達在 40 公分量不穩，而且只有小車站著不動時測，還沒有讓小車邊跑邊測。</li>
       <li>實驗零只量了一台休旅車，坐駕駛座的只有我們一家四個人。</li>
     </ul>
   </div>
