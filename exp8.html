@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>實驗八 真車光學雷達｜零死角全生命守護</title>
+<meta name="description" content="實驗八：把小車放在真的車子旁邊，看光學雷達能不能看到 A 柱死角裡的人和車頭前面的石虎。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="site.css">
+<style>
+.chart { margin: 0; }
+.chart .ct { font-weight: 700; font-size: 16px; color: var(--ink); margin: 0 0 6px; }
+.chart svg { width: 100%; height: auto; display: block; background: var(--card); border: 1px solid var(--line); border-radius: 10px; }
+.chart .cn { font-size: 14px; color: var(--ink-2); margin: 6px 0 0; }
+.chart .cu { font-size: 13px; color: var(--ink-2); margin: 4px 0 0; }
+.charts { display: grid; gap: 18px; grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr)); }
+.charts > *, .ds > *, .game > * { min-width: 0; }
+table.sg { background: var(--card); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+table.sg th, table.sg td { text-align: center; white-space: nowrap; }
+table.sg tbody th { text-align: left; background: var(--card); }
+table.sg td { font-weight: 700; }
+td.ok, .sw.ok { background: var(--ok-bg); color: var(--ok); }
+td.mid, .sw.mid { background: var(--warn-bg); color: var(--warn); }
+td.bad, .sw.bad { background: var(--bad-bg); color: var(--bad); }
+td.na { color: var(--ink-2); font-weight: 400; }
+.map-legend { display: flex; flex-wrap: wrap; gap: 8px 18px; font-size: 14px; margin: 10px 0 0; }
+.map-legend span { display: inline-flex; align-items: center; gap: 6px; }
+.sw { width: 16px; height: 16px; border-radius: 3px; display: inline-block; border: 1px solid var(--line); }
+.media-grid video.tall { aspect-ratio: 9 / 16; max-height: 520px; object-fit: contain; }
+
+.media-grid img{width:100%;border-radius:10px}
+</style>
+</head>
+<body>
+
+<nav class="topnav" aria-label="網站導覽">
+  <div class="wrap">
+    <a class="brand" href="index.html">零死角全生命守護</a>
+    <a href="story.html">研究故事</a><a href="plan.html">研究架構</a><a href="experiments.html" aria-current="page">全部實驗</a><a href="devlog.html">開發日誌</a><a href="data.html">數據中心</a><a href="qa.html">問題與回答</a><a href="code.html">程式</a><a href="about.html">關於我們</a>
+  </div>
+</nav>
+
+<header class="dark page-head">
+  <div class="wrap">
+    <div class="crumbs"><a href="experiments.html">全部實驗</a> ／ 實驗八</div>
+    <div class="eyebrow">實驗八・真車光學雷達（11/28 實測）</div>
+    <h1>把小車放到真的車子旁邊，雷達看得到死角裡的人嗎？</h1>
+    <p class="lead">實驗零我們量出司機看不到的格子。這次我們把整台麥昆小車搬到同一台休旅車旁邊，放在保險桿的高度，看我們的光學雷達能不能看到 A 柱死角裡的人，還有車頭前面矮矮的石虎。</p>
+    <div class="kpis"><div class="kpi"><b>約 50 公分</b><span>大太陽下最遠只看得到這麼遠</span></div><div class="kpi"><b>約 220 公分</b><span>地下停車場最遠看得到</span></div><div class="kpi"><b>B4、A5 都 5 / 5</b><span>雷達放 50 公分高，看到死角裡的人</span></div><div class="kpi"><b>0 / 5</b><span>雷達放地上（約 10 公分），只看到地板</span></div></div>
+  </div>
+</header><div class="wrap"><nav class="toc" aria-label="本頁目錄"><a href="#how">怎麼做</a><a href="#light">太陽的影響</a><a href="#apillar">A 柱死角的人</a><a href="#tiger">車頭前的石虎</a><a href="#reflect">我們的發現</a><a href="#limit">研究限制</a><a href="#raw">原始數據</a></nav></div><section id="how">
+  <div class="wrap">
+    <div class="eyebrow">怎麼做</div>
+    <h2>我們的做法</h2>
+    <div class="cols"><ol class="steps"><li>用實驗零同一台休旅車。雷達不用拆，改變「小車放哪裡」：直接放地上（鏡頭離地約 10 公分），或墊紙箱到約 50 公分（跟保險桿角落差不多高）。</li><li>我們先量了車子原本的前方感測器，離地約 50 公分。那是超音波停車雷達（太靠近會嗶嗶叫），不是光學雷達。我們的光學雷達也放 50 公分，跟它一樣高。</li><li><b>A 柱模式：</b>小車放在車頭左前角，讀左邊的雷達。家人站在實驗零四個司機都看不到的格子（B4、D3）和其他看不清楚的格子，每格量 5 次。</li><li><b>石虎模式：</b>小車放在保險桿正中間前面，讀前面的雷達。把實驗零用的藍色罐子當石虎，從 50 公分放到 300 公分，每個距離量 5 次。每換一次高度，先量一次「前面沒東西」。</li><li>中午在戶外太陽太大，雷達看得很近，所以我們又到樹蔭下和地下停車場比比看，正式數據在地下停車場量。</li></ol><div><div class="thumbs"><button type="button" data-full="exp8_place.jpg" data-cap="小車放在車頭左前角（車牌已遮住）" aria-label="放大：小車放在車頭左前角（車牌已遮住）"><img src="exp8_place.jpg" alt="小車放在休旅車左前角的地上" loading="lazy"></button><button type="button" data-full="exp8_high50.jpg" data-cap="墊紙箱到約 50 公分，跟保險桿角落一樣高" aria-label="放大：墊紙箱到約 50 公分，跟保險桿角落一樣高"><img src="exp8_high50.jpg" alt="小車墊紙箱到約 50 公分高，放在車頭左前角" loading="lazy"></button><button type="button" data-full="exp8_factory_sensor.jpg" data-cap="車子原本的前方感測器離地約 50 公分（是超音波）" aria-label="放大：車子原本的前方感測器離地約 50 公分（是超音波）"><img src="exp8_factory_sensor.jpg" alt="用捲尺量車子原本的前方感測器離地約 50 公分" loading="lazy"></button></div></div></div>
+  </div>
+</section><section id="light" class="alt">
+  <div class="wrap">
+    <div class="eyebrow">太陽的影響</div>
+    <h2>大太陽下，雷達只看得到 50 公分</h2>
+    <p>中午在戶外，人站在 139 公分，雷達一次都沒看到。我們用手慢慢靠近，發現超過大約 50 公分就變成「沒看到」。在家裡量同樣的雷達，80 公分都很準，所以我們換地方比比看：</p>
+    <div class="scroll"><table class="sg"><thead><tr><th>地方</th><th>最遠大約看得到</th></tr></thead><tbody>
+    <tr><th>戶外大太陽</th><td class="bad">約 50 公分</td></tr>
+    <tr><th>樹蔭下</th><td class="mid">約 70 公分</td></tr>
+    <tr><th>地下停車場（燈光）</th><td class="ok">約 220 公分</td></tr>
+    </tbody></table></div>
+    <p class="muted" style="margin-top:10px">我們猜是太陽光太強，蓋過了雷達自己發出去的光。這是我們的猜測，還沒有用同一個東西、同一個距離仔細比過。</p>
+    <div class="thumbs" style="margin-top:16px;max-width:560px"><button type="button" data-full="exp8_sun.jpg" data-cap="大太陽下：站 130 公分，雷達沒看到" aria-label="放大：大太陽下：站 130 公分，雷達沒看到"><img src="exp8_sun.jpg" alt="大太陽下秉宸站在捲尺 130 公分處，雷達沒看到" loading="lazy"></button><button type="button" data-full="exp8_shade.jpg" data-cap="樹蔭下：最遠約 70 公分" aria-label="放大：樹蔭下：最遠約 70 公分"><img src="exp8_shade.jpg" alt="樹蔭下測試，最遠約 70 公分" loading="lazy"></button><button type="button" data-full="exp8_underground.jpg" data-cap="地下停車場：最遠約 220 公分，正式數據在這裡量" aria-label="放大：地下停車場：最遠約 220 公分，正式數據在這裡量"><img src="exp8_underground.jpg" alt="地下停車場測試全景" loading="lazy"></button></div>
+  </div>
+</section><section id="apillar">
+  <div class="wrap">
+    <div class="eyebrow">A 柱死角的人</div>
+    <h2>雷達放 50 公分高，近的死角格子 5 次都看得到</h2>
+    <p>★ 是實驗零四個司機都看不到的格子。在地下停車場量，每格 5 次。</p>
+    <div class="scroll"><table class="sg"><thead><tr><th>格子</th><th>離小車大約</th><th>左前方角度</th><th>雷達 50 公分高</th><th>雷達放地上（約 10 公分）</th><th>實驗零司機</th></tr></thead><tbody>
+    <tr><th>A5</th><td class="na">82 公分</td><td class="na">72°</td><td class="ok">5 / 5</td><td class="na">沒量</td><td class="na">爸、媽看不到</td></tr>
+    <tr><th>B4 ★</th><td class="na">149 公分</td><td class="na">60°</td><td class="ok">5 / 5</td><td class="bad">0 / 5（只看到地板）</td><td class="na">四人都看不到</td></tr>
+    <tr><th>C4</th><td class="na">179 公分</td><td class="na">46°</td><td class="ok">4 / 5</td><td class="na">沒量</td><td class="na">三人看不到</td></tr>
+    <tr><th>C3</th><td class="na">218 公分</td><td class="na">55°</td><td class="mid">3 / 5</td><td class="na">沒量</td><td class="na">三人看不到</td></tr>
+    <tr><th>D3 ★</th><td class="na">250 公分</td><td class="na">46°</td><td class="bad">0 / 5</td><td class="na">沒量</td><td class="na">四人都看不到</td></tr>
+    </tbody></table></div>
+    <div class="map-legend"><span><i class="sw ok"></i>看到了</span><span><i class="sw mid"></i>有時看到</span><span><i class="sw bad"></i>沒看到</span></div>
+    <p style="margin-top:14px">D3 有 250 公分，超過地下室最遠的大約 220 公分，所以看不到。更遠的 D2、E2、E3、F1 我們就沒有量。</p>
+  </div>
+</section><section id="tiger" class="alt">
+  <div class="wrap">
+    <div class="eyebrow">車頭前的石虎</div>
+    <h2>罐子當石虎：放低和放高，各有看不到的地方</h2>
+    <p>藍色罐子放在車頭正前方，每個距離量 5 次。實驗零媽媽開車時，這個罐子在 0～300 公分全部看不到。</p>
+    <div class="scroll"><table class="sg"><thead><tr><th>罐子距離</th><th>雷達放地上（約 10 公分）</th><th>雷達 50 公分高</th></tr></thead><tbody>
+    <tr><th>50 公分</th><td class="ok">5 / 5</td><td class="ok">5 / 5</td></tr>
+    <tr><th>100 公分</th><td class="mid">3 / 5</td><td class="ok">5 / 5</td></tr>
+    <tr><th>150 公分</th><td class="mid">3 / 5</td><td class="ok">5 / 5</td></tr>
+    <tr><th>200 公分</th><td class="ok">4 / 5</td><td class="mid">3 / 5</td></tr>
+    <tr><th>250 公分</th><td class="mid">3 / 5</td><td class="mid">2 / 5</td></tr>
+    <tr><th>300 公分</th><td class="bad">1 / 5</td><td class="bad">0 / 5</td></tr>
+    </tbody></table></div>
+    <p style="margin-top:14px">雷達放地上時，沒看到罐子的那幾次，大多讀到 36～41 公分，那是最下面一排照到地板。重新量「前面沒東西」以後還是一樣。</p>
+    <div class="thumbs" style="margin-top:16px;max-width:560px"><button type="button" data-full="exp8_tiger_low.jpg" data-cap="石虎模式：小車放地上，在保險桿正中間前面" aria-label="放大：石虎模式：小車放地上，在保險桿正中間前面"><img src="exp8_tiger_low.jpg" alt="小車放在地上，保險桿正中間前面，前面拉一條捲尺" loading="lazy"></button><button type="button" data-full="exp8_tiger_tape.jpg" data-cap="用捲尺量距離（車牌已遮住）" aria-label="放大：用捲尺量距離（車牌已遮住）"><img src="exp8_tiger_tape.jpg" alt="地下停車場拉捲尺量罐子的距離，車牌已遮住" loading="lazy"></button></div>
+  </div>
+</section><section id="reflect">
+  <div class="wrap narrow">
+    <div class="eyebrow">我們的發現</div>
+    <h2>看人要放高，看石虎兩種高度都要</h2>
+    <div class="reflect">
+    <p>雷達放在 50 公分高（跟保險桿角落一樣），在地下停車場可以看到 A 柱死角裡比較近的人：B4、A5 都 5 次看到，C4 4 次。雷達放在地上就只看到地板，一次都沒看到人。所以看人，雷達要放高一點。</p>
+    <p>看矮矮的罐子時，放低在近的地方會被地板干擾（讀到 36～41 公分），放高在 200 公分以後比較容易漏看。所以看人要放高、看石虎要放低，車子需要不同高度的雷達，程式也要能分辨地板。</p>
+    <p>最讓我們驚訝的是太陽：同一顆雷達，在大太陽下只看得到大約 50 公分，到地下室可以看到大約 220 公分。</p>
+    </div>
+  </div>
+</section><section id="limit" class="alt">
+  <div class="wrap narrow">
+    <div class="eyebrow">研究限制</div>
+    <h2>我們的雷達適合室內，不能直接裝在真車上用</h2>
+    <p>我們的小光學雷達在室內很準，大約 2 公尺內有效；在戶外大太陽下只看得到大約 50 公分。真的車要用更強的雷達，或和攝影機、毫米波雷達一起用。我們證明的是「雷達放哪裡、放多高、程式怎麼寫」的方法，不是說這顆雷達可以直接裝在真車上。</p>
+    <p class="muted">家長 11/28 決定雷達實驗做到這裡，沒有再補陰天和傍晚。另外：小車是停著的，人和罐子也沒有動；太陽和陰影只是比較了最遠距離，沒有一格一格比；雷達放地上時只量了 B4 一格；站的人身高沒有記下來。</p>
+  </div>
+</section><section id="raw">
+  <div class="wrap">
+    <div class="eyebrow">原始數據</div>
+    <h2>完整紀錄</h2>
+    <p class="muted">每一次的數字和現場紀錄，都記在我們的實驗數據總表「真車雷達_1128」分頁。</p>
+    <p><a href="https://docs.google.com/spreadsheets/d/13gkJgF3i0j1yPZTgs6Z5I28JxsanNAGIRpXyR6V_tt8/edit#gid=111281" target="_blank" rel="noopener">打開實驗八的完整紀錄（實驗數據總表）→</a></p>
+  </div>
+</section><section><div class="wrap"><div class="pager"><a href="exp7.html"><span>← 上一個</span>實驗七：低處光學雷達看石虎</a><a class="next" href="demo.html"><span>下一個 →</span>會場展示：十字路口六個情境</a></div></div></section>
+<footer><div class="wrap">南投縣光華國小　蔡秉澔、蔡秉宸　指導老師：洪瑞成</div></footer>
+<script src="site.js"></script>
+</body>
+</html>
